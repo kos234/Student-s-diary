@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<item
+    android:id="@+id/Dnevnik"
+    android:icon="@drawable/book"
+    android:title="Дневник"
+    />
+    <item
+        android:id="@+id/Zvonki"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="Расписание" />
+    <item
+        android:id="@+id/Ychetel"
+        android:icon="@drawable/group"
+        android:title="Учителя"
+        />
+    <item
+        android:id="@+id/Nastroiki"
+        android:icon="@drawable/settings"
+        android:title="Настройки"
+        />
+    <item
+        android:id="@+id/Spravka"
+        android:icon="@drawable/ic_help_black_24dp"
+        android:title="Справка"
+        />
+</menu>
