@@ -2,7 +2,6 @@ package com.example.kos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -12,17 +11,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.BufferedReader;
@@ -40,23 +36,18 @@ public class ZnonkiFragment extends Fragment {
     private SharedPreferences settings;
     private ImageButton OnOff;
     private ViewPager viewPager;
-    private DrawerLayout drawerLayout;
     private MainActivity.PagerAdapter pagerAdapter;
-    private FloatingActionButton button;
     private Context context;
-    private androidx.appcompat.widget.Toolbar toolbar;
-    private TabLayout tabLayout;
-    private String ZvonOne, ZvonTwo, NameYrok, NumKab, Neobz;
-    private List<Fragment> list = new ArrayList<>();
+    private String ZvonOne, ZvonTwo, NameYrok, NumKab;
     private String url;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_znonki, container,false);
-        drawerLayout = getActivity().findViewById(R.id.Drawer);
+
         settings = getActivity().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
-       toolbar =  view.findViewById(R.id.toolbar);
+        androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.menu));
        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
            @Override
@@ -66,8 +57,9 @@ public class ZnonkiFragment extends Fragment {
        });
         viewPager = view.findViewById(R.id.rager);
         pagerAdapter = new MainActivity.PagerAdapter(getActivity().getSupportFragmentManager());
+
         viewPager.setAdapter(pagerAdapter);
-        tabLayout = view.findViewById(R.id.tabLayout4);
+        TabLayout tabLayout = view.findViewById(R.id.tabLayout4);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setScrollX(tabLayout.getWidth());
         tabLayout.getTabAt(5).select();
@@ -109,6 +101,7 @@ public class ZnonkiFragment extends Fragment {
         editor.apply();
 
        addListenerOnButton(view);
+
         return view;
     }
 
@@ -133,7 +126,7 @@ public class ZnonkiFragment extends Fragment {
     }
     public void addListenerOnButton (final View viewOne){
         OnOff = viewOne.findViewById(R.id.onOff);
-        button =  viewOne.findViewById(R.id.floatingActionButton);
+        FloatingActionButton button = viewOne.findViewById(R.id.floatingActionButton);
         OnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -303,13 +296,7 @@ public class ZnonkiFragment extends Fragment {
                                 }
 
 
-                                list.clear();
-                                list.add(new classMonday());
-                                list.add(new classTuesday());
-                                list.add(new classWednesday());
-                                list.add(new classThursday());
-                                list.add(new classFriday());
-                                list.add(new classSaturday());
+
                                 viewPager =  viewOne.findViewById(R.id.rager);
                                 pagerAdapter = new MainActivity.PagerAdapter( getActivity().getSupportFragmentManager());
                                 viewPager.setAdapter(pagerAdapter);
@@ -391,7 +378,7 @@ public class ZnonkiFragment extends Fragment {
 
                                                                 try {
                                                                     FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
-                                                                    String temp_write = stringBuffer.toString()  + ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab;
+                                                                    String temp_write = stringBuffer.toString()  + ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab + "= ";
 
                                                                     write.write(temp_write.getBytes());
                                                                     write.close();

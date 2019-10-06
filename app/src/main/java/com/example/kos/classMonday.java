@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import java.io.BufferedReader;
@@ -66,6 +65,7 @@ public class classMonday extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        final ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.monday, container,false);
+
         Start();
        lvMain = viewGroup.findViewById(R.id.lvMonday);
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,

@@ -9,12 +9,11 @@ import android.widget.Button;
 
 public class DnevnikActivity extends AppCompatActivity {
 
-    private Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dnevnik);
-        button = findViewById(R.id.buttonnnn);
+        Button button = findViewById(R.id.buttonnnn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

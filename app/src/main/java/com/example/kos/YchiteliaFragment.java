@@ -31,21 +31,17 @@ import java.util.HashMap;
 
 
 public class YchiteliaFragment extends Fragment {
-    private FloatingActionButton floatingActionButton;
     private Context context;
-    private DrawerLayout drawerLayout;
     private String NamePred, PredPred;
-    private androidx.appcompat.widget.Toolbar toolbar;
     private ArrayList<HashMap<String, String>> products = new ArrayList<>();
-    private HashMap<String,String> map;
     private ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View viewFragment =  inflater.inflate(R.layout.fragment_ychitelia, container,false);
-        drawerLayout = getActivity().findViewById(R.id.Drawer);
-        toolbar =  viewFragment.findViewById(R.id.toolbarPrepod);
+        DrawerLayout drawerLayout = getActivity().findViewById(R.id.Drawer);
+        androidx.appcompat.widget.Toolbar toolbar = viewFragment.findViewById(R.id.toolbarPrepod);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.menu));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +153,7 @@ public class YchiteliaFragment extends Fragment {
             String temp_read;
             while ((temp_read = bufferedReader.readLine()) != null) {
                help = temp_read.split(delimeter);
-                map = new HashMap<>();
+                HashMap<String, String> map = new HashMap<>();
                 map.put("Name",help[0] );
                 map.put("Pred",help[1] );
                 products.add(map);
@@ -178,7 +174,49 @@ public class YchiteliaFragment extends Fragment {
     }
 
     public void Button (final View viewFind){
-        floatingActionButton = viewFind.findViewById(R.id.floatingActionButton2);
+        FloatingActionButton floatingActionButton = viewFind.findViewById(R.id.floatingActionButton2);
+        floatingActionButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
+                Delete.setMessage("Удалить всех учителей?")
+                        .setCancelable(true)
+                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                try {
+                    FileOutputStream write =  getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
+                    String temp_write ="";
+
+                    write.write(temp_write.getBytes());
+                    write.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Start();
+                listView = viewFind.findViewById(R.id.Ychitelia);
+                SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
+                        new String[]{"Name", "Pred"},
+                        new int[]{R.id.textView1,R.id.textView1_2});
+                listView.setAdapter(adapter);
+                            }
+                        })
+                        .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+
+                            }
+                        });
+
+                AlertDialog Deleted = Delete.create();
+                Deleted.setTitle("Удаление");
+                Deleted.show();
+                return false;
+            }
+        });
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

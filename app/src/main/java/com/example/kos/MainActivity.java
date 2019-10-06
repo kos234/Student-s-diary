@@ -2,24 +2,17 @@ package com.example.kos;
 
 
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Network;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +20,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -38,29 +30,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static android.app.NotificationManager.IMPORTANCE_HIGH;
-
 public class MainActivity extends AppCompatActivity {
-    private SharedPreferences settings;
-    private ImageButton OnOff;
-    private NavigationView navigationView;
-    private ViewPager viewPager;
     private DrawerLayout drawerLayout;
-    private PagerAdapter pagerAdapter;
-    private FloatingActionButton button;
     final Context context = this;
     private TextView TextNew;
-    private androidx.appcompat.widget.Toolbar toolbar;
     private TabLayout tabLayout;
     private String ZvonOne, ZvonTwo;
     private SharedPreferences prefs = null;
@@ -79,15 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = getSharedPreferences("com.example.kos", MODE_PRIVATE);
-        toolbar = findViewById(R.id.toolbar2);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.menu));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDrawer();
-            }
-        });
-        navigationView = findViewById(R.id.navigation);
+        NavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -133,7 +101,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        Fragment fragmentActiv = null;
+        Class fragmentClass;
+        fragmentClass = DnewnikFragment.class;
+        try {
+            fragmentActiv = (Fragment) fragmentClass.newInstance();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.Smena,fragmentActiv).commit();
     }
 
     public static class PagerAdapter extends FragmentPagerAdapter {
@@ -444,39 +423,39 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (kool >= 2 && kool <= 4) {
             if (who)
-            say = Integer.toString(kool) + " часа ";
+            say = kool + " часа ";
             else
-                say = Integer.toString(kool) + " минуты ";
+                say = kool + " минуты ";
         }
         else if (kool >= 5 && kool <= 20) {
             if (who)
-            say = Integer.toString(kool) + " часов ";
+            say = kool + " часов ";
             else
-                say = Integer.toString(kool) + " минут ";
+                say = kool + " минут ";
         }
         else if (Integer.parseInt(Integer.toString(kool).substring(0,1)) > 1 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) == 1) {
             if (who)
-            say = Integer.toString(kool)+ " час ";
+            say = kool + " час ";
             else
-                say = Integer.toString(kool)+ " минута ";
+                say = kool + " минута ";
         }
         else if (Integer.parseInt(Integer.toString(kool).substring(0,1)) > 1 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) >= 2 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) <= 4) {
             if (who)
-            say = Integer.toString(kool)+ " часа ";
+            say = kool + " часа ";
             else
-                say = Integer.toString(kool)+ " минуты ";
+                say = kool + " минуты ";
         }
         else if (Integer.parseInt(Integer.toString(kool).substring(0,1)) > 1 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) >= 5 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) <= 9) {
             if (who)
-            say = Integer.toString(kool)+ " часов ";
+            say = kool + " часов ";
             else
-                say = Integer.toString(kool)+ " минут ";
+                say = kool + " минут ";
         }
         else if (Integer.parseInt(Integer.toString(kool).substring(0,1)) > 1 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) == 0) {
             if (who)
-                say = Integer.toString(kool)+ " часов ";
+                say = kool + " часов ";
             else
-                say = Integer.toString(kool)+ " минут ";
+                say = kool + " минут ";
         }
 
         return say;
