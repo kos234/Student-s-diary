@@ -37,12 +37,11 @@
 
             android:id="@+id/textViewDnew"
             android:layout_width="wrap_content"
-            android:textColor="@android:color/black"
-            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="24dp"
-            android:text="11.03 - 16.03" />
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="24dp" />
 
         <ImageButton
             android:id="@+id/imageButton2"

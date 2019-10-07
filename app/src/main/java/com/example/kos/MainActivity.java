@@ -183,7 +183,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+//        try {
+//            FileInputStream read = openFileInput("11.10-12.10.txt");
+//            InputStreamReader reader = new InputStreamReader(read);
+//            BufferedReader bufferedReader = new BufferedReader(reader);
+//            String temp_read, temp;
+//            while ((temp_read = bufferedReader.readLine()) != null) {}
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         if (prefs.getBoolean("firstrun", true)) {
             settings = getSharedPreferences("Settings", MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
@@ -194,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("Friday",true);
             editor.putBoolean("Saturday",true);
             editor.apply();
+
+
             AlertDialog.Builder onStart = new AlertDialog.Builder(MainActivity.this);
             onStart.setMessage("Это приложение может отправить до 500 уведомлений в день, рекомендуем выключить все оповещение от этого приложения.")
                     .setCancelable(true)
