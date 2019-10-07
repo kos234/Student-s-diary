@@ -2,7 +2,10 @@ package com.example.kos;
 
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -30,13 +34,22 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static android.app.NotificationManager.IMPORTANCE_HIGH;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     final Context context = this;
     private TextView TextNew;
+    private SharedPreferences settings;
     private TabLayout tabLayout;
     private String ZvonOne, ZvonTwo;
     private SharedPreferences prefs = null;
@@ -50,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       /*MyThread myThread = new MyThread();
-       myThread.start();*/
+       MyThread myThread = new MyThread();
+       myThread.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = getSharedPreferences("com.example.kos", MODE_PRIVATE);
@@ -172,6 +185,15 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         if (prefs.getBoolean("firstrun", true)) {
+            settings = getSharedPreferences("Settings", MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("Monday",true);
+            editor.putBoolean("Tuesday",true);
+            editor.putBoolean("Wednesday",true);
+            editor.putBoolean("Thursday",true);
+            editor.putBoolean("Friday",true);
+            editor.putBoolean("Saturday",true);
+            editor.apply();
             AlertDialog.Builder onStart = new AlertDialog.Builder(MainActivity.this);
             onStart.setMessage("Это приложение может отправить до 500 уведомлений в день, рекомендуем выключить все оповещение от этого приложения.")
                     .setCancelable(true)
@@ -201,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
- /* class MyThread extends Thread {
+  class MyThread extends Thread {
         public void run(){
             String Type = null;
             String HourSay = null;
@@ -289,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                             tempOneOne = Integer.parseInt(temp.substring(0, 2));
                             tempOneTwo = Integer.parseInt(temp.substring(3, 5));
                             tempTwoOne = Integer.parseInt(temp.substring(8, 10));
-                            tempTwoTwo = Integer.parseInt(temp.substring(11));
+                            tempTwoTwo = Integer.parseInt(temp.substring(11,13));
                             if (oneTime)  {
                                 tempOneTimesOne = tempOneOne;
                                 tempOneTimesTwo = tempOneTwo;
@@ -409,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-    }*/
+    }
 
     public String Padej (int kool, String say,Boolean who) {
         if (kool == 0) {
