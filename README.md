@@ -7,4 +7,4 @@ Block "timetable", block "Teachers", display the time to the end and beginning o
 In process: 
 Create and configure Block "Diary"
 
-The current version can be found at this link: https://drive.google.com/file/d/1W_guaiGlGQJYlVkVZ4Z59xadCxEj6nJk/view?usp=sharing
+The current version can be found at this link: https://drive.google.com/file/d/1Src_nsg125hw70MXFkNAS10BbRE1_mN2/view?usp=drivesdk
