@@ -4,8 +4,7 @@
     android:id="@+id/OneYrok"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="1dp"
-   >
+    android:padding="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +37,7 @@
 
     <TextView
         android:id="@+id/textView1_3_dnev"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1"

@@ -32,7 +32,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class classThursday extends Fragment {
     private ListView lvMain;
-    String url;
     ArrayList<HashMap<String, String>> products = new ArrayList<>();
     HashMap<String,String> map;
     Integer num = 0;
@@ -81,12 +80,10 @@ public class classThursday extends Fragment {
                 deleted.setMessage("Удалить урок?").setCancelable(true).setPositiveButton("Да", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        url = settings.getString("Day","Monday.txt");
-                        StringBuffer stringBuffer1 = new StringBuffer();
                         StringBuffer stringBuffer = new StringBuffer();
 
                         try {
-                            FileInputStream read = getActivity().openFileInput(url);
+                            FileInputStream read = getActivity().openFileInput("Thursday.txt");
                             InputStreamReader reader = new InputStreamReader(read);
                             BufferedReader bufferedReader = new BufferedReader(reader);
                             String temp_read;
@@ -113,7 +110,7 @@ public class classThursday extends Fragment {
 
 
                         try {
-                            FileOutputStream write = getActivity().openFileOutput(url,getActivity().MODE_PRIVATE);
+                            FileOutputStream write = getActivity().openFileOutput("Thursday.txt",getActivity().MODE_PRIVATE);
 
                             write.write(stringBuffer.toString().getBytes());
                             write.close();

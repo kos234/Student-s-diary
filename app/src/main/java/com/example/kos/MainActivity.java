@@ -1,6 +1,7 @@
 package com.example.kos;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -10,12 +11,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +26,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -47,6 +52,7 @@ import static android.app.NotificationManager.IMPORTANCE_HIGH;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
+
     final Context context = this;
     private TextView TextNew;
     private SharedPreferences settings;
@@ -63,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       MyThread myThread = new MyThread();
-       myThread.start();
+//       MyThread myThread = new MyThread();
+//       myThread.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = getSharedPreferences("com.example.kos", MODE_PRIVATE);
@@ -85,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
                        break;
                    case R.id.Ychetel:
                        fragmentClass = YchiteliaFragment.class;
+                       break;
+                       case R.id.Ocenki:
+                       fragmentClass = OcenkiFragment.class;
                        break;
                    case R.id.Nastroiki:
                        fragmentClass = NastroikiFragment.class;
@@ -128,56 +137,17 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.Smena,fragmentActiv).commit();
     }
 
-    public static class PagerAdapter extends FragmentPagerAdapter {
-        private String[] name;
-        PagerAdapter(@NonNull FragmentManager fm) {
-            super(fm);
-            name = new String[] {
-                    "Понедельник",
-                    "Вторник",
-                    "Среда",
-                    "Четверг",
-                    "Пятница",
-                    "Суббота"
-
-            };
-        }
-        @Override
-        public CharSequence getPageTitle(int position){
-            return name[position];
-        }
-        @Override
-        public int getCount() {
-            return 6;
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new classMonday();
-                case 1:
-                    return new classTuesday();
-                case 2:
-                    return new classWednesday();
-                case 3:
-                    return new classThursday();
-                case 4:
-                    return new classFriday();
-                case 5:
-                    return new classSaturday();
-
-                default:
-                    return new classMonday();
-            }
-        }
-    }
 
 
     public void openDrawer() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.Drawer);
         drawer.openDrawer(Gravity.LEFT);
+    }
+
+    public void ClicksRow(View view){
+        TextView textView = view.findViewById(R.id.textView1_1_dnev);
+        Toast.makeText(this,textView.getText(),Toast.LENGTH_LONG).show();
+
     }
 
     @Override

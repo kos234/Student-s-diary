@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -34,7 +35,6 @@ public class classWednesday extends Fragment {
     private ListView lvMain;
     ArrayList<HashMap<String, String>> products = new ArrayList<>();
     HashMap<String,String> map;
-    String url;
     private SharedPreferences settings;
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -85,12 +85,10 @@ public class classWednesday extends Fragment {
                 deleted.setMessage("Удалить урок?").setCancelable(true).setPositiveButton("Да", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        url = settings.getString("Day","Monday.txt");
-                        StringBuffer stringBuffer1 = new StringBuffer();
                         StringBuffer stringBuffer = new StringBuffer();
 
                         try {
-                            FileInputStream read = getActivity().openFileInput(url);
+                            FileInputStream read = getActivity().openFileInput("Wednesday.txt");
                             InputStreamReader reader = new InputStreamReader(read);
                             BufferedReader bufferedReader = new BufferedReader(reader);
                             String temp_read;
@@ -116,7 +114,7 @@ public class classWednesday extends Fragment {
 
 
                         try {
-                            FileOutputStream write = getActivity().openFileOutput(url,getActivity().MODE_PRIVATE);
+                            FileOutputStream write = getActivity().openFileOutput("Wednesday.txt",getActivity().MODE_PRIVATE);
 
                             write.write(stringBuffer.toString().getBytes());
                             write.close();
@@ -148,6 +146,7 @@ public class classWednesday extends Fragment {
                 alertDialog.show();
             }
         });
+        Toast.makeText(getActivity(),"SADDAS",Toast.LENGTH_SHORT).show();
         return viewGroup;
     }
     public void Start() {

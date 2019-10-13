@@ -40,29 +40,31 @@ public class PagerAdapterInCard extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.item_card_view,container,false);
-        TextView Predmet,Kab,Dz;
-        ArrayList<String> help;
-        ArrayList<String> help1;
-        ArrayList<String> help2;
-        Kab = view.findViewById(R.id.textView1_2_dnev);
-        Dz = view.findViewById(R.id.textView1_3_dnev);
+        TextView Predmet,Kab,Dz,NameDay;
+        String help = null;
+        String help1= null;
+        String help2= null;
 
         help = helperDnewniks.get(position).getNamePred();
-
         help1 =  helperDnewniks.get(position).getKab();
         help2 = helperDnewniks.get(position).getDz();
-        for (int i = 0 ; i < help.size(); i++){
-            TableLayout tableLayout = (TableLayout) view.findViewById(R.id.tableDnew);
+        String[] temp = help.split("=");
+        String[] temp1 = help1.split("=");
+        String[] temp2 = help2.split("=");
+        for (int q = 1; q < help.split("=").length; q++){
+            TableLayout tableLayout = view.findViewById(R.id.tableDnew);
             LayoutInflater inflater = LayoutInflater.from(view.getContext());
             TableRow tr = (TableRow) inflater.inflate(R.layout.item_table, null);
             Predmet = tr.findViewById(R.id.textView1_1_dnev);
             Kab = tr.findViewById(R.id.textView1_2_dnev);
             Dz = tr.findViewById(R.id.textView1_3_dnev);
-            Predmet.setText(help.get(i));
-            Kab.setText(help1.get(i));
-            Dz.setText(help2.get(i));
+            Predmet.setText(temp[q]);
+            Kab.setText(temp1[q]);
+            Dz.setText(temp2[q]);
             tableLayout.addView(tr);
         }
+        NameDay = view.findViewById(R.id.textViewNameDay);
+        NameDay.setText(helperDnewniks.get(position).getNameDay());
         container.addView(view,0);
         return view;
     }

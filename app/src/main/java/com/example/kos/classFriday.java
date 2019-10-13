@@ -36,7 +36,6 @@ public class classFriday extends Fragment {
     ArrayList<HashMap<String, String>> products = new ArrayList<>();
     HashMap<String,String> map;
     Integer num = 0;
-    String url;
     private SharedPreferences settings;
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -79,12 +78,10 @@ public class classFriday extends Fragment {
                 deleted.setMessage("Удалить урок?").setCancelable(true).setPositiveButton("Да", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        url = settings.getString("Day","Monday.txt");
-                        StringBuffer stringBuffer1 = new StringBuffer();
                         StringBuffer stringBuffer = new StringBuffer();
 
                         try {
-                            FileInputStream read = getActivity().openFileInput(url);
+                            FileInputStream read = getActivity().openFileInput("Friday.txt");
                             InputStreamReader reader = new InputStreamReader(read);
                             BufferedReader bufferedReader = new BufferedReader(reader);
                             String temp_read;
@@ -111,7 +108,7 @@ public class classFriday extends Fragment {
 
 
                         try {
-                            FileOutputStream write = getActivity().openFileOutput(url,getActivity().MODE_PRIVATE);
+                            FileOutputStream write = getActivity().openFileOutput("Friday.txt",getActivity().MODE_PRIVATE);
 
                             write.write(stringBuffer.toString().getBytes());
                             write.close();

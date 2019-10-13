@@ -4,37 +4,47 @@ package com.example.kos;
 import java.util.ArrayList;
 
 public class helperDnewnik {
-    ArrayList<String> NamePred;
-    ArrayList<String> Kab;
-    ArrayList<String> Dz;
+    String NameDay;
+    String NamePred;
+    String Kab;
+    String Dz;
 
-    public helperDnewnik(ArrayList<String> namePred, ArrayList<String> kab, ArrayList<String> dz) {
+    public helperDnewnik(String nameDay, String namePred, String kab, String dz) {
+        NameDay = nameDay;
         NamePred = namePred;
         Kab = kab;
         Dz = dz;
     }
 
-    public ArrayList<String> getNamePred() {
+    public String getNameDay() {
+        return NameDay;
+    }
+
+    public void setNameDay(String nameDay) {
+        NameDay = nameDay;
+    }
+
+    public String getNamePred() {
         return NamePred;
     }
 
-    public void setNamePred(ArrayList<String> namePred) {
+    public void setNamePred(String namePred) {
         NamePred = namePred;
     }
 
-    public ArrayList<String> getKab() {
+    public String getKab() {
         return Kab;
     }
 
-    public void setKab(ArrayList<String> kab) {
+    public void setKab(String kab) {
         Kab = kab;
     }
 
-    public ArrayList<String> getDz() {
+    public String getDz() {
         return Dz;
     }
 
-    public void setDz(ArrayList<String> dz) {
+    public void setDz(String dz) {
         Dz = dz;
     }
 }

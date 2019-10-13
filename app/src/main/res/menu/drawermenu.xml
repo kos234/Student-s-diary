@@ -14,6 +14,10 @@
         android:id="@+id/Ychetel"
         android:icon="@drawable/group"
         android:title="Учителя"
+        />    <item
+        android:id="@+id/Ocenki"
+        android:icon="@drawable/ocenki"
+        android:title="Оценки"
         />
     <item
         android:id="@+id/Nastroiki"

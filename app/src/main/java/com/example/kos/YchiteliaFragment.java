@@ -74,7 +74,7 @@ public class YchiteliaFragment extends Fragment {
                             BufferedReader bufferedReader = new BufferedReader(reader);
                             String temp_read;
                             String[] help ;
-                            String delimeter = "-";
+                            String delimeter = "=";
                             while ((temp_read = bufferedReader.readLine()) != null) {
 
                                 help = temp_read.split(delimeter);
@@ -144,7 +144,7 @@ public class YchiteliaFragment extends Fragment {
 
     public void Start() {
         String[] help ;
-        String delimeter = "-";
+        String delimeter = "=";
         products.clear();
         try {
             FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
@@ -252,7 +252,7 @@ public class YchiteliaFragment extends Fragment {
 
                                         try {
                                             FileOutputStream write =  getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
-                                            String temp_write = stringBuffer.toString()  + NamePred + "-"+ PredPred;
+                                            String temp_write = stringBuffer.toString()  + NamePred + "="+ PredPred;
 
                                             write.write(temp_write.getBytes());
                                             write.close();

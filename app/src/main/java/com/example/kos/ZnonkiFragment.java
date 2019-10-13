@@ -36,7 +36,7 @@ public class ZnonkiFragment extends Fragment {
     private SharedPreferences settings;
     private ImageButton OnOff;
     private ViewPager viewPager;
-    private MainActivity.PagerAdapter pagerAdapter;
+    private PagerAdapterZvon pagerAdapter;
     private Context context;
     private String ZvonOne, ZvonTwo, NameYrok, NumKab;
     private String url;
@@ -56,7 +56,7 @@ public class ZnonkiFragment extends Fragment {
            }
        });
         viewPager = view.findViewById(R.id.rager);
-        pagerAdapter = new MainActivity.PagerAdapter(getActivity().getSupportFragmentManager());
+        pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager());
 
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = view.findViewById(R.id.tabLayout4);
@@ -298,7 +298,7 @@ public class ZnonkiFragment extends Fragment {
 
 
                                 viewPager =  viewOne.findViewById(R.id.rager);
-                                pagerAdapter = new MainActivity.PagerAdapter( getActivity().getSupportFragmentManager());
+                                pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
                                 viewPager.setAdapter(pagerAdapter);
 
                             }
@@ -378,7 +378,7 @@ public class ZnonkiFragment extends Fragment {
 
                                                                 try {
                                                                     FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
-                                                                    String temp_write = stringBuffer.toString()  + ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab + "= ";
+                                                                    String temp_write = stringBuffer.toString()  + ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab;
 
                                                                     write.write(temp_write.getBytes());
                                                                     write.close();
@@ -392,14 +392,14 @@ public class ZnonkiFragment extends Fragment {
                                                                         classMonday classMonday = new classMonday();
                                                                         classMonday.Start();
                                                                         viewPager =  viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new MainActivity.PagerAdapter( getActivity().getSupportFragmentManager());
+                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
                                                                         viewPager.setAdapter(pagerAdapter);
                                                                         break;
                                                                     case "Tuesday.txt" :
                                                                         classTuesday classTuesday = new classTuesday();
                                                                         classTuesday.Start();
                                                                         viewPager =  viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new MainActivity.PagerAdapter( getActivity().getSupportFragmentManager());
+                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
                                                                         viewPager.setAdapter(pagerAdapter);
                                                                         viewPager.setCurrentItem(1);
                                                                         break;
@@ -407,7 +407,7 @@ public class ZnonkiFragment extends Fragment {
                                                                    classWednesday classWednesday = new classWednesday();
                                                                    classWednesday.Start();
                                                                         viewPager = viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new MainActivity.PagerAdapter( getActivity().getSupportFragmentManager());
+                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
                                                                         viewPager.setAdapter(pagerAdapter);
                                                                         viewPager.setCurrentItem(2);
                                                                         break;
@@ -415,7 +415,7 @@ public class ZnonkiFragment extends Fragment {
                                                                         classThursday classThursday = new classThursday();
                                                                         classThursday.Start();
                                                                         viewPager =  viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new MainActivity.PagerAdapter( getActivity().getSupportFragmentManager());
+                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
                                                                         viewPager.setAdapter(pagerAdapter);
                                                                         viewPager.setCurrentItem(3);
                                                                         break;
@@ -423,7 +423,7 @@ public class ZnonkiFragment extends Fragment {
                                                                         classFriday classFriday = new classFriday();
                                                                         classFriday.Start();
                                                                         viewPager =  viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new MainActivity.PagerAdapter( getActivity().getSupportFragmentManager());
+                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
                                                                         viewPager.setAdapter(pagerAdapter);
                                                                         viewPager.setCurrentItem(4);
                                                                         break;
@@ -431,7 +431,7 @@ public class ZnonkiFragment extends Fragment {
                                                                         classSaturday classSaturday = new classSaturday();
                                                                         classSaturday.Start();
                                                                         viewPager =  viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new MainActivity.PagerAdapter( getActivity().getSupportFragmentManager());
+                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
                                                                         viewPager.setAdapter(pagerAdapter);
                                                                         viewPager.setCurrentItem(5);
                                                                         break;

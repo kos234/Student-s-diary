@@ -12,7 +12,8 @@
         android:layout_margin="8dp"
         android:background="@android:color/holo_green_dark"
         app:cardBackgroundColor="@android:color/darker_gray"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        >
         <!--        -->
 
 
@@ -23,8 +24,31 @@
 
             <TableLayout
                 android:id="@+id/tableDnew"
+                android:onClick="ClicksRow"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent" >
+
+                <TableRow
+                    android:id="@+id/NameDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="1dp"
+                    android:background="@android:color/white">
+
+                    <TextView
+                        android:id="@+id/textViewNameDay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="24dp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"/>
+                </TableRow>
+            </TableLayout>
 
         </LinearLayout>
 
