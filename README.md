@@ -10,4 +10,4 @@ Adding edit fields
 Adding a header with the title of the lesson in the notification
 Make a separate download block Calls
 
-The current version can be found at this link: https://drive.google.com/file/d/1W_guaiGlGQJYlVkVZ4Z59xadCxEj6nJk/view?usp=sharing
+The current version can be found at this link: https://drive.google.com/file/d/1Src_nsg125hw70MXFkNAS10BbRE1_mN2/view?usp=drivesdk
