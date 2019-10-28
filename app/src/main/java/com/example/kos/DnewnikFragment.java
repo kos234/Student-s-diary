@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static android.app.NotificationManager.IMPORTANCE_HIGH;
 import static android.content.Context.MODE_PRIVATE;
 
 
@@ -50,18 +49,12 @@ public class DnewnikFragment extends Fragment {
     private TextView dateNedel;
     private SharedPreferences settings;
     private List<helperDnewnik> helperDnewniks = new ArrayList<>();
-    String kek = "keka";
-    ArrayList<String> NamePred = new ArrayList<>();
-    ArrayList<String> Kab = new ArrayList<>();
-    ArrayList<String> Dz = new ArrayList<>();
     private LinearLayout linearLayout;
     int startNedeli;
     int startMes;
     int dayInMes;
     int endMes;
     int endNedeli;
-    private static final String CHANNEL_ID = "Novus_Pidor";
-    private NotificationManager notificationManager;
     String nameMes;
     String dayName;
 
@@ -853,10 +846,30 @@ public class DnewnikFragment extends Fragment {
             viewPager.setClipToPadding(false);
             viewPager.setPadding(120, 0, 120, 0);
             viewPager.setPageMargin(60);
+            Date start = new Date();
+            switch (start.toString().substring(0,3)) {
+                case "Tue":
+                    viewPager.setCurrentItem(1);
+                    break;
+                case "Wed":
+                    viewPager.setCurrentItem(2);
+                    break;
+                case "Thu":
+                    viewPager.setCurrentItem(3);
+                    break;
+                case "Fri":
+                    viewPager.setCurrentItem(4);
+                    break;
+                case "Sat":
+                    viewPager.setCurrentItem(5);
+                    break;
+                default:
+                    viewPager.setCurrentItem(0);
+                    break;
+            }
             linearLayout.addView(viewPager,layoutParams);
             dateNedel = getActivity().findViewById(R.id.textViewDnew);
             dateNedel.setText(startNedeli + "." + startMes + " - " + endNedeli + "." + endMes);
-            Toast.makeText(context,kek,Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -1624,8 +1637,8 @@ public class DnewnikFragment extends Fragment {
             editor.apply();
             for (int i = 0; i < 6; i++){
                 String url = (startNedeli + i) + "." + startMes + "." + date.getYear();
-                String nameDay;
-                String ulrTwo;
+                String nameDay = "Понедельник";
+                String ulrTwo = "Monday.txt";
 
                 switch (i){
                     case 0:
@@ -1653,10 +1666,6 @@ public class DnewnikFragment extends Fragment {
                         nameDay = "Суббота";
                         break;
 
-                    default:
-                        ulrTwo = "Monday.txt";
-                        nameDay = "Понедельник";
-                        break;
                 }
                 try {
                     FileInputStream read =  getActivity().openFileInput(url);

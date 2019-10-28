@@ -4,10 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-class PagerAdapterZvon extends FragmentPagerAdapter {
+import java.util.List;
+
+class PagerAdapterZvon extends FragmentStatePagerAdapter {
         private String[] name;
-        PagerAdapterZvon(@NonNull FragmentManager fm) {
+    private List<Fragment> list;
+
+        PagerAdapterZvon(@NonNull FragmentManager fm, List<Fragment> list) {
             super(fm);
             name = new String[] {
                     "Понедельник",
@@ -18,6 +23,7 @@ class PagerAdapterZvon extends FragmentPagerAdapter {
                     "Суббота"
 
             };
+            this.list = list;
         }
         @Override
         public CharSequence getPageTitle(int position){
@@ -25,29 +31,13 @@ class PagerAdapterZvon extends FragmentPagerAdapter {
         }
         @Override
         public int getCount() {
-            return 6;
+            return list.size();
         }
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new classMonday();
-                case 1:
-                    return new classTuesday();
-                case 2:
-                    return new classWednesday();
-                case 3:
-                    return new classThursday();
-                case 4:
-                    return new classFriday();
-                case 5:
-                    return new classSaturday();
-
-                default:
-                    return new classMonday();
-            }
+            return list.get(position);
         }
     }
 

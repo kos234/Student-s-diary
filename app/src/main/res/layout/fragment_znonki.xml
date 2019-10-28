@@ -52,7 +52,7 @@
         android:background="@null"
         app:srcCompat="@drawable/on" />
 
-    <androidx.viewpager.widget.ViewPager
+   <androidx.viewpager.widget.ViewPager
         android:id="@+id/rager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

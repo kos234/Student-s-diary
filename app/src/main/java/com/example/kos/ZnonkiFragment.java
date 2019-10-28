@@ -5,17 +5,24 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,24 +47,30 @@ public class ZnonkiFragment extends Fragment {
     private Context context;
     private String ZvonOne, ZvonTwo, NameYrok, NumKab;
     private String url;
+    private List<Fragment> list = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_znonki, container,false);
-
+        Date dateStart = new Date();
         settings = getActivity().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
-       toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.menu));
-       toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               ((MainActivity) getActivity()).openDrawer();
-           }
-       });
-        viewPager = view.findViewById(R.id.rager);
-        pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager());
-
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.menu));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).openDrawer();
+            }
+        });
+        ViewPager viewPager = view.findViewById(R.id.rager);
+        list.add(new classMonday());
+        list.add(new classTuesday());
+        list.add(new classWednesday());
+        list.add(new classThursday());
+        list.add(new classFriday());
+        list.add(new classSaturday());
+        pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager(),list);
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = view.findViewById(R.id.tabLayout4);
         tabLayout.setupWithViewPager(viewPager);
@@ -65,10 +78,6 @@ public class ZnonkiFragment extends Fragment {
         tabLayout.getTabAt(5).select();
         Date start = new Date();
         switch (start.toString().substring(0,3)) {
-            case "Mon":
-                viewPager.setCurrentItem(0);
-                url = "Monday.txt";
-                break;
             case "Tue":
                 viewPager.setCurrentItem(1);
                 url = "Tuesday.txt";
@@ -100,10 +109,18 @@ public class ZnonkiFragment extends Fragment {
         editor.putString("Day", url);
         editor.apply();
 
-       addListenerOnButton(view);
+        addListenerOnButton(view);
+        Date dateEnd = new Date();
+        int Kek = Integer.parseInt(dateEnd.toString().substring(17,19)) - Integer.parseInt(dateStart.toString().substring(17,19));
 
+        Toast.makeText(getActivity(),Integer.toString(Kek),Toast.LENGTH_LONG).show();
         return view;
     }
+
+
+
+
+
 
     public boolean checkString(String string) {
         try {
@@ -298,7 +315,7 @@ public class ZnonkiFragment extends Fragment {
 
 
                                 viewPager =  viewOne.findViewById(R.id.rager);
-                                pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
+                                pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager(),list);
                                 viewPager.setAdapter(pagerAdapter);
 
                             }
@@ -318,156 +335,167 @@ public class ZnonkiFragment extends Fragment {
             }
         });
         button.setOnClickListener(new View.OnClickListener()  {
-                    @Override
-                    public void onClick(View view) {
-                        final LayoutInflater li = LayoutInflater.from(context);
-                        View promptsView = li.inflate(R.layout.prompt , null);
-                        AlertDialog.Builder newzvonok = new AlertDialog.Builder(context);
-                        newzvonok.setView(promptsView);
-                        final EditText zvonokone = (EditText) promptsView.findViewById(R.id.timeStart);
-                        final EditText zvonoktwo = (EditText) promptsView.findViewById(R.id.timeEnd);
-                        final EditText Yrok = (EditText) promptsView.findViewById(R.id.nameYrok);
-                        final EditText Kab = (EditText) promptsView.findViewById(R.id.numKab);
-                        newzvonok
-                                .setCancelable(true)
-                                .setPositiveButton("Добавить",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog,int id) {
-                                                ZvonOne = zvonokone.getText().toString();
-                                                ZvonTwo = zvonoktwo.getText().toString();
-                                                NameYrok = Yrok.getText().toString();
-                                                NumKab = Kab.getText().toString();
-                                                if (ZvonOne.length() == 5 && ZvonTwo.length() == 5 && NameYrok.length() > 0 && NumKab.length() > 0){
-                                                    int ZvonOneOne = 666;
-                                                    int ZvonOneTwo = 666;
-                                                    int ZvonTwoOne = 666;
-                                                    int ZvonTwoTwo = 666;
-                                                    if (checkString(ZvonOne.substring(0,2)))
-                                                        ZvonOneOne = Integer.parseInt(ZvonOne.substring(0,2));
-                                                    if(checkString(ZvonOne.substring(3)))
-                                                        ZvonOneTwo = Integer.parseInt(ZvonOne.substring(3));
-                                                    if(checkString(ZvonTwo.substring(0,2)))
-                                                        ZvonTwoOne = Integer.parseInt(ZvonTwo.substring(0,2));
-                                                    if(checkString(ZvonTwo.substring(3)))
-                                                        ZvonTwoTwo = Integer.parseInt(ZvonTwo.substring(3));
+                                      @Override
+                                      public void onClick(View view) {
+                                          final LayoutInflater li = LayoutInflater.from(context);
+                                          View promptsView = li.inflate(R.layout.prompt , null);
+                                          final AlertDialog.Builder newzvonok = new AlertDialog.Builder(context);
+                                          newzvonok.setView(promptsView);
+                                          final EditText zvonokone = promptsView.findViewById(R.id.timeStart);
+                                          final EditText zvonoktwo = promptsView.findViewById(R.id.timeEnd);
+                                          final EditText Yrok = promptsView.findViewById(R.id.nameYrok);
+                                          final EditText Kab = promptsView.findViewById(R.id.numKab);
+                                          newzvonok
+                                                  .setCancelable(true)
+                                                  .setPositiveButton("Добавить",
+                                                          new DialogInterface.OnClickListener() {
+                                                              @RequiresApi(api = Build.VERSION_CODES.N)
+                                                              public void onClick(DialogInterface dialog, int id) {
+                                                                  ZvonOne = zvonokone.getText().toString();
+                                                                  ZvonTwo = zvonoktwo.getText().toString();
+                                                                  NameYrok = Yrok.getText().toString();
+                                                                  NumKab = Kab.getText().toString();
+                                                                  if (ZvonOne.length() == 5 && ZvonTwo.length() == 5 && NameYrok.length() > 0 && NumKab.length() > 0){
+                                                                      int ZvonOneOne = 666;
+                                                                      int ZvonOneTwo = 666;
+                                                                      int ZvonTwoOne = 666;
+                                                                      int ZvonTwoTwo = 666;
+                                                                      if (checkString(ZvonOne.substring(0,2)))
+                                                                          ZvonOneOne = Integer.parseInt(ZvonOne.substring(0,2));
+                                                                      if(checkString(ZvonOne.substring(3)))
+                                                                          ZvonOneTwo = Integer.parseInt(ZvonOne.substring(3));
+                                                                      if(checkString(ZvonTwo.substring(0,2)))
+                                                                          ZvonTwoOne = Integer.parseInt(ZvonTwo.substring(0,2));
+                                                                      if(checkString(ZvonTwo.substring(3)))
+                                                                          ZvonTwoTwo = Integer.parseInt(ZvonTwo.substring(3));
 
 
+                                                                      if(ZvonOneOne < 25 && ZvonOneTwo < 60 && ZvonOne.charAt(2) == ':' && ZvonTwoOne < 25 && ZvonTwoTwo < 60 && ZvonTwo.charAt(2) == ':') {
+                                                                          if ((ZvonOneOne < ZvonTwoOne) || (ZvonOneOne == ZvonTwoOne && ZvonOneTwo < ZvonTwoTwo)) {
+                                                                              StringBuffer stringBuffer = new StringBuffer();
+                                                                              url = settings.getString("Day","Monday.txt");
+                                                                              try {
+                                                                                  boolean Zapic = true;
+                                                                              try {
+                                                                                  FileInputStream read =  getActivity().openFileInput(url);
+                                                                                  InputStreamReader reader = new InputStreamReader(read);
+                                                                                  BufferedReader bufferedReader = new BufferedReader(reader);
+
+                                                                                  String temp_read;
+                                                                                  String[] help;
+                                                                                  String delimeter = "=";
+                                                                                  while ((temp_read = bufferedReader.readLine()) != null) {
+
+                                                                                      help = temp_read.split(delimeter);
+                                                                                      if((Integer.parseInt(help[0].substring(0,2)) == ZvonOneOne && Integer.parseInt(help[0].substring(3,5)) == ZvonOneTwo) || (Integer.parseInt(help[0].substring(8,10)) == ZvonTwoOne && Integer.parseInt(help[0].substring(11)) == ZvonTwoTwo)) {
+                                                                                          throw new Povtor("Lisa I love you", 1);
+                                                                                      }
+                                                                                      if(Integer.parseInt(help[0].substring(0,2)) > ZvonOneOne   && Zapic) {
+                                                                                          stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab).append(("\n")).append(temp_read).append(("\n"));
+                                                                                      Zapic = false;
+
+                                                                                      } else
+                                                                                      stringBuffer.append(temp_read).append(("\n"));
+                                                                                  }
+                                                                              } catch (FileNotFoundException e) {
+                                                                                  e.printStackTrace();
+                                                                              } catch (IOException e) {
+                                                                                  e.printStackTrace();
+                                                                              }
+                                                                                if (Zapic)
+                                                                                    stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab);
+                                                                              try {
+                                                                                  FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
+                                                                                  String temp_write = stringBuffer.toString();
+
+                                                                                  write.write(temp_write.getBytes());
+                                                                                  write.close();
+                                                                              } catch (FileNotFoundException e) {
+                                                                                  e.printStackTrace();
+                                                                              } catch (IOException e) {
+                                                                                  e.printStackTrace();
+                                                                              }
+                                                                              switch (url) {
+                                                                                  case "Monday.txt" :
+                                                                                      classMonday classMonday = new classMonday();
+                                                                                      classMonday.Start();
+                                                                                      viewPager =  viewOne.findViewById(R.id.rager);
+                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
+                                                                                      viewPager.setAdapter(pagerAdapter);
+                                                                                      break;
+                                                                                  case "Tuesday.txt" :
+                                                                                      classTuesday classTuesday = new classTuesday();
+                                                                                      classTuesday.Start();
+                                                                                      viewPager =  viewOne.findViewById(R.id.rager);
+                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
+                                                                                      viewPager.setAdapter(pagerAdapter);
+                                                                                      viewPager.setCurrentItem(1);
+                                                                                      break;
+                                                                                  case "Wednesday.txt" :
+                                                                                      classWednesday classWednesday = new classWednesday();
+                                                                                      classWednesday.Start();
+                                                                                      viewPager = viewOne.findViewById(R.id.rager);
+                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
+                                                                                      viewPager.setAdapter(pagerAdapter);
+                                                                                      viewPager.setCurrentItem(2);
+                                                                                      break;
+                                                                                  case "Thursday.txt" :
+                                                                                      classThursday classThursday = new classThursday();
+                                                                                      classThursday.Start();
+                                                                                      viewPager =  viewOne.findViewById(R.id.rager);
+                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
+                                                                                      viewPager.setAdapter(pagerAdapter);
+                                                                                      viewPager.setCurrentItem(3);
+                                                                                      break;
+                                                                                  case "Friday.txt" :
+                                                                                      classFriday classFriday = new classFriday();
+                                                                                      classFriday.Start();
+                                                                                      viewPager =  viewOne.findViewById(R.id.rager);
+                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
+                                                                                      viewPager.setAdapter(pagerAdapter);
+                                                                                      viewPager.setCurrentItem(4);
+                                                                                      break;
+                                                                                  case "Saturday.txt" :
+                                                                                      classSaturday classSaturday = new classSaturday();
+                                                                                      classSaturday.Start();
+                                                                                      viewPager =  viewOne.findViewById(R.id.rager);
+                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
+                                                                                      viewPager.setAdapter(pagerAdapter);
+                                                                                      viewPager.setCurrentItem(5);
+                                                                                      break;
+
+                                                                              }
 
 
+                                                                          } catch (Povtor povtor) {
+                                                                                Toast.makeText(context,"Временной промежуток не должен совпадать с предыдущем или начинаться позже, а заканчиваться раньше",Toast.LENGTH_LONG).show();
+                                                                              }
+                                                                          }
+                                                                          else
+                                                                              Toast.makeText(context, "Не верный промежуток! Первое значение не может быть больше второго!", Toast.LENGTH_SHORT).show();
+                                                                      }else{
+                                                                          Toast.makeText(
+                                                                                  context, "Все поля должны быть заполненны!", Toast.LENGTH_SHORT
+                                                                          ).show();
+                                                                      }
+                                                                  }
+                                                                  else {
+                                                                      Toast.makeText(
+                                                                              context, "Не верный формат!", Toast.LENGTH_SHORT
+                                                                      ).show();
+                                                                  }
+                                                              }
+                                                          });
 
-//                                                    if (ZvonOneOne != 666 && ZvonOneTwo != 666 && ZvonTwoOne != 666 && ZvonTwoTwo !=666) {
-                                                        if(ZvonOneOne < 25 && ZvonOneTwo < 60 && ZvonOne.charAt(2) == ':' && ZvonTwoOne < 25 && ZvonTwoTwo < 60 && ZvonTwo.charAt(2) == ':') {
-                                                            if ((ZvonOneOne < ZvonTwoOne) || (ZvonOneOne == ZvonTwoOne && ZvonOneTwo < ZvonTwoTwo)) {
-                                                                StringBuffer stringBuffer = new StringBuffer();
-                                                                url = settings.getString("Day","Monday.txt");
+                                          //Создаем AlertDialog:
+                                          AlertDialog alertDialog = newzvonok.create();
 
-                                                                try {
-                                                                    FileInputStream read =  getActivity().openFileInput(url);
-                                                                    InputStreamReader reader = new InputStreamReader(read);
-                                                                    BufferedReader bufferedReader = new BufferedReader(reader);
+                                          //и отображаем его:
+                                          // alertDialog.setTitle("Новый урок");
+                                          alertDialog.show();
 
-                                                                    String temp_read;
-                                                                    while ((temp_read = bufferedReader.readLine()) != null) {
-                                                                        stringBuffer.append(temp_read).append(("\n"));
-                                                                    }
-                                                                } catch (FileNotFoundException e) {
-                                                                    e.printStackTrace();
-                                                                } catch (IOException e) {
-                                                                    e.printStackTrace();
-                                                                }
-
-                                                                try {
-                                                                    FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
-                                                                    String temp_write = stringBuffer.toString()  + ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab;
-
-                                                                    write.write(temp_write.getBytes());
-                                                                    write.close();
-                                                                } catch (FileNotFoundException e) {
-                                                                    e.printStackTrace();
-                                                                } catch (IOException e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                                switch (url) {
-                                                                    case "Monday.txt" :
-                                                                        classMonday classMonday = new classMonday();
-                                                                        classMonday.Start();
-                                                                        viewPager =  viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
-                                                                        viewPager.setAdapter(pagerAdapter);
-                                                                        break;
-                                                                    case "Tuesday.txt" :
-                                                                        classTuesday classTuesday = new classTuesday();
-                                                                        classTuesday.Start();
-                                                                        viewPager =  viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
-                                                                        viewPager.setAdapter(pagerAdapter);
-                                                                        viewPager.setCurrentItem(1);
-                                                                        break;
-                                                                    case "Wednesday.txt" :
-                                                                   classWednesday classWednesday = new classWednesday();
-                                                                   classWednesday.Start();
-                                                                        viewPager = viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
-                                                                        viewPager.setAdapter(pagerAdapter);
-                                                                        viewPager.setCurrentItem(2);
-                                                                        break;
-                                                                    case "Thursday.txt" :
-                                                                        classThursday classThursday = new classThursday();
-                                                                        classThursday.Start();
-                                                                        viewPager =  viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
-                                                                        viewPager.setAdapter(pagerAdapter);
-                                                                        viewPager.setCurrentItem(3);
-                                                                        break;
-                                                                    case "Friday.txt" :
-                                                                        classFriday classFriday = new classFriday();
-                                                                        classFriday.Start();
-                                                                        viewPager =  viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
-                                                                        viewPager.setAdapter(pagerAdapter);
-                                                                        viewPager.setCurrentItem(4);
-                                                                        break;
-                                                                    case "Saturday.txt" :
-                                                                        classSaturday classSaturday = new classSaturday();
-                                                                        classSaturday.Start();
-                                                                        viewPager =  viewOne.findViewById(R.id.rager);
-                                                                        pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager());
-                                                                        viewPager.setAdapter(pagerAdapter);
-                                                                        viewPager.setCurrentItem(5);
-                                                                        break;
-
-                                                                }
-
-
-                                                            }
-                                                            else
-                                                                Toast.makeText(context, "Не верный промежуток! Первое значение не может быть больше второго!", Toast.LENGTH_SHORT).show();
-                                                        }else{
-                                                            Toast.makeText(
-                                                                    context, "Не верный формат!", Toast.LENGTH_SHORT
-                                                            ).show();
-                                                        }
-//                                                        Toast.makeText(
-//                                                                context, "ЫФВФЫФЫВФЫВФЫФЫВФЫ", Toast.LENGTH_SHORT
-//                                                        ).show();}
-                                                }
-                                                else {
-                                                    Toast.makeText(
-                                                            context, "Не верный формат!", Toast.LENGTH_SHORT
-                                                    ).show();
-                                                }
-                                            }
-                                        });
-
-                        //Создаем AlertDialog:
-                        AlertDialog alertDialog = newzvonok.create();
-
-                        //и отображаем его:
-                        // alertDialog.setTitle("Новый урок");
-                        alertDialog.show();
-
-                    }
-                }
+                                      }
+                                  }
         );
     }
 

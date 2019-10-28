@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//       MyThread myThread = new MyThread();
-//       myThread.start();
+       MyThread myThread = new MyThread();
+       myThread.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = getSharedPreferences("com.example.kos", MODE_PRIVATE);
@@ -81,28 +81,31 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                Fragment fragmentActiv = null;
                Class fragmentClass;
-
+                SharedPreferences.Editor editor = settings.edit();
                switch (menuItem.getItemId()){
-                   case R.id.Dnevnik:
-                       fragmentClass = DnewnikFragment.class;
-                       break;
                    case R.id.Zvonki:
                        fragmentClass = ZnonkiFragment.class;
+                       editor.putString("Fragment","Znonki" );
                        break;
                    case R.id.Ychetel:
                        fragmentClass = YchiteliaFragment.class;
+                       editor.putString("Fragment","Ychitelia" );
                        break;
                        case R.id.Ocenki:
                        fragmentClass = OcenkiFragment.class;
+                           editor.putString("Fragment","Ocenki" );
                        break;
                    case R.id.Nastroiki:
                        fragmentClass = NastroikiFragment.class;
+                       editor.putString("Fragment","Nastroiki" );
                        break;
                    case R.id.Spravka:
                        fragmentClass = SpravkaFragment.class;
+                       editor.putString("Fragment","Spravka" );
                        break;
                        default:
                            fragmentClass = DnewnikFragment.class;
+                           editor.putString("Fragment","Dnewnik" );
                            break;
                }
 
@@ -118,14 +121,35 @@ public class MainActivity extends AppCompatActivity {
                menuItem.setChecked(true);
               drawerLayout = findViewById(R.id.Drawer);
                drawerLayout.closeDrawer(Gravity.LEFT);
-
+                editor.apply();
                 return false;
             }
         });
 
-        Fragment fragmentActiv = null;
         Class fragmentClass;
-        fragmentClass = DnewnikFragment.class;
+        settings = getSharedPreferences("Settings", MODE_PRIVATE);
+        switch (settings.getString("Fragment", "Dnewnik")){
+            case "Ychitelia":
+                fragmentClass = YchiteliaFragment.class;
+                break;
+            case "Znonki":
+                fragmentClass = ZnonkiFragment.class;
+                break;
+            case "Ocenki":
+                fragmentClass = OcenkiFragment.class;
+                break;
+            case "Nastroiki":
+                fragmentClass = NastroikiFragment.class;
+                break;
+            case "Spravka":
+                fragmentClass = SpravkaFragment.class;
+                break;
+            default:
+                fragmentClass = DnewnikFragment.class;
+                break;
+        }
+        Fragment fragmentActiv = null;
+
         try {
             fragmentActiv = (Fragment) fragmentClass.newInstance();
         } catch (IllegalAccessException e) {
@@ -208,9 +232,12 @@ public class MainActivity extends AppCompatActivity {
   class MyThread extends Thread {
         public void run(){
             String Type = null;
+            String Name = null;
             String HourSay = null;
             String MinSay = null;
             String urlNot = null;
+            String[] help, helpKab;
+            String delimeter = "=";
             int tempOneOne = 666;
             int tempOneTwo = 666;
             int tempTwoOne = 666;
@@ -287,13 +314,15 @@ public class MainActivity extends AppCompatActivity {
                         String temp_read, temp;
 
                         while ((temp_read = bufferedReader.readLine()) != null) {
-                            temp = stringBuffer1.append(temp_read).toString();
-                            stringBuffer1.setLength(0);
-
-                            tempOneOne = Integer.parseInt(temp.substring(0, 2));
-                            tempOneTwo = Integer.parseInt(temp.substring(3, 5));
-                            tempTwoOne = Integer.parseInt(temp.substring(8, 10));
-                            tempTwoTwo = Integer.parseInt(temp.substring(11,13));
+//                            temp = stringBuffer1.append(temp_read).toString();
+//                            stringBuffer1.setLength(0);
+                            help = temp_read.split(delimeter);
+                            helpKab = help[1].split(",");
+                            Name = helpKab[0];
+                            tempOneOne = Integer.parseInt(help[0].substring(0, 2));
+                            tempOneTwo = Integer.parseInt(help[0].substring(3, 5));
+                            tempTwoOne = Integer.parseInt(help[0].substring(8, 10));
+                            tempTwoTwo = Integer.parseInt(help[0].substring(11,13));
                             if (oneTime)  {
                                 tempOneTimesOne = tempOneOne;
                                 tempOneTimesTwo = tempOneTwo;
@@ -301,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
                                 clear = true;
                             }
                             else if((Integer.parseInt(date.toString().substring(11, 13)) + 1) == tempOneTimesOne) {
-                                Type = "До начала уроков";
+                                Type = "До начала урока";
                                 hour = tempOneTimesOne - Integer.parseInt(date.toString().substring(11, 13));
                                 min = hour * 60 - Integer.parseInt(date.toString().substring(14, 16)) + tempOneTimesTwo;
                                 hour = 0;
@@ -345,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
                                             min = min - 60;
                                         }
                                     }
-                                    Type = "До конца перемены:";
+                                    Type = "До конца перемены";
                                 }
 //                           else {
 //                                oneTime = true;
@@ -382,8 +411,8 @@ public class MainActivity extends AppCompatActivity {
                                         .setSmallIcon(R.drawable.ic_stat_name)
                                         .setWhen(System.currentTimeMillis())
                                         .setContentIntent(pendingIntent)
-                                        .setContentTitle(Type)
-                                        .setContentText(HourSay + MinSay)
+                                        .setContentTitle(Name)
+                                        .setContentText(Type + ": " + HourSay + MinSay)
                                         .setPriority(IMPORTANCE_HIGH);
                                 notificationManager.notify(NOTIFY_ID, notifycationBuilder.build());
                             } else {
