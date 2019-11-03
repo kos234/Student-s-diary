@@ -39,36 +39,10 @@ public class classThursday extends Fragment {
     private String ZvonOne, ZvonTwo, NameYrok, NumKab;
     private   ArrayList<HashMap<String, String>> products = new ArrayList<>();
     private  HashMap<String,String> map;
-    private  Integer num = 0;
-    private SharedPreferences settings;
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && (getActivity()!=null)) {
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            if (settings.contains("Thursday")) {
-                ImageButton imageButton = getActivity().findViewById(R.id.onOff);
-                if (settings.getBoolean("Thursday", true))
-                    imageButton.setImageResource(R.drawable.on);
-                else
-                    imageButton.setImageResource(R.drawable.off);
-
-            }
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("Day","Thursday.txt" );
-            editor.apply();
-
-
-        }
-
-
-
-
-    }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         final ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.thursday, container,false);
         Start();
         lvMain = viewGroup.findViewById(R.id.lvThursday);
@@ -227,22 +201,27 @@ public class classThursday extends Fragment {
                                                             e.printStackTrace();
                                                         }
 
-                                                        String[] mas = stringBuffered.toString().split("~");
-                                                        for (int i = 0; i < mas.length; i++) {
-                                                            String[] helping ;
-                                                            helping = mas[i].split("=");
-                                                            if((Integer.parseInt(helping[0].substring(0,2)) == ZvonOneOne && Integer.parseInt(helping[0].substring(3,5)) == ZvonOneTwo) || (Integer.parseInt(helping[0].substring(8,10)) == ZvonTwoOne && Integer.parseInt(helping[0].substring(11)) == ZvonTwoTwo)) {
-                                                                throw new Povtor("Syko blyat", 1);
-                                                            }
-                                                            if(Integer.parseInt(helping[0].substring(0,2)) > ZvonOneOne   && Zapic) {
-                                                                stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab).append(("\n")).append(mas[i]).append(("\n"));
-                                                                Zapic = false;
+                                                        if(!stringBuffered.toString().equals("")) {
+                                                            String[] mas = stringBuffered.toString().split("~");
+                                                            for (int i = 0; i < mas.length; i++) {
+                                                                String[] helping;
+                                                                helping = mas[i].split("=");
+                                                                if ((Integer.parseInt(helping[0].substring(0, 2)) == ZvonOneOne && Integer.parseInt(helping[0].substring(3, 5)) == ZvonOneTwo) || (Integer.parseInt(helping[0].substring(8, 10)) == ZvonTwoOne && Integer.parseInt(helping[0].substring(11)) == ZvonTwoTwo)) {
+                                                                    throw new Povtor("Syko blyat", 1);
+                                                                }
+                                                                if (Integer.parseInt(helping[0].substring(0, 2)) > ZvonOneOne && Zapic) {
+                                                                    stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab).append(("\n")).append(mas[i]).append(("\n"));
+                                                                    Zapic = false;
 
-                                                            } else
-                                                                stringBuffer.append(mas[i]).append(("\n"));
+                                                                } else
+                                                                    stringBuffer.append(mas[i]).append(("\n"));
+                                                            }
+
                                                         }
                                                         if (Zapic)
                                                             stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab);
+
+
                                                         try {
                                                             FileOutputStream write =  getActivity().openFileOutput("Thursday.txt", getActivity().MODE_PRIVATE);
                                                             String temp_write = stringBuffer.toString();
@@ -333,7 +312,6 @@ public class classThursday extends Fragment {
 
         }
 
-        num = 0;
 
     }
 

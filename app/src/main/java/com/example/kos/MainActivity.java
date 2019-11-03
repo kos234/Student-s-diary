@@ -13,13 +13,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.BoringLayout;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +47,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -54,16 +65,16 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
     final Context context = this;
-    private TextView TextNew;
+    private List<helperDnewnik> helperDnewniks = new ArrayList<>();
     private SharedPreferences settings;
-    private TabLayout tabLayout;
-    private String ZvonOne, ZvonTwo;
     private SharedPreferences prefs = null;
-    private List<Fragment> list = new ArrayList<>();
+    private  int startNedeli;
+    private int startMes;
     private NotificationManager notificationManager;
     private static final int NOTIFY_ID = 1;
     private static final String CHANNEL_ID = "Novus_Pidor";
     private String url;
+    private LinearLayout linearLayout;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -168,12 +179,232 @@ public class MainActivity extends AppCompatActivity {
         drawer.openDrawer(Gravity.LEFT);
     }
 
-    public void ClicksRow(View view){
-        TextView textView = view.findViewById(R.id.textView1_1_dnev);
-        Toast.makeText(this,textView.getText(),Toast.LENGTH_LONG).show();
+    public void ClicksRow(final View view){
+        TextView textViewName = view.findViewById(R.id.textView1_1_dnev);
+        TextView textViewKab = view.findViewById(R.id.textView1_2_dnev);
+       url = (settings.getInt("StartNedeli",1) + settings.getInt("Card",1)) + "." + settings.getInt("IntMes",1) + "." + settings.getInt("Year",1);
+       final StringBuffer stringBuffer = new StringBuffer();
+       String[] helpKab, finalHelp = new String[1];
+       int i = 0;
+        try {
+            FileInputStream read =  openFileInput(url);
+            InputStreamReader reader = new InputStreamReader(read);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+
+            String temp_read;
+          String[] help;
+            boolean Fix = true;
+            String delimeter = "=";
+            while ((temp_read = bufferedReader.readLine()) != null) {
+                if(Fix)
+                    i++;
+                help = temp_read.split(delimeter);
+                String cheak = textViewName.getText() + ", " + textViewKab.getText();
+                if (help[0].equals(cheak)) {
+                   finalHelp = help;
+                   Fix=false;
+                    stringBuffer.append(temp_read).append("~");
+                }else 
+                stringBuffer.append(temp_read).append("~");
+            }
+        } catch (FileNotFoundException q) {
+            q.printStackTrace();
+        } catch (IOException j) {
+            j.printStackTrace();
+        }
+
+        final StringBuffer EndstringBuffer = new StringBuffer();
+        final LayoutInflater li = LayoutInflater.from(context);
+        final View promptsView = li.inflate(R.layout.edit_dz , null);
+        final TextView textView = promptsView.findViewById(R.id.textViewNameYrok);
+        final EditText editText = promptsView.findViewById(R.id.textEdit);
+        if(2 <= finalHelp.length) {
+            String[] temp3 = finalHelp[1].split("`");
+            String tempik = " ";
+            if (temp3.length == 1)
+                editText.setText(temp3[0]);
+            else {
+                for (int n = 0; n < temp3.length; n++) {
+                    if(n+1 == temp3.length)
+                        tempik = tempik + temp3[n];
+                    else
+                        tempik = tempik + temp3[n] + "\n";
+                }
+                editText.setText(tempik);
+            }
+        }
+        helpKab = finalHelp[0].split(",");
+        textView.setText(helpKab[0] + ":");
+        AlertDialog.Builder Zapic = new AlertDialog.Builder(context);
+       final String[] finalHelp1 = finalHelp;
+        final String[] tempbuffer = stringBuffer.toString().split("~");
+        final int finalI = i;
+        Zapic.setView(promptsView).setCancelable(true).setPositiveButton("Сохранить", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int p) {
+                for (int j=1; j <= tempbuffer.length; j++){
+                    if(j == finalI) {
+                        String[] reject = editText.getText().toString().split("\n");
+                        String TempJect = "";
+                        for (int u = 0; u < reject.length; u++)
+                            TempJect = TempJect + reject[u] + "`";
+                         EndstringBuffer.append(finalHelp1[0] + "=" + TempJect).append("\n");
+                    }
+                    else
+                        EndstringBuffer.append(tempbuffer[j - 1]).append("\n");
+
+                }
+
+
+                try {
+                    FileOutputStream write =  openFileOutput(url, MODE_PRIVATE);
+                    write.write(EndstringBuffer.toString().getBytes());
+                    write.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                linearLayout = findViewById(R.id.LinerTask);
+                new ReloadAsyncTask().execute();
+            }
+        });
+        AlertDialog alertDialog = Zapic.create();
+
+        //и отображаем его:
+
+        alertDialog.show();
+
+        /**
+         * Запись в файл какой сейчас день(число позиции) в фрагменте дневника
+         * Тут это надо будет прочитать
+         * Старт недели, месяц и год взять от туда же
+         * прибавить к старту недели позицию фрагмента
+         * открыть Gui редактирования с уже введенными данными!
+         * Как-то обновить )
+         * И добавить кучу багов
+         */
 
     }
+    class ReloadAsyncTask extends AsyncTask<Void,Void,Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.gravity = Gravity.CENTER;
+            linearLayout.removeAllViews();
+            ProgressBar progressBar = new ProgressBar(context);
+            linearLayout.addView(progressBar, layoutParams);
 
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            settings = getSharedPreferences("Settings", MODE_PRIVATE);
+            final SharedPreferences.Editor editor = settings.edit();
+            editor.putInt("Card",0);
+            editor.apply();
+            final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.gravity = Gravity.CENTER;
+            linearLayout.removeAllViews();
+            final ViewPager viewPager = new ViewPager(context);
+            viewPager.setAdapter(pagerAdapterInCard);
+            viewPager.setClipToPadding(false);
+            viewPager.setPadding(120, 0, 120, 0);
+            viewPager.setPageMargin(60);
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+
+                    editor.putInt("Card",position);
+                    editor.apply();
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            linearLayout.addView(viewPager,layoutParams);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            helperDnewniks.clear();
+            startNedeli = settings.getInt("StartNedeli",1);
+            startMes = settings.getInt("IntMes",1);
+            for (int i = 0; i < 6; i++){
+                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+                String nameDay;
+
+                switch (i){
+                    case 1:
+                        nameDay = "Вторник";
+                        break;
+                    case 2:
+                        nameDay = "Среда";
+                        break;
+                    case 3:
+                        nameDay = "Четверг";
+                        break;
+                    case 4:
+                        nameDay = "Пятница";
+                        break;
+                    case 5:
+                        nameDay = "Суббота";
+                        break;
+
+                    default:
+                        nameDay = "Понедельник";
+                        break;
+                }
+                try {
+                    FileInputStream read = openFileInput(url);
+                    InputStreamReader reader = new InputStreamReader(read);
+                    BufferedReader bufferedReader = new BufferedReader(reader);
+                    String temp_read,helpZapis = "", helpZapis2 = "",helpZapis3 = "";
+                    String[] help, helpKab;
+                    String delimeter = "=";
+                    if((temp_read = bufferedReader.readLine()) == null){
+                        throw new FileNotFoundException();
+                    }else{
+                        help = temp_read.split(delimeter);
+                        helpKab = help[0].split(",");
+                        helpZapis = helpKab[0]+ "=";
+                        helpZapis2 = helpKab[1].substring(1)+ "=";
+                        helpZapis3 = helpZapis3 + " =";
+                    }
+                    while ((temp_read = bufferedReader.readLine()) != null) {
+                        help = temp_read.split(delimeter);
+
+                        helpKab = help[0].split(",");
+
+
+                        helpZapis = helpZapis  + helpKab[0]+ "=";
+                        helpZapis2 = helpZapis2  + helpKab[1].substring(1)+ "=";
+                        if (2 <= help.length)
+                            helpZapis3 = helpZapis3 + help[1]+ "=";
+                        else
+                            helpZapis3 = helpZapis3 + " =";
+                    }
+                    helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
+
+                } catch (FileNotFoundException e) {}
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();

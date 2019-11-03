@@ -31,39 +31,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static android.content.Context.MODE_PRIVATE;
-
-
 public class classSaturday extends Fragment {
     private ListView lvMain;
     private  ArrayList<HashMap<String, String>> products = new ArrayList<>();
     private HashMap<String,String> map;
     private String ZvonOne, ZvonTwo, NameYrok, NumKab;
-    private SharedPreferences settings;
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && (getActivity()!=null)) {
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            if (settings.contains("Saturday")) {
-                ImageButton imageButton = getActivity().findViewById(R.id.onOff);
-                if (settings.getBoolean("Saturday", true))
-                    imageButton.setImageResource(R.drawable.on);
-                else
-                    imageButton.setImageResource(R.drawable.off);
 
-            }
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("Day","Saturday.txt" );
-            editor.apply();
-
-
-        }
-
-
-
-
-    }
     public boolean checkString(String string) {
         try {
             Integer.parseInt(string);

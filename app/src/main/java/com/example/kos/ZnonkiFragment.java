@@ -9,9 +9,12 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.Gravity;
@@ -23,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,6 +42,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class ZnonkiFragment extends Fragment {
     private SharedPreferences settings;
@@ -52,10 +58,10 @@ public class ZnonkiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_znonki, container,false);
+        final View view =  inflater.inflate(R.layout.fragment_znonki, container,false);
         Date dateStart = new Date();
         settings = getActivity().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
-        androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
+        final androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.menu));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +78,85 @@ public class ZnonkiFragment extends Fragment {
         list.add(new classSaturday());
         pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager(),list);
         viewPager.setAdapter(pagerAdapter);
+       viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+           @Override
+           public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+           }
+
+           @Override
+           public void onPageSelected(int position) {
+               Boolean OnOff = true;
+               SharedPreferences.Editor editor = settings.edit();
+            switch (position){
+                case 0:
+                    editor.putString("Day","Monday.txt" );
+                    if (settings.contains("Monday")) {
+                        if (settings.getBoolean("Monday", true))
+                            OnOff = true;
+                        else
+                            OnOff = false;
+                    }
+                    break;
+                case 1:
+                    editor.putString("Day","Tuesday.txt" );
+                    if (settings.contains("Tuesday")) {
+                        if (settings.getBoolean("Tuesday", true))
+                            OnOff = true;
+                        else
+                            OnOff = false;
+                    }
+                    break;
+                    case 2:
+                    editor.putString("Day","Wednesday.txt" );
+                    if (settings.contains("Wednesday")) {
+                        if (settings.getBoolean("Wednesday", true))
+                            OnOff = true;
+                        else
+                            OnOff = false;
+                    }
+                    break;
+                    case 3:
+                    editor.putString("Day","Thursday.txt" );
+                    if (settings.contains("Thursday")) {
+                        if (settings.getBoolean("Thursday", true))
+                            OnOff = true;
+                        else
+                            OnOff = false;
+                    }
+                    break;
+                    case 4:
+                    editor.putString("Day","Friday.txt" );
+                    if (settings.contains("Friday")) {
+                        if (settings.getBoolean("Friday", true))
+                            OnOff = true;
+                        else
+                            OnOff = false;
+                    }
+                    break;
+                    case 5:
+                    editor.putString("Day","Saturday.txt" );
+                    if (settings.contains("Saturday")) {
+                        if (settings.getBoolean("Saturday", true))
+                            OnOff = true;
+                        else
+                            OnOff = false;
+                    }
+                    break;
+            }
+               editor.apply();
+            ImageButton imageButton = view.findViewById(R.id.onOff);
+            if(OnOff)
+               imageButton.setImageResource(R.drawable.on);
+            else
+               imageButton.setImageResource(R.drawable.off);
+           }
+
+           @Override
+           public void onPageScrollStateChanged(int state) {
+
+           }
+       });
         TabLayout tabLayout = view.findViewById(R.id.tabLayout4);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setScrollX(tabLayout.getWidth());
@@ -113,7 +198,7 @@ public class ZnonkiFragment extends Fragment {
         Date dateEnd = new Date();
         int Kek = Integer.parseInt(dateEnd.toString().substring(17,19)) - Integer.parseInt(dateStart.toString().substring(17,19));
 
-        Toast.makeText(getActivity(),Integer.toString(Kek),Toast.LENGTH_LONG).show();
+       // Toast.makeText(getActivity(),Integer.toString(Kek),Toast.LENGTH_LONG).show();
         return view;
     }
 

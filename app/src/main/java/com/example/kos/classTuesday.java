@@ -42,31 +42,7 @@ public class classTuesday extends Fragment {
     private   Integer num = 0;
 
     private SharedPreferences settings;
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && (getActivity()!=null)) {
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            if (settings.contains("Tuesday")) {
 
-                ImageButton imageButton = getActivity().findViewById(R.id.onOff);
-                if (settings.getBoolean("Tuesday", true))
-                    imageButton.setImageResource(R.drawable.on);
-                else
-                    imageButton.setImageResource(R.drawable.off);
-
-            }
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("Day","Tuesday.txt" );
-            editor.apply();
-
-
-        }
-
-
-
-
-    }
 
     @Nullable
     @Override

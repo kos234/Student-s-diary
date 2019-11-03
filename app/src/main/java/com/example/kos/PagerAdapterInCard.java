@@ -11,14 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PagerAdapterInCard extends PagerAdapter {
     private List<helperDnewnik> helperDnewniks;
     private Context context;
-    private TableLayout tableLayout;
-    private TableRow tableRow1,tableRow2,tableRow3;
+
 
     public PagerAdapterInCard(List<helperDnewnik> helperDnewniks, Context context) {
         this.helperDnewniks = helperDnewniks;
@@ -51,7 +49,7 @@ public class PagerAdapterInCard extends PagerAdapter {
         String[] temp = help.split("=");
         String[] temp1 = help1.split("=");
         String[] temp2 = help2.split("=");
-        for (int q = 1; q < help.split("=").length; q++){
+        for (int q = 0; q < help.split("=").length; q++){
             TableLayout tableLayout = view.findViewById(R.id.tableDnew);
             LayoutInflater inflater = LayoutInflater.from(view.getContext());
             TableRow tr = (TableRow) inflater.inflate(R.layout.item_table, null);
@@ -60,7 +58,19 @@ public class PagerAdapterInCard extends PagerAdapter {
             Dz = tr.findViewById(R.id.textView1_3_dnev);
             Predmet.setText(temp[q]);
             Kab.setText(temp1[q]);
-            Dz.setText(temp2[q]);
+            String[] temp3 = temp2[q].split("`");
+            String tempik = " ";
+            if (temp3.length == 1)
+            Dz.setText(temp3[0]);
+            else {
+                for (int n = 0; n < temp3.length; n++) {
+                    if(n+1 == temp3.length)
+                        tempik = tempik + temp3[n];
+                        else
+                    tempik = tempik + temp3[n] + "\n";
+                }
+                Dz.setText(tempik);
+            }
             tableLayout.addView(tr);
         }
         NameDay = view.findViewById(R.id.textViewNameDay);

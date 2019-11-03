@@ -40,29 +40,7 @@ public class classFriday extends Fragment {
     private ArrayList<HashMap<String, String>> products = new ArrayList<>();
     private String ZvonOne, ZvonTwo, NameYrok, NumKab;
     private  HashMap<String,String> map;
-    private  Integer num = 0;
-    private SharedPreferences settings;
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && (getActivity()!=null)) {
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            if (settings.contains("Friday")) {
 
-                ImageButton imageButton = getActivity().findViewById(R.id.onOff);
-                if (settings.getBoolean("Friday", true))
-                    imageButton.setImageResource(R.drawable.on);
-                else
-                    imageButton.setImageResource(R.drawable.off);
-
-            }
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("Day","Friday.txt" );
-            editor.apply();
-
-
-        }
-    }
 
     @Nullable
     @Override
@@ -334,8 +312,6 @@ public class classFriday extends Fragment {
         } catch (NullPointerException ignore) {
 
         }
-
-        num = 0;
 
     }
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:id="@+id/OneYrok"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:onClick="ClicksRow"
     android:padding="1dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginRight="1dp"
         android:background="@android:color/white"
@@ -23,27 +23,30 @@
             android:text="TextView"
             android:textColor="@android:color/black"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
         <TextView
             android:id="@+id/textView1_2_dnev"
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="1"
+            android:layout_weight="10"
             android:text="TextView"
             android:textSize="17dp" />
     </LinearLayout>
+
 
     <TextView
         android:id="@+id/textView1_3_dnev"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
         android:layout_weight="1"
         android:background="@android:color/white"
         android:gravity="center"
         android:text="TextView121"
         android:textSize="20dp" />
+
 
 </TableRow>

@@ -39,36 +39,6 @@ public class classWednesday extends Fragment {
     private  ArrayList<HashMap<String, String>> products = new ArrayList<>();
     private  HashMap<String,String> map;
     private String ZvonOne, ZvonTwo, NameYrok, NumKab;
-    private SharedPreferences settings;
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && (getActivity()!=null)) {
-
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            if (settings.contains("Wednesday")) {
-
-                ImageButton imageButton = getActivity().findViewById(R.id.onOff);
-                if (settings.getBoolean("Wednesday", true))
-                {    imageButton.setImageResource(R.drawable.on);
-
-
-                }
-                else {
-
-                    imageButton.setImageResource(R.drawable.off);
-                }
-            }
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("Day","Wednesday.txt" );
-            editor.apply();
-
-        }
-
-
-
-
-    }
 
     @Nullable
     @Override
