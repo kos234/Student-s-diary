@@ -460,6 +460,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void ClickMedia(View view){
+        Uri adress = null;
+        switch (view.getId()){
+            case R.id.Gosha:
+                adress = Uri.parse("https://www.youtube.com/user/PlurrimiTube");
+                break;
+            case R.id.StartAndroid:
+                adress = Uri.parse("https://www.youtube.com/user/vitaxafication");
+                break;
+                case R.id.DevColibri:
+                adress = Uri.parse("https://www.youtube.com/user/devcolibri");
+                break;
+            case R.id.gitHub:
+                adress = Uri.parse("https://github.com/kos234/Student-s-diary");
+                break;
+            case R.id.Gmail:
+                adress = Uri.parse("mailto:kostyaperfiliev94@gmail.com");
+                break;
+            case R.id.vk:
+                adress = Uri.parse("https://vk.com/codename_kos");
+                break;
+             }
+
+             Intent browser= new Intent(Intent.ACTION_VIEW, adress);
+        startActivity(browser);
+    }
+
   class MyThread extends Thread {
         public void run(){
             String Type = null;
