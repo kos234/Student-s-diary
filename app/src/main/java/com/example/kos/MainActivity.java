@@ -12,10 +12,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.BoringLayout;
 import android.view.Gravity;
@@ -55,6 +57,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences prefs = null;
     private  int startNedeli;
     private int startMes;
+    private int what;
     private NotificationManager notificationManager;
     private static final int NOTIFY_ID = 1;
     private static final String CHANNEL_ID = "Novus_Pidor";
@@ -276,15 +280,6 @@ public class MainActivity extends AppCompatActivity {
 
         alertDialog.show();
 
-        /**
-         * Запись в файл какой сейчас день(число позиции) в фрагменте дневника
-         * Тут это надо будет прочитать
-         * Старт недели, месяц и год взять от туда же
-         * прибавить к старту недели позицию фрагмента
-         * открыть Gui редактирования с уже введенными данными!
-         * Как-то обновить )
-         * И добавить кучу багов
-         */
 
     }
     class ReloadAsyncTask extends AsyncTask<Void,Void,Void> {
@@ -464,28 +459,43 @@ public class MainActivity extends AppCompatActivity {
         Uri adress = null;
         switch (view.getId()){
             case R.id.Gosha:
+                if(what == R.id.vk)
+                    what = R.id.Gosha;
                 adress = Uri.parse("https://www.youtube.com/user/PlurrimiTube");
                 break;
             case R.id.StartAndroid:
+                if(what == R.id.gitHub)
+                    what = R.id.StartAndroid;
                 adress = Uri.parse("https://www.youtube.com/user/vitaxafication");
                 break;
                 case R.id.DevColibri:
-                adress = Uri.parse("https://www.youtube.com/user/devcolibri");
+                    if(what == R.id.Gmail)
+                        what = R.id.DevColibri;
+               // adress = Uri.parse("https://www.youtube.com/user/devcolibri");
                 break;
             case R.id.gitHub:
+                what = R.id.gitHub;
                 adress = Uri.parse("https://github.com/kos234/Student-s-diary");
                 break;
             case R.id.Gmail:
+                if(what == R.id.Gosha)
+                    what = R.id.Gmail;
                 adress = Uri.parse("mailto:kostyaperfiliev94@gmail.com");
                 break;
             case R.id.vk:
+                if(what == R.id.StartAndroid)
+                    what = R.id.vk;
                 adress = Uri.parse("https://vk.com/codename_kos");
                 break;
              }
-
+             if(what == R.id.DevColibri) {
+                 MediaPlayer aud = MediaPlayer.create(context, R.raw.ice);
+                 aud.start();
+                 SystemClock.sleep(1000);
+             }else{
              Intent browser= new Intent(Intent.ACTION_VIEW, adress);
         startActivity(browser);
-    }
+    }}
 
   class MyThread extends Thread {
         public void run(){

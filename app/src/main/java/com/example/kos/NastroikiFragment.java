@@ -29,7 +29,12 @@ public class NastroikiFragment extends Fragment {
                 ((MainActivity) getActivity()).openDrawer();
             }
         });
-
+/**
+ * Стили
+ * Анимации
+ * Уведомления
+ *
+ */
 
         return view;
     }

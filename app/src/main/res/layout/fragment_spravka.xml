@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Данное приложение является проектом ученика, МБОУ Гимназии №25 города Иркутска, Молоцило Константина за 9 класс"
+            android:text="Данное приложение является проектом ученика 9 'Б', МБОУ Гимназии №25 города Иркутска, Молоцило Константина за 9 класс"
             android:textSize="20dp" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Код приложения находится в открытом доступе на GitHub"
+            android:text="Исходный код приложения находится в открытом доступе на GitHub"
             android:textSize="20dp" />
         <TextView
             android:layout_marginTop="10dp"
@@ -53,20 +53,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Также если вы хотите помочь мне с переводом на любой язык или у вас возникли какие-то вопросы, то вы знаете куда писать"
-            android:textSize="20dp" />
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Хочу выразить огромную благодарность: Гоше Дударю, проектам “Start Android” и “DevColibri”, а также людям со StackOverflow, которые помогали мне в отладке приложения"
+            android:layout_marginBottom="10dp"
+            android:text="Также если вы хотите помочь мне с переводом на любой язык или у вас возникли какие-то вопросы, вы знаете куда писать"
             android:textSize="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gitHub"
+                android:onClick="ClickMedia"
+                android:src="@drawable/ic_iconfinder_mark_github_298822"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Gmail"
+                android:layout_marginRight="40dp"
+                android:onClick="ClickMedia"
+                android:layout_marginLeft="40dp"
+                android:src="@drawable/ic_iconfinder_gmail_1220367"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="ClickMedia"
+                android:id="@+id/vk"
+                android:src="@drawable/ic_iconfinder_vk_834714"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Хочу выразить огромную благодарность: Гоше Дударю, проектам ЭStart Android” и “DevColibri”, а также людям со StackOverflow, которые помогали мне в отладке кода"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
             <ImageView
@@ -91,41 +123,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_iconfinder_youtube_317714"/></LinearLayout>
 
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Автор: "
-            android:textSize="20dp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/gitHub"
-        android:onClick="ClickMedia"
-        android:src="@drawable/ic_iconfinder_mark_github_298822"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Gmail"
-            android:layout_marginRight="40dp"
-            android:onClick="ClickMedia"
-            android:layout_marginLeft="40dp"
-            android:src="@drawable/ic_iconfinder_gmail_1220367"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="ClickMedia"
-            android:id="@+id/vk"
-            android:src="@drawable/ic_iconfinder_vk_834714"/>
-    </LinearLayout>
+
 
 </LinearLayout>
 </ScrollView>
