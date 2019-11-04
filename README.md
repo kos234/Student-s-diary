@@ -5,4 +5,4 @@ Already done:Block "Diary", Block "Schedule",Block "Help", Block "Teachers", dis
 In process: Create and configure: 
 block "Assessments", Adding AM PM support, choice between the school room and the audience, replace PNG icons with vector icons
 
-The current version can be found at this link: https://drive.google.com/file/d/1-E6KoqHvPr-YGc2DYyvSsFrr7pGf_4s2/view?usp=sharing
+The current version can be found at this link: https://drive.google.com/file/d/1gkj9qE3JqzjByLkjPp1W4DKXkAzvx-vL/view?usp=sharing
