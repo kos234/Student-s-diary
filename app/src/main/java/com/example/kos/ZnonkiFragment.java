@@ -21,10 +21,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -422,6 +424,7 @@ public class ZnonkiFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener()  {
                                       @Override
                                       public void onClick(View view) {
+
                                           final LayoutInflater li = LayoutInflater.from(context);
                                           View promptsView = li.inflate(R.layout.prompt , null);
                                           final AlertDialog.Builder newzvonok = new AlertDialog.Builder(context);
@@ -430,6 +433,12 @@ public class ZnonkiFragment extends Fragment {
                                           final EditText zvonoktwo = promptsView.findViewById(R.id.timeEnd);
                                           final EditText Yrok = promptsView.findViewById(R.id.nameYrok);
                                           final EditText Kab = promptsView.findViewById(R.id.numKab);
+                                          final Spinner spinner = (Spinner) promptsView.findViewById(R.id.spinner);
+                                          List<String> choose = new ArrayList<String>();
+                                          choose.add("Кабинет");
+                                          choose.add("Аудитория");
+                                          ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>  (getActivity(),R.layout.spinner_list, choose);
+                                          spinner.setAdapter(dataAdapter);
                                           newzvonok
                                                   .setCancelable(true)
                                                   .setPositiveButton("Добавить",
@@ -476,7 +485,7 @@ public class ZnonkiFragment extends Fragment {
                                                                                           throw new Povtor("Lisa I love you", 1);
                                                                                       }
                                                                                       if(Integer.parseInt(help[0].substring(0,2)) > ZvonOneOne   && Zapic) {
-                                                                                          stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab).append(("\n")).append(temp_read).append(("\n"));
+                                                                                          stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab).append(("\n")).append(temp_read).append(("\n"));
                                                                                       Zapic = false;
 
                                                                                       } else
@@ -488,7 +497,7 @@ public class ZnonkiFragment extends Fragment {
                                                                                   e.printStackTrace();
                                                                               }
                                                                                 if (Zapic)
-                                                                                    stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab);
+                                                                                    stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab);
                                                                               try {
                                                                                   FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
                                                                                   String temp_write = stringBuffer.toString();
