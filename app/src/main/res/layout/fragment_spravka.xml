@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Данное приложение является проектом ученика 9 'Б', МБОУ Гимназии №25 города Иркутска, Молоцило Константина за 9 класс"
+            android:text="Данное приложение является проектом ученика 9 'Б' класса, МБОУ Гимназии №25 города Иркутска, Молоцило Константина за 9 класс"
             android:textSize="20dp" />
 
         <TextView

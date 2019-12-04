@@ -17,9 +17,9 @@ android:layout_marginLeft="10dp"
         android:id="@+id/textView1_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Русский язык №36"
-android:layout_marginLeft="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginBottom="5dp"
+        android:text="null"
         android:textColor="@android:color/darker_gray"
         android:textSize="18dp"></TextView>
 </LinearLayout>

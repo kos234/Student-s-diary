@@ -62,7 +62,7 @@ public class ZnonkiFragment extends Fragment {
         Date dateStart = new Date();
         settings = getActivity().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
         final androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.menu));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,9 +147,9 @@ public class ZnonkiFragment extends Fragment {
                editor.apply();
             ImageButton imageButton = view.findViewById(R.id.onOff);
             if(OnOff)
-               imageButton.setImageResource(R.drawable.on);
+               imageButton.setImageResource(R.drawable.ic_power_settings_new_24px);
             else
-               imageButton.setImageResource(R.drawable.off);
+               imageButton.setImageResource(R.drawable.ic_power_settings_new_red_24px);
            }
 
            @Override
@@ -236,12 +236,12 @@ public class ZnonkiFragment extends Fragment {
                 switch (url) {
                     case "Monday.txt":
                         if (settings.getBoolean("Monday", true)) {
-                            OnOff.setImageResource(R.drawable.off);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Monday", false);
                             editor.apply();
                         }else {
-                            OnOff.setImageResource(R.drawable.on);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Monday",true);
                             editor.apply();
@@ -250,12 +250,12 @@ public class ZnonkiFragment extends Fragment {
                         break;
                     case "Tuesday.txt":
                         if (settings.getBoolean("Tuesday", true)) {
-                            OnOff.setImageResource(R.drawable.off);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Tuesday", false);
                             editor.apply();
                         }else {
-                            OnOff.setImageResource(R.drawable.on);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Tuesday",true);
                             editor.apply();
@@ -264,12 +264,12 @@ public class ZnonkiFragment extends Fragment {
                         break;
                     case "Wednesday.txt":
                         if (settings.getBoolean("Wednesday", true)) {
-                            OnOff.setImageResource(R.drawable.off);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Wednesday", false);
                             editor.apply();
                         }else {
-                            OnOff.setImageResource(R.drawable.on);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Wednesday",true);
                             editor.apply();
@@ -278,12 +278,12 @@ public class ZnonkiFragment extends Fragment {
                         break;
                     case "Thursday.txt":
                         if (settings.getBoolean("Thursday", true)) {
-                            OnOff.setImageResource(R.drawable.off);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Thursday", false);
                             editor.apply();
                         }else {
-                            OnOff.setImageResource(R.drawable.on);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Thursday",true);
                             editor.apply();
@@ -292,12 +292,12 @@ public class ZnonkiFragment extends Fragment {
                         break;
                     case "Friday.txt":
                         if (settings.getBoolean("Friday", true)) {
-                            OnOff.setImageResource(R.drawable.off);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Friday", false);
                             editor.apply();
                         }else {
-                            OnOff.setImageResource(R.drawable.on);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Friday",true);
                             editor.apply();
@@ -306,12 +306,12 @@ public class ZnonkiFragment extends Fragment {
                         break;
                     case "Saturday.txt":
                         if (settings.getBoolean("Saturday", true)) {
-                            OnOff.setImageResource(R.drawable.off);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Saturday", false);
                             editor.apply();
                         }else {
-                            OnOff.setImageResource(R.drawable.on);
+                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("Saturday",true);
                             editor.apply();

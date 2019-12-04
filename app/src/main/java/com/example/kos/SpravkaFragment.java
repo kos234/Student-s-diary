@@ -23,7 +23,7 @@ public class SpravkaFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_spravka, container, false);
 
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar5);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.menu));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

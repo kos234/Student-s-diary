@@ -58,7 +58,7 @@ public class YchiteliaFragment extends Fragment {
         final View viewFragment =  inflater.inflate(R.layout.fragment_ychitelia, container,false);
 
         androidx.appcompat.widget.Toolbar toolbar = viewFragment.findViewById(R.id.toolbarPrepod);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.menu));
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

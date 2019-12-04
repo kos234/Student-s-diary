@@ -4,30 +4,30 @@
     <group android:checkableBehavior="single">
 <item
     android:id="@+id/Dnevnik"
-    android:icon="@drawable/book"
+    android:icon="@drawable/ic_menu_book_24px"
     android:title="Дневник"
     />
     <item
         android:id="@+id/Zvonki"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_notifications_24px"
         android:title="Расписание" />
     <item
         android:id="@+id/Ychetel"
-        android:icon="@drawable/group"
+        android:icon="@drawable/ic_group_24px"
         android:title="Учителя"
         />    <item
         android:id="@+id/Ocenki"
-        android:icon="@drawable/ocenki"
+        android:icon="@drawable/ic_assessment_24px"
         android:title="Оценки"
         />
     <item
         android:id="@+id/Nastroiki"
-        android:icon="@drawable/settings"
+        android:icon="@drawable/ic_settings_applications_24px"
         android:title="Настройки"
         />
     <item
         android:id="@+id/Spravka"
-        android:icon="@drawable/ic_help_black_24dp"
+        android:icon="@drawable/ic_help_24px"
         android:title="Справка"
         />
     </group>

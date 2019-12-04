@@ -44,13 +44,14 @@
     </com.google.android.material.tabs.TabLayout>
 
     <ImageButton
-        android:layout_margin="16dp"
         android:id="@+id/onOff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_gravity="right"
+        android:scaleType="fitStart"
+        android:layout_margin="13dp"
         android:background="@null"
-        app:srcCompat="@drawable/on" />
+        android:src="@drawable/ic_power_settings_new_24px" />
 
    <androidx.viewpager.widget.ViewPager
         android:id="@+id/rager"
