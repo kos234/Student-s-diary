@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Дневник ученика</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="monday">Понедельник</string>
+    <string name="tuesday">Вторник</string>
+    <string name="wednesday">Среда</string>
+    <string name="thursday">Четверг</string>
+    <string name="friday">Пятница</string>
+    <string name="saturday">Суббота</string>
+    <string name="buttonClearAll">Полная очистка</string>
+    <string name="buttonClearDz">Удаление домашнего задания</string>
+    <string name="cancel">Отмена</string>
+    <string name="clearWeek">Очиста текущей недели</string>
+    <string name="save">Сохранить</string>
+    <string name="lessonTitle">Название предмета</string>
+    <string name="lessonExample">Русский язык</string>
+    <string name="homework">Домашнее задание</string>
+    <string name="homeworkExample">№123</string>
+</resources>

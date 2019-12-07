@@ -64,7 +64,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="#00AF7F7F"
         android:text="Время конца урока:"
         android:textAlignment="center"
         android:textSize="19dp"
@@ -85,6 +84,7 @@
         <requestFocus />
     </EditText>
     </org.apmem.tools.layouts.FlowLayout>
+
 
     <org.apmem.tools.layouts.FlowLayout
         android:layout_width="fill_parent"

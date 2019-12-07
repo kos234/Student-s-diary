@@ -63,7 +63,7 @@ public class DnewnikFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dnewnik, container, false);
         linearLayout = view.findViewById(R.id.LinerTask);
@@ -85,26 +85,26 @@ public class DnewnikFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
-                deleted.setMessage("Очистить вместе с записями домашнего задания расписание?").setCancelable(true).setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                deleted.setCancelable(true).setPositiveButton(context.getString(R.string.buttonClearAll), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int l) {
                        new ClearAllAsyncTask().execute();
                     }
                 })
-                        .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(context.getString(R.string.buttonClearDz), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int l) {
                        new ClearDzAsyncTask().execute();
                     }
                 })
-                        .setNeutralButton("Отмена", new DialogInterface.OnClickListener() {
+                        .setNeutralButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
                     }
                 });
                 AlertDialog alertDialog = deleted.create();
-                alertDialog.setTitle("Очиста текущей недели");
+                alertDialog.setTitle(context.getString(R.string.clearWeek));
                 alertDialog.show();
             }
         });
@@ -157,8 +157,6 @@ public class DnewnikFragment extends Fragment {
             super.onPostExecute(aVoid);
             settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
             final SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("Card",0);
-            editor.apply();
             final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -197,34 +195,30 @@ helperDnewniks.clear();
                 String ulrTwo;
 
                 switch (i){
-                    case 0:
-                        ulrTwo = "Monday.txt";
-                        nameDay = "Понедельник";
-                        break;
                     case 1:
                         ulrTwo = "Tuesday.txt";
-                        nameDay = "Вторник";
+                        nameDay = context.getString(R.string.tuesday);
                         break;
                     case 2:
                         ulrTwo = "Wednesday.txt";
-                        nameDay = "Среда";
+                        nameDay = context.getString(R.string.wednesday);
                         break;
                     case 3:
                         ulrTwo = "Thursday.txt";
-                        nameDay = "Четверг";
+                        nameDay = context.getString(R.string.thursday);
                         break;
                     case 4:
                         ulrTwo = "Friday.txt";
-                        nameDay = "Пятница";
+                        nameDay = context.getString(R.string.friday);
                         break;
                     case 5:
                         ulrTwo = "Saturday.txt";
-                        nameDay = "Суббота";
+                        nameDay = context.getString(R.string.saturday);
                         break;
 
                     default:
                         ulrTwo = "Monday.txt";
-                        nameDay = "Понедельник";
+                        nameDay = context.getString(R.string.monday);
                         break;
                 }
                     StringBuffer stringBuffer = new StringBuffer();
@@ -290,8 +284,6 @@ helperDnewniks.clear();
             super.onPostExecute(aVoid);
             settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
             final SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("Card",0);
-            editor.apply();
             final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -556,34 +548,30 @@ helperDnewniks.clear();
                 String ulrTwo;
 
                 switch (i){
-                    case 0:
-                        ulrTwo = "Monday.txt";
-                        nameDay = "Понедельник";
-                        break;
                     case 1:
                         ulrTwo = "Tuesday.txt";
-                        nameDay = "Вторник";
+                        nameDay = context.getString(R.string.tuesday);
                         break;
                     case 2:
                         ulrTwo = "Wednesday.txt";
-                        nameDay = "Среда";
+                        nameDay = context.getString(R.string.wednesday);
                         break;
                     case 3:
                         ulrTwo = "Thursday.txt";
-                        nameDay = "Четверг";
+                        nameDay = context.getString(R.string.thursday);
                         break;
                     case 4:
                         ulrTwo = "Friday.txt";
-                        nameDay = "Пятница";
+                        nameDay = context.getString(R.string.friday);
                         break;
                     case 5:
                         ulrTwo = "Saturday.txt";
-                        nameDay = "Суббота";
+                        nameDay = context.getString(R.string.saturday);
                         break;
 
                     default:
                         ulrTwo = "Monday.txt";
-                        nameDay = "Понедельник";
+                        nameDay = context.getString(R.string.monday);
                         break;
                 }
                 try {
@@ -689,8 +677,6 @@ helperDnewniks.clear();
             super.onPostExecute(aVoid);
             settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
             final SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("Card",0);
-            editor.apply();
             final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -954,34 +940,30 @@ helperDnewniks.clear();
                 String ulrTwo;
 
                 switch (i){
-                    case 0:
-                        ulrTwo = "Monday.txt";
-                        nameDay = "Понедельник";
-                        break;
                     case 1:
                         ulrTwo = "Tuesday.txt";
-                        nameDay = "Вторник";
+                        nameDay = context.getString(R.string.tuesday);
                         break;
                     case 2:
                         ulrTwo = "Wednesday.txt";
-                        nameDay = "Среда";
+                        nameDay = context.getString(R.string.wednesday);
                         break;
                     case 3:
                         ulrTwo = "Thursday.txt";
-                        nameDay = "Четверг";
+                        nameDay = context.getString(R.string.thursday);
                         break;
                     case 4:
                         ulrTwo = "Friday.txt";
-                        nameDay = "Пятница";
+                        nameDay = context.getString(R.string.friday);
                         break;
                     case 5:
                         ulrTwo = "Saturday.txt";
-                        nameDay = "Суббота";
+                        nameDay = context.getString(R.string.saturday);
                         break;
 
                     default:
                         ulrTwo = "Monday.txt";
-                        nameDay = "Понедельник";
+                        nameDay = context.getString(R.string.monday);
                         break;
                 }
                 try {
@@ -1087,8 +1069,6 @@ helperDnewniks.clear();
             super.onPostExecute(aVoid);
             settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
             final SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("Card",0);
-            editor.apply();
             final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -1128,23 +1108,23 @@ helperDnewniks.clear();
 
                 switch (i){
                     case 1:
-                        nameDay = "Вторник";
+                        nameDay = context.getString(R.string.tuesday);
                         break;
                     case 2:
-                        nameDay = "Среда";
+                        nameDay = context.getString(R.string.wednesday);
                         break;
                     case 3:
-                        nameDay = "Четверг";
+                        nameDay = context.getString(R.string.thursday);
                         break;
                     case 4:
-                        nameDay = "Пятница";
+                        nameDay = context.getString(R.string.friday);
                         break;
                     case 5:
-                        nameDay = "Суббота";
+                        nameDay = context.getString(R.string.saturday);
                         break;
 
                     default:
-                        nameDay = "Понедельник";
+                        nameDay = context.getString(R.string.monday);
                         break;
                 }
                 StringBuffer stringBuffer = new StringBuffer();
@@ -1213,8 +1193,6 @@ helperDnewniks.clear();
             super.onPostExecute(aVoid);
             settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
             final SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("Card",0);
-            editor.apply();
             final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -2539,35 +2517,35 @@ helperDnewniks.clear();
             editor.apply();
             for (int i = 0; i < 6; i++){
                 String url = (startNedeli + i) + "." + startMes + "." + date.getYear();
-                String nameDay = "Понедельник";
-                String ulrTwo = "Monday.txt";
+                String nameDay ;
+                String ulrTwo ;
 
                 switch (i){
-                    case 0:
-                        ulrTwo = "Monday.txt";
-                        nameDay = "Понедельник";
-                        break;
                     case 1:
                         ulrTwo = "Tuesday.txt";
-                        nameDay = "Вторник";
+                        nameDay = context.getString(R.string.tuesday);
                         break;
                     case 2:
                         ulrTwo = "Wednesday.txt";
-                        nameDay = "Среда";
+                        nameDay = context.getString(R.string.wednesday);
                         break;
                     case 3:
                         ulrTwo = "Thursday.txt";
-                        nameDay = "Четверг";
+                        nameDay = context.getString(R.string.thursday);
                         break;
                     case 4:
                         ulrTwo = "Friday.txt";
-                        nameDay = "Пятница";
+                        nameDay = context.getString(R.string.friday);
                         break;
                     case 5:
                         ulrTwo = "Saturday.txt";
-                        nameDay = "Суббота";
+                        nameDay = context.getString(R.string.saturday);
                         break;
 
+                    default:
+                        ulrTwo = "Monday.txt";
+                        nameDay = context.getString(R.string.monday);
+                        break;
                 }
                 try {
                     FileInputStream read =  getActivity().openFileInput(url);

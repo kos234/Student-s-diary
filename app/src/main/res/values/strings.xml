@@ -1,9 +1,20 @@
 <resources>
-    <string name="app_name">Звонки</string>
+    <string name="app_name">Student\'s diary</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-
-
-
-
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="buttonClearAll">Сomplete cleaning</string>
+    <string name="buttonClearDz">Delegation homework</string>
+    <string name="cancel">Cancel</string>
+    <string name="clearWeek">Clean up the current week</string>
+    <string name="save">Save</string>
+    <string name="lessonTitle">Lesson title</string>
+    <string name="lessonExample">English language</string>
+    <string name="homework">Homework</string>
+    <string name="homeworkExample">№123</string>
 </resources>

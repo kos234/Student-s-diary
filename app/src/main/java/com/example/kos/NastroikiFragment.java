@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.TextView;
 
 
 public class NastroikiFragment extends Fragment {
@@ -35,6 +35,13 @@ public class NastroikiFragment extends Fragment {
  * Уведомления
  *
  */
+        final TextView textView = view.findViewById(R.id.textviewSettings);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textView.setText("SSSSS");
+            }
+        });
 
         return view;
     }

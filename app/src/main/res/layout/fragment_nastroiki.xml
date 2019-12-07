@@ -17,6 +17,7 @@
         android:theme="?attr/actionBarTheme" />
 
     <TextView
+        android:id="@+id/textviewSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="?attr/actionBarSize"

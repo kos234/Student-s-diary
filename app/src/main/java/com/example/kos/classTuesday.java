@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -54,9 +57,8 @@ public class classTuesday extends Fragment {
                 new String[]{"Times", "Kab"},
                 new int[]{R.id.textView1, R.id.textView1_2});
         lvMain.setAdapter(adapter);
-        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+        lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 final TextView textView = view.findViewById(R.id.textView1);
                 AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
@@ -123,11 +125,13 @@ public class classTuesday extends Fragment {
                 AlertDialog alertDialog = deleted.create();
                 alertDialog.setTitle("Удаление урока");
                 alertDialog.show();
+                return true;
             }
         });
-        lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
                 TextView textViewZvon = view.findViewById(R.id.textView1);
                 final TextView textViewKab = view.findViewById(R.id.textView1_2);
                 final LayoutInflater li = LayoutInflater.from(getActivity());
@@ -139,14 +143,27 @@ public class classTuesday extends Fragment {
                 final TextView textView = promptsView.findViewById(R.id.textView2);
                 final EditText Yrok = promptsView.findViewById(R.id.nameYrok);
                 final EditText Kab = promptsView.findViewById(R.id.numKab);
-                final String[] help,helpop ;
+                final String[] help,helpop,helpyrok;
                 help = textViewZvon.getText().toString().split("-");
                 zvonokone.setText(help[0].substring(0,5));
                 zvonoktwo.setText(help[1].substring(1));
                 helpop = textViewKab.getText().toString().split(",");
                 Yrok.setText(helpop[0]);
-                Kab.setText(helpop[1].substring(10));
-                textView.setText("Изменение урока/пары");
+                helpyrok = helpop[1].split("№");
+                Kab.setText(helpyrok[1]);
+                final Spinner spinner = promptsView.findViewById(R.id.spinner);
+                List<String> choose = new ArrayList<String>();
+                if(helpyrok[0].equals(" " +"Кабинет" + " " )) {
+                    textView.setText("Изменение урока");
+                    choose.add("Кабинет");
+                    choose.add("Аудитория");
+                }else{
+                    textView.setText("Изменение пары");
+                    choose.add("Аудитория");
+                    choose.add("Урок");
+                }
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>  (getActivity(),R.layout.spinner_list, choose);
+                spinner.setAdapter(dataAdapter);
                 newzvonok
                         .setCancelable(true)
                         .setPositiveButton("Редактировать",
@@ -205,22 +222,26 @@ public class classTuesday extends Fragment {
                                                             e.printStackTrace();
                                                         }
 
-                                                        String[] mas = stringBuffered.toString().split("~");
-                                                        for (int i = 0; i < mas.length; i++) {
-                                                            String[] helping ;
-                                                            helping = mas[i].split("=");
-                                                            if((Integer.parseInt(helping[0].substring(0,2)) == ZvonOneOne && Integer.parseInt(helping[0].substring(3,5)) == ZvonOneTwo) || (Integer.parseInt(helping[0].substring(8,10)) == ZvonTwoOne && Integer.parseInt(helping[0].substring(11)) == ZvonTwoTwo)) {
-                                                                throw new Povtor("Syko blyat", 1);
-                                                            }
-                                                            if(Integer.parseInt(helping[0].substring(0,2)) > ZvonOneOne   && Zapic) {
-                                                                stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab).append(("\n")).append(mas[i]).append(("\n"));
-                                                                Zapic = false;
+                                                        if(!stringBuffered.toString().equals("")) {
+                                                            String[] mas = stringBuffered.toString().split("~");
+                                                            for (int i = 0; i < mas.length; i++) {
+                                                                String[] helping;
+                                                                helping = mas[i].split("=");
+                                                                if ((Integer.parseInt(helping[0].substring(0, 2)) == ZvonOneOne && Integer.parseInt(helping[0].substring(3, 5)) == ZvonOneTwo) || (Integer.parseInt(helping[0].substring(8, 10)) == ZvonTwoOne && Integer.parseInt(helping[0].substring(11)) == ZvonTwoTwo)) {
+                                                                    throw new Povtor("Syko blyat", 1);
+                                                                }
+                                                                if (Integer.parseInt(helping[0].substring(0, 2)) > ZvonOneOne && Zapic) {
+                                                                    stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab).append(("\n")).append(mas[i]).append(("\n"));
+                                                                    Zapic = false;
 
-                                                            } else
-                                                                stringBuffer.append(mas[i]).append(("\n"));
+                                                                } else
+                                                                    stringBuffer.append(mas[i]).append(("\n"));
+                                                            }
+
                                                         }
                                                         if (Zapic)
-                                                            stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", Кабинет №" + NumKab);
+                                                            stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab);
+
                                                         try {
                                                             FileOutputStream write =  getActivity().openFileOutput("Tuesday.txt", getActivity().MODE_PRIVATE);
                                                             String temp_write = stringBuffer.toString();
@@ -268,7 +289,6 @@ public class classTuesday extends Fragment {
                 alertDialog.show();
 
 
-                return true;
             }
         });
         return viewGroup;

@@ -1,38 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:padding="10dp"
     android:layout_height="match_parent">
 
     <TextView
-        android:gravity="center"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Редактирование"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/homework"
         android:textColor="@android:color/black"
-        android:textSize="24dp"
-        android:textStyle="bold"/>
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <org.apmem.tools.layouts.FlowLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:layout_marginRight="10dp">
 
     <TextView
-        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00AF7F7F"
+        android:text="@string/lessonTitle"
+        android:textSize="19dp"
+        />
+    <TextView
+        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textViewNameYrok"
         android:textColor="@android:color/black"
-        android:textSize="20dp"
+        android:textSize="19dp"
+        android:hint="@string/lessonExample"
         />
-
-
-    <EditText
-        android:layout_marginTop="10dp"
-        android:id="@+id/textEdit"
-        android:layout_width="match_parent"
+    </org.apmem.tools.layouts.FlowLayout>
+    <org.apmem.tools.layouts.FlowLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Домашнее задание"
-        android:gravity="start|top"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:layout_marginRight="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#00AF7F7F"
+        android:text="@string/homework"
+        android:textSize="19dp"
+        />
+    <EditText
+        android:layout_marginLeft="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/textEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/homeworkExample"
+        android:textSize="19dp"
         android:inputType="textMultiLine" />
+    </org.apmem.tools.layouts.FlowLayout>
 </LinearLayout>

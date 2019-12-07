@@ -1,7 +1,6 @@
 package com.example.kos;
 
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,45 +10,29 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.text.BoringLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -57,10 +40,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static android.app.NotificationManager.IMPORTANCE_HIGH;
 
@@ -68,17 +48,13 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
     final Context context = this;
-    private List<helperDnewnik> helperDnewniks = new ArrayList<>();
     private SharedPreferences settings;
     private SharedPreferences prefs = null;
-    private  int startNedeli;
-    private int startMes;
     private int what;
     private NotificationManager notificationManager;
     private static final int NOTIFY_ID = 1;
     private static final String CHANNEL_ID = "Novus_Pidor";
     private String url;
-    private LinearLayout linearLayout;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -186,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
     public void ClicksRow(final View view){
         TextView textViewName = view.findViewById(R.id.textView1_1_dnev);
         TextView textViewKab = view.findViewById(R.id.textView1_2_dnev);
+        final TextView textViewDz = view.findViewById(R.id.textView1_3_dnev);
        url = (settings.getInt("StartNedeli",1) + settings.getInt("Card",1)) + "." + settings.getInt("IntMes",1) + "." + settings.getInt("Year",1);
        final StringBuffer stringBuffer = new StringBuffer();
        String[] helpKab, finalHelp = new String[1];
@@ -226,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             String[] temp3 = finalHelp[1].split("`");
             String tempik = " ";
             if (temp3.length == 1)
-                editText.setText(temp3[0]);
+                editText.setText(temp3[0]);   //ssssssssssssssssssssssssssssssssssssssssssssssss
             else {
                 for (int n = 0; n < temp3.length; n++) {
                     if(n+1 == temp3.length)
@@ -238,14 +215,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         helpKab = finalHelp[0].split(",");
-        textView.setText(helpKab[0] + ":");
+        textView.setText(helpKab[0]);
         AlertDialog.Builder Zapic = new AlertDialog.Builder(context);
        final String[] finalHelp1 = finalHelp;
         final String[] tempbuffer = stringBuffer.toString().split("~");
         final int finalI = i;
-        Zapic.setView(promptsView).setCancelable(true).setPositiveButton("Сохранить", new DialogInterface.OnClickListener() {
+        Zapic.setView(promptsView).setCancelable(true).setPositiveButton(context.getString(R.string.save), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int p) {
+                textViewDz.setText(editText.getText());
                 for (int j=1; j <= tempbuffer.length; j++){
                     if(j == finalI) {
                         String[] reject = editText.getText().toString().split("\n");
@@ -270,8 +248,6 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                linearLayout = findViewById(R.id.LinerTask);
-                new ReloadAsyncTask().execute();
             }
         });
         AlertDialog alertDialog = Zapic.create();
@@ -282,138 +258,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    class ReloadAsyncTask extends AsyncTask<Void,Void,Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.gravity = Gravity.CENTER;
-            linearLayout.removeAllViews();
-            ProgressBar progressBar = new ProgressBar(context);
-            linearLayout.addView(progressBar, layoutParams);
 
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            settings = getSharedPreferences("Settings", MODE_PRIVATE);
-            final SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("Card",0);
-            editor.apply();
-            final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.gravity = Gravity.CENTER;
-            linearLayout.removeAllViews();
-            final ViewPager viewPager = new ViewPager(context);
-            viewPager.setAdapter(pagerAdapterInCard);
-            viewPager.setClipToPadding(false);
-            viewPager.setPadding(120, 0, 120, 0);
-            viewPager.setPageMargin(60);
-            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-
-                    editor.putInt("Card",position);
-                    editor.apply();
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-            linearLayout.addView(viewPager,layoutParams);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            helperDnewniks.clear();
-            startNedeli = settings.getInt("StartNedeli",1);
-            startMes = settings.getInt("IntMes",1);
-            for (int i = 0; i < 6; i++){
-                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
-                String nameDay;
-
-                switch (i){
-                    case 1:
-                        nameDay = "Вторник";
-                        break;
-                    case 2:
-                        nameDay = "Среда";
-                        break;
-                    case 3:
-                        nameDay = "Четверг";
-                        break;
-                    case 4:
-                        nameDay = "Пятница";
-                        break;
-                    case 5:
-                        nameDay = "Суббота";
-                        break;
-
-                    default:
-                        nameDay = "Понедельник";
-                        break;
-                }
-                try {
-                    FileInputStream read = openFileInput(url);
-                    InputStreamReader reader = new InputStreamReader(read);
-                    BufferedReader bufferedReader = new BufferedReader(reader);
-                    String temp_read,helpZapis = "", helpZapis2 = "",helpZapis3 = "";
-                    String[] help, helpKab;
-                    String delimeter = "=";
-                    if((temp_read = bufferedReader.readLine()) == null){
-                        throw new FileNotFoundException();
-                    }else{
-                        help = temp_read.split(delimeter);
-                        helpKab = help[0].split(",");
-                        helpZapis = helpKab[0]+ "=";
-                        helpZapis2 = helpKab[1].substring(1)+ "=";
-                        helpZapis3 = helpZapis3 + " =";
-                    }
-                    while ((temp_read = bufferedReader.readLine()) != null) {
-                        help = temp_read.split(delimeter);
-
-                        helpKab = help[0].split(",");
-
-
-                        helpZapis = helpZapis  + helpKab[0]+ "=";
-                        helpZapis2 = helpZapis2  + helpKab[1].substring(1)+ "=";
-                        if (2 <= help.length)
-                            helpZapis3 = helpZapis3 + help[1]+ "=";
-                        else
-                            helpZapis3 = helpZapis3 + " =";
-                    }
-                    helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
-
-                } catch (FileNotFoundException e) {}
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-    }
     @Override
     protected void onResume() {
         super.onResume();
-//        try {
-//            FileInputStream read = openFileInput("11.10-12.10.txt");
-//            InputStreamReader reader = new InputStreamReader(read);
-//            BufferedReader bufferedReader = new BufferedReader(reader);
-//            String temp_read, temp;
-//            while ((temp_read = bufferedReader.readLine()) != null) {}
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         if (prefs.getBoolean("firstrun", true)) {
             settings = getSharedPreferences("Settings", MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();

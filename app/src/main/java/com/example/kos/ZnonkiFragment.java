@@ -449,7 +449,15 @@ public class ZnonkiFragment extends Fragment {
                                                                   ZvonTwo = zvonoktwo.getText().toString();
                                                                   NameYrok = Yrok.getText().toString();
                                                                   NumKab = Kab.getText().toString();
-                                                                  if (ZvonOne.length() == 5 && ZvonTwo.length() == 5 && NameYrok.length() > 0 && NumKab.length() > 0){
+                                                                  if ((ZvonOne.length() == 5 || ZvonOne.equals("")) && (ZvonTwo.length() == 5 || ZvonTwo.equals(""))){
+                                                                      if(ZvonOne.equals(""))
+                                                                          ZvonOne = "08:00";
+                                                                      if(ZvonTwo.equals(""))
+                                                                          ZvonTwo = "08:40";
+                                                                      if(NameYrok.equals(""))
+                                                                          NameYrok = "Математика";
+                                                                      if(NumKab.equals(""))
+                                                                          NumKab = "5";
                                                                       int ZvonOneOne = 666;
                                                                       int ZvonOneTwo = 666;
                                                                       int ZvonTwoOne = 666;
