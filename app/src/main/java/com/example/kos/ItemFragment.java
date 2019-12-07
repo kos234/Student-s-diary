@@ -1,8 +1,9 @@
 package com.example.kos;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -35,22 +35,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
 
-
-public class classFriday extends Fragment {
+public class ItemFragment extends Fragment {
     private ListView lvMain;
     private ArrayList<HashMap<String, String>> products = new ArrayList<>();
     private String ZvonOne, ZvonTwo, NameYrok, NumKab;
     private  HashMap<String,String> map;
+    private String url;
+    private Context context;
+    public ItemFragment(String url) {
+        this.url = url;
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.context = activity;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       final ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.friday, container,false);
+       final ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_item_pager, container,false);
         Start();
-        lvMain = viewGroup.findViewById(R.id.lvFriday);
+        lvMain = viewGroup.findViewById(R.id.listView);
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
                 new String[]{"Times", "Kab"},
                 new int[]{R.id.textView1,R.id.textView1_2});
@@ -60,13 +73,13 @@ public class classFriday extends Fragment {
 
                 final TextView textView = view.findViewById(R.id.textView1);
                 AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
-                deleted.setMessage("Удалить урок?").setCancelable(true).setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                deleted.setCancelable(true).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         StringBuffer stringBuffer = new StringBuffer();
 
                         try {
-                            FileInputStream read = getActivity().openFileInput("Friday.txt");
+                            FileInputStream read = getActivity().openFileInput(url);
                             InputStreamReader reader = new InputStreamReader(read);
                             BufferedReader bufferedReader = new BufferedReader(reader);
                             String temp_read;
@@ -93,7 +106,7 @@ public class classFriday extends Fragment {
 
 
                         try {
-                            FileOutputStream write = getActivity().openFileOutput("Friday.txt",getActivity().MODE_PRIVATE);
+                            FileOutputStream write = getActivity().openFileOutput(url,getActivity().MODE_PRIVATE);
 
                             write.write(stringBuffer.toString().getBytes());
                             write.close();
@@ -106,7 +119,7 @@ public class classFriday extends Fragment {
 
 
                                 Start();
-                                lvMain = viewGroup.findViewById(R.id.lvFriday);
+                                lvMain = viewGroup.findViewById(R.id.listView);
                         SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
                                 new String[]{"Times", "Kab"},
                                 new int[]{R.id.textView1,R.id.textView1_2});
@@ -118,14 +131,14 @@ public class classFriday extends Fragment {
 
                     }
                 })
-                        .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
                             }
                         });
                 AlertDialog alertDialog = deleted.create();
-                alertDialog.setTitle("Удаление урока");
+                alertDialog.setTitle(context.getString(R.string.deleteLesson));
                 alertDialog.show();
                 return true;
             }
@@ -155,20 +168,20 @@ public class classFriday extends Fragment {
                 Kab.setText(helpyrok[1]);
                 final Spinner spinner = promptsView.findViewById(R.id.spinner);
                 List<String> choose = new ArrayList<String>();
-                if(helpyrok[0].equals(" " +"Кабинет" + " " )) {
-                    textView.setText("Изменение урока");
-                    choose.add("Кабинет");
-                    choose.add("Аудитория");
+                if(helpyrok[0].equals(" " + context.getString(R.string.classroomSchool) + " " )) {
+                    textView.setText(context.getString(R.string.editLesson));
+                    choose.add(context.getString(R.string.classroomSchool));
+                    choose.add(context.getString(R.string.classroomUniversity));
                 }else{
-                    textView.setText("Изменение пары");
-                    choose.add("Аудитория");
-                    choose.add("Урок");
+                    textView.setText(context.getString(R.string.editCouple));
+                    choose.add(context.getString(R.string.classroomUniversity));
+                    choose.add(context.getString(R.string.classroomSchool));
                 }
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>  (getActivity(),R.layout.spinner_list, choose);
                 spinner.setAdapter(dataAdapter);
                 newzvonok
                         .setCancelable(true)
-                        .setPositiveButton("Редактировать",
+                        .setPositiveButton(context.getString(R.string.save),
                                 new DialogInterface.OnClickListener() {
                                     @RequiresApi(api = Build.VERSION_CODES.N)
                                     public void onClick(DialogInterface dialog, int id) {
@@ -200,7 +213,7 @@ public class classFriday extends Fragment {
                                                         StringBuffer stringBuffered = new StringBuffer();
 
                                                         try {
-                                                            FileInputStream read = getActivity().openFileInput("Friday.txt");
+                                                            FileInputStream read = getActivity().openFileInput(url);
                                                             InputStreamReader reader = new InputStreamReader(read);
                                                             BufferedReader bufferedReader = new BufferedReader(reader);
                                                             String temp_read;
@@ -245,7 +258,7 @@ public class classFriday extends Fragment {
                                                             stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab);
 
                                                         try {
-                                                            FileOutputStream write =  getActivity().openFileOutput("Friday.txt", getActivity().MODE_PRIVATE);
+                                                            FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
                                                             String temp_write = stringBuffer.toString();
 
                                                             write.write(temp_write.getBytes());
@@ -257,27 +270,27 @@ public class classFriday extends Fragment {
                                                         }
 
                                                         Start();
-                                                        lvMain = viewGroup.findViewById(R.id.lvFriday);
+                                                        lvMain = viewGroup.findViewById(R.id.listView);
                                                         SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
                                                                 new String[]{"Times", "Kab"},
                                                                 new int[]{R.id.textView1, R.id.textView1_2});
                                                         lvMain.setAdapter(adapter);
 
                                                     } catch (Povtor povtor) {
-                                                        Toast.makeText(getActivity(),"Временной промежуток не должен совпадать с предыдущем или начинаться позже, а заканчиваться раньше",Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getActivity(),context.getString(R.string.timeSpan),Toast.LENGTH_LONG).show();
                                                     }
                                                 }
                                                 else
-                                                    Toast.makeText(getActivity(), "Не верный промежуток! Первое значение не может быть больше второго!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(), context.getString(R.string.timeSpanStartEnd), Toast.LENGTH_SHORT).show();
                                             }else{
                                                 Toast.makeText(
-                                                        getActivity(), "Все поля должны быть заполненны!", Toast.LENGTH_SHORT
+                                                        getActivity(), context.getString(R.string.FieldsNot), Toast.LENGTH_SHORT
                                                 ).show();
                                             }
                                         }
                                         else {
                                             Toast.makeText(
-                                                    getActivity(), "Не верный формат!", Toast.LENGTH_SHORT
+                                                    getActivity(), context.getString(R.string.wrongFormat), Toast.LENGTH_SHORT
                                             ).show();
                                         }
                                     }
@@ -310,7 +323,7 @@ public class classFriday extends Fragment {
         String delimeter = "=";
         products.clear();
         try {
-            FileInputStream read = getActivity().openFileInput("Friday.txt");
+            FileInputStream read = getActivity().openFileInput(url);
             InputStreamReader reader = new InputStreamReader(read);
             BufferedReader bufferedReader = new BufferedReader(reader);
             String temp_read;

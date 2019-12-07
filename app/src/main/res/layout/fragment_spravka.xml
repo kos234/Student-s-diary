@@ -8,7 +8,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar5"
-        app:title="Справка"
+        app:title="@string/help"
         app:titleTextColor="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Данное приложение является проектом ученика 9 'Б' класса, МБОУ Гимназии №25 города Иркутска, Молоцило Константина за 9 класс"
+            android:text="@string/obzOne"
             android:textSize="20dp" />
 
         <TextView
@@ -39,14 +39,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Исходный код приложения находится в открытом доступе на GitHub"
+            android:text="@string/obzTwo"
             android:textSize="20dp" />
         <TextView
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="В этом приложении никогда не было и не будет рекламы, единственное, что мне нужно от вас, это уведомления о различных багах или опечатках мне на почту или во Вконтакте с подробным описанием"
+            android:text="@string/obzThree"
             android:textSize="20dp" />
         <TextView
             android:layout_marginTop="10dp"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginBottom="10dp"
-            android:text="Также если вы хотите помочь мне с переводом на любой язык или у вас возникли какие-то вопросы, вы знаете куда писать"
+            android:text="@string/obzFour"
             android:textSize="20dp" />
 
         <LinearLayout
@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Хочу выразить огромную благодарность: Гоше Дударю, проектам ЭStart Android” и “DevColibri”, а также людям со StackOverflow, которые помогали мне в отладке кода"
+            android:text="@string/obzFive"
             android:textSize="20dp" />
 
         <LinearLayout

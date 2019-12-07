@@ -5,16 +5,16 @@
 <item
     android:id="@+id/Dnevnik"
     android:icon="@drawable/ic_menu_book_24px"
-    android:title="Дневник"
+    android:title="@string/app_name"
     />
     <item
         android:id="@+id/Zvonki"
         android:icon="@drawable/ic_notifications_24px"
-        android:title="Расписание" />
+        android:title="@string/timetables" />
     <item
         android:id="@+id/Ychetel"
         android:icon="@drawable/ic_group_24px"
-        android:title="Учителя"
+        android:title="@string/teachers"
         />    <item
         android:id="@+id/Ocenki"
         android:icon="@drawable/ic_assessment_24px"
@@ -28,7 +28,7 @@
     <item
         android:id="@+id/Spravka"
         android:icon="@drawable/ic_help_24px"
-        android:title="Справка"
+        android:title="@string/help"
         />
     </group>
 </menu>

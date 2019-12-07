@@ -13,7 +13,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="Расписание"
+        app:title="@string/timetables"
         app:titleTextColor="#FFFFFF" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

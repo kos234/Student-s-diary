@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="#00AF7F7F"
-        android:text="Новый урок / пара"
+        android:text="@string/newLesson"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="#00AF7F7F"
-        android:text="Время начала урока:"
+        android:text="@string/lessonStartTime"
         android:textSize="19dp"
         />
 
@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Время конца урока:"
+        android:text="@string/lessonEndTime"
         android:textAlignment="center"
         android:textSize="19dp"
         />
@@ -92,28 +92,30 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="10dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="#00AF7F7F"
-        android:text="Название предмета:"
-        android:textAlignment="center"
-        android:textSize="19dp"
 
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#00AF7F7F"
+            android:text="@string/lessonTitle"
+            android:textAlignment="center"
+            android:textSize="19dp"
 
-    <EditText
-        android:id="@+id/nameYrok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="19dp"
-        android:hint="Математика"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >        <requestFocus />
-    </EditText>
+            />
+
+        <EditText
+            android:id="@+id/nameYrok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/lessonExample"
+            android:inputType="text"
+            android:textSize="19dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <requestFocus />
+        </EditText>
 
     </org.apmem.tools.layouts.FlowLayout>
 
@@ -129,7 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
 
-        android:text="Место проведения:"
+        android:text="@string/location"
         android:textAlignment="center"
         android:textSize="19dp"
         />
@@ -157,7 +159,7 @@
         android:layout_marginTop="10dp"
         android:background="#00AF7F7F"
         android:textSize="19dp"
-        android:text="Номер кабинета:"
+        android:text="@string/classroomNumber"
         android:textAlignment="center"
         />
 

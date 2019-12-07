@@ -5,30 +5,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,8 +34,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
-
 
 public class ZnonkiFragment extends Fragment {
     private SharedPreferences settings;
@@ -55,7 +43,6 @@ public class ZnonkiFragment extends Fragment {
     private Context context;
     private String ZvonOne, ZvonTwo, NameYrok, NumKab;
     private String url;
-    private List<Fragment> list = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,13 +59,7 @@ public class ZnonkiFragment extends Fragment {
             }
         });
         ViewPager viewPager = view.findViewById(R.id.rager);
-        list.add(new classMonday());
-        list.add(new classTuesday());
-        list.add(new classWednesday());
-        list.add(new classThursday());
-        list.add(new classFriday());
-        list.add(new classSaturday());
-        pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager(),list);
+        pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager(),context);
         viewPager.setAdapter(pagerAdapter);
        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
            @Override
@@ -93,57 +74,38 @@ public class ZnonkiFragment extends Fragment {
             switch (position){
                 case 0:
                     editor.putString("Day","Monday.txt" );
-                    if (settings.contains("Monday")) {
-                        if (settings.getBoolean("Monday", true))
-                            OnOff = true;
-                        else
-                            OnOff = false;
-                    }
+                    if (settings.contains("Monday"))
+                            OnOff = settings.getBoolean("Monday", true);
                     break;
+
                 case 1:
                     editor.putString("Day","Tuesday.txt" );
-                    if (settings.contains("Tuesday")) {
-                        if (settings.getBoolean("Tuesday", true))
-                            OnOff = true;
-                        else
-                            OnOff = false;
-                    }
+                    if (settings.contains("Tuesday"))
+                            OnOff = settings.getBoolean("Tuesday", true);
                     break;
+
                     case 2:
                     editor.putString("Day","Wednesday.txt" );
-                    if (settings.contains("Wednesday")) {
-                        if (settings.getBoolean("Wednesday", true))
-                            OnOff = true;
-                        else
-                            OnOff = false;
-                    }
+                    if (settings.contains("Wednesday"))
+                            OnOff = settings.getBoolean("Wednesday", true);
                     break;
+
                     case 3:
                     editor.putString("Day","Thursday.txt" );
-                    if (settings.contains("Thursday")) {
-                        if (settings.getBoolean("Thursday", true))
-                            OnOff = true;
-                        else
-                            OnOff = false;
-                    }
+                    if (settings.contains("Thursday"))
+                            OnOff = settings.getBoolean("Thursday", true);
                     break;
+
                     case 4:
                     editor.putString("Day","Friday.txt" );
-                    if (settings.contains("Friday")) {
-                        if (settings.getBoolean("Friday", true))
-                            OnOff = true;
-                        else
-                            OnOff = false;
-                    }
+                    if (settings.contains("Friday"))
+                            OnOff = settings.getBoolean("Friday", true);
                     break;
+
                     case 5:
                     editor.putString("Day","Saturday.txt" );
-                    if (settings.contains("Saturday")) {
-                        if (settings.getBoolean("Saturday", true))
-                            OnOff = true;
-                        else
-                            OnOff = false;
-                    }
+                    if (settings.contains("Saturday"))
+                            OnOff = settings.getBoolean("Saturday", true);
                     break;
             }
                editor.apply();
@@ -235,101 +197,27 @@ public class ZnonkiFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 url = settings.getString("Day","Monday.txt");
-                switch (url) {
-                    case "Monday.txt":
-                        if (settings.getBoolean("Monday", true)) {
+                String[] temp = url.split(".txt");
+                        if (settings.getBoolean(temp[0], true)) {
                             OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
                             SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Monday", false);
+                            editor.putBoolean(temp[0], false);
                             editor.apply();
                         }else {
                             OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
                             SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Monday",true);
+                            editor.putBoolean(temp[0],true);
                             editor.apply();
                         }
-
-                        break;
-                    case "Tuesday.txt":
-                        if (settings.getBoolean("Tuesday", true)) {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Tuesday", false);
-                            editor.apply();
-                        }else {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Tuesday",true);
-                            editor.apply();
-                        }
-
-                        break;
-                    case "Wednesday.txt":
-                        if (settings.getBoolean("Wednesday", true)) {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Wednesday", false);
-                            editor.apply();
-                        }else {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Wednesday",true);
-                            editor.apply();
-                        }
-
-                        break;
-                    case "Thursday.txt":
-                        if (settings.getBoolean("Thursday", true)) {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Thursday", false);
-                            editor.apply();
-                        }else {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Thursday",true);
-                            editor.apply();
-                        }
-
-                        break;
-                    case "Friday.txt":
-                        if (settings.getBoolean("Friday", true)) {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Friday", false);
-                            editor.apply();
-                        }else {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Friday",true);
-                            editor.apply();
-                        }
-
-                        break;
-                    case "Saturday.txt":
-                        if (settings.getBoolean("Saturday", true)) {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Saturday", false);
-                            editor.apply();
-                        }else {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean("Saturday",true);
-                            editor.apply();
-                        }
-
-                        break;
-                }
             }
         });
         button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View view) {
                 final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
-                Delete.setMessage("Удалить все звонки?")
+                Delete.setMessage(context.getString(R.string.deleteAllLesson))
                         .setCancelable(true)
-                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 try {
@@ -402,12 +290,12 @@ public class ZnonkiFragment extends Fragment {
 
 
                                 viewPager =  viewOne.findViewById(R.id.rager);
-                                pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager(),list);
+                                pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager(),context);
                                 viewPager.setAdapter(pagerAdapter);
 
                             }
                         })
-                        .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
@@ -416,7 +304,7 @@ public class ZnonkiFragment extends Fragment {
                         });
 
                 AlertDialog Deleted = Delete.create();
-                Deleted.setTitle("Удаление");
+                Deleted.setTitle(context.getString(R.string.deleting));
                 Deleted.show();
                 return false;
             }
@@ -435,13 +323,13 @@ public class ZnonkiFragment extends Fragment {
                                           final EditText Kab = promptsView.findViewById(R.id.numKab);
                                           final Spinner spinner = (Spinner) promptsView.findViewById(R.id.spinner);
                                           List<String> choose = new ArrayList<String>();
-                                          choose.add("Кабинет");
-                                          choose.add("Аудитория");
+                                          choose.add(context.getString(R.string.classroomSchool));
+                                          choose.add(context.getString(R.string.classroomUniversity));
                                           ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>  (getActivity(),R.layout.spinner_list, choose);
                                           spinner.setAdapter(dataAdapter);
                                           newzvonok
                                                   .setCancelable(true)
-                                                  .setPositiveButton("Добавить",
+                                                  .setPositiveButton(context.getString(R.string.save),
                                                           new DialogInterface.OnClickListener() {
                                                               @RequiresApi(api = Build.VERSION_CODES.N)
                                                               public void onClick(DialogInterface dialog, int id) {
@@ -455,7 +343,7 @@ public class ZnonkiFragment extends Fragment {
                                                                       if(ZvonTwo.equals(""))
                                                                           ZvonTwo = "08:40";
                                                                       if(NameYrok.equals(""))
-                                                                          NameYrok = "Математика";
+                                                                          NameYrok = context.getString(R.string.lessonExample);
                                                                       if(NumKab.equals(""))
                                                                           NumKab = "5";
                                                                       int ZvonOneOne = 666;
@@ -517,67 +405,37 @@ public class ZnonkiFragment extends Fragment {
                                                                               } catch (IOException e) {
                                                                                   e.printStackTrace();
                                                                               }
-                                                                              switch (url) {
-                                                                                  case "Monday.txt" :
-                                                                                      classMonday classMonday = new classMonday();
-                                                                                      classMonday.Start();
+                                                                                      ItemFragment ItemFragment = new ItemFragment(url);
+                                                                                      ItemFragment.Start();
                                                                                       viewPager =  viewOne.findViewById(R.id.rager);
-                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
+                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),context);
                                                                                       viewPager.setAdapter(pagerAdapter);
-                                                                                      break;
-                                                                                  case "Tuesday.txt" :
-                                                                                      classTuesday classTuesday = new classTuesday();
-                                                                                      classTuesday.Start();
-                                                                                      viewPager =  viewOne.findViewById(R.id.rager);
-                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
-                                                                                      viewPager.setAdapter(pagerAdapter);
-                                                                                      viewPager.setCurrentItem(1);
-                                                                                      break;
-                                                                                  case "Wednesday.txt" :
-                                                                                      classWednesday classWednesday = new classWednesday();
-                                                                                      classWednesday.Start();
-                                                                                      viewPager = viewOne.findViewById(R.id.rager);
-                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
-                                                                                      viewPager.setAdapter(pagerAdapter);
-                                                                                      viewPager.setCurrentItem(2);
-                                                                                      break;
-                                                                                  case "Thursday.txt" :
-                                                                                      classThursday classThursday = new classThursday();
-                                                                                      classThursday.Start();
-                                                                                      viewPager =  viewOne.findViewById(R.id.rager);
-                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
-                                                                                      viewPager.setAdapter(pagerAdapter);
-                                                                                      viewPager.setCurrentItem(3);
-                                                                                      break;
-                                                                                  case "Friday.txt" :
-                                                                                      classFriday classFriday = new classFriday();
-                                                                                      classFriday.Start();
-                                                                                      viewPager =  viewOne.findViewById(R.id.rager);
-                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
-                                                                                      viewPager.setAdapter(pagerAdapter);
-                                                                                      viewPager.setCurrentItem(4);
-                                                                                      break;
-                                                                                  case "Saturday.txt" :
-                                                                                      classSaturday classSaturday = new classSaturday();
-                                                                                      classSaturday.Start();
-                                                                                      viewPager =  viewOne.findViewById(R.id.rager);
-                                                                                      pagerAdapter = new PagerAdapterZvon( getActivity().getSupportFragmentManager(),list);
-                                                                                      viewPager.setAdapter(pagerAdapter);
-                                                                                      viewPager.setCurrentItem(5);
-                                                                                      break;
-
-                                                                              }
-
-
+                                                                                      switch (url) {
+                                                                                          case "Tuesday.txt":
+                                                                                              viewPager.setCurrentItem(1);
+                                                                                              break;
+                                                                                          case "Wednesday.txt":
+                                                                                              viewPager.setCurrentItem(2);
+                                                                                              break;
+                                                                                          case "Thursday.txt":
+                                                                                              viewPager.setCurrentItem(3);
+                                                                                              break;
+                                                                                          case "Friday.txt":
+                                                                                              viewPager.setCurrentItem(4);
+                                                                                              break;
+                                                                                          case "Saturday.txt":
+                                                                                              viewPager.setCurrentItem(5);
+                                                                                              break;
+                                                                                      }
                                                                           } catch (Povtor povtor) {
-                                                                                Toast.makeText(context,"Временной промежуток не должен совпадать с предыдущем или начинаться позже, а заканчиваться раньше",Toast.LENGTH_LONG).show();
+                                                                                Toast.makeText(context,context.getString(R.string.timeSpan),Toast.LENGTH_LONG).show();
                                                                               }
                                                                           }
                                                                           else
-                                                                              Toast.makeText(context, "Не верный промежуток! Первое значение не может быть больше второго!", Toast.LENGTH_SHORT).show();
+                                                                              Toast.makeText(context, context.getString(R.string.timeSpanStartEnd), Toast.LENGTH_SHORT).show();
                                                                       }else{
                                                                           Toast.makeText(
-                                                                                  context, "Все поля должны быть заполненны!", Toast.LENGTH_SHORT
+                                                                                  context, context.getString(R.string.FieldsNot), Toast.LENGTH_SHORT
                                                                           ).show();
                                                                       }
                                                                   }

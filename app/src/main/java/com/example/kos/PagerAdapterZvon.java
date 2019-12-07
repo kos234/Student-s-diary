@@ -1,29 +1,27 @@
 package com.example.kos;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import java.util.List;
-
 class PagerAdapterZvon extends FragmentStatePagerAdapter {
         private String[] name;
-    private List<Fragment> list;
 
-        PagerAdapterZvon(@NonNull FragmentManager fm, List<Fragment> list) {
+        PagerAdapterZvon(@NonNull FragmentManager fm, Context context) {
             super(fm);
             name = new String[] {
-                    "Понедельник",
-                    "Вторник",
-                    "Среда",
-                    "Четверг",
-                    "Пятница",
-                    "Суббота"
-
+                    context.getString(R.string.monday),
+                    context.getString(R.string.tuesday),
+                    context.getString(R.string.wednesday),
+                    context.getString(R.string.thursday),
+                    context.getString(R.string.friday),
+                    context.getString(R.string.saturday)
             };
-            this.list = list;
+
         }
         @Override
         public CharSequence getPageTitle(int position){
@@ -31,13 +29,27 @@ class PagerAdapterZvon extends FragmentStatePagerAdapter {
         }
         @Override
         public int getCount() {
-            return list.size();
+            return name.length;
         }
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            return list.get(position);
+            switch (position){
+                case 0:
+                    return new ItemFragment("Monday.txt");
+                    case 1:
+                    return new ItemFragment("Tuesday.txt");
+                case 2:
+                    return new ItemFragment("Wednesday.txt");
+                case 3:
+                    return new ItemFragment("Thursday.txt");
+                    case 4:
+                    return new ItemFragment("Friday.txt");
+                case 5:
+                    return new ItemFragment("Saturday.txt");
+            }
+            return null;
         }
     }
 

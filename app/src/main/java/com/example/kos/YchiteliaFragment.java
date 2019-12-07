@@ -78,7 +78,7 @@ public class YchiteliaFragment extends Fragment {
 
                 final TextView textView = view.findViewById(R.id.textView1);
                 AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
-                deleted.setMessage("Удалить преподавателя?").setCancelable(true).setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                deleted.setMessage(context.getString(R.string.deleteTeacher)).setCancelable(true).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         StringBuffer stringBuffer = new StringBuffer();
@@ -131,14 +131,14 @@ public class YchiteliaFragment extends Fragment {
 
                     }
                 })
-                        .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
                             }
                         });
                 AlertDialog alertDialog = deleted.create();
-                alertDialog.setTitle("Удаление");
+                alertDialog.setTitle(context.getString(R.string.deleting));
                 alertDialog.show();
             }
         });
@@ -159,7 +159,7 @@ public class YchiteliaFragment extends Fragment {
                 predmet.setText(textViewKab.getText());
                 newadd
                         .setCancelable(true)
-                        .setPositiveButton("Добавить",
+                        .setPositiveButton(context.getString(R.string.save),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
                                         StringBuffer stringBuffer = new StringBuffer();
@@ -214,7 +214,7 @@ public class YchiteliaFragment extends Fragment {
                                                     new int[]{R.id.textView1,R.id.textView1_2});
                                             listView.setAdapter(adapter);
                                         }else {
-                                            Toast.makeText(getActivity(),"Поле не должно быть пустым!",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),context.getString(R.string.FieldsNot),Toast.LENGTH_LONG).show();
                                         }
                                     }
 
@@ -280,9 +280,9 @@ public class YchiteliaFragment extends Fragment {
             @Override
             public boolean onLongClick(View view) {
                 final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
-                Delete.setMessage("Удалить всех учителей?")
+                Delete.setMessage(context.getString(R.string.deleteAllTeachers))
                         .setCancelable(true)
-                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                 try {
@@ -304,7 +304,7 @@ public class YchiteliaFragment extends Fragment {
                 listView.setAdapter(adapter);
                             }
                         })
-                        .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
@@ -313,7 +313,7 @@ public class YchiteliaFragment extends Fragment {
                         });
 
                 AlertDialog Deleted = Delete.create();
-                Deleted.setTitle("Удаление");
+                Deleted.setTitle(context.getString(R.string.deleting));
                 Deleted.show();
                 return false;
             }
@@ -329,7 +329,7 @@ public class YchiteliaFragment extends Fragment {
                 final EditText predmet = (EditText) promptsView.findViewById(R.id.yrokPrepod);
                 newadd
                         .setCancelable(true)
-                        .setPositiveButton("Добавить",
+                        .setPositiveButton(context.getString(R.string.save),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
                                         StringBuffer stringBuffer = new StringBuffer();
@@ -369,7 +369,7 @@ public class YchiteliaFragment extends Fragment {
                                                 new int[]{R.id.textView1,R.id.textView1_2});
                                         listView.setAdapter(adapter);
                                     }else {
-                                            Toast.makeText(getActivity(),"Поле не должно быть пустым!",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),context.getString(R.string.FieldsNot),Toast.LENGTH_LONG).show();
                                         }
                                     }
 

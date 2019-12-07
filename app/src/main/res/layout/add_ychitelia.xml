@@ -13,38 +13,67 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="#00AF7F7F"
-        android:text="Новый учитель"
+        android:text="@string/newTeacher"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
+    <org.apmem.tools.layouts.FlowLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#00AF7F7F"
+            android:text="@string/fio"
+            android:textSize="19dp"
+            />
 
     <EditText
         android:id="@+id/NamePrepod"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
         android:ems="10"
-        android:hint="Фамилия Имя Отчество"
+        android:hint="@string/fioExample"
         android:inputType="textPersonName" />
+    </org.apmem.tools.layouts.FlowLayout>
+
+    <org.apmem.tools.layouts.FlowLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#00AF7F7F"
+            android:text="@string/lessonTitle"
+            android:textSize="19dp"
+            />
 
     <EditText
         android:id="@+id/yrokPrepod"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:hint="Предмет"
+        android:layout_marginLeft="5dp"
+        android:hint="@string/lessonExample"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        >
+        />
 
-    </EditText>
-
+    </org.apmem.tools.layouts.FlowLayout>
 
 
 </LinearLayout>
