@@ -47,4 +47,6 @@
     <string name="obzFour">Also, if you want to help me with translation into any language or you have some questions, you know where to write</string>
     <string name="obzFive">I would like to express my great gratitude: Gaucher Dudar, the projects "Start Android" and "DevColibri", as well as the people with StackOverflow who helped me debug the code</string>
     <string name="help">Help</string>
+    <string name="grades">Grades</string>
+    <string name="numberOfQuarters">Number of quarters</string>
 </resources>

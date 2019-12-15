@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/LinerOcenki"
+    android:padding="0dp"
     android:layout_height="match_parent"
     tools:context=".OcenkiFragment">
 
@@ -14,7 +18,67 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="Оценки"
+        app:title="@string/grades"
         app:titleTextColor="@android:color/white" />
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/liner"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/imageButtonOcen"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_keyboard_arrow_left_24px" />
+
+        <TextView
+
+            android:id="@+id/textViewOcen"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="24dp" />
+
+        <ImageButton
+            android:id="@+id/imageButtonOcen2"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="fitStart"
+            android:src="@drawable/ic_keyboard_arrow_right_24px" />
+
+
+
+    </LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:id="@+id/TableGrades"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+
+            </TableLayout>
+
+        </HorizontalScrollView>
+
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

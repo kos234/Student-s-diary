@@ -378,7 +378,7 @@ public class ZnonkiFragment extends Fragment {
 
                                                                                       help = temp_read.split(delimeter);
                                                                                       if((Integer.parseInt(help[0].substring(0,2)) == ZvonOneOne && Integer.parseInt(help[0].substring(3,5)) == ZvonOneTwo) || (Integer.parseInt(help[0].substring(8,10)) == ZvonTwoOne && Integer.parseInt(help[0].substring(11)) == ZvonTwoTwo)) {
-                                                                                          throw new Povtor("Lisa I love you", 1);
+                                                                                          throw new Povtor("KRIA", 1);
                                                                                       }
                                                                                       if(Integer.parseInt(help[0].substring(0,2)) > ZvonOneOne   && Zapic) {
                                                                                           stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab).append(("\n")).append(temp_read).append(("\n"));
