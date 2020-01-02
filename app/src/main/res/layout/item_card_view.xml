@@ -10,14 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:background="@android:color/holo_green_dark"
         app:cardBackgroundColor="@android:color/darker_gray"
         app:cardCornerRadius="20dp"
         >
         <!--        -->
 
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -49,7 +48,7 @@
                 </TableRow>
             </TableLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
     </androidx.cardview.widget.CardView>
 </LinearLayout>

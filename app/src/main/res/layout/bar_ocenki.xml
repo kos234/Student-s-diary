@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#fafafa"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:text="@string/lessonTitle"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="2dp"
+        android:textSize="19dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginLeft="1dp"
+            android:background="#fafafa"
+            android:text="@string/OneQuarter"
+            android:textSize="19dp"
+            />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginLeft="1dp"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="#fafafa"
+        android:text="@string/TwoQuarter"
+        android:textSize="19dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginLeft="1dp"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="#fafafa"
+        android:text="@string/ThreeQuarter"
+        android:textSize="19dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginRight="1dp"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="1dp"
+        android:background="#fafafa"
+        android:text="@string/FourQuarter"
+        android:textSize="19dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginRight="1dp"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="2dp"
+        android:text="@string/gradesYear"
+        android:layout_marginLeft="1dp"
+        android:background="#fafafa"
+        android:textSize="19dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginRight="1dp"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="1dp"
+        android:background="#fafafa"
+        android:text="@string/gradesExamination"
+        android:textSize="19dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginRight="1dp"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="1dp"
+        android:text="@string/gradesEnd"
+        android:background="#fafafa"
+        android:textSize="19dp"
+        />
+</TableRow>

@@ -15,16 +15,15 @@
         android:id="@+id/Ychetel"
         android:icon="@drawable/ic_group_24px"
         android:title="@string/teachers"
-        />    <item
-        android:id="@+id/Ocenki"
-        android:icon="@drawable/ic_assessment_24px"
-        android:title="Оценки"
         />
-    <item
-        android:id="@+id/Nastroiki"
-        android:icon="@drawable/ic_settings_applications_24px"
-        android:title="Настройки"
-        />
+        <item
+            android:id="@+id/Ocenki"
+            android:icon="@drawable/ic_assessment_24px"
+            android:title="@string/grades" />
+        <item
+            android:id="@+id/Nastroiki"
+            android:icon="@drawable/ic_settings_applications_24px"
+            android:title="@string/settings" />
     <item
         android:id="@+id/Spravka"
         android:icon="@drawable/ic_help_24px"

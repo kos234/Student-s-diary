@@ -17,11 +17,17 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -40,6 +46,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Calendar;
 import java.util.Date;
 
 import static android.app.NotificationManager.IMPORTANCE_HIGH;
@@ -60,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       MyThread myThread = new MyThread();
-       myThread.start();
+       //MyThread myThread = new MyThread();
+      // myThread.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = getSharedPreferences("com.example.kos", MODE_PRIVATE);
@@ -70,31 +77,50 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                try {
                Fragment fragmentActiv = null;
                Class fragmentClass;
                 SharedPreferences.Editor editor = settings.edit();
                switch (menuItem.getItemId()){
                    case R.id.Zvonki:
+                       if(settings.getString("Fragment","Ocenki").equals("Znonki"))
+                           throw new Povtor("KRIA", 1);
+                       else
                        fragmentClass = ZnonkiFragment.class;
                        editor.putString("Fragment","Znonki" );
                        break;
                    case R.id.Ychetel:
+                       if(settings.getString("Fragment","Ocenki").equals("Ychitelia"))
+                           throw new Povtor("KRIA", 1);
+                       else
                        fragmentClass = YchiteliaFragment.class;
                        editor.putString("Fragment","Ychitelia" );
                        break;
                        case R.id.Ocenki:
+                           if(settings.getString("Fragment","Ocenki").equals("Ocenki"))
+                               throw new Povtor("KRIA", 1);
+                           else
                        fragmentClass = OcenkiFragment.class;
                            editor.putString("Fragment","Ocenki" );
                        break;
                    case R.id.Nastroiki:
+                       if(settings.getString("Fragment","Ocenki").equals("Nastroiki"))
+                           throw new Povtor("KRIA", 1);
+                       else
                        fragmentClass = NastroikiFragment.class;
                        editor.putString("Fragment","Nastroiki" );
                        break;
                    case R.id.Spravka:
+                       if(settings.getString("Fragment","Ocenki").equals("Spravka"))
+                           throw new Povtor("KRIA", 1);
+                       else
                        fragmentClass = SpravkaFragment.class;
                        editor.putString("Fragment","Spravka" );
                        break;
                        default:
+                           if(settings.getString("Fragment","Ocenki").equals("Dnewnik"))
+                               throw new Povtor("KRIA", 1);
+                           else
                            fragmentClass = DnewnikFragment.class;
                            editor.putString("Fragment","Dnewnik" );
                            break;
@@ -113,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
               drawerLayout = findViewById(R.id.Drawer);
                drawerLayout.closeDrawer(Gravity.LEFT);
                 editor.apply();
+
+            }catch (Povtor povtor){
+                    DrawerLayout drawer = findViewById(R.id.Drawer);
+                    drawer.closeDrawer(Gravity.LEFT);
+                }
                 return false;
             }
         });
@@ -152,12 +183,127 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.Smena,fragmentActiv).commit();
     }
 
-
-
     public void openDrawer() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.Drawer);
+        DrawerLayout drawer = findViewById(R.id.Drawer);
         drawer.openDrawer(Gravity.LEFT);
     }
+
+    public void ClickTab (View view){
+        int textViewId =  R.id.ocenka_one, editTextId = R.id.ocenka_edit_one, numZapic = 1, numStolb = R.id.numStolb_1;
+
+        switch (view.getId()){
+            case R.id.frame_ocenki_two:
+                textViewId = R.id.ocenka_two;
+                editTextId = R.id.ocenka_edit_two;
+                numZapic = 2;
+                numStolb = R.id.numStolb_2;
+                break;
+
+            case R.id.frame_ocenki_three:
+                textViewId = R.id.ocenka_three;
+                editTextId = R.id.ocenka_edit_three;
+                numZapic = 3;
+                numStolb = R.id.numStolb_3;
+                break;
+
+            case R.id.frame_ocenki_four:
+                textViewId = R.id.ocenka_four;
+                editTextId = R.id.ocenka_edit_four;
+                numZapic = 4;
+                numStolb = R.id.numStolb_4;
+                break;
+
+            case R.id.frame_ocenki_year:
+                textViewId = R.id.ocenka_year;
+                editTextId = R.id.ocenka_edit_year;
+                numZapic = 5;
+                numStolb = R.id.numStolb_5;
+                break;
+
+            case R.id.frame_ocenki_examination:
+                textViewId = R.id.ocenka_examination;
+                editTextId = R.id.ocenka_edit_examination;
+                numZapic = 6;
+                numStolb = R.id.numStolb_6;
+                break;
+
+            case R.id.frame_ocenki_end:
+                textViewId = R.id.ocenka_end;
+                editTextId = R.id.ocenka_edit_end;
+                numZapic = 7;
+                numStolb = R.id.numStolb_7;
+                break;
+        }
+
+        final TextView textView = view.findViewById(textViewId);
+        if(textView.getText().equals(" ")){
+        final EditText editText = view.findViewById(editTextId);
+        final TextView numStolbik = view.findViewById(numStolb);
+        final int numZapicFinal = numZapic;
+        final String url = (settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020);
+
+        editText.setVisibility(View.VISIBLE);
+        final InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        editText.requestFocus();
+            editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        //Hide keyboard
+                        if (getCurrentFocus() != null) {
+                            View vw = getCurrentFocus();
+                            inputMethodManager.hideSoftInputFromWindow(vw.getWindowToken(), 0);
+                            textView.setText(editText.getText());
+                            editText.setVisibility(View.INVISIBLE);
+
+                            StringBuffer stringBuffer = new StringBuffer();
+                            try {
+                                FileInputStream read =  openFileInput(url);
+                                InputStreamReader reader = new InputStreamReader(read);
+                                BufferedReader bufferedReader = new BufferedReader(reader);
+
+                                String temp_read;
+                                String[] help;
+                                String delimeter = "=";
+                                int count = 1;
+                                while ((temp_read = bufferedReader.readLine()) != null) {
+                                    if(count == Integer.parseInt(numStolbik.getText().toString())){
+                                       help = temp_read.split(delimeter);
+                                       help[numZapicFinal] = editText.getText().toString();
+                                       for(int i = 0;i <= 7;i++){
+                                           stringBuffer.append(help[i] + "=");
+                                       }
+                                       stringBuffer.append("\n");
+                                       count ++;
+                                    } else{
+                                        count ++;
+                                    stringBuffer.append(temp_read).append("\n");
+                                }}
+                            } catch (FileNotFoundException q) {
+                                q.printStackTrace();
+                            } catch (IOException j) {
+                                j.printStackTrace();
+                            }
+
+
+                            try {
+                                FileOutputStream write =  openFileOutput(url, MODE_PRIVATE);
+                                String temp_write = stringBuffer.toString();
+
+                                write.write(temp_write.getBytes());
+                                write.close();
+                            } catch (FileNotFoundException p) {
+                                p.printStackTrace();
+                            } catch (IOException a) {
+                                a.printStackTrace();
+                            }
+                        }
+                    }
+                    return false;
+                }
+            });
+
+    }}
 
     public void ClicksRow(final View view){
         TextView textViewName = view.findViewById(R.id.textView1_1_dnev);

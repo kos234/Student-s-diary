@@ -15,5 +15,4 @@ public class Const {
     public int Nov = 30;    //11
     public int Dec = 31;    //12
     public int FebVesok = 29;
-
 }

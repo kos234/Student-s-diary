@@ -48,5 +48,30 @@
     <string name="obzFive">Хочу выразить огромную благодарность: Гоше Дударю, проектам "Start Android” и “DevColibri”, а также людям со StackOverflow, которые помогали мне в отладке кода</string>
     <string name="help">Справка</string>
     <string name="grades">Оценки</string>
-    <string name="numberOfQuarters">Количество четвертей</string>
+    <string name="warningOcenki">Редактирование оценок в дальнейшем будет не возможно!</string>
+    <string name="OneQuarter">I Четверть</string>
+    <string name="TwoQuarter">II Четверть</string>
+    <string name="ThreeQuarter">III Четверть</string>
+    <string name="FourQuarter">IV Четверть</string>
+    <string name="gradesYear">Годовая</string>
+    <string name="gradesExamination">Экзаменационная</string>
+    <string name="gradesEnd">Итоговая</string>
+    <string name="settings">Настройки</string>
+    <string name="setting">Настройка</string>
+    <string name="Ok">Хорошо</string>
+    <string name="Warining">Предупреждение</string>
+    <string name="chooseMonth">Выберите месяц начала обучения:</string>
+
+
+
+    <string-array name="DayTxt">
+        <item>Monday.txt</item>
+        <item>Tuesday.txt</item>
+        <item>Wednesday.txt</item>
+        <item>Thursday.txt</item>
+        <item>Friday.txt</item>
+        <item>Saturday.txt</item>
+    </string-array>
+
+
 </resources>

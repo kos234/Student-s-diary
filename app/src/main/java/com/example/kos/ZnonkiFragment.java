@@ -220,75 +220,20 @@ public class ZnonkiFragment extends Fragment {
                         .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                try {
-                                    FileOutputStream write =  getActivity().openFileOutput("Monday.txt", getActivity().MODE_PRIVATE);
-                                    String temp_write ="";
+                                String[] day = getResources().getStringArray(R.array.DayTxt);
+                                for (int k = 0; k < day.length; k++) {
+                                    try {
+                                        FileOutputStream write = getActivity().openFileOutput(day[k], getActivity().MODE_PRIVATE);
+                                        String temp_write = "";
 
-                                    write.write(temp_write.getBytes());
-                                    write.close();
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                                        write.write(temp_write.getBytes());
+                                        write.close();
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                                try {
-                                    FileOutputStream write =  getActivity().openFileOutput("Tuesday.txt", getActivity().MODE_PRIVATE);
-                                    String temp_write ="";
-
-                                    write.write(temp_write.getBytes());
-                                    write.close();
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    FileOutputStream write =  getActivity().openFileOutput("Wednesday.txt", getActivity().MODE_PRIVATE);
-                                    String temp_write ="";
-
-                                    write.write(temp_write.getBytes());
-                                    write.close();
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    FileOutputStream write =  getActivity().openFileOutput("Thursday.txt", getActivity().MODE_PRIVATE);
-                                    String temp_write ="";
-
-                                    write.write(temp_write.getBytes());
-                                    write.close();
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    FileOutputStream write =  getActivity().openFileOutput("Friday.txt", getActivity().MODE_PRIVATE);
-                                    String temp_write ="";
-
-                                    write.write(temp_write.getBytes());
-                                    write.close();
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    FileOutputStream write =  getActivity().openFileOutput("Saturday.txt", getActivity().MODE_PRIVATE);
-                                    String temp_write ="";
-
-                                    write.write(temp_write.getBytes());
-                                    write.close();
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-
-
                                 viewPager =  viewOne.findViewById(R.id.rager);
                                 pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager(),context);
                                 viewPager.setAdapter(pagerAdapter);
@@ -441,7 +386,7 @@ public class ZnonkiFragment extends Fragment {
                                                                   }
                                                                   else {
                                                                       Toast.makeText(
-                                                                              context, "Не верный формат!", Toast.LENGTH_SHORT
+                                                                              context, context.getString(R.string.wrongFormat), Toast.LENGTH_SHORT
                                                                       ).show();
                                                                   }
                                                               }
