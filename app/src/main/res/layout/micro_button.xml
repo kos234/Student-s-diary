@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/frameMicro"
+    android:layout_marginTop="30dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="10dp"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+    >
+
+<Button
+    android:id="@+id/ButtonStart"
+    android:layout_gravity="left"
+    style="?android:attr/borderlessButtonStyle"
+    android:layout_width="wrap_content"
+    android:textColor="@color/colorAccent"
+    android:text="@string/StartMicro"
+    android:layout_height="wrap_content" />
+
+<Button
+    android:id="@+id/ButtonEnd"
+    style="?android:attr/borderlessButtonStyle"
+    android:layout_gravity="right"
+    android:text="@string/save"
+    android:textColor="@color/colorAccent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+</FrameLayout>

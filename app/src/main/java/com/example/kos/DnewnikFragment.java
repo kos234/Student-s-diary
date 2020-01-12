@@ -49,7 +49,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class DnewnikFragment extends Fragment {
     private Context context;
     private TextView dateNedel;
-    private SharedPreferences settings;
     private List<helperDnewnik> helperDnewniks = new ArrayList<>();
     LinearLayout linearLayout;
     int startNedeli;
@@ -142,6 +141,9 @@ public class DnewnikFragment extends Fragment {
     }
 
     class ClearAllAsyncTask extends AsyncTask<Void,String[],Void>{
+        SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -155,8 +157,6 @@ public class DnewnikFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            final SharedPreferences.Editor editor = settings.edit();
             final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -190,7 +190,20 @@ public class DnewnikFragment extends Fragment {
         protected Void doInBackground(Void... voids) {
 helperDnewniks.clear();
             for (int i = 0; i < 6; i++){
-                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+
+                String url;
+
+                if(startNedeli < 10)
+                    if(startMes < 10)
+                        url = "0" + (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
+                    else
+                        url = "0" + (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+                else
+                if(startMes < 10)
+                    url = (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
+                else
+                    url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+
                 String nameDay;
                 String ulrTwo;
 
@@ -249,7 +262,16 @@ helperDnewniks.clear();
                         j.printStackTrace();
                     }
                     try {
-                        FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
+                        File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                        if (!mFolder.exists()) {
+                            mFolder.mkdir();
+                        }
+                        if (!FileTxt.exists()) {
+                            FileTxt.createNewFile();
+                        }
+
+                        FileOutputStream write =  new FileOutputStream(FileTxt);
                         String temp_write = stringBuffer.toString();
 
                         write.write(temp_write.getBytes());
@@ -269,6 +291,8 @@ helperDnewniks.clear();
     }
 
     class LeftAsyncTask extends AsyncTask<Void,String[],Void>{
+        SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -282,8 +306,6 @@ helperDnewniks.clear();
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            final SharedPreferences.Editor editor = settings.edit();
             final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -312,13 +334,18 @@ helperDnewniks.clear();
             });
             linearLayout.addView(viewPager,layoutParams);
             dateNedel = getActivity().findViewById(R.id.textViewDnew);
-            dateNedel.setText(startNedeli + "." + startMes + " - " + endNedeli + "." + endMes);
+            String[] textUrl = new String[4];
+            if(startNedeli < 10) textUrl[0] = "0" + startNedeli; else textUrl[0] = Integer.toString(startNedeli);
+            if(startMes < 10) textUrl[1] = "0" + startMes; else textUrl[1] = Integer.toString(startMes);
+            if(endNedeli < 10) textUrl[2] = "0" + endNedeli; else textUrl[2] = Integer.toString(endNedeli);
+            if(endMes < 10) textUrl[3] = "0" + endMes; else textUrl[3] = Integer.toString(endMes);
+
+
+                dateNedel.setText(textUrl[0] + "." + textUrl[1] + " - " + textUrl[2] + "." + textUrl[3]);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            final SharedPreferences.Editor editor = settings.edit();
             startNedeli = settings.getInt("StartNedeli",1);
             nameMes = settings.getString("StartMes","Jan");
             startMes = 00;
@@ -543,7 +570,20 @@ helperDnewniks.clear();
             editor.putInt("IntMes",startMes);
             editor.apply();
             for (int i = 0; i < 6; i++){
-                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+
+                String url;
+
+                if(startNedeli < 10)
+                    if(startMes < 10)
+                        url = "0" + (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
+                    else
+                        url = "0" + (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+                else
+                if(startMes < 10)
+                    url = (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
+                else
+                    url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+
                 String nameDay;
                 String ulrTwo;
 
@@ -575,7 +615,16 @@ helperDnewniks.clear();
                         break;
                 }
                 try {
-                    FileInputStream read =  getActivity().openFileInput(url);
+                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                        if (!mFolder.exists()) {
+                            mFolder.mkdir();
+                        }
+                        if (!FileTxt.exists()) {
+                            FileTxt.createNewFile();
+                        }
+
+                        FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -639,7 +688,16 @@ helperDnewniks.clear();
                         j.printStackTrace();
                     }
                     try {
-                        FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
+                        File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                        if (!mFolder.exists()) {
+                            mFolder.mkdir();
+                        }
+                        if (!FileTxt.exists()) {
+                            FileTxt.createNewFile();
+                        }
+
+                        FileOutputStream write =  new FileOutputStream(FileTxt);
                         String temp_write = stringBuffer.toString();
 
                         write.write(temp_write.getBytes());
@@ -661,6 +719,8 @@ helperDnewniks.clear();
     }
 
     class RightAsyncTask extends AsyncTask<Void,String[],Void>{
+        SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -675,8 +735,6 @@ helperDnewniks.clear();
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            final SharedPreferences.Editor editor = settings.edit();
             final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -705,13 +763,18 @@ helperDnewniks.clear();
             });
             linearLayout.addView(viewPager,layoutParams);
             dateNedel = getActivity().findViewById(R.id.textViewDnew);
-            dateNedel.setText(startNedeli + "." + startMes + " - " + endNedeli + "." + endMes);
+            String[] textUrl = new String[4];
+            if(startNedeli < 10) textUrl[0] = "0" + startNedeli; else textUrl[0] = Integer.toString(startNedeli);
+            if(startMes < 10) textUrl[1] = "0" + startMes; else textUrl[1] = Integer.toString(startMes);
+            if(endNedeli < 10) textUrl[2] = "0" + endNedeli; else textUrl[2] = Integer.toString(endNedeli);
+            if(endMes < 10) textUrl[3] = "0" + endMes; else textUrl[3] = Integer.toString(endMes);
+
+
+                dateNedel.setText(textUrl[0] + "." + textUrl[1] + " - " + textUrl[2] + "." + textUrl[3]);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            final SharedPreferences.Editor editor = settings.edit();
             startNedeli = settings.getInt("StartNedeli",1);
             nameMes = settings.getString("StartMes","Jan");
             startMes = 0;
@@ -935,7 +998,20 @@ helperDnewniks.clear();
             editor.putInt("IntMes",startMes);
             editor.apply();
             for (int i = 0; i < 6; i++){
-                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+
+                String url;
+
+                if(startNedeli < 10)
+                    if(startMes < 10)
+                        url = "0" + (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
+                    else
+                        url = "0" + (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+                else
+                if(startMes < 10)
+                    url = (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
+                else
+                    url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+
                 String nameDay;
                 String ulrTwo;
 
@@ -967,7 +1043,16 @@ helperDnewniks.clear();
                         break;
                 }
                 try {
-                    FileInputStream read =  getActivity().openFileInput(url);
+                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                        if (!mFolder.exists()) {
+                            mFolder.mkdir();
+                        }
+                        if (!FileTxt.exists()) {
+                            FileTxt.createNewFile();
+                        }
+
+                        FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -1030,7 +1115,16 @@ helperDnewniks.clear();
                         j.printStackTrace();
                     }
                     try {
-                        FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
+                        File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                        if (!mFolder.exists()) {
+                            mFolder.mkdir();
+                        }
+                        if (!FileTxt.exists()) {
+                            FileTxt.createNewFile();
+                        }
+
+                        FileOutputStream write =  new FileOutputStream(FileTxt);
                         String temp_write = stringBuffer.toString();
 
                         write.write(temp_write.getBytes());
@@ -1053,6 +1147,9 @@ helperDnewniks.clear();
         }
     }
     class ClearDzAsyncTask extends AsyncTask<Void,String[],Void>{
+        SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1067,8 +1164,6 @@ helperDnewniks.clear();
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            final SharedPreferences.Editor editor = settings.edit();
             final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -1103,7 +1198,20 @@ helperDnewniks.clear();
         protected Void doInBackground(Void... voids) {
             helperDnewniks.clear();
             for (int i = 0; i < 6; i++){
-                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+
+                String url;
+
+                if(startNedeli < 10)
+                    if(startMes < 10)
+                        url = "0" + (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
+                    else
+                        url = "0" + (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+                else
+                if(startMes < 10)
+                    url = (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
+                else
+                    url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+
                 String nameDay;
 
                 switch (i){
@@ -1129,7 +1237,16 @@ helperDnewniks.clear();
                 }
                 StringBuffer stringBuffer = new StringBuffer();
                 try {
-                    FileInputStream read =  getActivity().openFileInput(url);
+                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                        if (!mFolder.exists()) {
+                            mFolder.mkdir();
+                        }
+                        if (!FileTxt.exists()) {
+                            FileTxt.createNewFile();
+                        }
+
+                        FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
                     String temp_read,helpZapis = "", helpZapis2 = "",helpZapis3 = "";
@@ -1163,7 +1280,16 @@ helperDnewniks.clear();
                     e.printStackTrace();
                 }
                 try {
-                    FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
+                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                        if (!mFolder.exists()) {
+                            mFolder.mkdir();
+                        }
+                        if (!FileTxt.exists()) {
+                            FileTxt.createNewFile();
+                        }
+
+                        FileOutputStream write =  new FileOutputStream(FileTxt);
                     String temp_write = stringBuffer.toString();
 
                     write.write(temp_write.getBytes());
@@ -1179,6 +1305,9 @@ helperDnewniks.clear();
     }
 
     class StartAsyncTask extends AsyncTask<Void,String[],Void> {
+        SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1191,8 +1320,6 @@ helperDnewniks.clear();
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            final SharedPreferences.Editor editor = settings.edit();
             final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -1202,7 +1329,6 @@ helperDnewniks.clear();
             viewPager.setClipToPadding(false);
             viewPager.setPadding(120, 0, 120, 0);
             viewPager.setPageMargin(60);
-            viewPager.setId(1234626486);
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -1243,14 +1369,18 @@ helperDnewniks.clear();
             }
             linearLayout.addView(viewPager,layoutParams);
             dateNedel = getActivity().findViewById(R.id.textViewDnew);
-            dateNedel.setText(startNedeli + "." + startMes + " - " + endNedeli + "." + endMes);
+            String[] textUrl = new String[4];
+            if(startNedeli < 10) textUrl[0] = "0" + startNedeli; else textUrl[0] = Integer.toString(startNedeli);
+            if(startMes < 10) textUrl[1] = "0" + startMes; else textUrl[1] = Integer.toString(startMes);
+            if(endNedeli < 10) textUrl[2] = "0" + endNedeli; else textUrl[2] = Integer.toString(endNedeli);
+            if(endMes < 10) textUrl[3] = "0" + endMes; else textUrl[3] = Integer.toString(endMes);
+
+
+                dateNedel.setText(textUrl[0] + "." + textUrl[1] + " - " + textUrl[2] + "." + textUrl[3]);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-            SharedPreferences.Editor editor = settings.edit();
-
             Date date = new Date();
             startNedeli = Integer.parseInt(date.toString().substring(8,10));
             nameMes = date.toString().substring(4,7);
@@ -1259,1264 +1389,507 @@ helperDnewniks.clear();
             endMes = 00;
             dayName = date.toString().substring(0,3);
             endNedeli = 00;
+            int dayRemove = 0;
             switch (nameMes){
                 case "Jan":
                     dayInMes = new Const().Jan;
                     startMes = 1;
                     endMes = 2;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 12;
-                                endMes = 1;
-                                startNedeli = new Const().Dec + startNedeli;
-                                dayInMes = new Const().Dec;
-                                nameMes = "Dec";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 12;
-                                endMes = 1;
-                                startNedeli = new Const().Dec + startNedeli;
-                                dayInMes = new Const().Dec;
-                                nameMes = "Dec";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 12;
-                                endMes = 1;
-                                startNedeli = new Const().Dec + startNedeli;
-                                dayInMes = new Const().Dec;
-                                nameMes = "Dec";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 12;
-                                endMes = 1;
-                                startNedeli = new Const().Dec + startNedeli;
-                                dayInMes = new Const().Dec;
-                                nameMes = "Dec";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 12;
-                                endMes = 1;
-                                startNedeli = new Const().Dec + startNedeli;
-                                dayInMes = new Const().Dec;
-                                nameMes = "Dec";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                            if (startNedeli <= 0) {
-                                startMes = 12;
-                                endMes = 1;
-                                startNedeli = new Const().Dec + startNedeli;
-                                dayInMes = new Const().Dec;
-                                nameMes = "Dec";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 12;
+                        endMes = 1;
+                        startNedeli = new Const().Dec + startNedeli;
+                        dayInMes = new Const().Dec;
+                        nameMes = "Dec";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "Feb":
                     dayInMes = new Const().Feb;
                     startMes = 2;
                     endMes = 3;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 1;
-                                endMes = 2;
-                                startNedeli = new Const().Jan + startNedeli;
-                                dayInMes = new Const().Jan;
-                                nameMes = "Jan";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 1;
-                                endMes = 2;
-                                startNedeli = new Const().Jan + startNedeli;
-                                dayInMes = new Const().Jan;
-                                nameMes = "Jan";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 1;
-                                endMes = 2;
-                                startNedeli = new Const().Jan + startNedeli;
-                                dayInMes = new Const().Jan;
-                                nameMes = "Jan";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 1;
-                                endMes = 2;
-                                startNedeli = new Const().Jan + startNedeli;
-                                dayInMes = new Const().Jan;
-                                nameMes = "Jan";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 1;
-                                endMes = 2;
-                                startNedeli = new Const().Jan + startNedeli;
-                                dayInMes = new Const().Jan;
-                                nameMes = "Jan";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                            if (startNedeli <= 0) {
-                                startMes = 1;
-                                endMes = 2;
-                                startNedeli = new Const().Jan + startNedeli;
-                                dayInMes = new Const().Jan;
-                                nameMes = "Jan";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 1;
+                        endMes = 2;
+                        startNedeli = new Const().Jan + startNedeli;
+                        dayInMes = new Const().Jan;
+                        nameMes = "Jan";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "Mar":
                     dayInMes = new Const().Mar;
                     startMes = 3;
                     endMes = 4;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 2;
-                                endMes = 3;
-                                startNedeli = new Const().Feb + startNedeli;
-                                dayInMes = new Const().Feb;
-                                nameMes = "Feb";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 2;
-                                endMes = 3;
-                                startNedeli = new Const().Feb + startNedeli;
-                                dayInMes = new Const().Feb;
-                                nameMes = "Feb";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 2;
-                                endMes = 3;
-                                startNedeli = new Const().Feb + startNedeli;
-                                dayInMes = new Const().Feb;
-                                nameMes = "Feb";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 2;
-                                endMes = 3;
-                                startNedeli = new Const().Feb + startNedeli;
-                                dayInMes = new Const().Feb;
-                                nameMes = "Feb";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 2;
-                                endMes = 3;
-                                startNedeli = new Const().Feb + startNedeli;
-                                dayInMes = new Const().Feb;
-                                nameMes = "Feb";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                            if (startNedeli <= 0) {
-                                startMes = 2;
-                                endMes = 3;
-                                startNedeli = new Const().Feb + startNedeli;
-                                dayInMes = new Const().Feb;
-                                nameMes = "Feb";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 2;
+                        endMes = 3;
+                        startNedeli = new Const().Feb + startNedeli;
+                        dayInMes = new Const().Feb;
+                        nameMes = "Feb";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "Apr":
                     dayInMes = new Const().Apr;
                     startMes = 4;
                     endMes = 5;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 3;
-                                endMes = 4;
-                                startNedeli = new Const().Mar + startNedeli;
-                                dayInMes = new Const().Mar;
-                                nameMes = "Mar";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 3;
-                                endMes = 4;
-                                startNedeli = new Const().Mar + startNedeli;
-                                dayInMes = new Const().Mar;
-                                nameMes = "Mar";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 3;
-                                endMes = 4;
-                                startNedeli = new Const().Mar + startNedeli;
-                                dayInMes = new Const().Mar;
-                                nameMes = "Mar";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 3;
-                                endMes = 4;
-                                startNedeli = new Const().Mar + startNedeli;
-                                dayInMes = new Const().Mar;
-                                nameMes = "Mar";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 3;
-                                endMes = 4;
-                                startNedeli = new Const().Mar + startNedeli;
-                                dayInMes = new Const().Mar;
-                                nameMes = "Mar";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                            if (startNedeli <= 0) {
-                                startMes = 3;
-                                endMes = 4;
-                                startNedeli = new Const().Mar + startNedeli;
-                                dayInMes = new Const().Mar;
-                                nameMes = "Mar";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 3;
+                        endMes = 4;
+                        startNedeli = new Const().Mar + startNedeli;
+                        dayInMes = new Const().Mar;
+                        nameMes = "Mar";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "May":
                     dayInMes = new Const().May;
                     startMes = 5;
                     endMes = 6;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 4;
-                                endMes = 5;
-                                startNedeli = new Const().Apr + startNedeli;
-                                dayInMes = new Const().Apr;
-                                nameMes = "Apr";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 4;
-                                endMes = 5;
-                                startNedeli = new Const().Apr + startNedeli;
-                                dayInMes = new Const().Apr;
-                                nameMes = "Apr";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 4;
-                                endMes = 5;
-                                startNedeli = new Const().Apr + startNedeli;
-                                dayInMes = new Const().Apr;
-                                nameMes = "Apr";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 4;
-                                endMes = 5;
-                                startNedeli = new Const().Apr + startNedeli;
-                                dayInMes = new Const().Apr;
-                                nameMes = "Apr";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 4;
-                                endMes = 5;
-                                startNedeli = new Const().Apr + startNedeli;
-                                dayInMes = new Const().Apr;
-                                nameMes = "Apr";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                            if (startNedeli <= 0) {
-                                startMes = 4;
-                                endMes = 5;
-                                startNedeli = new Const().Apr + startNedeli;
-                                dayInMes = new Const().Apr;
-                                nameMes = "Apr";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 4;
+                        endMes = 5;
+                        startNedeli = new Const().Apr + startNedeli;
+                        dayInMes = new Const().Apr;
+                        nameMes = "Apr";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "Jun":
                     dayInMes = new Const().Jun;
                     startMes = 6;
                     endMes = 7;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 5;
-                                endMes = 6;
-                                startNedeli = new Const().May + startNedeli;
-                                dayInMes = new Const().May;
-                                nameMes = "May";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 5;
-                                endMes = 6;
-                                startNedeli = new Const().May + startNedeli;
-                                dayInMes = new Const().May;
-                                nameMes = "May";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 5;
-                                endMes = 6;
-                                startNedeli = new Const().May + startNedeli;
-                                dayInMes = new Const().May;
-                                nameMes = "May";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 5;
-                                endMes = 6;
-                                startNedeli = new Const().May + startNedeli;
-                                dayInMes = new Const().May;
-                                nameMes = "May";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 5;
-                                endMes = 6;
-                                startNedeli = new Const().May + startNedeli;
-                                dayInMes = new Const().May;
-                                nameMes = "May";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                            if (startNedeli <= 0) {
-                                startMes = 5;
-                                endMes = 6;
-                                startNedeli = new Const().May + startNedeli;
-                                dayInMes = new Const().May;
-                                nameMes = "May";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 5;
+                        endMes = 6;
+                        startNedeli = new Const().May + startNedeli;
+                        dayInMes = new Const().May;
+                        nameMes = "May";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "Jul":
                     dayInMes = new Const().Jul;
                     startMes = 7;
                     endMes = 8;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 6;
-                                endMes = 7;
-                                startNedeli = new Const().Jun + startNedeli;
-                                dayInMes = new Const().Jun;
-                                nameMes = "Jun";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 6;
-                                endMes = 7;
-                                startNedeli = new Const().Jun + startNedeli;
-                                dayInMes = new Const().Jun;
-                                nameMes = "Jun";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 6;
-                                endMes = 7;
-                                startNedeli = new Const().Jun + startNedeli;
-                                dayInMes = new Const().Jun;
-                                nameMes = "Jun";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 6;
-                                endMes = 7;
-                                startNedeli = new Const().Jun + startNedeli;
-                                dayInMes = new Const().Jun;
-                                nameMes = "Jun";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 6;
-                                endMes = 7;
-                                startNedeli = new Const().Jun + startNedeli;
-                                dayInMes = new Const().Jun;
-                                nameMes = "Jun";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                            if (startNedeli <= 0) {
-                                startMes = 6;
-                                endMes = 7;
-                                startNedeli = new Const().Jun + startNedeli;
-                                dayInMes = new Const().Jun;
-                                nameMes = "Jun";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 6;
+                        endMes = 7;
+                        startNedeli = new Const().Jun + startNedeli;
+                        dayInMes = new Const().Jun;
+                        nameMes = "Jun";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "Aug":
                     dayInMes = new Const().Aug;
                     startMes = 8;
                     endMes = 9;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 7;
-                                endMes = 8;
-                                startNedeli = new Const().Jul + startNedeli;
-                                dayInMes = new Const().Jul;
-                                nameMes = "Jul";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 7;
-                                endMes = 8;
-                                startNedeli = new Const().Jul + startNedeli;
-                                dayInMes = new Const().Jul;
-                                nameMes = "Jul";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 7;
-                                endMes = 8;
-                                startNedeli = new Const().Jul + startNedeli;
-                                dayInMes = new Const().Jul;
-                                nameMes = "Jul";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 7;
-                                endMes = 8;
-                                startNedeli = new Const().Jul + startNedeli;
-                                dayInMes = new Const().Jul;
-                                nameMes = "Jul";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 7;
-                                endMes = 8;
-                                startNedeli = new Const().Jul + startNedeli;
-                                dayInMes = new Const().Jul;
-                                nameMes = "Jul";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                                if (startNedeli <= 0) {
-                                    startMes = 7;
-                                    endMes = 8;
-                                    startNedeli = new Const().Jul + startNedeli;
-                                    dayInMes = new Const().Jul;
-                                    nameMes = "Jul";
-                                }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 7;
+                        endMes = 8;
+                        startNedeli = new Const().Jul + startNedeli;
+                        dayInMes = new Const().Jul;
+                        nameMes = "Jul";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "Sep":
                     dayInMes = new Const().Sep;
                     startMes = 9;
                     endMes = 10;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 8;
-                                endMes = 9;
-                                startNedeli = new Const().Aug + startNedeli;
-                                dayInMes = new Const().Aug;
-                                nameMes = "Aug";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 8;
-                                endMes = 9;
-                                startNedeli = new Const().Aug + startNedeli;
-                                dayInMes = new Const().Aug;
-                                nameMes = "Aug";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 8;
-                                endMes = 9;
-                                startNedeli = new Const().Aug + startNedeli;
-                                dayInMes = new Const().Aug;
-                                nameMes = "Aug";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 8;
-                                endMes = 9;
-                                startNedeli = new Const().Aug + startNedeli;
-                                dayInMes = new Const().Aug;
-                                nameMes = "Aug";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 8;
-                                endMes = 9;
-                                startNedeli = new Const().Aug + startNedeli;
-                                dayInMes = new Const().Aug;
-                                nameMes = "Aug";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                                if (startNedeli <= 0) {
-                                    startMes = 8;
-                                    endMes = 9;
-                                    startNedeli = new Const().Aug + startNedeli;
-                                    dayInMes = new Const().Aug;
-                                    nameMes = "Aug";
-                                }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 8;
+                        endMes = 9;
+                        startNedeli = new Const().Aug + startNedeli;
+                        dayInMes = new Const().Aug;
+                        nameMes = "Aug";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "Oct":
                     dayInMes = new Const().Oct;
                     startMes = 10;
                     endMes = 11;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 9;
-                                endMes = 10;
-                                startNedeli = new Const().Sep + startNedeli;
-                                dayInMes = new Const().Sep;
-                                nameMes = "Sep";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 9;
-                                endMes = 10;
-                                startNedeli = new Const().Sep + startNedeli;
-                                dayInMes = new Const().Sep;
-                                nameMes = "Sep";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes)
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                                if (startNedeli <= 0) {
-                                    startMes = 9;
-                                    endMes = 10;
-                                    startNedeli = new Const().Sep + startNedeli;
-                                    dayInMes = new Const().Sep;
-                                    nameMes = "Sep";
-                                }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 9;
-                                endMes = 10;
-                                startNedeli = new Const().Sep + startNedeli;
-                                dayInMes = new Const().Sep;
-                                nameMes = "Sep";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 9;
-                                endMes = 10;
-                                startNedeli = new Const().Sep + startNedeli;
-                                dayInMes = new Const().Sep;
-                                nameMes = "Sep";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                            if (startNedeli <= 0) {
-                                startMes = 9;
-                                endMes = 10;
-                                startNedeli = new Const().Sep + startNedeli;
-                                dayInMes = new Const().Sep;
-                                nameMes = "Sep";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 9;
+                        endMes = 10;
+                        startNedeli = new Const().Sep + startNedeli;
+                        dayInMes = new Const().Sep;
+                        nameMes = "Sep";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "Nov":
                     dayInMes = new Const().Nov;
                     startMes = 11;
                     endMes = 12;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 10;
-                                endMes = 11;
-                                startNedeli = new Const().Oct + startNedeli;
-                                dayInMes = new Const().Oct;
-                                nameMes = "Oct";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 10;
-                                endMes = 11;
-                                startNedeli = new Const().Oct + startNedeli;
-                                dayInMes = new Const().Oct;
-                                nameMes = "Oct";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 10;
-                                endMes = 11;
-                                startNedeli = new Const().Oct + startNedeli;
-                                dayInMes = new Const().Oct;
-                                nameMes = "Oct";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 10;
-                                endMes = 11;
-                                startNedeli = new Const().Oct + startNedeli;
-                                dayInMes = new Const().Oct;
-                                nameMes = "Oct";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 10;
-                                endMes = 11;
-                                startNedeli = new Const().Oct + startNedeli;
-                                dayInMes = new Const().Oct;
-                                nameMes = "Oct";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                            if (startNedeli <= 0) {
-                                startMes = 10;
-                                endMes = 11;
-                                startNedeli = new Const().Oct + startNedeli;
-                                dayInMes = new Const().Oct;
-                                nameMes = "Oct";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 10;
+                        endMes = 11;
+                        startNedeli = new Const().Oct + startNedeli;
+                        dayInMes = new Const().Oct;
+                        nameMes = "Oct";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
+
                     break;
                 case "Dec":
                     dayInMes = new Const().Dec;
                     startMes = 12;
                     endMes = 1;
                     switch (dayName){
-                        case "Mon":
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
-                            break;
                         case "Tue":
-                            startNedeli --;
-                            if (startNedeli <= 0) {
-                                startMes = 11;
-                                endMes = 12;
-                                startNedeli = new Const().Nov + startNedeli;
-                                dayInMes = new Const().Nov;
-                                nameMes = "Nov";
-
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 1;
                             break;
                         case "Wed":
-                            startNedeli = startNedeli - 2;
-                            if (startNedeli <= 0) {
-                                startMes = 11;
-                                endMes = 12;
-                                startNedeli = new Const().Nov + startNedeli;
-                                dayInMes = new Const().Nov;
-                                nameMes = "Nov";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 2;
                             break;
                         case "Thu":
-                            startNedeli = startNedeli - 3;
-                            if (startNedeli <= 0) {
-                                startMes = 11;
-                                endMes = 12;
-                                startNedeli = new Const().Nov + startNedeli;
-                                dayInMes = new Const().Nov;
-                                nameMes = "Nov";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 3;
                             break;
                         case "Fri":
-                            startNedeli = startNedeli - 4;
-                            if (startNedeli <= 0) {
-                                startMes = 11;
-                                endMes = 12;
-                                startNedeli = new Const().Nov + startNedeli;
-                                dayInMes = new Const().Nov;
-                                nameMes = "Nov";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 4;
                             break;
                         case "Sat":
-                            startNedeli = startNedeli - 5;
-                            if (startNedeli <= 0) {
-                                startMes = 11;
-                                endMes = 12;
-                                startNedeli = new Const().Nov + startNedeli;
-                                dayInMes = new Const().Nov;
-                                nameMes = "Nov";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 5;
                             break;
                         case "Sun":
-                            startNedeli = startNedeli - 6;
-                            if (startNedeli <= 0) {
-                                startMes = 11;
-                                endMes = 12;
-                                startNedeli = new Const().Nov + startNedeli;
-                                dayInMes = new Const().Nov;
-                                nameMes = "Nov";
-                            }
-                            endNedeli = startNedeli + 6;
-                            if (endNedeli > dayInMes )
-                                endNedeli = endNedeli - dayInMes;
-                            else
-                                endMes = startMes;
+                            dayRemove = 6;
                             break;
                     }
+
+                    startNedeli = startNedeli - dayRemove;
+                    if (startNedeli <= 0) {
+                        startMes = 11;
+                        endMes = 12;
+                        startNedeli = new Const().Nov + startNedeli;
+                        dayInMes = new Const().Nov;
+                        nameMes = "Nov";
+                    }
+                    endNedeli = startNedeli + 6;
+                    if (endNedeli > dayInMes )
+                        endNedeli = endNedeli - dayInMes;
+                    else
+                        endMes = startMes;
                     break;
             }
+
             editor.putInt("StartNedeli",startNedeli);
             editor.putString("StartMes",nameMes);
             editor.putInt("IntMes",startMes);
             editor.putInt("Year",date.getYear());
             editor.apply();
             for (int i = 0; i < 6; i++){
-                String url = (startNedeli + i) + "." + startMes + "." + date.getYear();
+                String url;
+                    if(startNedeli < 10)
+                        if(startMes < 10)
+                            url = "0" + (startNedeli + i) + ".0" + startMes + "." + date.getYear();
+                        else
+                            url = "0" + (startNedeli + i) + "." + startMes + "." + date.getYear();
+                    else
+                        if(startMes < 10)
+                            url = (startNedeli + i) + ".0" + startMes + "." + date.getYear();
+                        else
+                            url = (startNedeli + i) + "." + startMes + "." + date.getYear();
+
                 String nameDay ;
                 String ulrTwo ;
 
@@ -2548,7 +1921,16 @@ helperDnewniks.clear();
                         break;
                 }
                 try {
-                    FileInputStream read =  getActivity().openFileInput(url);
+                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                        if (!mFolder.exists()) {
+                            mFolder.mkdir();
+                        }
+                        if (!FileTxt.exists()) {
+                            FileTxt.createNewFile();
+                        }
+
+                        FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -2595,24 +1977,35 @@ helperDnewniks.clear();
                         String temp_read,helpZapis = "",helpZapis2= "",helpZapis3= "";
                         String[] help, helpKab;
                         String delimeter = "=";
-                        while ((temp_read = bufferedReader.readLine()) != null) {
-                            help = temp_read.split(delimeter);
-                            stringBuffer.append(help[1]).append("=\n");
-                            helpKab = help[1].split(",");
+
+                            while ((temp_read = bufferedReader.readLine()) != null) {
+                                help = temp_read.split(delimeter);
+                                stringBuffer.append(help[1]).append("=\n");
+                                helpKab = help[1].split(",");
 
 
-                            helpZapis = helpZapis  + helpKab[0]+ "=";
-                            helpZapis2 = helpZapis2  + helpKab[1].substring(1)+ "=";
-                            helpZapis3 = helpZapis3 + " =";
-                        }
-                        helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
+                                helpZapis = helpZapis + helpKab[0] + "=";
+                                helpZapis2 = helpZapis2 + helpKab[1].substring(1) + "=";
+                                helpZapis3 = helpZapis3 + " =";
+                            }
+                            helperDnewniks.add(new helperDnewnik(nameDay, helpZapis, helpZapis2, helpZapis3));
                     } catch (FileNotFoundException q) {
                         q.printStackTrace();
+                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz)));
                     } catch (IOException j) {
                         j.printStackTrace();
                     }
                     try {
-                        FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
+                        File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                        if (!mFolder.exists()) {
+                            mFolder.mkdir();
+                        }
+                        if (!FileTxt.exists()) {
+                            FileTxt.createNewFile();
+                        }
+
+                        FileOutputStream write =  new FileOutputStream(FileTxt);
                         String temp_write = stringBuffer.toString();
 
                         write.write(temp_write.getBytes());
@@ -2626,6 +2019,7 @@ helperDnewniks.clear();
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                }catch (NullPointerException wq){
                 }
 
             }

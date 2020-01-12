@@ -48,7 +48,7 @@
     <string name="obzFive">Хочу выразить огромную благодарность: Гоше Дударю, проектам "Start Android” и “DevColibri”, а также людям со StackOverflow, которые помогали мне в отладке кода</string>
     <string name="help">Справка</string>
     <string name="grades">Оценки</string>
-    <string name="warningOcenki">Редактирование оценок в дальнейшем будет не возможно!</string>
+    <string name="warningOcenki">Редактирование оценок после подтверждения будет не возможно!</string>
     <string name="OneQuarter">I Четверть</string>
     <string name="TwoQuarter">II Четверть</string>
     <string name="ThreeQuarter">III Четверть</string>
@@ -59,10 +59,29 @@
     <string name="settings">Настройки</string>
     <string name="setting">Настройка</string>
     <string name="Ok">Хорошо</string>
-    <string name="Warining">Предупреждение</string>
+    <string name="Warning">Предупреждение</string>
     <string name="chooseMonth">Выберите месяц начала обучения:</string>
-
-
+    <string name="behavior">Поведение</string>
+    <string name="Confirmed">Подтверждено</string>
+    <string name="Not_Confirmed">Не Подтверждено</string>
+    <string name="Confirmation">Подтверждение</string>
+    <string name="ConfirmationMicrophone">Голосовое подтверждение учителя</string>
+    <string name="ConfirmationCamera">Фото росписи учителя</string>
+    <string name="NotCameraPermission">Для этой функции необходим доступ к камере!</string>
+    <string name="NotMicrophonePermission">Для этой функции необходим доступ к микрофону!</string>
+    <string name="NotStoragePermission">Для записи данных необходим доступ к проводнику!</string>
+    <string name="StartMicro">Начать</string>
+    <string name="PauseMicro">Пауза</string>
+    <string name="ResumeMicro">Продолжить</string>
+    <string name="Voice_recording">Запись голоса:</string>
+    <string name="ConfirmedByPhoto">Подтверждено фотографией</string>
+    <string name="ConfirmedByVoice">Подтверждено записью голоса учителя</string>
+    <string name="apiError">На устройствах API 24 и ниже эта функция пока не поддерживается</string>
+    <string name="nullTimetablesName">Вы еще не добавили расписание</string>
+    <string name="nullTimetablesKab">на этот день недели</string>
+    <string name="nullTimetablesDz">Добавить расписание</string>
+    <string name="lessonConst">Предмет</string>
+    <string name="homeworkConst">Домашнее задание</string>
 
     <string-array name="DayTxt">
         <item>Monday.txt</item>
@@ -72,6 +91,4 @@
         <item>Friday.txt</item>
         <item>Saturday.txt</item>
     </string-array>
-
-
 </resources>

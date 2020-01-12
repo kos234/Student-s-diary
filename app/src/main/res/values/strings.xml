@@ -48,7 +48,7 @@
     <string name="obzFive">I would like to express my great gratitude: Gaucher Dudar, the projects "Start Android" and "DevColibri", as well as the people with StackOverflow who helped me debug the code</string>
     <string name="help">Help</string>
     <string name="grades">Grades</string>
-    <string name="warningOcenki">Редактирование оценок в дальнейшем будет не возможно!</string>
+    <string name="warningOcenki">You will not be able to edit the grades after confirmation!</string>
     <string name="OneQuarter">I Quarter</string>
     <string name="TwoQuarter">II Quarter</string>
     <string name="ThreeQuarter">III Quarter</string>
@@ -59,8 +59,29 @@
     <string name="settings">Settings</string>
     <string name="setting">Setting</string>
     <string name="Ok">Ok</string>
-    <string name="Warining">Warning</string>
+    <string name="Warning">Warning</string>
     <string name="chooseMonth">Select the month you want to start the training:</string>
+    <string name="behavior">Behavior</string>
+    <string name="Confirmed">Confirmed</string>
+    <string name="Not_Confirmed">Not confirmed</string>
+    <string name="Confirmation">Confirmation</string>
+    <string name="ConfirmationMicrophone">Voice confirmation of teacher</string>
+    <string name="ConfirmationCamera">Photo of the teacher\'s autograph</string>
+    <string name="NotCameraPermission">This feature requires access to the camera!</string>
+    <string name="NotMicrophonePermission">This feature requires access to the microphone!</string>
+    <string name="NotStoragePermission">To record data, you need access to the Explorer!</string>
+    <string name="StartMicro">Start</string>
+    <string name="PauseMicro">Pause</string>
+    <string name="ResumeMicro">Resume</string>
+    <string name="Voice_recording">Voice recording:</string>
+    <string name="ConfirmedByPhoto">Confirmed by photo</string>
+    <string name="ConfirmedByVoice">Confirmed by recording the teacher\'s voice</string>
+    <string name="apiError">On API 24 devices and below, this feature is not yet supported</string>
+    <string name="nullTimetablesName">You have not yet added a timetables</string>
+    <string name="nullTimetablesKab">for this day of the week</string>
+    <string name="nullTimetablesDz">Add timetables</string>
+    <string name="lessonConst">Lesson</string>
+    <string name="homeworkConst">Homework</string>
 
     <string-array name="DayTxt">
         <item>Monday.txt</item>
@@ -70,6 +91,4 @@
         <item>Friday.txt</item>
         <item>Saturday.txt</item>
     </string-array>
-
-
 </resources>

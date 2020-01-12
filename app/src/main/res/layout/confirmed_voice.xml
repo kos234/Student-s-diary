@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="@string/ConfirmedByVoice"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/TimeCurrentVoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00AF7F7F"
+            android:gravity="center"
+            android:text="00:00"
+            android:textSize="19dp" />
+
+        <SeekBar
+            android:id="@+id/voiceRecordPlayer"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:scrollbarSize="19dp"
+
+            android:progressBackgroundTint="@android:color/darker_gray"
+
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/TimeEndVoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00AF7F7F"
+            android:gravity="center"
+            android:text="01:00"
+            android:textSize="19dp" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/playVoicePlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:background="@null"/>
+
+</LinearLayout>

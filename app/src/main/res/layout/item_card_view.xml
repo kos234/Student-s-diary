@@ -31,20 +31,65 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="1dp"
+                    android:gravity="center"
                     android:background="@android:color/white">
 
                     <TextView
                         android:id="@+id/textViewNameDay"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="@android:color/black"
                         android:textSize="24dp"
                         android:textStyle="bold"
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/black"
+                        android:text="@string/lessonConst"
+                        android:layout_marginRight="1dp"
+                        android:background="@android:color/white"
+                        android:padding="4dp"
+                        android:gravity="center"
+
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/white"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/black"
+
+                        android:gravity="center"
+                        android:text="@string/homeworkConst"
+                        android:padding="4dp"
+
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        />
+                </LinearLayout>
                 </TableRow>
             </TableLayout>
 

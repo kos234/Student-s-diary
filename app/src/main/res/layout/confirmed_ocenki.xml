@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fafafa"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:text="@string/Confirmation"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="2dp"
+        android:textSize="19dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:id="@+id/one"
+        android:onClick="Confirmation"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginLeft="1dp"
+        android:background="#fafafa"
+        android:text="@string/Not_Confirmed"
+        android:textSize="19dp"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:id="@+id/two"
+        android:onClick="Confirmation"
+        android:paddingRight="10dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginLeft="1dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="2dp"
+        android:background="#fafafa"
+        android:text="@string/Not_Confirmed"
+        android:textSize="19dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:id="@+id/three"
+        android:paddingRight="10dp"
+        android:onClick="Confirmation"
+        android:layout_marginRight="1dp"
+        android:layout_marginLeft="1dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="2dp"
+        android:background="#fafafa"
+        android:text="@string/Not_Confirmed"
+        android:textSize="19dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:id="@+id/four"
+        android:onClick="Confirmation"
+        android:layout_marginRight="1dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="1dp"
+        android:background="#fafafa"
+        android:text="@string/Not_Confirmed"
+        android:textSize="19dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:id="@+id/year"
+        android:layout_marginRight="1dp"
+        android:onClick="Confirmation"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/Not_Confirmed"
+        android:layout_marginLeft="1dp"
+        android:background="#fafafa"
+        android:textSize="19dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:id="@+id/examination"
+        android:onClick="Confirmation"
+        android:layout_marginRight="1dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="1dp"
+        android:background="#fafafa"
+        android:text="@string/Not_Confirmed"
+        android:textSize="19dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginRight="1dp"
+        android:id="@+id/end"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="2dp"
+        android:onClick="Confirmation"
+        android:layout_marginLeft="1dp"
+        android:text="@string/Not_Confirmed"
+        android:background="#fafafa"
+        android:textSize="19dp"
+        />
+</TableRow>
