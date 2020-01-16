@@ -1,8 +1,8 @@
-On development stage: Custom style, multilinguality, block "Settings", animations and training
+On development stage: Custom style, block "Settings", animations and training
 
-Already done:Block "Diary", Block "Schedule",Block "Help", Block "Teachers", display the time to the end and beginning of lessons in notification
+Already done: Block "Grades", Block "Diary", Block "Schedule",Block "Help", Block "Teachers", display the time to the end and beginning of lessons in notification
 
 In process: Create and configure: 
-block "Grades", Adding AM PM support
+block "Settings", Adding AM PM support
 
-The current version can be found at this link: https://drive.google.com/file/d/16qrn8LaVQ1C5csFNAPsq5wUxTgSrZ6K2/view?usp=sharing
+The current version can be found at this link: https://drive.google.com/file/d/1h2jyQmYMRJgV9BdxQ4o7NNWfJohQCPPx/view?usp=sharing
