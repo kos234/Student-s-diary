@@ -38,6 +38,7 @@ class PagerAdapterZvon extends FragmentStatePagerAdapter {
             switch (position){
                 case 0:
                     return new ItemFragment("Monday.txt");
+
                     case 1:
                     return new ItemFragment("Tuesday.txt");
                 case 2:

@@ -20,9 +20,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -132,7 +134,20 @@ public class OcenkiFragment extends Fragment {
             alertDialog.show();
         }else
             new StartAsyncTask().execute();
-
+        ImageButton imageButtonLeft = view.findViewById(R.id.imageButtonLeft);
+            imageButtonLeft.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new LeftAsyncTask().execute();
+                }
+            });
+        ImageButton imageButtonRight = view.findViewById(R.id.imageButtonRight);
+        imageButtonRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new RightAsyncTask().execute();
+            }
+        });
         return view;
     }
     @Override
@@ -164,6 +179,8 @@ public class OcenkiFragment extends Fragment {
     public TableRow CreateRow(String[] strings, int NumString){
 
         TableRow Yrok = (TableRow) inflater.inflate(R.layout.ocenki_item, null);
+        Yrok.setId(10203040 + NumString);
+
         TextView  textName = Yrok.findViewById(R.id.nameYrokOcenki);
         TextView textOne = Yrok.findViewById(R.id.ocenka_one);
         TextView textTwo = Yrok.findViewById(R.id.ocenka_two);
@@ -201,6 +218,313 @@ public class OcenkiFragment extends Fragment {
         return Yrok;
     }
 
+    public class RightAsyncTask extends AsyncTask<Void,TableRow,Void>{
+        ArrayList<String[]> TabArray = new ArrayList<>();
+        TableLayout tableLayout = new TableLayout(context);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.gravity = Gravity.CENTER;
+            linearLayout.removeAllViews();
+            ProgressBar progressBar = new ProgressBar(context);
+            linearLayout.addView(progressBar, layoutParams);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            linearLayout.removeAllViews();
+            tableLayout.setBackgroundColor(Color.DKGRAY);
+            linearLayout.addView(tableLayout);
+            textViewDate.setText(url);
+            new CheakWriteInStolb().execute(TabArray);
+        }
+
+        @Override
+        protected void onProgressUpdate(TableRow... values) {
+            super.onProgressUpdate(values);
+            tableLayout.addView(values[0]);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            TableRow Bar = (TableRow) inflater.inflate(R.layout.bar_ocenki, null);
+            publishProgress(Bar);
+                url = settings.getInt("endUrl",2020) + " - " + (settings.getInt("endUrl",2020) + 1);
+                editor.putInt("endUrl", (settings.getInt("endUrl",2020) + 1));
+
+
+            ArrayList predmeti = new ArrayList();
+
+            try {
+                File mFolder = new File(context.getFilesDir() + "/ocenki");
+                File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                if (!mFolder.exists()) {
+                    mFolder.mkdir();
+                }
+                if (!FileTxt.exists()) {
+                    FileTxt.createNewFile();
+                }
+
+                FileInputStream read =  new FileInputStream(FileTxt);
+                InputStreamReader reader = new InputStreamReader(read);
+                BufferedReader bufferedReader = new BufferedReader(reader);
+
+                String temp_read;
+                String[] help;
+                String delimeter = "=";
+
+                if((temp_read = bufferedReader.readLine()) == null){
+                    throw new FileNotFoundException();
+                }else{
+                    help = temp_read.split(delimeter);
+                    predmeti.add(help[0]);
+                    publishProgress(CreateRow(help,predmeti.size()));
+                    TabArray.add(help);
+                }
+
+                while ((temp_read = bufferedReader.readLine()) != null) {
+                    help = temp_read.split(delimeter);
+                    predmeti.add(help[0]);
+                    publishProgress(CreateRow(help,predmeti.size()));
+                    TabArray.add(help);
+                }
+
+                publishProgress(Confirmation());
+                editor.putInt("PredmetiSize", predmeti.size());
+                editor.apply();
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                String[] day = getResources().getStringArray(R.array.DayTxt);
+                StringBuffer stringBuffer = new StringBuffer();
+                String writeString;
+                for (int k = 0; k < day.length; k++) {
+
+                    try {
+                        FileInputStream read = getActivity().openFileInput(day[k]);
+                        InputStreamReader reader = new InputStreamReader(read);
+                        BufferedReader bufferedReader = new BufferedReader(reader);
+
+                        String temp_read;
+                        String[] help,helpName;
+                        String delimeter = "=";
+                        while ((temp_read = bufferedReader.readLine()) != null) {
+                            help = temp_read.split(delimeter);
+                            helpName = help[1].split(",");
+
+                            if(predmeti.indexOf(helpName[0]) < 0){
+                                predmeti.add(helpName[0]);
+                                writeString = helpName[0] + "= = = = = = = ";
+                                stringBuffer.append(writeString).append("\n");
+                                publishProgress(CreateRow(writeString.split(delimeter),predmeti.size()));
+                            }
+                        }
+                    } catch (FileNotFoundException q) {
+                        q.printStackTrace();
+                    } catch (IOException j) {
+                        j.printStackTrace();
+                    }
+
+                }
+
+                predmeti.add(getString(R.string.behavior));
+                writeString = getString(R.string.behavior) + "= = = = = = = ";
+                stringBuffer.append(writeString).append("\n");
+                publishProgress(CreateRow(writeString.split("="),predmeti.size()));
+
+                TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
+                publishProgress(Confirmation);
+
+
+                if(stringBuffer != null)
+                try {
+                    File mFolder = new File(context.getFilesDir() + "/ocenki");
+                    File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                    if (!mFolder.exists()) {
+                        mFolder.mkdir();
+                    }
+                    if (!FileTxt.exists()) {
+                        FileTxt.createNewFile();
+                    }
+
+                    FileOutputStream write =  new FileOutputStream(FileTxt);
+                    String temp_write = stringBuffer.toString();
+
+                    write.write(temp_write.getBytes());
+                    write.close();
+                } catch (FileNotFoundException p) {
+                    p.printStackTrace();
+                } catch (IOException a) {
+                    a.printStackTrace();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+
+    }
+
+    public class LeftAsyncTask extends AsyncTask<Void,TableRow,Void>{
+        ArrayList<String[]> TabArray = new ArrayList<>();
+        TableLayout tableLayout = new TableLayout(context);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.gravity = Gravity.CENTER;
+            linearLayout.removeAllViews();
+            ProgressBar progressBar = new ProgressBar(context);
+            linearLayout.addView(progressBar, layoutParams);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            linearLayout.removeAllViews();
+            tableLayout.setBackgroundColor(Color.DKGRAY);
+            linearLayout.addView(tableLayout);
+            textViewDate.setText(url);
+            new CheakWriteInStolb().execute(TabArray);
+        }
+
+        @Override
+        protected void onProgressUpdate(TableRow... values) {
+            super.onProgressUpdate(values);
+            tableLayout.addView(values[0]);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            TableRow Bar = (TableRow) inflater.inflate(R.layout.bar_ocenki, null);
+            publishProgress(Bar);
+            url = (settings.getInt("endUrl",2020) - 2) + " - " + (settings.getInt("endUrl",2020) - 1);
+            editor.putInt("endUrl", (settings.getInt("endUrl",2020) - 1));
+
+
+            ArrayList predmeti = new ArrayList();
+
+            try {
+                File mFolder = new File(context.getFilesDir() + "/ocenki");
+                File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                if (!mFolder.exists()) {
+                    mFolder.mkdir();
+                }
+                if (!FileTxt.exists()) {
+                    FileTxt.createNewFile();
+                }
+
+                FileInputStream read =  new FileInputStream(FileTxt);
+                InputStreamReader reader = new InputStreamReader(read);
+                BufferedReader bufferedReader = new BufferedReader(reader);
+
+                String temp_read;
+                String[] help;
+                String delimeter = "=";
+
+                if((temp_read = bufferedReader.readLine()) == null){
+                    throw new FileNotFoundException();
+                }else{
+                    help = temp_read.split(delimeter);
+                    predmeti.add(help[0]);
+                    publishProgress(CreateRow(help,predmeti.size()));
+                    TabArray.add(help);
+                }
+
+                while ((temp_read = bufferedReader.readLine()) != null) {
+                    help = temp_read.split(delimeter);
+                    predmeti.add(help[0]);
+                    publishProgress(CreateRow(help,predmeti.size()));
+                    TabArray.add(help);
+                }
+
+                publishProgress(Confirmation());
+                editor.putInt("PredmetiSize", predmeti.size());
+                editor.apply();
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                String[] day = getResources().getStringArray(R.array.DayTxt);
+                StringBuffer stringBuffer = new StringBuffer();
+                String writeString;
+                for (int k = 0; k < day.length; k++) {
+
+                    try {
+                        FileInputStream read = getActivity().openFileInput(day[k]);
+                        InputStreamReader reader = new InputStreamReader(read);
+                        BufferedReader bufferedReader = new BufferedReader(reader);
+
+                        String temp_read;
+                        String[] help,helpName;
+                        String delimeter = "=";
+                        while ((temp_read = bufferedReader.readLine()) != null) {
+                            help = temp_read.split(delimeter);
+                            helpName = help[1].split(",");
+
+                            if(predmeti.indexOf(helpName[0]) < 0){
+                                predmeti.add(helpName[0]);
+                                writeString = helpName[0] + "= = = = = = = ";
+                                stringBuffer.append(writeString).append("\n");
+                                publishProgress(CreateRow(writeString.split(delimeter),predmeti.size()));
+                            }
+                        }
+                    } catch (FileNotFoundException q) {
+                        q.printStackTrace();
+                    } catch (IOException j) {
+                        j.printStackTrace();
+                    }
+
+                }
+
+                predmeti.add(getString(R.string.behavior));
+                writeString = getString(R.string.behavior) + "= = = = = = = ";
+                stringBuffer.append(writeString).append("\n");
+                publishProgress(CreateRow(writeString.split("="),predmeti.size()));
+
+                TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
+                publishProgress(Confirmation);
+
+
+                if(stringBuffer != null)
+                try {
+                    File mFolder = new File(context.getFilesDir() + "/ocenki");
+                    File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                    if (!mFolder.exists()) {
+                        mFolder.mkdir();
+                    }
+                    if (!FileTxt.exists()) {
+                        FileTxt.createNewFile();
+                    }
+
+                    FileOutputStream write =  new FileOutputStream(FileTxt);
+                    String temp_write = stringBuffer.toString();
+
+                    write.write(temp_write.getBytes());
+                    write.close();
+                } catch (FileNotFoundException p) {
+                    p.printStackTrace();
+                } catch (IOException a) {
+                    a.printStackTrace();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+
+    }
 
     public class ClearAsyncTask extends AsyncTask<Void,TableRow,Void>{
 
@@ -234,6 +558,8 @@ public class OcenkiFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            TableRow Bar = (TableRow) inflater.inflate(R.layout.bar_ocenki, null);
+            publishProgress(Bar);
             ArrayList predmeti = new ArrayList();
             String[] day = getResources().getStringArray(R.array.DayTxt);
             StringBuffer stringBuffer = new StringBuffer();
@@ -276,7 +602,7 @@ public class OcenkiFragment extends Fragment {
             publishProgress(Confirmation);
 
 
-
+            if(stringBuffer != null)
             try {
                 File mFolder = new File(context.getFilesDir() + "/ocenki");
                 File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
@@ -300,9 +626,72 @@ public class OcenkiFragment extends Fragment {
             return null;
         }
     }
+    class CheakWriteInStolb extends AsyncTask<ArrayList<String[]>,CheakConvenorResult,Void> {
+
+        @Override
+        protected void onProgressUpdate(CheakConvenorResult... values) {
+            super.onProgressUpdate(values);
+            int FrameId = R.id.frame_ocenki_one;
+
+            switch (values[0].getStolbID()) {
+                case 2:
+                    FrameId = R.id.frame_ocenki_two;
+                    break;
+
+                case 3:
+                    FrameId = R.id.frame_ocenki_three;
+                    break;
+
+                case 4:
+                    FrameId = R.id.frame_ocenki_four;
+                    break;
+
+                case 5:
+                    FrameId = R.id.frame_ocenki_year;
+                    break;
+
+                case 6:
+                    FrameId = R.id.frame_ocenki_examination;
+                    break;
+
+                case 7:
+                    FrameId = R.id.frame_ocenki_end;
+                    break;
+            }
+
+            FrameLayout frameLayout;
+            frameLayout = values[0].getTableRow().findViewById(FrameId);
+            frameLayout.setBackgroundColor(Color.RED);
+        }
+
+        @Override
+        protected Void doInBackground(ArrayList<String[]>... strings) {
+            for (int i = 1; i < 8; i++) {
+                for (int j = 0; j < strings[0].size(); j++)
+                    try {
+                        String[] helpCheak = strings[0].get(j),
+                                ConfirmationValue = settings.getString("ConfirmationValue",getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+                        if (!helpCheak[i].equals(" ") && ConfirmationValue[i-1].equals(getString(R.string.Not_Confirmed)))
+                            throw new Povtor("KRIA", 1);
+                    } catch (Povtor povtor) {
+                        TableRow tableRow;
+                        tableRow = getActivity().findViewById(R.id.barOcenki);
+                        publishProgress(new CheakConvenorResult(tableRow,i));
+                        for (int l = 1; l <= settings.getInt("PredmetiSize", 2); l++) {
+                            tableRow = getActivity().findViewById(10203040 + l);
+                            publishProgress(new CheakConvenorResult(tableRow,i));
+                        }
+                        tableRow = getActivity().findViewById(R.id.confirmationBar);
+                        publishProgress(new CheakConvenorResult(tableRow,i));
+                    }
+            }
+
+            return null;
+        }
+    }
 
     public class StartAsyncTask extends AsyncTask<Void,TableRow,Void>{
-
+        ArrayList<String[]> TabArray = new ArrayList<>();
         TableLayout tableLayout = new TableLayout(context);
 
         @Override
@@ -322,6 +711,7 @@ public class OcenkiFragment extends Fragment {
             tableLayout.setBackgroundColor(Color.DKGRAY);
             linearLayout.addView(tableLayout);
             textViewDate.setText(url);
+            new CheakWriteInStolb().execute(TabArray);
         }
 
         @Override
@@ -344,7 +734,7 @@ public class OcenkiFragment extends Fragment {
 
             }
 
-            editor.apply();
+
             ArrayList predmeti = new ArrayList();
 
             try {
@@ -371,15 +761,20 @@ public class OcenkiFragment extends Fragment {
                     help = temp_read.split(delimeter);
                     predmeti.add(help[0]);
                     publishProgress(CreateRow(help,predmeti.size()));
+                    TabArray.add(help);
                 }
 
                 while ((temp_read = bufferedReader.readLine()) != null) {
                     help = temp_read.split(delimeter);
                     predmeti.add(help[0]);
                     publishProgress(CreateRow(help,predmeti.size()));
+                    TabArray.add(help);
                 }
 
                 publishProgress(Confirmation());
+                editor.putInt("PredmetiSize", predmeti.size());
+                editor.apply();
+
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -424,7 +819,7 @@ public class OcenkiFragment extends Fragment {
                 publishProgress(Confirmation);
 
 
-
+                if(stringBuffer != null)
                 try {
                     File mFolder = new File(context.getFilesDir() + "/ocenki");
                     File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");

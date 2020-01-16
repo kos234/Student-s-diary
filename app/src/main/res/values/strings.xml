@@ -19,7 +19,7 @@
     <string name="homeworkExample">№123</string>
     <string name="newTeacher">New teacher</string>
     <string name="fio">Last Name First Name Middle Name:</string>
-    <string name="fioExample">Perfiliev Konstantin Aleksandrovich</string>
+    <string name="fioExample">Ivanov Ivan Ivanovich</string>
     <string name="teachers">Teachers</string>
     <string name="yes">Yes</string>
     <string name="deleteTeacher">Delete teacher?</string>
@@ -82,6 +82,10 @@
     <string name="nullTimetablesDz">Add timetables</string>
     <string name="lessonConst">Lesson</string>
     <string name="homeworkConst">Homework</string>
+    <string name="nullZvon">Add a schedule \n for this wonderful day \n by clicking on the button in the lower right corner</string>
+    <string name="nullYchit">Add the first teacher \n by clicking the button in the lower right corner</string>
+    <string name="warningPovtorYct">Teacher name and lesson name already recorded</string>
+
 
     <string-array name="DayTxt">
         <item>Monday.txt</item>

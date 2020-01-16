@@ -29,7 +29,7 @@
         android:layout_height="wrap_content" >
 
         <ImageButton
-            android:id="@+id/imageButtonOcen"
+            android:id="@+id/imageButtonLeft"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_weight="1"
@@ -48,7 +48,7 @@
             android:textSize="24dp" />
 
         <ImageButton
-            android:id="@+id/imageButtonOcen2"
+            android:id="@+id/imageButtonRight"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
 

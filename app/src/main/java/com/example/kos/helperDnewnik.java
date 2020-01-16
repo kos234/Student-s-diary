@@ -20,32 +20,16 @@ public class helperDnewnik {
         return NameDay;
     }
 
-    public void setNameDay(String nameDay) {
-        NameDay = nameDay;
-    }
-
     public String getNamePred() {
         return NamePred;
-    }
-
-    public void setNamePred(String namePred) {
-        NamePred = namePred;
     }
 
     public String getKab() {
         return Kab;
     }
 
-    public void setKab(String kab) {
-        Kab = kab;
-    }
-
     public String getDz() {
         return Dz;
-    }
-
-    public void setDz(String dz) {
-        Dz = dz;
     }
 }
 

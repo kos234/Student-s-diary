@@ -30,8 +30,16 @@
         android:id="@+id/Ychitelia"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-
     </ListView>
 
+    <TextView
+        android:id="@+id/nullYchit"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/nullYchit"/>
 
 </FrameLayout>

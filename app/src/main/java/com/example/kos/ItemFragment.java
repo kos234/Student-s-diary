@@ -43,9 +43,12 @@ public class ItemFragment extends Fragment {
     private  HashMap<String,String> map;
     private String url;
     private Context context;
+    ViewGroup viewGroup;
+
     public ItemFragment(String url) {
         this.url = url;
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -61,7 +64,7 @@ public class ItemFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       final ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_item_pager, container,false);
+       viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_item_pager, container,false);
         Start();
         lvMain = viewGroup.findViewById(R.id.listView);
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
@@ -119,6 +122,7 @@ public class ItemFragment extends Fragment {
 
 
                                 Start();
+                                TextViewVisible();
                                 lvMain = viewGroup.findViewById(R.id.listView);
                         SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
                                 new String[]{"Times", "Kab"},
@@ -270,12 +274,12 @@ public class ItemFragment extends Fragment {
                                                         }
 
                                                         Start();
+
                                                         lvMain = viewGroup.findViewById(R.id.listView);
                                                         SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
                                                                 new String[]{"Times", "Kab"},
                                                                 new int[]{R.id.textView1, R.id.textView1_2});
                                                         lvMain.setAdapter(adapter);
-
                                                     } catch (Povtor povtor) {
                                                         Toast.makeText(getActivity(),context.getString(R.string.timeSpan),Toast.LENGTH_LONG).show();
                                                     }
@@ -317,6 +321,10 @@ public class ItemFragment extends Fragment {
         }
         return true;
     }
+    public void TextViewVisible() {
+        TextView textView = viewGroup.findViewById(R.id.nullZvon);
+        textView.setVisibility(View.VISIBLE);
+    }
 
     public void Start() {
         String[] help ;
@@ -333,7 +341,6 @@ public class ItemFragment extends Fragment {
                 map.put("Times", help[0]);
                 map.put("Kab", help[1]);
                 products.add(map);
-
             }
             bufferedReader.close();
             reader.close();
@@ -344,6 +351,11 @@ public class ItemFragment extends Fragment {
             e.printStackTrace();
         } catch (NullPointerException ignore) {
 
+        }
+
+        if(products.size() != 0){
+            TextView textView = viewGroup.findViewById(R.id.nullZvon);
+            textView.setVisibility(View.INVISIBLE);
         }
 
     }

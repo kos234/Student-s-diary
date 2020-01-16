@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -51,6 +52,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +79,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -87,21 +90,28 @@ public class MainActivity extends AppCompatActivity {
 
     final Context context = this;
     private AlertDialog alertDialogConfirmation;
-    private SharedPreferences settings;
+    private SharedPreferences settings,
+                                prefs = null;
     private SharedPreferences.Editor editor;
-    private SharedPreferences prefs = null;
-    private int what;
+    private int what,
+            numStolbWrite = 0,
+            numZapic = 1;
     private final Handler handler = new Handler();
     private MediaPlayer mediaPlayer;
     MediaRecorder mediaRecorder;
-    private  int numStolbWrite = 0;
     private Boolean ic_micro = true;
     private NotificationManager notificationManager;
-    private static final int NOTIFY_ID = 1;
+    private static final int NOTIFY_ID = 1,
+                            REQUEST_CODE_CAMERA = 1,
+                            REQUEST_CODE_MICROPHONE = 2,
+                            REQUEST_CODE_MICROPHONE_CONF = 3,
+                            REQUEST_CODE_CAMERA_CONF = 4,
+                            REQUEST_CODE_FOLDER_CONF = 5;
     private static final String CHANNEL_ID = "Novus_Pidor";
     private String url;
     Boolean cancelAsyncTask = false;
     private View viewConfirm;
+    public int color;
     private TextView ConfirmationTextView;
 
 
@@ -117,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences("Settings", MODE_PRIVATE);
         editor = settings.edit();
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},3);
+            ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_FOLDER_CONF);
         }
         prefs = getSharedPreferences("com.example.kos", MODE_PRIVATE);
         NavigationView navigationView = findViewById(R.id.navigation);
@@ -236,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ClickTab (View view){
-        int textViewId =  R.id.ocenka_one, editTextId = R.id.ocenka_edit_one, numZapic = 1, numStolb = R.id.numStolb_1;
+        int textViewId =  R.id.ocenka_one, editTextId = R.id.ocenka_edit_one, numStolb = R.id.numStolb_1;
 
         switch (view.getId()){
             case R.id.frame_ocenki_two:
@@ -292,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView numStolbik = view.findViewById(numStolb);
         final int numZapicFinal = numZapic;
         final String url = (settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020);
-
+        editText.setBackgroundColor(Color.parseColor("#fafafa"));
         editText.setVisibility(View.VISIBLE);
         final InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
@@ -326,25 +336,33 @@ public class MainActivity extends AppCompatActivity {
                                 String[] help;
                                 String delimeter = "=";
                                 int count = 1;
+
+
+
                                 while ((temp_read = bufferedReader.readLine()) != null) {
+                                    help = temp_read.split(delimeter);
                                     if(count == Integer.parseInt(numStolbik.getText().toString())){
-                                       help = temp_read.split(delimeter);
+                                        if(editText.getText().toString().equals(""))
+                                            help[numZapicFinal] = " ";
+                                            else
                                        help[numZapicFinal] = editText.getText().toString();
                                        for(int i = 0;i <= 7;i++){
                                            stringBuffer.append(help[i] + "=");
                                        }
                                        stringBuffer.append("\n");
-                                       count ++;
-                                    } else{
-                                        count ++;
+                                    } else
                                     stringBuffer.append(temp_read).append("\n");
-                                }}
+                                    count ++;
+
+
+                                }
                             } catch (FileNotFoundException q) {
                                 q.printStackTrace();
                             } catch (IOException j) {
                                 j.printStackTrace();
                             }
-
+                            color = Color.RED;
+                            new ReplaceColorStolb().execute();
 
                             try {
                                 File mFolder = new File(context.getFilesDir() + "/ocenki");
@@ -373,6 +391,58 @@ public class MainActivity extends AppCompatActivity {
             });
 
     }}
+
+    class ReplaceColorStolb extends AsyncTask<Void,TableRow,Void>{
+        @Override
+        protected void onProgressUpdate(TableRow... values) {
+            super.onProgressUpdate(values);
+            int FrameId = R.id.frame_ocenki_one;
+
+            switch (numZapic){
+                case 2:
+                    FrameId = R.id.frame_ocenki_two;
+                    break;
+
+                case 3:
+                    FrameId = R.id.frame_ocenki_three;
+                    break;
+
+                case 4:
+                    FrameId = R.id.frame_ocenki_four;
+                    break;
+
+                case 5:
+                    FrameId = R.id.frame_ocenki_year;
+                    break;
+
+                case 6:
+                    FrameId = R.id.frame_ocenki_examination;
+                    break;
+
+                case 7:
+                    FrameId = R.id.frame_ocenki_end;
+                    break;
+            }
+
+            FrameLayout frameLayout;
+            frameLayout = values[0].findViewById(FrameId);
+            frameLayout.setBackgroundColor(color);
+        }
+
+        @Override
+        protected Void doInBackground(Void... strings) {
+                TableRow tableRow;
+                tableRow = findViewById(R.id.barOcenki);
+                publishProgress(tableRow);
+                for(int i = 1; i <= settings.getInt("PredmetiSize", 2); i++){
+                    tableRow = findViewById(10203040 + i);
+                    publishProgress(tableRow);
+                }
+                tableRow = findViewById(R.id.confirmationBar);
+                publishProgress(tableRow);
+            return null;
+        }
+    }
 
     public void Confirmation (View view){
         ConfirmationTextView = (TextView) view;
@@ -408,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if(ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.RECORD_AUDIO},2);
+                        ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.RECORD_AUDIO},REQUEST_CODE_MICROPHONE_CONF);
                     }else{
                         MicroConfirmation();
                     }
@@ -420,7 +490,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.CAMERA},1);
+                        ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.CAMERA},REQUEST_CODE_CAMERA_CONF);
                     }else{
                         CameraConfirmarion();
                     }
@@ -696,7 +766,33 @@ public class MainActivity extends AppCompatActivity {
                         ConfirmationTextView.setText(getString(R.string.Confirmed));
                     }
                 });
+
+            color = 0;
+            new ReplaceColorStolb().execute();
+
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent intent) {
+                if(requestCode == REQUEST_CODE_CAMERA && resultCode != RESULT_CANCELED){
+                    String ConfirmationWrite = "";
+                    String[] ConfirmationValue = settings.getString("ConfirmationValue",getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+                    for (int i = 0; i < ConfirmationValue.length; i++){
+                        if(i == numStolbWrite){
+                            ConfirmationWrite = ConfirmationWrite + getString(R.string.Confirmed) + "~jpg=";
+                        }else
+                            ConfirmationWrite = ConfirmationWrite + ConfirmationValue[i] + "=";
+                    }
+                    editor.putString("ConfirmationValue",ConfirmationWrite);
+                    editor.apply();
+                    ConfirmationTextView.setText(getString(R.string.Confirmed));
+                    alertDialogConfirmation.hide();
+                    color = 0;
+                    new ReplaceColorStolb().execute();
+                }
+
     }
 
     class TimeRecording extends AsyncTask<Void,String,Void> {
@@ -769,19 +865,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Uri outputFileUri = Uri.fromFile(file);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-        startActivityForResult(intent, 10);
-       String ConfirmationWrite = "";
-       String[] ConfirmationValue = settings.getString("ConfirmationValue",getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
-        for (int i = 0; i < ConfirmationValue.length; i++){
-            if(i == numStolbWrite){
-                ConfirmationWrite = ConfirmationWrite + getString(R.string.Confirmed) + "~jpg=";
-            }else
-                ConfirmationWrite = ConfirmationWrite + ConfirmationValue[i] + "=";
-        }
-        editor.putString("ConfirmationValue",ConfirmationWrite);
-        editor.apply();
-        ConfirmationTextView.setText(getString(R.string.Confirmed));
-        alertDialogConfirmation.hide();
+        startActivityForResult(intent, REQUEST_CODE_CAMERA);
     }
 
 
@@ -789,8 +873,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case 1: {
-                // если пользователь закрыл запрос на разрешение, не дав ответа, массив grantResults будет пустым
+            case REQUEST_CODE_CAMERA_CONF: {
                 if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(context,getString(R.string.NotCameraPermission),Toast.LENGTH_LONG).show();
                 }
@@ -799,14 +882,14 @@ public class MainActivity extends AppCompatActivity {
 
                 return;
             }
-            case 2: {
+            case REQUEST_CODE_MICROPHONE_CONF: {
                 if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(context,getString(R.string.NotMicrophonePermission),Toast.LENGTH_LONG).show();
                 }
 
                 return;
             }
-            case 3: {
+            case REQUEST_CODE_FOLDER_CONF: {
                 if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(context,getString(R.string.NotStoragePermission),Toast.LENGTH_LONG).show();
                 }

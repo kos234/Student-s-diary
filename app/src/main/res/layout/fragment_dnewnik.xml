@@ -64,15 +64,5 @@
         android:layout_weight="1"
         android:orientation="vertical"></LinearLayout>
 
-    <!--    <androidx.viewpager.widget.ViewPager-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:foregroundGravity="center"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:overScrollMode="never"-->
-<!--        android:clipToPadding="false"-->
-<!--        android:id="@+id/viewPagerDnewnik">-->
-
-<!--    </androidx.viewpager.widget.ViewPager>-->
 
 </LinearLayout>

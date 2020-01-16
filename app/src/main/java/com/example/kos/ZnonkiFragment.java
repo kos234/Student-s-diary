@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -233,6 +234,7 @@ public class ZnonkiFragment extends Fragment {
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
+                                    new ItemFragment(day[k]).Start();
                                 }
                                 viewPager =  viewOne.findViewById(R.id.rager);
                                 pagerAdapter = new PagerAdapterZvon(getActivity().getSupportFragmentManager(),context);
@@ -256,7 +258,7 @@ public class ZnonkiFragment extends Fragment {
         });
         button.setOnClickListener(new View.OnClickListener()  {
                                       @Override
-                                      public void onClick(View view) {
+                                      public void onClick(final View view) {
 
                                           final LayoutInflater li = LayoutInflater.from(context);
                                           View promptsView = li.inflate(R.layout.prompt , null);

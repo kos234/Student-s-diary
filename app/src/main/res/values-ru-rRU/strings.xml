@@ -19,7 +19,7 @@
     <string name="homeworkExample">№123</string>
     <string name="newTeacher">Новый учитель</string>
     <string name="fio">Фамилия Имя Отчество:</string>
-    <string name="fioExample">Перфильев Константин Александрович</string>
+    <string name="fioExample">Иванов Иван Иванович</string>
     <string name="teachers">Учителя</string>
     <string name="yes">Да</string>
     <string name="deleteTeacher">Удалить преподавателя?</string>
@@ -82,6 +82,9 @@
     <string name="nullTimetablesDz">Добавить расписание</string>
     <string name="lessonConst">Предмет</string>
     <string name="homeworkConst">Домашнее задание</string>
+    <string name="nullZvon">Добавьте расписание \n на этот чудесный день, \n нажав на кнопку в правом нижнем углу</string>
+    <string name="nullYchit">Добавьте первого учителя, \n нажав кнопку в нижнем правом углу</string>
+    <string name="warningPovtorYct">Имя учителя и название предмета уже записаны</string>
 
     <string-array name="DayTxt">
         <item>Monday.txt</item>

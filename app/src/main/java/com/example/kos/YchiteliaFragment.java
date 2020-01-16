@@ -39,6 +39,7 @@ public class YchiteliaFragment extends Fragment {
     private String NamePred, PredPred;
     private ArrayList<HashMap<String, String>> products = new ArrayList<>();
     private ListView listView;
+    View viewFragment;
     private SharedPreferences settings;
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -55,7 +56,7 @@ public class YchiteliaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View viewFragment =  inflater.inflate(R.layout.fragment_ychitelia, container,false);
+        viewFragment =  inflater.inflate(R.layout.fragment_ychitelia, container,false);
 
         androidx.appcompat.widget.Toolbar toolbar = viewFragment.findViewById(R.id.toolbarPrepod);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
@@ -72,9 +73,9 @@ public class YchiteliaFragment extends Fragment {
                 new String[]{"Name", "Pred"},
                 new int[]{R.id.textView1, R.id.textView1_2});
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 final TextView textView = view.findViewById(R.id.textView1);
                 AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
@@ -122,6 +123,7 @@ public class YchiteliaFragment extends Fragment {
                         }
 
                         Start();
+                        TextViewVisible();
                         listView = viewFragment.findViewById(R.id.Ychitelia);
                         SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
                                 new String[]{"Name", "Pred"},
@@ -140,11 +142,13 @@ public class YchiteliaFragment extends Fragment {
                 AlertDialog alertDialog = deleted.create();
                 alertDialog.setTitle(context.getString(R.string.deleting));
                 alertDialog.show();
+
+                return true;
             }
         });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
                 final TextView textViewName = view.findViewById(R.id.textView1);
                 final TextView textViewKab = view.findViewById(R.id.textView1_2);
 
@@ -226,7 +230,6 @@ public class YchiteliaFragment extends Fragment {
                 //и отображаем его:
 
                 alertDialog.show();
-                return true;
             }
         });
         return viewFragment;
@@ -270,8 +273,16 @@ public class YchiteliaFragment extends Fragment {
 
         }
 
+        if(products.size() != 0){
+            TextView textView = viewFragment.findViewById(R.id.nullYchit);
+            textView.setVisibility(View.INVISIBLE);
+        }
 
+    }
 
+    public void TextViewVisible() {
+        TextView textView = viewFragment.findViewById(R.id.nullYchit);
+        textView.setVisibility(View.VISIBLE);
     }
 
     public void Button (final View viewFind){
@@ -297,6 +308,7 @@ public class YchiteliaFragment extends Fragment {
                     e.printStackTrace();
                 }
                 Start();
+                TextViewVisible();
                 listView = viewFind.findViewById(R.id.Ychitelia);
                 SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
                         new String[]{"Name", "Pred"},
@@ -332,47 +344,60 @@ public class YchiteliaFragment extends Fragment {
                         .setPositiveButton(context.getString(R.string.save),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
-                                        StringBuffer stringBuffer = new StringBuffer();
-                                        NamePred = name.getText().toString();
-                                        PredPred = predmet.getText().toString();
-                                        if (NamePred.length() > 0  && PredPred.length() > 0 ) {
                                         try {
-                                            FileInputStream read =  getActivity().openFileInput("Ychitelia.txt");
-                                            InputStreamReader reader = new InputStreamReader(read);
-                                            BufferedReader bufferedReader = new BufferedReader(reader);
+                                            StringBuffer stringBuffer = new StringBuffer();
+                                            if (name.getText().toString().equals(""))
+                                                NamePred = getString(R.string.fioExample);
+                                            else
+                                                NamePred = name.getText().toString();
+                                            if (predmet.getText().toString().equals(""))
+                                                PredPred = getString(R.string.lessonExample);
+                                            else
+                                                PredPred = predmet.getText().toString();
 
-                                            String temp_read;
-                                            while ((temp_read = bufferedReader.readLine()) != null) {
-                                                stringBuffer.append(temp_read).append(("\n"));
+                                            if (NamePred.length() > 0 && PredPred.length() > 0) {
+                                                try {
+                                                    FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
+                                                    InputStreamReader reader = new InputStreamReader(read);
+                                                    BufferedReader bufferedReader = new BufferedReader(reader);
+
+                                                    String temp_read;
+                                                    while ((temp_read = bufferedReader.readLine()) != null) {
+                                                        if (temp_read.equals(NamePred + "=" + PredPred))
+                                                            throw new Povtor("KRIA", 1);
+                                                    else
+                                                        stringBuffer.append(temp_read).append(("\n"));
+                                                    }
+                                                } catch (FileNotFoundException e) {
+                                                    e.printStackTrace();
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                                try {
+                                                    FileOutputStream write = getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
+                                                    String temp_write = stringBuffer.toString() + NamePred + "=" + PredPred;
+
+                                                    write.write(temp_write.getBytes());
+                                                    write.close();
+                                                } catch (FileNotFoundException e) {
+                                                    e.printStackTrace();
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                Start();
+                                                listView = viewFind.findViewById(R.id.Ychitelia);
+                                                SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
+                                                        new String[]{"Name", "Pred"},
+                                                        new int[]{R.id.textView1, R.id.textView1_2});
+                                                listView.setAdapter(adapter);
+                                            } else {
+                                                Toast.makeText(getActivity(), context.getString(R.string.FieldsNot), Toast.LENGTH_LONG).show();
                                             }
-                                        } catch (FileNotFoundException e) {
-                                            e.printStackTrace();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
+                                        }  catch (Povtor povtor) {
+                                            Toast.makeText(context,context.getString(R.string.warningPovtorYct),Toast.LENGTH_LONG).show();
                                         }
-
-                                        try {
-                                            FileOutputStream write =  getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
-                                            String temp_write = stringBuffer.toString()  + NamePred + "="+ PredPred;
-
-                                            write.write(temp_write.getBytes());
-                                            write.close();
-                                        } catch (FileNotFoundException e) {
-                                            e.printStackTrace();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
                                         }
-                                        Start();
-                                        listView = viewFind.findViewById(R.id.Ychitelia);
-                                        SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
-                                                new String[]{"Name", "Pred"},
-                                                new int[]{R.id.textView1,R.id.textView1_2});
-                                        listView.setAdapter(adapter);
-                                    }else {
-                                            Toast.makeText(getActivity(),context.getString(R.string.FieldsNot),Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-
                                 });
 
                 //Создаем AlertDialog:
