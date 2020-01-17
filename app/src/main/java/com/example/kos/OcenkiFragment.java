@@ -50,7 +50,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class OcenkiFragment extends Fragment {
     private Context context;
-    private SharedPreferences settings;
+    private SharedPreferences settings,
+                            Confirmed;
     SharedPreferences.Editor editor;
     private String url;
     private TextView textViewDate;
@@ -72,6 +73,7 @@ public class OcenkiFragment extends Fragment {
             }
         });
         settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        Confirmed = getActivity().getSharedPreferences("Confirmed", MODE_PRIVATE);
         editor = settings.edit();
         linearLayout = view.findViewById(R.id.LinerOcenki_Item);
         textViewDate = view.findViewById(R.id.textViewOcen);
@@ -79,7 +81,7 @@ public class OcenkiFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try{
-                String[] ConfirmationValue = settings.getString("ConfirmationValue",getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+                String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
                     for(int i = 0; i < ConfirmationValue.length; i++)
                         if(!ConfirmationValue[i].equals(getString(R.string.Not_Confirmed)))
                             throw new Povtor("KRIA", 1);
@@ -162,9 +164,9 @@ public class OcenkiFragment extends Fragment {
     }
 
 
-    public TableRow Confirmation(){
+    public TableRow Confirmation(String urlConf){
         TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
-        String[] ConfirmationValue = settings.getString("ConfirmationValue",getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+        String[] ConfirmationValue = Confirmed.getString(urlConf,getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
         int[] ConfirmationID = new int[]{R.id.one, R.id.two, R.id.three, R.id.four, R.id.year, R.id.examination, R.id.end};
 
         for(int i = 0; i < 7; i++){
@@ -292,7 +294,7 @@ public class OcenkiFragment extends Fragment {
                     TabArray.add(help);
                 }
 
-                publishProgress(Confirmation());
+                publishProgress(Confirmation(url));
                 editor.putInt("PredmetiSize", predmeti.size());
                 editor.apply();
 
@@ -446,7 +448,7 @@ public class OcenkiFragment extends Fragment {
                     TabArray.add(help);
                 }
 
-                publishProgress(Confirmation());
+                publishProgress(Confirmation(url));
                 editor.putInt("PredmetiSize", predmeti.size());
                 editor.apply();
 
@@ -670,7 +672,7 @@ public class OcenkiFragment extends Fragment {
                 for (int j = 0; j < strings[0].size(); j++)
                     try {
                         String[] helpCheak = strings[0].get(j),
-                                ConfirmationValue = settings.getString("ConfirmationValue",getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+                                ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
                         if (!helpCheak[i].equals(" ") && ConfirmationValue[i-1].equals(getString(R.string.Not_Confirmed)))
                             throw new Povtor("KRIA", 1);
                     } catch (Povtor povtor) {
@@ -771,7 +773,7 @@ public class OcenkiFragment extends Fragment {
                     TabArray.add(help);
                 }
 
-                publishProgress(Confirmation());
+                publishProgress(Confirmation(url));
                 editor.putInt("PredmetiSize", predmeti.size());
                 editor.apply();
 

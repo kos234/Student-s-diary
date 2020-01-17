@@ -85,7 +85,11 @@
     <string name="nullZvon">Add a schedule \n for this wonderful day \n by clicking on the button in the lower right corner</string>
     <string name="nullYchit">Add the first teacher \n by clicking the button in the lower right corner</string>
     <string name="warningPovtorYct">Teacher name and lesson name already recorded</string>
-
+    <string name="NotifSettingsName">Lesson Notification</string>
+    <string name="PovSettings">Add field "Behaviors"</string>
+    <string name="WhatSettings">This parameter will affect something</string>
+    <string name="General_setting">General setting</string>
+    <string name="DeletedOcen">You cannot delete already confirmed grades!</string>
 
     <string-array name="DayTxt">
         <item>Monday.txt</item>

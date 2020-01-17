@@ -85,6 +85,11 @@
     <string name="nullZvon">Добавьте расписание \n на этот чудесный день, \n нажав на кнопку в правом нижнем углу</string>
     <string name="nullYchit">Добавьте первого учителя, \n нажав кнопку в нижнем правом углу</string>
     <string name="warningPovtorYct">Имя учителя и название предмета уже записаны</string>
+    <string name="NotifSettingsName">Уведомление о уроках</string>
+    <string name="PovSettings">Добавить поле "Поведение"</string>
+    <string name="WhatSettings">Этот параметр на что-то повлияет</string>
+    <string name="General_setting">Общие настройки</string>
+    <string name="DeletedOcen">Нельзя удалить уже подтвержденные оценки!</string>
 
     <string-array name="DayTxt">
         <item>Monday.txt</item>

@@ -26,6 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -223,16 +224,10 @@ public class ZnonkiFragment extends Fragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String[] day = getResources().getStringArray(R.array.DayTxt);
                                 for (int k = 0; k < day.length; k++) {
-                                    try {
-                                        FileOutputStream write = getActivity().openFileOutput(day[k], getActivity().MODE_PRIVATE);
-                                        String temp_write = "";
 
-                                        write.write(temp_write.getBytes());
-                                        write.close();
-                                    } catch (FileNotFoundException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                    File outFile = new File(day[k]);
+                                    if (outFile.exists()) {
+                                        outFile.delete();
                                     }
                                     new ItemFragment(day[k]).Start();
                                 }

@@ -35,13 +35,7 @@ public class NastroikiFragment extends Fragment {
  * Уведомления
  *
  */
-        final TextView textView = view.findViewById(R.id.textviewSettings);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textView.setText("SSSSS");
-            }
-        });
+
 
         return view;
     }

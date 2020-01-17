@@ -91,8 +91,10 @@ public class MainActivity extends AppCompatActivity {
     final Context context = this;
     private AlertDialog alertDialogConfirmation;
     private SharedPreferences settings,
+                                Confirmed,
                                 prefs = null;
-    private SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor,
+                        editorConfirmed;
     private int what,
             numStolbWrite = 0,
             numZapic = 1;
@@ -125,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settings = getSharedPreferences("Settings", MODE_PRIVATE);
+        Confirmed = getSharedPreferences("Confirmed", MODE_PRIVATE);
         editor = settings.edit();
+        editorConfirmed = Confirmed.edit();
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_FOLDER_CONF);
         }
@@ -293,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        String[] ConfirmationValue = settings.getString("ConfirmationValue",getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+        String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
 
         if(ConfirmationValue[numZapic-1].equals(getString(R.string.Not_Confirmed))){
 
@@ -506,7 +510,7 @@ public class MainActivity extends AppCompatActivity {
             //и отображаем его:
             alertDialogConfirmation.show();
         }else{
-               String[] ConfirmationValue = settings.getString("ConfirmationValue",getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+            String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
                 String[] Format = ConfirmationValue[numStolbWrite].split("~");
                 if(Format.length >= 2){
                     final LayoutInflater li = LayoutInflater.from(context);
@@ -754,20 +758,20 @@ public class MainActivity extends AppCompatActivity {
                         cancelAsyncTask = true;
                         mediaRecorder.stop();
                         String ConfirmationWrite = "";
-                        String[] ConfirmationValue = settings.getString("ConfirmationValue",getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+                        String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
                         for (int i = 0; i < ConfirmationValue.length; i++){
                             if(i == numStolbWrite){
                                 ConfirmationWrite = ConfirmationWrite + getString(R.string.Confirmed) + "~amr=";
                             }else
                                 ConfirmationWrite = ConfirmationWrite + ConfirmationValue[i] + "=";
                         }
-                        editor.putString("ConfirmationValue",ConfirmationWrite);
-                        editor.apply();
+                        editorConfirmed.putString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),ConfirmationWrite);
+                        editorConfirmed.apply();
                         ConfirmationTextView.setText(getString(R.string.Confirmed));
                     }
                 });
 
-            color = 0;
+            color = Color.DKGRAY;
             new ReplaceColorStolb().execute();
 
         }
@@ -778,18 +782,18 @@ public class MainActivity extends AppCompatActivity {
                                     Intent intent) {
                 if(requestCode == REQUEST_CODE_CAMERA && resultCode != RESULT_CANCELED){
                     String ConfirmationWrite = "";
-                    String[] ConfirmationValue = settings.getString("ConfirmationValue",getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+                    String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
                     for (int i = 0; i < ConfirmationValue.length; i++){
                         if(i == numStolbWrite){
                             ConfirmationWrite = ConfirmationWrite + getString(R.string.Confirmed) + "~jpg=";
                         }else
                             ConfirmationWrite = ConfirmationWrite + ConfirmationValue[i] + "=";
                     }
-                    editor.putString("ConfirmationValue",ConfirmationWrite);
-                    editor.apply();
+                    editorConfirmed.putString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),ConfirmationWrite);
+                    editorConfirmed.apply();
                     ConfirmationTextView.setText(getString(R.string.Confirmed));
                     alertDialogConfirmation.hide();
-                    color = 0;
+                    color = Color.DKGRAY;
                     new ReplaceColorStolb().execute();
                 }
 
