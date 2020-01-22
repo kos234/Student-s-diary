@@ -333,10 +333,12 @@ public class OcenkiFragment extends Fragment {
 
                 }
 
-                predmeti.add(getString(R.string.behavior));
-                writeString = getString(R.string.behavior) + "= = = = = = = ";
-                stringBuffer.append(writeString).append("\n");
-                publishProgress(CreateRow(writeString.split("="),predmeti.size()));
+                if(settings.getBoolean("PovedSettings",true)){
+                    predmeti.add(getString(R.string.behavior));
+                    writeString = getString(R.string.behavior) + "= = = = = = = ";
+                    stringBuffer.append(writeString).append("\n");
+                    publishProgress(CreateRow(writeString.split("="),predmeti.size()));
+                }
 
                 TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
                 publishProgress(Confirmation);
@@ -487,10 +489,12 @@ public class OcenkiFragment extends Fragment {
 
                 }
 
-                predmeti.add(getString(R.string.behavior));
-                writeString = getString(R.string.behavior) + "= = = = = = = ";
-                stringBuffer.append(writeString).append("\n");
-                publishProgress(CreateRow(writeString.split("="),predmeti.size()));
+                if(settings.getBoolean("PovedSettings",true)){
+                    predmeti.add(getString(R.string.behavior));
+                    writeString = getString(R.string.behavior) + "= = = = = = = ";
+                    stringBuffer.append(writeString).append("\n");
+                    publishProgress(CreateRow(writeString.split("="),predmeti.size()));
+                }
 
                 TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
                 publishProgress(Confirmation);
@@ -595,10 +599,12 @@ public class OcenkiFragment extends Fragment {
 
             }
 
-            predmeti.add(getString(R.string.behavior));
-            writeString = getString(R.string.behavior) + "= = = = = = = ";
-            stringBuffer.append(writeString).append("\n");
-            publishProgress(CreateRow(writeString.split("="),predmeti.size()));
+            if(settings.getBoolean("PovedSettings",true)){
+                predmeti.add(getString(R.string.behavior));
+                writeString = getString(R.string.behavior) + "= = = = = = = ";
+                stringBuffer.append(writeString).append("\n");
+                publishProgress(CreateRow(writeString.split("="),predmeti.size()));
+            }
 
             TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
             publishProgress(Confirmation);
@@ -812,10 +818,12 @@ public class OcenkiFragment extends Fragment {
 
                 }
 
-                predmeti.add(getString(R.string.behavior));
-                writeString = getString(R.string.behavior) + "= = = = = = = ";
-                stringBuffer.append(writeString).append("\n");
-                publishProgress(CreateRow(writeString.split("="),predmeti.size()));
+                if(settings.getBoolean("PovedSettings",true)){
+                    predmeti.add(getString(R.string.behavior));
+                    writeString = getString(R.string.behavior) + "= = = = = = = ";
+                    stringBuffer.append(writeString).append("\n");
+                    publishProgress(CreateRow(writeString.split("="),predmeti.size()));
+                }
 
                 TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
                 publishProgress(Confirmation);

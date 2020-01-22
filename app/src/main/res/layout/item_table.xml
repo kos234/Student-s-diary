@@ -24,6 +24,8 @@
         >
 
         <TextView
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:id="@+id/textView1_1_dnev"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,6 +39,8 @@
             />
 
         <TextView
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:id="@+id/textView1_2_dnev"
             android:background="@android:color/white"
             android:layout_width="match_parent"
@@ -50,6 +54,8 @@
 
 
     <TextView
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:id="@+id/textView1_3_dnev"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 
 public class SpravkaFragment extends Fragment {
 
-    private Context context;
 
 
     @Override
@@ -31,16 +30,6 @@ public class SpravkaFragment extends Fragment {
             }
         });
         return view;
-    }
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.context = activity;
-    }
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
     }
 
 }

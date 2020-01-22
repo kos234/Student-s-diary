@@ -45,7 +45,7 @@
     <string name="obzTwo">The source code of the application is publicly available on GitHub</string>
     <string name="obzThree">This app has never been and will not be advertising, the only thing I need from you is notifications of various bugs or typos to me by mail or in the Vkontakte with a detailed description</string>
     <string name="obzFour">Also, if you want to help me with translation into any language or you have some questions, you know where to write</string>
-    <string name="obzFive">I would like to express my great gratitude: Gaucher Dudar, the projects "Start Android" and "DevColibri", as well as the people with StackOverflow who helped me debug the code</string>
+    <string name="obzFive">I would like to express my great gratitude: Gaucher Dudar, the projects \"Start Android\" and \"DevColibri\", as well as the people with StackOverflow who helped me debug the code</string>
     <string name="help">Help</string>
     <string name="grades">Grades</string>
     <string name="warningOcenki">You will not be able to edit the grades after confirmation!</string>
@@ -86,10 +86,40 @@
     <string name="nullYchit">Add the first teacher \n by clicking the button in the lower right corner</string>
     <string name="warningPovtorYct">Teacher name and lesson name already recorded</string>
     <string name="NotifSettingsName">Lesson Notification</string>
-    <string name="PovSettings">Add field "Behaviors"</string>
+    <string name="PovedSettings">Add field \"Behaviors\"</string>
     <string name="WhatSettings">This parameter will affect something</string>
     <string name="General_setting">General setting</string>
     <string name="DeletedOcen">You cannot delete already confirmed grades!</string>
+    <string name="DaySizeSetting">Block size \"Day\"</string>
+    <string name="StartYrok">Until the start of the lesson</string>
+    <string name="EndYrok">Until the end of the lesson</string>
+    <string name="EndPeremen">Until the end break time</string>
+    <string name="AnimationSetting">Animations</string>
+    <string name="Themes">Themes</string>
+    <string name="DarkTheme">Dark theme</string>
+    <string name="WhiteTheme">Light theme</string>
+    <string name="exporting">Exporting</string>
+    <string name="exportingData">Exporting data</string>
+    <string name="importingData">Importing data</string>
+    <string name="importing">Importing</string>
+    <string name="themeAdd">Create custom theme</string>
+
+    <!-- Расстановка правильных окончаний минут -->
+    <string name="_0_Min">minute</string>
+    <string name="_1_Min">minute</string>
+    <string name="_2_4_Min">minutes</string>
+    <string name="_5_20_Min">minutes</string>
+    <string name="_end_1_Min">minutes</string>
+    <string name="_end_2_4_Min">minutes</string>
+    <string name="_end_5_9_Min">minutes</string>
+    <string name="_end_0_Min">minutes</string>
+
+    <!-- Расстановка правильных окончаний Часов -->
+    <string name="_1_Hour">hour</string>
+    <string name="_2_4_Hour">hours</string>
+    <string name="_5_20_Hour">hours</string>
+    <string name="_end_1_Hour">hours</string>
+    <string name="_end_2_4_Hour">hours</string>
 
     <string-array name="DayTxt">
         <item>Monday.txt</item>

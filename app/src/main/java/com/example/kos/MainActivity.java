@@ -2,8 +2,6 @@ package com.example.kos;
 
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -19,7 +17,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -27,7 +24,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.os.SystemClock;
@@ -42,7 +38,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -55,6 +50,7 @@ import android.widget.SeekBar;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -66,10 +62,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -78,9 +72,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import static android.app.NotificationManager.IMPORTANCE_HIGH;
@@ -122,14 +113,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-       //MyThread myThread = new MyThread();
-      // myThread.start();
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         settings = getSharedPreferences("Settings", MODE_PRIVATE);
         Confirmed = getSharedPreferences("Confirmed", MODE_PRIVATE);
         editor = settings.edit();
         editorConfirmed = Confirmed.edit();
+
+            if(settings.getBoolean("notifySettings",true))
+                new MyThread().start();
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_FOLDER_CONF);
         }
@@ -306,11 +299,13 @@ public class MainActivity extends AppCompatActivity {
         final TextView numStolbik = view.findViewById(numStolb);
         final int numZapicFinal = numZapic;
         final String url = (settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020);
+
         editText.setBackgroundColor(Color.parseColor("#fafafa"));
         editText.setVisibility(View.VISIBLE);
         final InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         editText.requestFocus();
+
             editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -1086,7 +1081,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.DevColibri:
                     if(what == R.id.Gmail)
                         what = R.id.DevColibri;
-               // adress = Uri.parse("https://www.youtube.com/user/devcolibri");
+                adress = Uri.parse("https://www.youtube.com/user/devcolibri");
                 break;
             case R.id.gitHub:
                 what = R.id.gitHub;
@@ -1103,10 +1098,21 @@ public class MainActivity extends AppCompatActivity {
                 adress = Uri.parse("https://vk.com/codename_kos");
                 break;
              }
-             if(what == R.id.DevColibri) {
-                 MediaPlayer aud = MediaPlayer.create(context, R.raw.ice);
-                 aud.start();
-                 SystemClock.sleep(1000);
+             if(what == R.id.DevColibri && settings.getBoolean("whatSettings",false)) {
+                 what = 0;
+                 LayoutInflater li = LayoutInflater.from(context);
+                 View viewAlert = li.inflate(R.layout.what_layout, null);
+                 AlertDialog.Builder ConfirmationAlert = new AlertDialog.Builder(context);
+                 ConfirmationAlert.setView(viewAlert);
+                 ConfirmationAlert
+                         .setCancelable(true);
+                 VideoView videoView = viewAlert.findViewById(R.id.videoView);
+                 videoView.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/" + R.raw.what));
+                 videoView.setZOrderOnTop(true);
+                 videoView.requestFocus();
+                 videoView.start();
+                 alertDialogConfirmation = ConfirmationAlert.create();
+                 alertDialogConfirmation.show();
              }else{
              Intent browser= new Intent(Intent.ACTION_VIEW, adress);
         startActivity(browser);
@@ -1114,158 +1120,122 @@ public class MainActivity extends AppCompatActivity {
 
   class MyThread extends Thread {
         public void run(){
-            String Type = null;
-            String Name = null;
-            String HourSay = null;
-            String MinSay = null;
-            String urlNot = null;
+            String Type = null,
+                    Name = null,
+                    HourSay = null,
+                    MinSay = null,
+                    urlNot = null;
             String[] help, helpKab;
             String delimeter = "=";
-            int tempOneOne = 666;
-            int tempOneTwo = 666;
-            int tempTwoOne = 666;
-            int tempTwoTwo = 666;
-            int tempOneTimesOne = 666;
-            int tempOneTimesTwo = 666;
-            int tempTwoOneTwo = 666;
-            int tempTwoTwoTwo = 666;
-            Boolean oneTime = true;
+            int TimeHoursStart , TimeMinsStart , TimeHoursEnd, TimeMinsEnd,
+                    OneYrokHours = 666,
+                    OneYrokMins = 666,
+                    PeremenaHoursStart = 666,
+                    PeremenaMinsStart = 666,
+                    min = 666,
+                    hour = 666,
+                    minTemp = 666,
+                    hourTemp = 666;
+
+            Boolean OneYrok = true;
             Boolean clear = true;
-            int min = 666;
-            int hour = 666;
-            int minTemp = 666;
-            int hourTemp = 666;
-            settings = getSharedPreferences("Settings", MODE_PRIVATE);
+
             while (true) {
                Date date = new Date();
                 switch (date.toString().substring(0,3)) {
                     case "Mon":
-                        if (settings.contains("Monday")) {
                             if (settings.getBoolean("Monday", true))
                                 urlNot = "Monday.txt";
-                            else
-                                continue;
-                        }
+                            else continue;
                         break;
                     case "Tue":
-                        if (settings.contains("Tuesday")) {
                             if (settings.getBoolean("Tuesday", true))
                                 urlNot = "Tuesday.txt";
-                            else
-                                continue;
-                        }
+                            else continue;
                         break;
                     case "Wed":
-                        if (settings.contains("Wednesday")) {
                             if (settings.getBoolean("Wednesday", true))
                                 urlNot = "Wednesday.txt";
-                            else
-                                continue;
-                        }
+                            else continue;
                         break;
                     case "Thu":
-                        if (settings.contains("Thursday")) {
                             if (settings.getBoolean("Thursday", true))
                                 urlNot = "Thursday.txt";
-                            else
-                                continue;
-                        }
+                            else continue;
                         break;
                     case "Fri":
-                        if (settings.contains("Thursday")) {
                             if (settings.getBoolean("Thursday", true))
                                 urlNot = "Friday.txt";
-                            else
-                                continue;
-                        }
+                            else continue;
+
                         break;
                     case "Sat":
-                        if (settings.contains("Saturday")) {
                             if (settings.getBoolean("Saturday", true))
                                 urlNot = "Saturday.txt";
-                            else
-                                continue;
-                        }
+                            else continue;
                         break;
                 }
+
                 if (urlNot != null) {
-                    StringBuffer stringBuffer1 = new StringBuffer();
+
                     try {
                         FileInputStream read = openFileInput(urlNot);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
-                        String temp_read, temp;
+                        String temp_read;
 
                         while ((temp_read = bufferedReader.readLine()) != null) {
-//                            temp = stringBuffer1.append(temp_read).toString();
-//                            stringBuffer1.setLength(0);
                             help = temp_read.split(delimeter);
                             helpKab = help[1].split(",");
                             Name = helpKab[0];
-                            tempOneOne = Integer.parseInt(help[0].substring(0, 2));
-                            tempOneTwo = Integer.parseInt(help[0].substring(3, 5));
-                            tempTwoOne = Integer.parseInt(help[0].substring(8, 10));
-                            tempTwoTwo = Integer.parseInt(help[0].substring(11,13));
-                            if (oneTime)  {
-                                tempOneTimesOne = tempOneOne;
-                                tempOneTimesTwo = tempOneTwo;
-                                oneTime = false;
+
+                            TimeHoursStart = Integer.parseInt(help[0].substring(0, 2));
+                            TimeMinsStart = Integer.parseInt(help[0].substring(3, 5));
+                            TimeHoursEnd = Integer.parseInt(help[0].substring(8, 10));
+                            TimeMinsEnd = Integer.parseInt(help[0].substring(11,13));
+
+                            //Sat Jan 18 07:48:09 UTC 2020
+
+                            if (OneYrok)  {
+                                OneYrokHours = TimeHoursStart;
+                                OneYrokMins = TimeMinsStart;
+                                OneYrok = false;
                                 clear = true;
                             }
-                            else if((Integer.parseInt(date.toString().substring(11, 13)) + 1) == tempOneTimesOne) {
-                                Type = "До начала урока";
-                                hour = tempOneTimesOne - Integer.parseInt(date.toString().substring(11, 13));
-                                min = hour * 60 - Integer.parseInt(date.toString().substring(14, 16)) + tempOneTimesTwo;
+
+                            else if((Integer.parseInt(date.toString().substring(11, 13)) + 1) == OneYrokHours) {
+                                Type = getString(R.string.StartYrok);
+                                hour = OneYrokHours - Integer.parseInt(date.toString().substring(11, 13));
+                                min = hour * 60 - Integer.parseInt(date.toString().substring(14, 16)) + OneYrokMins;
                                 hour = 0;
                                 while (min > 60) {
                                     hour = hour + 1;
                                     min = min - 60;
                                 }
                             }
-                           else if (tempOneOne <= Integer.parseInt(date.toString().substring(11, 13)) && tempOneTwo <= Integer.parseInt(date.toString().substring(14, 16))) {
-                                if (tempTwoOne == Integer.parseInt(date.toString().substring(11, 13)) && tempTwoTwo >= Integer.parseInt(date.toString().substring(14, 16))) {
-                                    min = tempTwoTwo - Integer.parseInt(date.toString().substring(14, 16));
-                                    hour = 0;
-                                    tempTwoOneTwo = tempTwoOne;
-                                    tempTwoTwoTwo = tempTwoTwo;
-                                    Type = "До конца урока";
-                                }
-                                if (tempTwoOne > Integer.parseInt(date.toString().substring(11, 13))) {
-                                    hour = tempTwoOne - Integer.parseInt(date.toString().substring(11, 13));
-                                    min = hour * 60 - Integer.parseInt(date.toString().substring(14, 16)) + tempTwoTwo;
+
+                           else if (TimeHoursStart <= Integer.parseInt(date.toString().substring(11, 13)) && TimeMinsStart <= Integer.parseInt(date.toString().substring(14, 16)) && (Integer.parseInt(date.toString().substring(14, 16)) <= TimeMinsEnd) ) {
+                                    hour = TimeHoursEnd - Integer.parseInt(date.toString().substring(11, 13));
+                                    min = hour * 60 - Integer.parseInt(date.toString().substring(14, 16)) + TimeMinsEnd;
                                     hour = 0;
                                     while (min > 60) {
                                         hour = hour + 1;
                                         min = min - 60;
                                     }
-                                    tempTwoOneTwo = tempTwoOne;
-                                    tempTwoTwoTwo = tempTwoTwo;
-                                    Type = "До конца урока";
-                                }
-                            } else if (tempTwoOneTwo <= Integer.parseInt(date.toString().substring(11, 13)) && tempTwoTwoTwo <= Integer.parseInt(date.toString().substring(14, 16)) && tempOneOne >= Integer.parseInt(date.toString().substring(11, 13)) && tempOneTwo >= Integer.parseInt(date.toString().substring(14, 16))) {
+                                    PeremenaHoursStart = TimeHoursEnd;
+                                    PeremenaMinsStart = TimeMinsEnd;
+                                    Type = getString(R.string.EndYrok);
 
-                                    if (tempOneOne == Integer.parseInt(date.toString().substring(11, 13)) && tempOneTwo >= Integer.parseInt(date.toString().substring(14, 16))) {
-                                        min = tempOneTwo - Integer.parseInt(date.toString().substring(14, 16));
-                                        hour = 0;
-                                    }
-                                    if (tempOneOne > Integer.parseInt(date.toString().substring(11, 13))) {
-                                        hour = tempOneOne - Integer.parseInt(date.toString().substring(11, 13));
-                                        min = hour * 60 - Integer.parseInt(date.toString().substring(14, 16)) + tempOneTwo;
+                            } else if (PeremenaHoursStart <= Integer.parseInt(date.toString().substring(11, 13)) && PeremenaMinsStart <= Integer.parseInt(date.toString().substring(14, 16)) && (TimeHoursStart > Integer.parseInt(date.toString().substring(11, 13)) || TimeMinsStart >= Integer.parseInt(date.toString().substring(14, 16)))) {
+                                        hour = TimeHoursStart - Integer.parseInt(date.toString().substring(11, 13));
+                                        min = hour * 60 - Integer.parseInt(date.toString().substring(14, 16)) + TimeMinsStart;
                                         hour = 0;
                                         while (min > 60) {
                                             hour = hour + 1;
                                             min = min - 60;
                                         }
-                                    }
-                                    Type = "До конца перемены";
+                                    Type = getString(R.string.EndPeremen);
                                 }
-//                           else {
-//                                oneTime = true;
-//
-//                            }
-
-
-
 
 
                         }
@@ -1280,8 +1250,10 @@ public class MainActivity extends AppCompatActivity {
 
                     if (min != 666 || hour != 666) {
                         if (minTemp != min || hourTemp != hour) {
-                            HourSay = Padej(hour, HourSay, true);
-                            MinSay = Padej(min, MinSay, false);
+
+                            HourSay = Padej(hour, true);
+                            MinSay = Padej(min, false);
+
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                                 NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT);
@@ -1302,8 +1274,8 @@ public class MainActivity extends AppCompatActivity {
                                 NotificationCompat.Builder builder =
                                         new NotificationCompat.Builder(context)
                                                 .setSmallIcon(R.drawable.ic_stat_name)
-                                                .setContentTitle(Type)
-                                                .setContentText(HourSay + MinSay);
+                                                .setContentTitle(Name)
+                                                .setContentText(Type + ": " + HourSay + MinSay);
 
                                 Notification notification = builder.build();
 
@@ -1327,57 +1299,40 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String Padej (int kool, String say,Boolean who) {
-        if (kool == 0) {
-            say = "";
+    public String Padej (int kool, Boolean Type) {
+        String say = " ";
+        if (kool == 0 && !Type)  {
+            say = "0 " + getString(R.string._0_Min);
         }
         else if (kool == 1) {
-            if (who)
-            say = "1 час ";
-            else
-            say = "1 минута " ;
+            if (Type) say = "1 " + getString(R.string._1_Hour);
+            else say = "1 " + getString(R.string._1_Min);
         }
         else if (kool >= 2 && kool <= 4) {
-            if (who)
-            say = kool + " часа ";
-            else
-                say = kool + " минуты ";
+            if (Type) say = kool + " " + getString(R.string._2_4_Hour);
+            else say = kool + " "+ getString(R.string._2_4_Min);
         }
         else if (kool >= 5 && kool <= 20) {
-            if (who)
-            say = kool + " часов ";
-            else
-                say = kool + " минут ";
+            if (Type) say = kool + " " + getString(R.string._5_20_Hour);
+            else say = kool + " "+ getString(R.string._5_20_Min);
         }
         else if (Integer.parseInt(Integer.toString(kool).substring(0,1)) > 1 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) == 1) {
-            if (who)
-            say = kool + " час ";
-            else
-                say = kool + " минута ";
+            if (Type) say = kool + " " + getString(R.string._end_1_Hour);
+            else say = kool + " "+ getString(R.string._end_1_Min);
         }
         else if (Integer.parseInt(Integer.toString(kool).substring(0,1)) > 1 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) >= 2 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) <= 4) {
-            if (who)
-            say = kool + " часа ";
-            else
-                say = kool + " минуты ";
+            if (Type) say = kool + " " + getString(R.string._end_2_4_Hour);
+            else say = kool + " "+ getString(R.string._end_2_4_Min);
         }
         else if (Integer.parseInt(Integer.toString(kool).substring(0,1)) > 1 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) >= 5 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) <= 9) {
-            if (who)
-            say = kool + " часов ";
-            else
-                say = kool + " минут ";
+            if(!Type) say = kool + " "+ getString(R.string._end_5_9_Min);
         }
         else if (Integer.parseInt(Integer.toString(kool).substring(0,1)) > 1 && Integer.parseInt(Integer.toString(kool).substring(Integer.toString(kool).length()-1 )) == 0) {
-            if (who)
-                say = kool + " часов ";
-            else
-                say = kool + " минут ";
+            if(!Type) say = kool + " "+ getString(R.string._end_0_Min);
         }
 
         return say;
     }
-
-
 
 
 

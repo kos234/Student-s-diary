@@ -25,12 +25,14 @@
         android:layout_gravity="bottom|right"
         android:src="@drawable/kek" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/Ychitelia"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/nullYchit"

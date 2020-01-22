@@ -45,7 +45,7 @@
     <string name="obzTwo">Исходный код приложения находится в открытом доступе на GitHub</string>
     <string name="obzThree">В этом приложении никогда не было и не будет рекламы, единственное, что мне нужно от вас, это уведомления о различных багах или опечатках мне на почту или во Вконтакте с подробным описанием</string>
     <string name="obzFour">Также если вы хотите помочь мне с переводом на любой язык или у вас возникли какие-то вопросы, вы знаете куда писать</string>
-    <string name="obzFive">Хочу выразить огромную благодарность: Гоше Дударю, проектам "Start Android” и “DevColibri”, а также людям со StackOverflow, которые помогали мне в отладке кода</string>
+    <string name="obzFive">Хочу выразить огромную благодарность: Гоше Дударю, проектам \"Start Android\" и \"DevColibri\", а также людям со StackOverflow, которые помогали мне в отладке кода</string>
     <string name="help">Справка</string>
     <string name="grades">Оценки</string>
     <string name="warningOcenki">Редактирование оценок после подтверждения будет не возможно!</string>
@@ -86,10 +86,41 @@
     <string name="nullYchit">Добавьте первого учителя, \n нажав кнопку в нижнем правом углу</string>
     <string name="warningPovtorYct">Имя учителя и название предмета уже записаны</string>
     <string name="NotifSettingsName">Уведомление о уроках</string>
-    <string name="PovSettings">Добавить поле "Поведение"</string>
+    <string name="PovedSettings">Добавить поле \"Поведение\"</string>
     <string name="WhatSettings">Этот параметр на что-то повлияет</string>
     <string name="General_setting">Общие настройки</string>
     <string name="DeletedOcen">Нельзя удалить уже подтвержденные оценки!</string>
+    <string name="DaySizeSetting">Размер блока \"День\"</string>
+    <string name="StartYrok">До начала урока</string>
+    <string name="EndYrok">До конца урока</string>
+    <string name="EndPeremen">До конца перемены</string>
+    <string name="AnimationSetting">Анимации</string>
+    <string name="Themes">Темы</string>
+    <string name="DarkTheme">Тёмная тема</string>
+    <string name="WhiteTheme">Светлая тема</string>
+    <string name="exporting">Экспорт</string>
+    <string name="exportingData">Экспортировать данные</string>
+    <string name="importingData">Импортировать данные</string>
+    <string name="importing">Импортировать</string>
+    <string name="themeAdd">Создать свою тему</string>
+
+    <!-- Расстановка правильных окончаний минут -->
+    <string name="_0_Min">минут</string>
+    <string name="_1_Min">минута</string>
+    <string name="_2_4_Min">минуты</string>
+    <string name="_5_20_Min">минут</string>
+    <string name="_end_1_Min">минута</string>
+    <string name="_end_2_4_Min">минуты</string>
+    <string name="_end_5_9_Min">минут</string>
+    <string name="_end_0_Min">минут</string>
+
+    <!-- Расстановка правильных окончаний Часов -->
+    <string name="_1_Hour">час</string>
+    <string name="_2_4_Hour">часа</string>
+    <string name="_5_20_Hour">часов</string>
+    <string name="_end_1_Hour">час</string>
+    <string name="_end_2_4_Hour">часа</string>
+
 
     <string-array name="DayTxt">
         <item>Monday.txt</item>

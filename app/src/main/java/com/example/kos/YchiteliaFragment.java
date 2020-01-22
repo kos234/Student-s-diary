@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -37,19 +40,21 @@ import static android.content.Context.MODE_PRIVATE;
 public class YchiteliaFragment extends Fragment {
     private Context context;
     private String NamePred, PredPred;
-    private ArrayList<HashMap<String, String>> products = new ArrayList<>();
-    private ListView listView;
+    private ArrayList<ConstrRecyclerView> constrRecyclerViewArrayList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private RecyclerAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+
     View viewFragment;
     private SharedPreferences settings;
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && (getActivity()!=null)) {
-            settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("Fragment","Ychitelia" );
             editor.apply();
-            Toast.makeText(context,settings.getString("Fragment", "Dnewnik"),Toast.LENGTH_LONG).show();
         }
     }
 
@@ -57,6 +62,7 @@ public class YchiteliaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewFragment =  inflater.inflate(R.layout.fragment_ychitelia, container,false);
+        settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
 
         androidx.appcompat.widget.Toolbar toolbar = viewFragment.findViewById(R.id.toolbarPrepod);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
@@ -66,18 +72,21 @@ public class YchiteliaFragment extends Fragment {
                 ((MainActivity) getActivity()).openDrawer();
             }
         });
-        Button(viewFragment);
         Start();
-        listView = viewFragment.findViewById(R.id.Ychitelia);
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
-                new String[]{"Name", "Pred"},
-                new int[]{R.id.textView1, R.id.textView1_2});
-        listView.setAdapter(adapter);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        recyclerView = viewFragment.findViewById(R.id.Ychitelia);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(context);
+        adapter = new RecyclerAdapter(constrRecyclerViewArrayList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
-                final TextView textView = view.findViewById(R.id.textView1);
+        adapter.setOnItemLongClickListener(new RecyclerAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(final int position) {
+
+                final String textName = constrRecyclerViewArrayList.get(position).getTextName(),
+                        textBottom = constrRecyclerViewArrayList.get(position).getTextBottom();
+
                 AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
                 deleted.setMessage(context.getString(R.string.deleteTeacher)).setCancelable(true).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
@@ -89,14 +98,9 @@ public class YchiteliaFragment extends Fragment {
                             InputStreamReader reader = new InputStreamReader(read);
                             BufferedReader bufferedReader = new BufferedReader(reader);
                             String temp_read;
-                            String[] help ;
-                            String delimeter = "=";
                             while ((temp_read = bufferedReader.readLine()) != null) {
 
-                                help = temp_read.split(delimeter);
-
-
-                                if  (!help[0].equals(textView.getText()))
+                                if  (!temp_read.equals(textName + "=" + textBottom))
                                     stringBuffer.append(temp_read).append("\n");
                             }
 
@@ -122,13 +126,13 @@ public class YchiteliaFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                        Start();
-                        TextViewVisible();
-                        listView = viewFragment.findViewById(R.id.Ychitelia);
-                        SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
-                                new String[]{"Name", "Pred"},
-                                new int[]{R.id.textView1,R.id.textView1_2});
-                        listView.setAdapter(adapter);
+                        constrRecyclerViewArrayList.remove(position);
+                        if(settings.getBoolean("AnimationSettings",true))
+                            adapter.notifyItemRemoved(position);
+                        else
+                            adapter.notifyDataSetChanged();
+                        if(constrRecyclerViewArrayList.size() == 0)
+                            TextViewVisible();
 
 
                     }
@@ -142,25 +146,23 @@ public class YchiteliaFragment extends Fragment {
                 AlertDialog alertDialog = deleted.create();
                 alertDialog.setTitle(context.getString(R.string.deleting));
                 alertDialog.show();
-
-                return true;
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final TextView textViewName = view.findViewById(R.id.textView1);
-                final TextView textViewKab = view.findViewById(R.id.textView1_2);
 
+       adapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(final int position) {
+                final String textName = constrRecyclerViewArrayList.get(position).getTextName(),
+                        textBottom = constrRecyclerViewArrayList.get(position).getTextBottom();
 
                 final LayoutInflater li = LayoutInflater.from(getActivity());
                 final View promptsView = li.inflate(R.layout.add_ychitelia , null);
                 AlertDialog.Builder newadd = new AlertDialog.Builder(getActivity());
                 newadd.setView(promptsView);
-                final EditText name = (EditText) promptsView.findViewById(R.id.NamePrepod);
-                final EditText predmet = (EditText) promptsView.findViewById(R.id.yrokPrepod);
-                name.setText(textViewName.getText());
-                predmet.setText(textViewKab.getText());
+                final EditText name = promptsView.findViewById(R.id.NamePrepod);
+                final EditText predmet = promptsView.findViewById(R.id.yrokPrepod);
+                name.setText(textName);
+                predmet.setText(textBottom);
                 newadd
                         .setCancelable(true)
                         .setPositiveButton(context.getString(R.string.save),
@@ -175,14 +177,8 @@ public class YchiteliaFragment extends Fragment {
                                                 InputStreamReader reader = new InputStreamReader(read);
                                                 BufferedReader bufferedReader = new BufferedReader(reader);
                                                 String temp_read;
-                                                String[] help ;
-                                                String delimeter = "=";
                                                 while ((temp_read = bufferedReader.readLine()) != null) {
-
-                                                    help = temp_read.split(delimeter);
-
-
-                                                    if  (!help[0].equals(textViewName.getText()))
+                                                    if  (!temp_read.equals(textName + "=" + textBottom))
                                                         stringBuffer.append(temp_read).append("\n");
                                                     else {
                                                         stringBuffer.append(NamePred + "="+ PredPred).append("\n");
@@ -211,12 +207,10 @@ public class YchiteliaFragment extends Fragment {
                                             } catch (IOException e) {
                                                 e.printStackTrace();
                                             }
-                                            Start();
-                                            listView = viewFragment.findViewById(R.id.Ychitelia);
-                                            SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
-                                                    new String[]{"Name", "Pred"},
-                                                    new int[]{R.id.textView1,R.id.textView1_2});
-                                            listView.setAdapter(adapter);
+
+                                            constrRecyclerViewArrayList.get(position).changeText(NamePred,PredPred);
+                                            adapter.notifyDataSetChanged();
+
                                         }else {
                                             Toast.makeText(getActivity(),context.getString(R.string.FieldsNot),Toast.LENGTH_LONG).show();
                                         }
@@ -232,6 +226,8 @@ public class YchiteliaFragment extends Fragment {
                 alertDialog.show();
             }
         });
+        Button(viewFragment);
+
         return viewFragment;
     }
     @Override
@@ -249,7 +245,7 @@ public class YchiteliaFragment extends Fragment {
     public void Start() {
         String[] help ;
         String delimeter = "=";
-        products.clear();
+        constrRecyclerViewArrayList.clear();
         try {
             FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
             InputStreamReader reader = new InputStreamReader(read);
@@ -257,10 +253,7 @@ public class YchiteliaFragment extends Fragment {
             String temp_read;
             while ((temp_read = bufferedReader.readLine()) != null) {
                help = temp_read.split(delimeter);
-                HashMap<String, String> map = new HashMap<>();
-                map.put("Name",help[0] );
-                map.put("Pred",help[1] );
-                products.add(map);
+                constrRecyclerViewArrayList.add(new ConstrRecyclerView(help[0], help[1]));
             }
             bufferedReader.close();
             reader.close();
@@ -273,7 +266,7 @@ public class YchiteliaFragment extends Fragment {
 
         }
 
-        if(products.size() != 0){
+        if(constrRecyclerViewArrayList.size() != 0){
             TextView textView = viewFragment.findViewById(R.id.nullYchit);
             textView.setVisibility(View.INVISIBLE);
         }
@@ -296,7 +289,7 @@ public class YchiteliaFragment extends Fragment {
                         .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                try {
+                /*try {
                     FileOutputStream write =  getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
                     String temp_write ="";
 
@@ -306,14 +299,14 @@ public class YchiteliaFragment extends Fragment {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-                Start();
-                TextViewVisible();
-                listView = viewFind.findViewById(R.id.Ychitelia);
-                SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
-                        new String[]{"Name", "Pred"},
-                        new int[]{R.id.textView1,R.id.textView1_2});
-                listView.setAdapter(adapter);
+                } */
+                        if(settings.getBoolean("AnimationSettings",true))
+                            new AnimationDel().execute();
+                        else {
+                            constrRecyclerViewArrayList.clear();
+                            adapter.notifyDataSetChanged();
+                        }
+
                             }
                         })
                         .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -330,6 +323,7 @@ public class YchiteliaFragment extends Fragment {
                 return false;
             }
         });
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -385,12 +379,13 @@ public class YchiteliaFragment extends Fragment {
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }
-                                                Start();
-                                                listView = viewFind.findViewById(R.id.Ychitelia);
-                                                SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
-                                                        new String[]{"Name", "Pred"},
-                                                        new int[]{R.id.textView1, R.id.textView1_2});
-                                                listView.setAdapter(adapter);
+
+                                                constrRecyclerViewArrayList.add(constrRecyclerViewArrayList.size(),new ConstrRecyclerView(NamePred, PredPred));
+                                                if(settings.getBoolean("AnimationSettings",true))
+                                                     adapter.notifyItemInserted(constrRecyclerViewArrayList.size() - 1);
+                                                else
+                                                    adapter.notifyDataSetChanged();
+
                                             } else {
                                                 Toast.makeText(getActivity(), context.getString(R.string.FieldsNot), Toast.LENGTH_LONG).show();
                                             }
@@ -410,5 +405,30 @@ public class YchiteliaFragment extends Fragment {
         });
     }
 
+    class AnimationDel extends AsyncTask<Void,Integer,Void>{
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            adapter.notifyItemRemoved(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            TextViewVisible();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            for (int l = constrRecyclerViewArrayList.size() - 1; l >= 0; l--){
+                constrRecyclerViewArrayList.remove(l);
+                publishProgress(l);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {}
+            }
+            return null;
+        }
+    }
 
 }

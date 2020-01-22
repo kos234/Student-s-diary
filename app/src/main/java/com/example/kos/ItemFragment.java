@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,8 +26,13 @@ import androidx.annotation.Nullable;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,13 +42,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class ItemFragment extends Fragment {
-    private ListView lvMain;
-    private ArrayList<HashMap<String, String>> products = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private RecyclerAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<ConstrRecyclerView> products = new ArrayList<>();
     private String ZvonOne, ZvonTwo, NameYrok, NumKab;
-    private  HashMap<String,String> map;
     private String url;
+    private SharedPreferences settings;
     private Context context;
     ViewGroup viewGroup;
 
@@ -65,252 +76,226 @@ public class ItemFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_item_pager, container,false);
-        Start();
-        lvMain = viewGroup.findViewById(R.id.listView);
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
-                new String[]{"Times", "Kab"},
-                new int[]{R.id.textView1,R.id.textView1_2});
-        lvMain.setAdapter(adapter);
-        lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                final TextView textView = view.findViewById(R.id.textView1);
-                AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
-                deleted.setCancelable(true).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        StringBuffer stringBuffer = new StringBuffer();
-
-                        try {
-                            FileInputStream read = getActivity().openFileInput(url);
-                            InputStreamReader reader = new InputStreamReader(read);
-                            BufferedReader bufferedReader = new BufferedReader(reader);
-                            String temp_read;
-                            String[] help ;
-                            String delimeter = "=";
-                            while ((temp_read = bufferedReader.readLine()) != null) {
-
-                                help = temp_read.split(delimeter);
-
-
-                                if  (!help[0].equals(textView.getText()))
-                                    stringBuffer.append(temp_read).append("\n");
-                            }
-
-                            bufferedReader.close();
-                            reader.close();
-                            read.close();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+        Start(context);
+        settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
+        recyclerView = viewGroup.findViewById(R.id.Zvonki_Recycler);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
 
 
-                        try {
-                            FileOutputStream write = getActivity().openFileOutput(url,getActivity().MODE_PRIVATE);
+        Buttons();
 
-                            write.write(stringBuffer.toString().getBytes());
-                            write.close();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-
-
-                                Start();
-                                TextViewVisible();
-                                lvMain = viewGroup.findViewById(R.id.listView);
-                        SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
-                                new String[]{"Times", "Kab"},
-                                new int[]{R.id.textView1,R.id.textView1_2});
-                        lvMain.setAdapter(adapter);
-
-
-
-
-
-                    }
-                })
-                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        });
-                AlertDialog alertDialog = deleted.create();
-                alertDialog.setTitle(context.getString(R.string.deleteLesson));
-                alertDialog.show();
-                return true;
-            }
-        });
-        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                TextView textViewZvon = view.findViewById(R.id.textView1);
-                final TextView textViewKab = view.findViewById(R.id.textView1_2);
-                final LayoutInflater li = LayoutInflater.from(getActivity());
-                View promptsView = li.inflate(R.layout.prompt , null);
-                final AlertDialog.Builder newzvonok = new AlertDialog.Builder(getActivity());
-                newzvonok.setView(promptsView);
-                final EditText zvonokone = promptsView.findViewById(R.id.timeStart);
-                final EditText zvonoktwo = promptsView.findViewById(R.id.timeEnd);
-                final TextView textView = promptsView.findViewById(R.id.textView2);
-                final EditText Yrok = promptsView.findViewById(R.id.nameYrok);
-                final EditText Kab = promptsView.findViewById(R.id.numKab);
-                final String[] help,helpop,helpyrok;
-                help = textViewZvon.getText().toString().split("-");
-                zvonokone.setText(help[0].substring(0,5));
-                zvonoktwo.setText(help[1].substring(1));
-                helpop = textViewKab.getText().toString().split(",");
-                Yrok.setText(helpop[0]);
-                helpyrok = helpop[1].split("№");
-                Kab.setText(helpyrok[1]);
-                final Spinner spinner = promptsView.findViewById(R.id.spinner);
-                List<String> choose = new ArrayList<String>();
-                if(helpyrok[0].equals(" " + context.getString(R.string.classroomSchool) + " " )) {
-                    textView.setText(context.getString(R.string.editLesson));
-                    choose.add(context.getString(R.string.classroomSchool));
-                    choose.add(context.getString(R.string.classroomUniversity));
-                }else{
-                    textView.setText(context.getString(R.string.editCouple));
-                    choose.add(context.getString(R.string.classroomUniversity));
-                    choose.add(context.getString(R.string.classroomSchool));
-                }
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>  (getActivity(),R.layout.spinner_list, choose);
-                spinner.setAdapter(dataAdapter);
-                newzvonok
-                        .setCancelable(true)
-                        .setPositiveButton(context.getString(R.string.save),
-                                new DialogInterface.OnClickListener() {
-                                    @RequiresApi(api = Build.VERSION_CODES.N)
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        ZvonOne = zvonokone.getText().toString();
-                                        ZvonTwo = zvonoktwo.getText().toString();
-                                        NameYrok = Yrok.getText().toString();
-                                        NumKab = Kab.getText().toString();
-                                        if (ZvonOne.length() == 5 && ZvonTwo.length() == 5 && NameYrok.length() > 0 && NumKab.length() > 0){
-                                            int ZvonOneOne = 666;
-                                            int ZvonOneTwo = 666;
-                                            int ZvonTwoOne = 666;
-                                            int ZvonTwoTwo = 666;
-                                            if (checkString(ZvonOne.substring(0,2)))
-                                                ZvonOneOne = Integer.parseInt(ZvonOne.substring(0,2));
-                                            if(checkString(ZvonOne.substring(3)))
-                                                ZvonOneTwo = Integer.parseInt(ZvonOne.substring(3));
-                                            if(checkString(ZvonTwo.substring(0,2)))
-                                                ZvonTwoOne = Integer.parseInt(ZvonTwo.substring(0,2));
-                                            if(checkString(ZvonTwo.substring(3)))
-                                                ZvonTwoTwo = Integer.parseInt(ZvonTwo.substring(3));
-
-
-                                            if(ZvonOneOne < 25 && ZvonOneTwo < 60 && ZvonOne.charAt(2) == ':' && ZvonTwoOne < 25 && ZvonTwoTwo < 60 && ZvonTwo.charAt(2) == ':') {
-                                                if ((ZvonOneOne < ZvonTwoOne) || (ZvonOneOne == ZvonTwoOne && ZvonOneTwo < ZvonTwoTwo)) {
-                                                    StringBuffer stringBuffer = new StringBuffer();
-                                                    try {
-                                                        boolean Zapic = true;
-
-                                                        StringBuffer stringBuffered = new StringBuffer();
-
-                                                        try {
-                                                            FileInputStream read = getActivity().openFileInput(url);
-                                                            InputStreamReader reader = new InputStreamReader(read);
-                                                            BufferedReader bufferedReader = new BufferedReader(reader);
-                                                            String temp_read;
-                                                            String[] helpip ;
-                                                            String delimeter = "=";
-                                                            while ((temp_read = bufferedReader.readLine()) != null) {
-
-                                                                helpip = temp_read.split(delimeter);
-
-
-                                                                if  (!helpip[0].equals(help[0].substring(0,5) + " - " + help[1].substring(1)))
-                                                                    stringBuffered.append(temp_read).append("~");
-                                                            }
-
-                                                            bufferedReader.close();
-                                                            reader.close();
-                                                            read.close();
-                                                        } catch (FileNotFoundException e) {
-                                                            e.printStackTrace();
-                                                        } catch (IOException e) {
-                                                            e.printStackTrace();
-                                                        }
-
-                                                        if(!stringBuffered.toString().equals("")) {
-                                                            String[] mas = stringBuffered.toString().split("~");
-                                                            for (int i = 0; i < mas.length; i++) {
-                                                                String[] helping;
-                                                                helping = mas[i].split("=");
-                                                                if ((Integer.parseInt(helping[0].substring(0, 2)) == ZvonOneOne && Integer.parseInt(helping[0].substring(3, 5)) == ZvonOneTwo) || (Integer.parseInt(helping[0].substring(8, 10)) == ZvonTwoOne && Integer.parseInt(helping[0].substring(11)) == ZvonTwoTwo)) {
-                                                                    throw new Povtor("Syko blyat", 1);
-                                                                }
-                                                                if (Integer.parseInt(helping[0].substring(0, 2)) > ZvonOneOne && Zapic) {
-                                                                    stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab).append(("\n")).append(mas[i]).append(("\n"));
-                                                                    Zapic = false;
-
-                                                                } else
-                                                                    stringBuffer.append(mas[i]).append(("\n"));
-                                                            }
-
-                                                        }
-                                                        if (Zapic)
-                                                            stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab);
-
-                                                        try {
-                                                            FileOutputStream write =  getActivity().openFileOutput(url, getActivity().MODE_PRIVATE);
-                                                            String temp_write = stringBuffer.toString();
-
-                                                            write.write(temp_write.getBytes());
-                                                            write.close();
-                                                        } catch (FileNotFoundException e) {
-                                                            e.printStackTrace();
-                                                        } catch (IOException e) {
-                                                            e.printStackTrace();
-                                                        }
-
-                                                        Start();
-
-                                                        lvMain = viewGroup.findViewById(R.id.listView);
-                                                        SimpleAdapter adapter = new SimpleAdapter(getActivity(), products, R.layout.new_item,
-                                                                new String[]{"Times", "Kab"},
-                                                                new int[]{R.id.textView1, R.id.textView1_2});
-                                                        lvMain.setAdapter(adapter);
-                                                    } catch (Povtor povtor) {
-                                                        Toast.makeText(getActivity(),context.getString(R.string.timeSpan),Toast.LENGTH_LONG).show();
-                                                    }
-                                                }
-                                                else
-                                                    Toast.makeText(getActivity(), context.getString(R.string.timeSpanStartEnd), Toast.LENGTH_SHORT).show();
-                                            }else{
-                                                Toast.makeText(
-                                                        getActivity(), context.getString(R.string.FieldsNot), Toast.LENGTH_SHORT
-                                                ).show();
-                                            }
-                                        }
-                                        else {
-                                            Toast.makeText(
-                                                    getActivity(), context.getString(R.string.wrongFormat), Toast.LENGTH_SHORT
-                                            ).show();
-                                        }
-                                    }
-                                });
-
-                //Создаем AlertDialog:
-                AlertDialog alertDialog = newzvonok.create();
-
-                //и отображаем его:
-                // alertDialog.setTitle("Новый урок");
-                alertDialog.show();
-
-
-            }
-        });
         return viewGroup;
+    }
+
+    public void Buttons (){
+        url = settings.getString("Day","Monday.txt");
+        FloatingActionButton floatingActionButton = getActivity().findViewById(R.id.floatingActionButton);
+//        floatingActionButton.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(final View view) {
+//                final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
+//                Delete.setMessage(context.getString(R.string.deleteAllLesson))
+//                        .setCancelable(true)
+//                        .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                String[] day = getResources().getStringArray(R.array.DayTxt);
+//                                for (int k = 0; k < day.length; k++) {
+//
+//                                   /* File outFile = new File(day[k]);
+//                                    if (outFile.exists()) {
+//                                        outFile.delete();
+//                                    } */
+//                                }
+//                                if(settings.getBoolean("AnimationSettings",true))
+//                                    new AnimationDel().execute();
+//                                else {
+//                                    products.clear();
+//                                    adapter.notifyDataSetChanged();
+//                                }
+//
+//                            }
+//                        })
+//                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                dialogInterface.cancel();
+//
+//                            }
+//                        });
+//
+//                AlertDialog Deleted = Delete.create();
+//                Deleted.setTitle(context.getString(R.string.deleting));
+//                Deleted.show();
+//                return false;
+//            }
+//        });
+//        floatingActionButton.setOnClickListener(new View.OnClickListener()  {
+//                                      @Override
+//                                      public void onClick(final View view) {
+//
+//                                          Toast.makeText(context,url,Toast.LENGTH_LONG).show();
+//
+//                                          final LayoutInflater li = LayoutInflater.from(context);
+//                                          View promptsView = li.inflate(R.layout.prompt , null);
+//                                          final AlertDialog.Builder newzvonok = new AlertDialog.Builder(context);
+//                                          newzvonok.setView(promptsView);
+//
+//                                          final EditText zvonokone = promptsView.findViewById(R.id.timeStart);
+//                                          final EditText zvonoktwo = promptsView.findViewById(R.id.timeEnd);
+//                                          final EditText Yrok = promptsView.findViewById(R.id.nameYrok);
+//                                          final EditText Kab = promptsView.findViewById(R.id.numKab);
+//                                          final Spinner spinner = promptsView.findViewById(R.id.spinner);
+//
+//                                          List<String> choose = new ArrayList<>();
+//                                          choose.add(context.getString(R.string.classroomSchool));
+//                                          choose.add(context.getString(R.string.classroomUniversity));
+//                                          ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(),R.layout.spinner_list, choose);
+//                                          spinner.setAdapter(dataAdapter);
+//
+//                                          newzvonok
+//                                                  .setCancelable(true)
+//                                                  .setPositiveButton(context.getString(R.string.save),
+//                                                          new DialogInterface.OnClickListener() {
+//                                                              @RequiresApi(api = Build.VERSION_CODES.N)
+//                                                              public void onClick(DialogInterface dialog, int id) {
+//
+//                                                                  ZvonOne = zvonokone.getText().toString();
+//                                                                  ZvonTwo = zvonoktwo.getText().toString();
+//                                                                  NameYrok = Yrok.getText().toString();
+//                                                                  NumKab = Kab.getText().toString();
+//
+//                                                                  if ((ZvonOne.length() == 5 || ZvonOne.equals("")) && (ZvonTwo.length() == 5 || ZvonTwo.equals(""))){
+//                                                                      if(ZvonOne.equals("")) ZvonOne = "08:00";
+//                                                                      if(ZvonTwo.equals("")) ZvonTwo = "08:40";
+//                                                                      if(NameYrok.equals("")) NameYrok = context.getString(R.string.lessonExample);
+//                                                                      if(NumKab.equals("")) NumKab = "5";
+//
+//                                                                      int TimeStartHour = 666;
+//                                                                      int TimeStartMin = 666;
+//                                                                      int TimeEndHour = 666;
+//                                                                      int TimeEndMin = 666;
+//
+//                                                                      if (checkString(ZvonOne.substring(0,2))) TimeStartHour = Integer.parseInt(ZvonOne.substring(0,2));
+//                                                                      if(checkString(ZvonOne.substring(3))) TimeStartMin = Integer.parseInt(ZvonOne.substring(3));
+//                                                                      if(checkString(ZvonTwo.substring(0,2))) TimeEndHour = Integer.parseInt(ZvonTwo.substring(0,2));
+//                                                                      if(checkString(ZvonTwo.substring(3))) TimeEndMin = Integer.parseInt(ZvonTwo.substring(3));
+//
+//
+//                                                                      if(TimeStartHour < 25 && TimeStartMin < 60 && ZvonOne.charAt(2) == ':' && TimeEndHour < 25 && TimeEndMin < 60 && ZvonTwo.charAt(2) == ':') {
+//                                                                          if ((TimeStartHour < TimeEndHour) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin)) {
+//
+//                                                                              StringBuffer stringBuffer = new StringBuffer();
+//
+//                                                                              try {
+//                                                                                  boolean Zapic = true;
+//
+//                                                                                  try {
+//                                                                                      FileInputStream read =  context.openFileInput(url);
+//                                                                                      InputStreamReader reader = new InputStreamReader(read);
+//                                                                                      BufferedReader bufferedReader = new BufferedReader(reader);
+//
+//                                                                                      String temp_read;
+//                                                                                      String[] help;
+//                                                                                      String delimeter = "=";
+//                                                                                      while ((temp_read = bufferedReader.readLine()) != null) {
+//
+//                                                                                          help = temp_read.split(delimeter);
+//                                                                                          if((Integer.parseInt(help[0].substring(0,2)) == TimeStartHour && Integer.parseInt(help[0].substring(3,5)) == TimeStartMin) || (Integer.parseInt(help[0].substring(8,10)) == TimeEndHour && Integer.parseInt(help[0].substring(11)) == TimeEndMin)) {
+//                                                                                              throw new Povtor("KRIA", 1);
+//                                                                                          }
+//                                                                                          if(Integer.parseInt(help[0].substring(0,2)) > TimeStartHour   && Zapic) {
+//                                                                                              stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab).append(("\n")).append(temp_read).append(("\n"));
+//                                                                                          Zapic = false;
+//
+//                                                                                          } else
+//                                                                                          stringBuffer.append(temp_read).append(("\n"));
+//                                                                                      }
+//                                                                                  } catch (FileNotFoundException e) {
+//                                                                                      e.printStackTrace();
+//                                                                                  } catch (IOException e) {
+//                                                                                      e.printStackTrace();
+//                                                                                  }
+//                                                                                    if (Zapic)
+//                                                                                        stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab);
+//                                                                                  try {
+//                                                                                      FileOutputStream write =  context.openFileOutput(url, getActivity().MODE_PRIVATE);
+//                                                                                      String temp_write = stringBuffer.toString();
+//
+//                                                                                      write.write(temp_write.getBytes());
+//                                                                                      write.close();
+//                                                                                  } catch (FileNotFoundException e) {
+//                                                                                      e.printStackTrace();
+//                                                                                  } catch (IOException e) {
+//                                                                                      e.printStackTrace();
+//                                                                                  }
+//
+//                                                                                      products.add(products.size(),new ConstrRecyclerView(ZvonOne + " - " + ZvonTwo , NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab));
+//                                                                                      if(settings.getBoolean("AnimationSettings",true))
+//                                                                                          adapter.notifyItemInserted(products.size() - 1);
+//                                                                                      else
+//                                                                                          adapter.notifyDataSetChanged();
+//
+//                                                                          } catch (Povtor povtor) {
+//                                                                                Toast.makeText(context,context.getString(R.string.timeSpan),Toast.LENGTH_LONG).show();
+//                                                                              }
+//                                                                          }
+//                                                                          else
+//                                                                              Toast.makeText(context, context.getString(R.string.timeSpanStartEnd), Toast.LENGTH_SHORT).show();
+//                                                                      }else{
+//                                                                          Toast.makeText(
+//                                                                                  context, context.getString(R.string.FieldsNot), Toast.LENGTH_SHORT
+//                                                                          ).show();
+//                                                                      }
+//                                                                  }
+//                                                                  else {
+//                                                                      Toast.makeText(
+//                                                                              context, context.getString(R.string.wrongFormat), Toast.LENGTH_SHORT
+//                                                                      ).show();
+//                                                                  }
+//                                                              }
+//                                                          });
+//
+//                                          //Создаем AlertDialog:
+//                                          AlertDialog alertDialog = newzvonok.create();
+//
+//                                          //и отображаем его:
+//                                          // alertDialog.setTitle("Новый урок");
+//                                          alertDialog.show();
+//
+//                                     }
+//                                  }
+//        );
+    }
+
+    class AnimationDel extends AsyncTask<Void,Integer,Void> {
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            adapter.notifyItemRemoved(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            TextViewVisible();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            for (int l = products.size() - 1; l >= 0; l--){
+                products.remove(l);
+                publishProgress(l);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {}
+            }
+            return null;
+        }
     }
 
     public boolean checkString(String string) {
@@ -326,21 +311,27 @@ public class ItemFragment extends Fragment {
         textView.setVisibility(View.VISIBLE);
     }
 
-    public void Start() {
+    public void AddCard(String textTime, String textBottom, boolean AnimChecked, Context contextActiv){
+        Start(contextActiv);
+        products.add(products.size(),new ConstrRecyclerView(textTime, textBottom));
+        if(AnimChecked)
+            adapter.notifyItemInserted(products.size() - 1);
+        else
+            adapter.notifyDataSetChanged();
+    }
+
+    public void Start(Context contextActiv) {
         String[] help ;
         String delimeter = "=";
         products.clear();
         try {
-            FileInputStream read = getActivity().openFileInput(url);
+            FileInputStream read = contextActiv.openFileInput(url);
             InputStreamReader reader = new InputStreamReader(read);
             BufferedReader bufferedReader = new BufferedReader(reader);
             String temp_read;
             while ((temp_read = bufferedReader.readLine()) != null) {
                 help = temp_read.split(delimeter);
-                map = new HashMap<>();
-                map.put("Times", help[0]);
-                map.put("Kab", help[1]);
-                products.add(map);
+               products.add(new ConstrRecyclerView(help[0], help[1]));
             }
             bufferedReader.close();
             reader.close();
@@ -350,8 +341,10 @@ public class ItemFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException ignore) {
-
+            ignore.printStackTrace();
         }
+
+        adapter = new RecyclerAdapter(products);
 
         if(products.size() != 0){
             TextView textView = viewGroup.findViewById(R.id.nullZvon);

@@ -141,7 +141,7 @@ public class DnewnikFragment extends Fragment {
     }
 
     class ClearAllAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
         @Override
@@ -164,7 +164,7 @@ public class DnewnikFragment extends Fragment {
             final ViewPager viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
-            viewPager.setPadding(120, 0, 120, 0);
+            viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
             viewPager.setPageMargin(60);
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -257,6 +257,7 @@ helperDnewniks.clear();
 
                         helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
                     } catch (FileNotFoundException q) {
+                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz)));
                         q.printStackTrace();
                     } catch (IOException j) {
                         j.printStackTrace();
@@ -291,7 +292,7 @@ helperDnewniks.clear();
     }
 
     class LeftAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         @Override
         protected void onPreExecute() {
@@ -313,7 +314,7 @@ helperDnewniks.clear();
             final ViewPager viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
-            viewPager.setPadding(120, 0, 120, 0);
+            viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
             viewPager.setPageMargin(60);
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -684,6 +685,7 @@ helperDnewniks.clear();
                         helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
                     } catch (FileNotFoundException q) {
                         q.printStackTrace();
+                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz)));
                     } catch (IOException j) {
                         j.printStackTrace();
                     }
@@ -719,7 +721,7 @@ helperDnewniks.clear();
     }
 
     class RightAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         @Override
         protected void onPreExecute() {
@@ -742,7 +744,7 @@ helperDnewniks.clear();
             final ViewPager viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
-            viewPager.setPadding(120, 0, 120, 0);
+            viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
             viewPager.setPageMargin(60);
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -1111,6 +1113,7 @@ helperDnewniks.clear();
                         helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
                     } catch (FileNotFoundException q) {
                         q.printStackTrace();
+                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz)));
                     } catch (IOException j) {
                         j.printStackTrace();
                     }
@@ -1147,7 +1150,7 @@ helperDnewniks.clear();
         }
     }
     class ClearDzAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
         @Override
@@ -1171,7 +1174,7 @@ helperDnewniks.clear();
             final ViewPager viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
-            viewPager.setPadding(120, 0, 120, 0);
+            viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
             viewPager.setPageMargin(60);
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -1275,7 +1278,9 @@ helperDnewniks.clear();
                     }
                     helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
 
-                } catch (FileNotFoundException e) {}
+                } catch (FileNotFoundException e) {
+                    helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz)));
+                }
                 catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -1305,7 +1310,7 @@ helperDnewniks.clear();
     }
 
     class StartAsyncTask extends AsyncTask<Void,String[],Void> {
-        SharedPreferences settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
         @Override
@@ -1327,8 +1332,8 @@ helperDnewniks.clear();
             final ViewPager viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
-            viewPager.setPadding(120, 0, 120, 0);
-            viewPager.setPageMargin(60);
+            viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
+            viewPager.setPageMargin(6);
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
