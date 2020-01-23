@@ -5,4 +5,4 @@ Already done: Block "Grades", Block "Diary", Block "Schedule",Block "Help", Bloc
 In process: Create and configure: 
 block "Settings", Adding AM PM support
 
-The current version can be found at this link: https://drive.google.com/file/d/1NNa2YI7qeGR2723cyU0wLAOCZ2HmL9JE/view?usp=sharing
+The current version can be found at this link: https://drive.google.com/file/d/1aF-73eqjkEeZ5C9ueRuAva2A6tvuXKYV/view?usp=sharing
