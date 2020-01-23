@@ -191,18 +191,7 @@ public class DnewnikFragment extends Fragment {
 helperDnewniks.clear();
             for (int i = 0; i < 6; i++){
 
-                String url;
-
-                if(startNedeli < 10)
-                    if(startMes < 10)
-                        url = "0" + (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
-                    else
-                        url = "0" + (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
-                else
-                if(startMes < 10)
-                    url = (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
-                else
-                    url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
                 String nameDay;
                 String ulrTwo;
@@ -571,19 +560,8 @@ helperDnewniks.clear();
             editor.putInt("IntMes",startMes);
             editor.apply();
             for (int i = 0; i < 6; i++){
+                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
-                String url;
-
-                if(startNedeli < 10)
-                    if(startMes < 10)
-                        url = "0" + (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
-                    else
-                        url = "0" + (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
-                else
-                if(startMes < 10)
-                    url = (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
-                else
-                    url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
                 String nameDay;
                 String ulrTwo;
@@ -1001,18 +979,8 @@ helperDnewniks.clear();
             editor.apply();
             for (int i = 0; i < 6; i++){
 
-                String url;
+                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
-                if(startNedeli < 10)
-                    if(startMes < 10)
-                        url = "0" + (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
-                    else
-                        url = "0" + (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
-                else
-                if(startMes < 10)
-                    url = (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
-                else
-                    url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
                 String nameDay;
                 String ulrTwo;
@@ -1202,18 +1170,8 @@ helperDnewniks.clear();
             helperDnewniks.clear();
             for (int i = 0; i < 6; i++){
 
-                String url;
+                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
-                if(startNedeli < 10)
-                    if(startMes < 10)
-                        url = "0" + (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
-                    else
-                        url = "0" + (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
-                else
-                if(startMes < 10)
-                    url = (startNedeli + i) + ".0" + startMes + "." + settings.getInt("Year",119);
-                else
-                    url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
                 String nameDay;
 
@@ -1883,17 +1841,7 @@ helperDnewniks.clear();
             editor.putInt("Year",date.getYear());
             editor.apply();
             for (int i = 0; i < 6; i++){
-                String url;
-                    if(startNedeli < 10)
-                        if(startMes < 10)
-                            url = "0" + (startNedeli + i) + ".0" + startMes + "." + date.getYear();
-                        else
-                            url = "0" + (startNedeli + i) + "." + startMes + "." + date.getYear();
-                    else
-                        if(startMes < 10)
-                            url = (startNedeli + i) + ".0" + startMes + "." + date.getYear();
-                        else
-                            url = (startNedeli + i) + "." + startMes + "." + date.getYear();
+                String url = (startNedeli + i) + "." + startMes + "." + date.getYear();
 
                 String nameDay ;
                 String ulrTwo ;
@@ -1982,7 +1930,18 @@ helperDnewniks.clear();
                         String temp_read,helpZapis = "",helpZapis2= "",helpZapis3= "";
                         String[] help, helpKab;
                         String delimeter = "=";
+                            if((temp_read = bufferedReader.readLine()) == null)
+                                throw new FileNotFoundException();
+                            else{
+                                help = temp_read.split(delimeter);
+                                stringBuffer.append(help[1]).append("=\n");
+                                helpKab = help[1].split(",");
 
+
+                                helpZapis = helpZapis + helpKab[0] + "=";
+                                helpZapis2 = helpZapis2 + helpKab[1].substring(1) + "=";
+                                helpZapis3 = helpZapis3 + " =";
+                            }
                             while ((temp_read = bufferedReader.readLine()) != null) {
                                 help = temp_read.split(delimeter);
                                 stringBuffer.append(help[1]).append("=\n");

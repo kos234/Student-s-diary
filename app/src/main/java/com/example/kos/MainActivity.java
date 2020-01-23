@@ -1334,22 +1334,4 @@ public class MainActivity extends AppCompatActivity {
         return say;
     }
 
-
-
-
-
-
-
-
-
-
-  /* @Override
-    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent motionEvent) {
-
-    }*/
 }
