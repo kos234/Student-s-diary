@@ -62,6 +62,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean cancelAsyncTask = false;
     private View viewConfirm;
     public int color;
+  //  private int[] tempColorGenerate = new int[]{getColor(R.color.custom_icon), getColor(R.color.custom_background), getColor(R.color.custom_toolbar), getColor(R.color.custom_toolbar_text),};
     private TextView ConfirmationTextView;
 
 
@@ -1332,6 +1334,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return say;
+    }
+
+    public void ClickCreateCustomTheme(View view){
+
+        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.field_create_fragment);
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    public void ClickColor(View view){
+
     }
 
 }

@@ -104,6 +104,29 @@
     <string name="importing">Importing</string>
     <string name="themeAdd">Create custom theme</string>
 
+
+    <string name="custom_color_name">Theme name</string>
+    <string name="custom_color_icon">Сolor of theme icon</string>
+    <string name="custom_color_background">Background color</string>
+    <string name="custom_color_toolbar">Toolbar color</string>
+    <string name="custom_color_text_toolbar">Сolor of toolbar text</string>
+    <string name="custom_color_notification_bar">Notification bar color</string>
+    <string name="custom_color_text">Text color</string>
+    <string name="custom_color_text_hint">Hint text color</string>
+    <string name="custom_color_card">Card color</string>
+    <string name="custom_color_bottomBorder">Сolor of bottom border</string>
+    <string name="custom_color_button_add">Button add color</string>
+    <string name="custom_color_button_arrow">Color of arrow and menu buttons</string>
+    <string name="custom_color_progress">Color of loading icon</string>
+    <string name="custom_color_not_confirmed">Not confirmed color</string>
+    <string name="custom_color_Table_column">Table column Color</string>
+    <string name="custom_color_notification_on">Notification on color</string>
+    <string name="custom_color_notification_off">Notification off color</string>
+    <string name="custom_color_switch_on">Switch color</string>
+    <string name="custom_color_switch_on_background">Background switch color</string>
+    <string name="custom_color_border_theme">Border color of theme</string>
+
+
     <!-- Расстановка правильных окончаний минут -->
     <string name="_0_Min">minute</string>
     <string name="_1_Min">minute</string>

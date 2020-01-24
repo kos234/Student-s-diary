@@ -104,6 +104,29 @@
     <string name="importing">Импортировать</string>
     <string name="themeAdd">Создать свою тему</string>
 
+
+    <string name="custom_color_name">Название темы</string>
+    <string name="custom_color_icon">Цвет иконки темы</string>
+    <string name="custom_color_background">Цвет заднего фона</string>
+    <string name="custom_color_toolbar">Цвет панели</string>
+    <string name="custom_color_text_toolbar">Цвет текста панели</string>
+    <string name="custom_color_notification_bar">Цвет строки уведомления</string>
+    <string name="custom_color_text">Цвет текста</string>
+    <string name="custom_color_text_hint">Цвет текста подсказки</string>
+    <string name="custom_color_card">Цвет блоков</string>
+    <string name="custom_color_bottomBorder">Цвет нижней границы</string>
+    <string name="custom_color_button_add">Цвет кнопки добавления</string>
+    <string name="custom_color_button_arrow">Цвет стрелок и кнопок в меню</string>
+    <string name="custom_color_progress">Цвет иконки загрузки</string>
+    <string name="custom_color_not_confirmed">Цвет не подтверждения</string>
+    <string name="custom_color_Table_column">Цвет колонок таблицы</string>
+    <string name="custom_color_notification_on">Цвет включенных уведомлений</string>
+    <string name="custom_color_notification_off">Цвет выключенных уведомлений</string>
+    <string name="custom_color_switch_on">Цвет переключателя</string>
+    <string name="custom_color_switch_on_background">Цвет заднего фона переключателя</string>
+    <string name="custom_color_border_theme">Цвет обводки темы</string>
+
+
     <!-- Расстановка правильных окончаний минут -->
     <string name="_0_Min">минут</string>
     <string name="_1_Min">минута</string>

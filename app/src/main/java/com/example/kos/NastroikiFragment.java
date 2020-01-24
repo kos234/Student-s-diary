@@ -50,7 +50,7 @@ public class NastroikiFragment extends Fragment {
  * Уведомления
  *
  */
-        final EditText editText = view.findViewById(R.id.EditDpDnew);
+        /*final EditText editText = view.findViewById(R.id.EditDpDnew);
         TextView textDpColor = view.findViewById(R.id.dpText);
         textDpColor.setTextColor(editText.getHintTextColors());
         editText.setHint(Integer.toString(settings.getInt("dpSizeSettings",120)));
@@ -112,7 +112,7 @@ public class NastroikiFragment extends Fragment {
                 editor.putBoolean("AnimationSettings", b);
                 editor.apply();
             }
-        });
+        }); */
 
         return view;
     }
