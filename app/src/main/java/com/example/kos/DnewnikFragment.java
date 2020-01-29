@@ -1,34 +1,29 @@
 package com.example.kos;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
-import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -56,6 +51,7 @@ public class DnewnikFragment extends Fragment {
     int dayInMes;
     int endMes;
     int endNedeli;
+    private SharedPreferences Current_Theme;
     private String nameMes;
     private String dayName;
 
@@ -66,7 +62,7 @@ public class DnewnikFragment extends Fragment {
                              final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dnewnik, container, false);
         linearLayout = view.findViewById(R.id.LinerTask);
-
+        Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
         new StartAsyncTask().execute();
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar3);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
@@ -76,34 +72,46 @@ public class DnewnikFragment extends Fragment {
                 ((MainActivity) getActivity()).openDrawer();
             }
         });
+        toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
+        toolbar.setBackgroundColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(context, R.color.custom_toolbar)));
         Cliks(view);
-
+        view.findViewById(R.id.LinerDnew).setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
 
         final TextView textView = view.findViewById(R.id.textViewDnew);
+        textView.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final LayoutInflater li = LayoutInflater.from(getActivity());
+                final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
                 final AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
-                deleted.setCancelable(true).setPositiveButton(context.getString(R.string.buttonClearAll), new DialogInterface.OnClickListener() {
+                deleted.setView(promptsView);
+                Drawable alertbackground = ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                alertbackground.setColorFilter(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)), PorterDuff.Mode.SRC_ATOP);
+                promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
+                TextView ButtonClearAll = promptsView.findViewById(R.id.buttonClearAll);
+                ButtonClearAll.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonClearAll.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int l) {
-                       new ClearAllAsyncTask().execute();
-                    }
-                })
-                        .setNegativeButton(context.getString(R.string.buttonClearDz), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int l) {
-                       new ClearDzAsyncTask().execute();
-                    }
-                })
-                        .setNeutralButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
+                    public void onClick(View view) {
+                        new ClearAllAsyncTask().execute();
                     }
                 });
+
+                TextView textTitle = promptsView.findViewById(R.id.title_delete_week);
+                textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+                TextView ButtonClearHomework = promptsView.findViewById(R.id.buttonClearHomework);
+                ButtonClearHomework.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new ClearDzAsyncTask().execute();
+                    }
+                });
+
+                ButtonClearHomework.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                deleted.setCancelable(true);
                 AlertDialog alertDialog = deleted.create();
-                alertDialog.setTitle(context.getString(R.string.clearWeek));
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
             }
         });
@@ -114,7 +122,9 @@ public class DnewnikFragment extends Fragment {
 
     public void Cliks (final View viewRoditel){
         ImageButton imageButtonOne = viewRoditel.findViewById(R.id.imageButtonDnew);
+        imageButtonOne.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_ATOP);
         ImageButton imageButtonTwo = viewRoditel.findViewById(R.id.imageButtonDnew2);
+        imageButtonTwo.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_ATOP);
         imageButtonOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,6 +161,8 @@ public class DnewnikFragment extends Fragment {
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
+
             linearLayout.addView(progressBar, layoutParams);
         }
 
@@ -290,6 +302,7 @@ helperDnewniks.clear();
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
             linearLayout.addView(progressBar, layoutParams);
         }
 
@@ -708,6 +721,7 @@ helperDnewniks.clear();
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
             linearLayout.addView(progressBar, layoutParams);
 
         }
@@ -1128,6 +1142,8 @@ helperDnewniks.clear();
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
+
             linearLayout.addView(progressBar, layoutParams);
 
         }
@@ -1277,6 +1293,8 @@ helperDnewniks.clear();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
             ProgressBar progressBar = new ProgressBar(context);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
+
             linearLayout.addView(progressBar, layoutParams);
         }
 

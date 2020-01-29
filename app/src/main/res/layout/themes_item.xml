@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+app:cardCornerRadius="10dp"
+android:layout_marginLeft="5dp"
+android:layout_marginTop="10dp"
+android:layout_marginRight="5dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="left|center"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_marginRight="10dp"
+        android:id="@+id/bolder_add"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_dark">
+        <ImageView
+            android:id="@+id/icon_add"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/white"
+            android:layout_margin="1dp" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/name_add"
+        android:text="@string/WhiteTheme"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_weight="1"
+        />
+
+    <Switch
+        android:layout_gravity="center"
+        android:id="@+id/switch_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+</LinearLayout>
+</androidx.cardview.widget.CardView>

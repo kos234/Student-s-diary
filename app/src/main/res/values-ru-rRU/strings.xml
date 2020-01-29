@@ -102,20 +102,25 @@
     <string name="exportingData">Экспортировать данные</string>
     <string name="importingData">Импортировать данные</string>
     <string name="importing">Импортировать</string>
-    <string name="themeAdd">Создать свою тему</string>
+    <string name="themeAdd">СОЗДАТЬ СВОЮ ТЕМУ</string>
+    <string name="Apply_Theme">Применение темы</string>
+    <string name="Saving_theme">Сохранение темы</string>
 
 
     <string name="custom_color_name">Название темы</string>
     <string name="custom_color_icon">Цвет иконки темы</string>
+    <string name="custom_color_border_theme">Цвет обводки темы</string>
     <string name="custom_color_background">Цвет заднего фона</string>
     <string name="custom_color_toolbar">Цвет панели</string>
     <string name="custom_color_text_toolbar">Цвет текста панели</string>
     <string name="custom_color_notification_bar">Цвет строки уведомления</string>
-    <string name="custom_color_text">Цвет текста</string>
+    <string name="custom_color_text_light">Светлый цвет текста</string>
+    <string name="custom_color_text_dark">Темный цвет текста</string>
     <string name="custom_color_text_hint">Цвет текста подсказки</string>
     <string name="custom_color_card">Цвет блоков</string>
     <string name="custom_color_bottomBorder">Цвет нижней границы</string>
     <string name="custom_color_button_add">Цвет кнопки добавления</string>
+    <string name="custom_color_button_add_plus">Цвет плюса кнопки добавления</string>
     <string name="custom_color_button_arrow">Цвет стрелок и кнопок в меню</string>
     <string name="custom_color_progress">Цвет иконки загрузки</string>
     <string name="custom_color_not_confirmed">Цвет не подтверждения</string>
@@ -124,7 +129,6 @@
     <string name="custom_color_notification_off">Цвет выключенных уведомлений</string>
     <string name="custom_color_switch_on">Цвет переключателя</string>
     <string name="custom_color_switch_on_background">Цвет заднего фона переключателя</string>
-    <string name="custom_color_border_theme">Цвет обводки темы</string>
 
 
     <!-- Расстановка правильных окончаний минут -->

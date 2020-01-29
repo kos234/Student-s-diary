@@ -241,7 +241,7 @@ public class OcenkiFragment extends Fragment {
             tableLayout.setBackgroundColor(Color.DKGRAY);
             linearLayout.addView(tableLayout);
             textViewDate.setText(url);
-            new CheakWriteInStolb().execute(TabArray);
+            new CheakWriteInStolb().execute(new ConstrCheak(TabArray,tableLayout));
         }
 
         @Override
@@ -397,7 +397,7 @@ public class OcenkiFragment extends Fragment {
             tableLayout.setBackgroundColor(Color.DKGRAY);
             linearLayout.addView(tableLayout);
             textViewDate.setText(url);
-            new CheakWriteInStolb().execute(TabArray);
+            new CheakWriteInStolb().execute(new ConstrCheak(TabArray,tableLayout));
         }
 
         @Override
@@ -634,7 +634,7 @@ public class OcenkiFragment extends Fragment {
             return null;
         }
     }
-    class CheakWriteInStolb extends AsyncTask<ArrayList<String[]>,CheakConvenorResult,Void> {
+    class CheakWriteInStolb extends AsyncTask<ConstrCheak,CheakConvenorResult,Void> {
 
         @Override
         protected void onProgressUpdate(CheakConvenorResult... values) {
@@ -665,6 +665,7 @@ public class OcenkiFragment extends Fragment {
                 case 7:
                     FrameId = R.id.frame_ocenki_end;
                     break;
+                    default: FrameId = R.id.frame_ocenki_one; break;
             }
 
             FrameLayout frameLayout;
@@ -673,23 +674,25 @@ public class OcenkiFragment extends Fragment {
         }
 
         @Override
-        protected Void doInBackground(ArrayList<String[]>... strings) {
+        protected Void doInBackground(ConstrCheak... value) {
             for (int i = 1; i < 8; i++) {
-                for (int j = 0; j < strings[0].size(); j++)
+                for (int j = 0; j < value[0].getArrayList().size(); j++)
                     try {
-                        String[] helpCheak = strings[0].get(j),
+                        String[] helpCheak = value[0].getArrayList().get(j),
                                 ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
                         if (!helpCheak[i].equals(" ") && ConfirmationValue[i-1].equals(getString(R.string.Not_Confirmed)))
                             throw new Povtor("KRIA", 1);
                     } catch (Povtor povtor) {
                         TableRow tableRow;
-                        tableRow = getActivity().findViewById(R.id.barOcenki);
+
+                        tableRow = value[0].getTableLayout().findViewById(R.id.barOcenki);
+
                         publishProgress(new CheakConvenorResult(tableRow,i));
                         for (int l = 1; l <= settings.getInt("PredmetiSize", 2); l++) {
-                            tableRow = getActivity().findViewById(10203040 + l);
+                            tableRow = value[0].getTableLayout().findViewById(10203040 + l);
                             publishProgress(new CheakConvenorResult(tableRow,i));
                         }
-                        tableRow = getActivity().findViewById(R.id.confirmationBar);
+                        tableRow = value[0].getTableLayout().findViewById(R.id.confirmationBar);
                         publishProgress(new CheakConvenorResult(tableRow,i));
                     }
             }
@@ -719,7 +722,7 @@ public class OcenkiFragment extends Fragment {
             tableLayout.setBackgroundColor(Color.DKGRAY);
             linearLayout.addView(tableLayout);
             textViewDate.setText(url);
-            new CheakWriteInStolb().execute(TabArray);
+            new CheakWriteInStolb().execute(new ConstrCheak(TabArray, tableLayout));
         }
 
         @Override

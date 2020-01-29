@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +46,7 @@ public class YchiteliaFragment extends Fragment {
     private ArrayList<ConstrRecyclerView> constrRecyclerViewArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecyclerAdapter adapter;
+    SharedPreferences Current_Theme;
     private RecyclerView.LayoutManager layoutManager;
 
 
@@ -63,6 +67,7 @@ public class YchiteliaFragment extends Fragment {
                              Bundle savedInstanceState) {
         viewFragment =  inflater.inflate(R.layout.fragment_ychitelia, container,false);
         settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
+        Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
 
         androidx.appcompat.widget.Toolbar toolbar = viewFragment.findViewById(R.id.toolbarPrepod);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
@@ -289,7 +294,7 @@ public class YchiteliaFragment extends Fragment {
                         .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                /*try {
+                try {
                     FileOutputStream write =  getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
                     String temp_write ="";
 
@@ -299,7 +304,7 @@ public class YchiteliaFragment extends Fragment {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                } */
+                }
                         if(settings.getBoolean("AnimationSettings",true))
                             new AnimationDel().execute();
                         else {
@@ -331,6 +336,9 @@ public class YchiteliaFragment extends Fragment {
                 final View promptsView = li.inflate(R.layout.add_ychitelia , null);
                 AlertDialog.Builder newadd = new AlertDialog.Builder(getActivity());
                 newadd.setView(promptsView);
+                Drawable aletbackground = ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                aletbackground.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_ATOP);
+                promptsView.findViewById(R.id.alert_add_ychit).setBackground(aletbackground);
                 final EditText name = (EditText) promptsView.findViewById(R.id.NamePrepod);
                 final EditText predmet = (EditText) promptsView.findViewById(R.id.yrokPrepod);
                 newadd

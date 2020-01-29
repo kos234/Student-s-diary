@@ -8,15 +8,20 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -29,15 +34,21 @@ import android.os.StrictMode;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -52,6 +63,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.annotation.IntegerRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -74,6 +86,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.zip.Inflater;
+
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 import static android.app.NotificationManager.IMPORTANCE_HIGH;
 
@@ -83,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
     final Context context = this;
     private AlertDialog alertDialogConfirmation;
     private SharedPreferences settings,
+                                Current_Theme,
                                 Confirmed,
                                 prefs = null;
     private SharedPreferences.Editor editor,
@@ -90,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private int what,
             numStolbWrite = 0,
             numZapic = 1;
+    FragmentManager fragmentManager;
     private final Handler handler = new Handler();
     private MediaPlayer mediaPlayer;
     MediaRecorder mediaRecorder;
@@ -97,16 +116,17 @@ public class MainActivity extends AppCompatActivity {
     private NotificationManager notificationManager;
     private static final int NOTIFY_ID = 1,
                             REQUEST_CODE_CAMERA = 1,
-                            REQUEST_CODE_MICROPHONE = 2,
                             REQUEST_CODE_MICROPHONE_CONF = 3,
                             REQUEST_CODE_CAMERA_CONF = 4,
                             REQUEST_CODE_FOLDER_CONF = 5;
     private static final String CHANNEL_ID = "Novus_Pidor";
     private String url;
+    public String TempNameTheme;
+    NavigationView navigationView;
     Boolean cancelAsyncTask = false;
     private View viewConfirm;
     public int color;
-  //  private int[] tempColorGenerate = new int[]{getColor(R.color.custom_icon), getColor(R.color.custom_background), getColor(R.color.custom_toolbar), getColor(R.color.custom_toolbar_text),};
+    private HashMap<Integer, Integer> colors = new HashMap();
     private TextView ConfirmationTextView;
 
 
@@ -115,129 +135,252 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        settings = getSharedPreferences("Settings", MODE_PRIVATE);
-        Confirmed = getSharedPreferences("Confirmed", MODE_PRIVATE);
-        editor = settings.edit();
-        editorConfirmed = Confirmed.edit();
-
-            if(settings.getBoolean("notifySettings",true))
-                new MyThread().start();
-
+        prefs = getSharedPreferences("com.example.kos", MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_FOLDER_CONF);
-        }
-        prefs = getSharedPreferences("com.example.kos", MODE_PRIVATE);
-        NavigationView navigationView = findViewById(R.id.navigation);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                try {
-               Fragment fragmentActiv = null;
-               Class fragmentClass;
-               switch (menuItem.getItemId()){
-                   case R.id.Zvonki:
-                       if(settings.getString("Fragment","Dnewnik").equals("Znonki"))
-                           throw new Povtor("KRIA", 1);
-                       else
-                       fragmentClass = ZnonkiFragment.class;
-                       editor.putString("Fragment","Znonki" );
-                       break;
-                   case R.id.Ychetel:
-                       if(settings.getString("Fragment","Dnewnik").equals("Ychitelia"))
-                           throw new Povtor("KRIA", 1);
-                       else
-                       fragmentClass = YchiteliaFragment.class;
-                       editor.putString("Fragment","Ychitelia" );
-                       break;
-                       case R.id.Ocenki:
-                           if(settings.getString("Fragment","Dnewnik").equals("Ocenki"))
-                               throw new Povtor("KRIA", 1);
-                           else
-                       fragmentClass = OcenkiFragment.class;
-                           editor.putString("Fragment","Ocenki" );
-                       break;
-                   case R.id.Nastroiki:
-                       if(settings.getString("Fragment","Dnewnik").equals("Nastroiki"))
-                           throw new Povtor("KRIA", 1);
-                       else
-                       fragmentClass = NastroikiFragment.class;
-                       editor.putString("Fragment","Nastroiki" );
-                       break;
-                   case R.id.Spravka:
-                       if(settings.getString("Fragment","Dnewnik").equals("Spravka"))
-                           throw new Povtor("KRIA", 1);
-                       else
-                       fragmentClass = SpravkaFragment.class;
-                       editor.putString("Fragment","Spravka" );
-                       break;
-                       default:
-                           if(settings.getString("Fragment","Dnewnik").equals("Dnewnik"))
-                               throw new Povtor("KRIA", 1);
-                           else
-                           fragmentClass = DnewnikFragment.class;
-                           editor.putString("Fragment","Dnewnik" );
-                           break;
-               }
 
-               try {
-                   fragmentActiv = (Fragment) fragmentClass.newInstance();
-               } catch (IllegalAccessException e) {
-                   e.printStackTrace();
-               } catch (InstantiationException e) {
-                   e.printStackTrace();
-               }
-               FragmentManager fragmentManager = getSupportFragmentManager();
-               fragmentManager.beginTransaction().replace(R.id.Smena,fragmentActiv).commit();
-               menuItem.setChecked(true);
-              drawerLayout = findViewById(R.id.Drawer);
-               drawerLayout.closeDrawer(Gravity.LEFT);
-                editor.apply();
+        new onStart().execute();
 
-            }catch (Povtor povtor){
-                    DrawerLayout drawer = findViewById(R.id.Drawer);
-                    drawer.closeDrawer(Gravity.LEFT);
-                }
-                return false;
-            }
-        });
 
-        Class fragmentClass;
-        switch (settings.getString("Fragment", "Dnewnik")){
-            case "Ychitelia":
-                fragmentClass = YchiteliaFragment.class;
-                break;
-            case "Znonki":
-                fragmentClass = ZnonkiFragment.class;
-                break;
-            case "Ocenki":
-                fragmentClass = OcenkiFragment.class;
-                break;
-            case "Nastroiki":
-                fragmentClass = NastroikiFragment.class;
-                break;
-            case "Spravka":
-                fragmentClass = SpravkaFragment.class;
-                break;
-            default:
-                fragmentClass = DnewnikFragment.class;
-                break;
-        }
-        Fragment fragmentActiv = null;
-
-        try {
-            fragmentActiv = (Fragment) fragmentClass.newInstance();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.Smena,fragmentActiv).commit();
 
     }
+
+    /**
+     * Добавить возможность отключать субботу
+     * Добавить выбор цвета по хексу
+     * Добавить открытие цветового выбора по дефолту
+     * Редактирование темы
+    */
+
+
+    class onStart extends AsyncTask<Void,ConstrOnStart,Void>{
+        ImageView imageView;
+        int menuSize;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            drawerLayout = findViewById(R.id.Drawer);
+            DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            imageView = new ImageView(context);
+            imageView.setLayoutParams(params);
+            imageView.setBackgroundColor(Color.RED);
+            drawerLayout.addView(imageView);
+            navigationView = findViewById(R.id.navigation);
+            menuSize = navigationView.getMenu().size();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            drawerLayout.setBackgroundColor(Current_Theme.getInt("custom_background",ContextCompat.getColor(context, R.color.custom_background)));
+            drawerLayout.removeView(imageView);
+            new MyThread().start();
+        }
+
+        @Override
+        protected void onProgressUpdate(ConstrOnStart... values) {
+            super.onProgressUpdate(values);
+            if(values[0].getId() == 1) {
+                navigationView.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_FOLDER_CONF);
+                }
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.setStatusBarColor(Current_Theme.getInt("custom_notification_bar", ContextCompat.getColor(context, R.color.custom_notification_bar)));
+            }
+
+            else if(values[0].getId() == 2)
+                navigationView.getMenu().getItem(values[0].getItem()).setTitle(values[0].getS());
+
+            else if(values[0].getId() == 3){
+                navigationView.setItemIconTintList(new ColorStateList(new int[][]{ new int[]{android.R.attr.state_enabled} }, new int[] {Current_Theme.getInt("custom_button_arrow",ContextCompat.getColor(context, R.color.custom_button_arrow))}));
+                navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        try {
+                            int IdHideFragment;
+                            switch (settings.getString("Fragment", "Dnewnik")) {
+                                case "Ychitelia":
+                                    IdHideFragment = 1;
+                                    break;
+                                case "Znonki":
+                                    IdHideFragment = 2;
+                                    break;
+                                case "Ocenki":
+                                    IdHideFragment = 3;
+                                    break;
+                                case "Nastroiki":
+                                    IdHideFragment = 4;
+                                    break;
+                                case "Spravka":
+                                    IdHideFragment = 5;
+                                    break;
+                                default:
+                                    IdHideFragment = 0;
+                                    break;
+                            }
+
+
+                            fragmentManager.beginTransaction().hide(fragmentManager.getFragments().get(IdHideFragment)).commit();
+
+                            int IdShowFragment;
+                            switch (menuItem.getItemId()){
+                                case R.id.Ychetel:
+                                    IdShowFragment = 1;
+                                    if(IdShowFragment == IdHideFragment)
+                                        throw new Povtor("KRIA", 1);
+                                    editor.putString("Fragment","Ychitelia" );
+                                    break;
+                                case R.id.Zvonki:
+                                        IdShowFragment = 2;
+                                    if(IdShowFragment == IdHideFragment)
+                                        throw new Povtor("KRIA", 1);
+                                    editor.putString("Fragment","Znonki" );
+                                    break;
+                                case R.id.Ocenki:
+                                        IdShowFragment = 3;
+                                    if(IdShowFragment == IdHideFragment)
+                                        throw new Povtor("KRIA", 1);
+                                    editor.putString("Fragment","Ocenki" );
+                                    break;
+                                case R.id.Nastroiki:
+                                        IdShowFragment = 4;
+                                    if(IdShowFragment == IdHideFragment)
+                                        throw new Povtor("KRIA", 1);
+                                    editor.putString("Fragment","Nastroiki" );
+                                    break;
+                                case R.id.Spravka:
+                                        IdShowFragment = 5;
+                                    if(IdShowFragment == IdHideFragment)
+                                        throw new Povtor("KRIA", 1);
+                                    editor.putString("Fragment","Spravka" );
+                                    break;
+                                default:
+                                        IdShowFragment = 0;
+                                    if(IdShowFragment == IdHideFragment)
+                                        throw new Povtor("KRIA", 1);
+                                    editor.putString("Fragment","Dnewnik" );
+                                    break;
+                            }
+
+
+                            fragmentManager.beginTransaction().show(fragmentManager.getFragments().get(IdShowFragment)).commit();
+                            menuItem.setChecked(true);
+                            drawerLayout = findViewById(R.id.Drawer);
+                            drawerLayout.closeDrawer(Gravity.LEFT);
+                            editor.apply();
+
+                        }catch (Povtor povtor){
+                            DrawerLayout drawer = findViewById(R.id.Drawer);
+                            drawer.closeDrawer(Gravity.LEFT);
+                        }
+                        return false;
+                    }
+                });
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            settings = getSharedPreferences("Settings", MODE_PRIVATE);
+            Current_Theme = getSharedPreferences("Current_Theme", MODE_PRIVATE);
+            Confirmed = getSharedPreferences("Confirmed", MODE_PRIVATE);
+            editor = settings.edit();
+            editorConfirmed = Confirmed.edit();
+
+
+            publishProgress(new ConstrOnStart(1));
+
+            for(int i = 0; i < menuSize; i++){
+                String name;
+                switch (i){
+                    case 1:
+                        name = getString(R.string.timetables);
+                        break;
+                    case 2:
+                        name = getString(R.string.teachers);
+                        break;
+                    case 3:
+                        name = getString(R.string.grades);
+                        break;
+                    case 4:
+                        name = getString(R.string.settings);
+                        break;
+                    case 5:
+                        name = getString(R.string.help);
+                        break;
+                    default:
+                        name = getString(R.string.app_name);
+                        break;
+                }
+
+
+                    SpannableString s = new SpannableString(name);
+                    s.setSpan(new ForegroundColorSpan(Current_Theme.getInt("custom_button_arrow",ContextCompat.getColor(context, R.color.custom_button_arrow))), 0, s.length(), 0);
+                    publishProgress(new ConstrOnStart(2,i,s));
+                }
+
+
+            publishProgress(new ConstrOnStart(3));
+
+            Class fragmentClass;
+            fragmentManager = getSupportFragmentManager();
+            for(int s = 0; s < 6; s++) {
+                boolean Invisibly = true;
+                switch (s) {
+                    case 1:
+                        fragmentClass = YchiteliaFragment.class;
+                        if(settings.getString("Fragment", "Dnewnik").equals("Ychitelia"))
+                            Invisibly = false;
+                        break;
+                    case 2:
+                        fragmentClass = ZnonkiFragment.class;
+                        if(settings.getString("Fragment", "Dnewnik").equals("Znonki"))
+                            Invisibly = false;
+                        break;
+                    case 3:
+                        fragmentClass = OcenkiFragment.class;
+                        if(settings.getString("Fragment", "Dnewnik").equals("Ocenki"))
+                            Invisibly = false;
+                        break;
+                    case 4:
+                        fragmentClass = NastroikiFragment.class;
+                        if(settings.getString("Fragment", "Dnewnik").equals("Nastroiki"))
+                            Invisibly = false;
+                        break;
+                    case 5:
+                        fragmentClass = SpravkaFragment.class;
+                        if(settings.getString("Fragment", "Dnewnik").equals("Spravka"))
+                            Invisibly = false;
+                        break;
+                    default:
+                        fragmentClass = DnewnikFragment.class;
+                        if(settings.getString("Fragment", "Dnewnik").equals("Dnewnik"))
+                            Invisibly = false;
+                        break;
+                }
+                Fragment fragmentActiv = null;
+
+                try {
+                    fragmentActiv = (Fragment) fragmentClass.newInstance();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                }
+
+                fragmentManager.beginTransaction().add(R.id.Smena, fragmentActiv).commit();
+                if(Invisibly)
+                    fragmentManager.beginTransaction().hide(fragmentActiv).commit();
+            }
+
+            return null;
+        }
+    }
+
 
     public void openDrawer() {
         DrawerLayout drawer = findViewById(R.id.Drawer);
@@ -1143,6 +1286,9 @@ public class MainActivity extends AppCompatActivity {
             Boolean clear = true;
 
             while (true) {
+                if(!settings.getBoolean("notifySettings",true))
+                    continue;
+
                Date date = new Date();
                 switch (date.toString().substring(0,3)) {
                     case "Mon":
@@ -1216,7 +1362,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
 
-                           else if (TimeHoursStart <= Integer.parseInt(date.toString().substring(11, 13)) && TimeMinsStart <= Integer.parseInt(date.toString().substring(14, 16)) && (Integer.parseInt(date.toString().substring(14, 16)) <= TimeMinsEnd) ) {
+                           else if (TimeHoursStart <= Integer.parseInt(date.toString().substring(11, 13)) && TimeMinsStart <= Integer.parseInt(date.toString().substring(14, 16)) && Integer.parseInt(date.toString().substring(11, 13)) <= TimeHoursEnd && Integer.parseInt(date.toString().substring(14, 16)) <= TimeMinsEnd ) {
                                     hour = TimeHoursEnd - Integer.parseInt(date.toString().substring(11, 13));
                                     min = hour * 60 - Integer.parseInt(date.toString().substring(14, 16)) + TimeMinsEnd;
                                     hour = 0;
@@ -1245,10 +1391,7 @@ public class MainActivity extends AppCompatActivity {
                         reader.close();
                         read.close();
                     } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    } catch (IOException e) { }
 
                     if (min != 666 || hour != 666) {
                         if (minTemp != min || hourTemp != hour) {
@@ -1303,8 +1446,11 @@ public class MainActivity extends AppCompatActivity {
 
     public String Padej (int kool, Boolean Type) {
         String say = " ";
-        if (kool == 0 && !Type)  {
-            say = "0 " + getString(R.string._0_Min);
+        if (kool == 0)  {
+            if(Type)
+                say = " ";
+            else
+             say = "0 " + getString(R.string._0_Min);
         }
         else if (kool == 1) {
             if (Type) say = "1 " + getString(R.string._1_Hour);
@@ -1337,14 +1483,209 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ClickCreateCustomTheme(View view){
+        LinearLayout linearLayout = findViewById(R.id.field_create_fragment);
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+        if(view.getId() == R.id.Card_create) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            new Thread(new Runnable() {
+                public void run() {
+                    colors.put(R.id.custom_icon, ContextCompat.getColor(context,R.color.custom_icon));
+                    colors.put(R.id.custom_background, ContextCompat.getColor(context, R.color.custom_background));
+                    colors.put(R.id.custom_toolbar, ContextCompat.getColor(context, R.color.custom_toolbar));
+                    colors.put(R.id.custom_toolbar_text, ContextCompat.getColor(context, R.color.custom_toolbar_text));
+                    colors.put(R.id.custom_notification_bar, ContextCompat.getColor(context, R.color.custom_notification_bar));
+                    colors.put(R.id.custom_text_light, ContextCompat.getColor(context, R.color.custom_text_light));
+                    colors.put(R.id.custom_text_dark, ContextCompat.getColor(context, R.color.custom_text_dark));
+                    colors.put(R.id.custom_text_hint, ContextCompat.getColor(context, R.color.custom_hint_text));
+                    colors.put(R.id.custom_card, ContextCompat.getColor(context, R.color.custom_card));
+                    colors.put(R.id.custom_bottomBorder, ContextCompat.getColor(context, R.color.custom_bottomBorder));
+                    colors.put(R.id.custom_button_add, ContextCompat.getColor(context, R.color.custom_button_add));
+                    colors.put(R.id.custom_button_add_plus, ContextCompat.getColor(context, R.color.custom_button_add_plus));
+                    colors.put(R.id.custom_button_arrow, ContextCompat.getColor(context, R.color.custom_button_arrow));
+                    colors.put(R.id.custom_progress, ContextCompat.getColor(context, R.color.custom_progress));
+                    colors.put(R.id.custom_not_confirmed, ContextCompat.getColor(context, R.color.custom_not_confirmed));
+                    colors.put(R.id.custom_Table_column, ContextCompat.getColor(context, R.color.custom_Table_column));
+                    colors.put(R.id.custom_notification_on, ContextCompat.getColor(context, R.color.custom_notification_on));
+                    colors.put(R.id.custom_notification_off, ContextCompat.getColor(context, R.color.custom_notification_off));
+                    colors.put(R.id.custom_switch_on, ContextCompat.getColor(context, R.color.custom_switch_on));
+                    colors.put(R.id.custom_switch_on_background, ContextCompat.getColor(context, R.color.custom_switch_on_background));
+                    colors.put(R.id.custom_border_theme, ContextCompat.getColor(context, R.color.custom_border_theme));
+                }
+            }).start();
 
-        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.field_create_fragment);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+
+            final EditText editText = linearLayout.findViewById(R.id.custom_name);
+            editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                    if (i == EditorInfo.IME_ACTION_DONE) {
+                        if (getCurrentFocus() != null) {
+                            View vw = getCurrentFocus();
+                            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            inputMethodManager.hideSoftInputFromWindow(vw.getWindowToken(), 0);
+                                TempNameTheme = editText.getText().toString();
+
+                            editText.clearFocus();
+                        }
+                    }
+                    return false;
+                }
+            });
+
+        }else{
+            new CreateTheme().execute(colors);
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }
     }
 
-    public void ClickColor(View view){
+    public void ClickColor(final View view){
+        AmbilWarnaDialog colorEdit = new AmbilWarnaDialog(context, colors.get(view.getId()), new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
 
+            }
+
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                view.setBackgroundColor(color);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    colors.replace(view.getId(),color);
+                else {
+                    colors.remove(view.getId());
+                    colors.put(view.getId(),color);
+                }
+
+            }
+        });
+
+        colorEdit.show();
+    }
+
+    class CreateTheme extends AsyncTask<HashMap<Integer, Integer>, String, Void>{
+        AlertDialog alertDialog;
+        TextView textView;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            AlertDialog.Builder progressDialog = new AlertDialog.Builder(context);
+            final LayoutInflater li = LayoutInflater.from(context);
+            final View promptsView = li.inflate(R.layout.loading_color , null);
+            progressDialog.setView(promptsView)
+                    .setCancelable(false);
+            textView = promptsView.findViewById(R.id.textLoading);
+            textView.setText(getString(R.string.Saving_theme));
+            alertDialog = progressDialog.create();
+            alertDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            alertDialog.hide();
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            textView.setText(values[0]);
+        }
+
+        @Override
+        protected Void doInBackground(HashMap<Integer, Integer>... hashMaps) {
+            StringBuffer stringBuffer = new StringBuffer();
+            try {
+                FileInputStream read = context.openFileInput("Themes.txt");
+                InputStreamReader reader = new InputStreamReader(read);
+                BufferedReader bufferedReader = new BufferedReader(reader);
+                String temp_read;
+                while ((temp_read = bufferedReader.readLine()) != null) {
+                   stringBuffer.append(temp_read).append("\n");
+                }
+                bufferedReader.close();
+                reader.close();
+                read.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NullPointerException ignore) {
+                ignore.printStackTrace();
+            }
+
+            int Generate_id = new Random().nextInt(1000) + 142132;
+            editor.putInt("id_current_theme", Generate_id);
+            editor.apply();
+            if(TempNameTheme == null)
+                TempNameTheme = getString(R.string.WhiteTheme);
+
+            try {
+                  FileOutputStream write =  context.openFileOutput("Themes.txt", MODE_PRIVATE);
+                  String temp_write = stringBuffer.toString() +
+                    Generate_id + "=" + TempNameTheme + "=" +
+                      hashMaps[0].get(R.id.custom_icon) + "=" +
+                      hashMaps[0].get(R.id.custom_border_theme)  + "=" +
+                      hashMaps[0].get(R.id.custom_background) + "=" +
+                      hashMaps[0].get(R.id.custom_toolbar) + "=" +
+                      hashMaps[0].get(R.id.custom_toolbar_text) + "=" +
+                      hashMaps[0].get(R.id.custom_notification_bar) + "=" +
+                      hashMaps[0].get(R.id.custom_text_light) + "=" +
+                      hashMaps[0].get(R.id.custom_text_dark) + "=" +
+                      hashMaps[0].get(R.id.custom_text_hint) + "=" +
+                      hashMaps[0].get(R.id.custom_card) + "=" +
+                      hashMaps[0].get(R.id.custom_bottomBorder) + "=" +
+                      hashMaps[0].get(R.id.custom_button_add) + "=" +
+                      hashMaps[0].get(R.id.custom_button_add_plus) + "=" +
+                      hashMaps[0].get(R.id.custom_button_arrow) + "=" +
+                      hashMaps[0].get(R.id.custom_progress) + "=" +
+                      hashMaps[0].get(R.id.custom_not_confirmed) + "=" +
+                      hashMaps[0].get(R.id.custom_Table_column) + "=" +
+                      hashMaps[0].get(R.id.custom_notification_on) + "=" +
+                      hashMaps[0].get(R.id.custom_notification_off) + "=" +
+                      hashMaps[0].get(R.id.custom_switch_on) + "=" +
+                      hashMaps[0].get(R.id.custom_switch_on_background);
+
+                  write.write(temp_write.getBytes());
+                  write.close();
+              } catch (FileNotFoundException e) {
+                  e.printStackTrace();
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+
+            publishProgress(getString(R.string.Apply_Theme));
+
+            SharedPreferences.Editor editorColor = Current_Theme.edit();
+
+            editorColor.putInt("custom_icon", hashMaps[0].get(R.id.custom_icon));
+            editorColor.putInt("custom_border_theme", hashMaps[0].get(R.id.custom_border_theme));
+            editorColor.putInt("custom_background", hashMaps[0].get(R.id.custom_background));
+            editorColor.putInt("custom_toolbar", hashMaps[0].get(R.id.custom_toolbar));
+            editorColor.putInt("custom_toolbar_text", hashMaps[0].get(R.id.custom_toolbar_text));
+            editorColor.putInt("custom_notification_bar", hashMaps[0].get(R.id.custom_notification_bar));
+            editorColor.putInt("custom_text_light", hashMaps[0].get(R.id.custom_text_light));
+            editorColor.putInt("custom_text_dark", hashMaps[0].get(R.id.custom_text_dark));
+            editorColor.putInt("custom_text_hint", hashMaps[0].get(R.id.custom_text_hint));
+            editorColor.putInt("custom_card", hashMaps[0].get(R.id.custom_card));
+            editorColor.putInt("custom_bottomBorder", hashMaps[0].get(R.id.custom_bottomBorder));
+            editorColor.putInt("custom_button_add", hashMaps[0].get(R.id.custom_button_add));
+            editorColor.putInt("custom_button_add_plus", hashMaps[0].get(R.id.custom_button_add_plus));
+            editorColor.putInt("custom_button_arrow", hashMaps[0].get(R.id.custom_button_arrow));
+            editorColor.putInt("custom_progress", hashMaps[0].get(R.id.custom_progress));
+            editorColor.putInt("custom_not_confirmed", hashMaps[0].get(R.id.custom_not_confirmed));
+            editorColor.putInt("custom_Table_column", hashMaps[0].get(R.id.custom_Table_column));
+            editorColor.putInt("custom_notification_on", hashMaps[0].get(R.id.custom_notification_on));
+            editorColor.putInt("custom_notification_off", hashMaps[0].get(R.id.custom_notification_off));
+            editorColor.putInt("custom_switch_on", hashMaps[0].get(R.id.custom_switch_on));
+            editorColor.putInt("custom_switch_on_background", hashMaps[0].get(R.id.custom_switch_on_background));
+
+            editorColor.apply();
+            return null;
+        }
     }
 
 }

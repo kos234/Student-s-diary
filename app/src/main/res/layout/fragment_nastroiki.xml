@@ -6,11 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".NastroikiFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar4"
         app:title="Настройки"
@@ -22,6 +17,7 @@
         android:theme="?attr/actionBarTheme" />
 
     <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -411,12 +407,18 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/background_dark">
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:background="#696969"
-                        android:src="@drawable/bolder_dark"
-                        android:layout_marginRight="10dp"/>
+                        android:background="@android:color/white"
+                        android:layout_margin="1dp"
+                        />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -453,12 +455,19 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/white">
+
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:background="#696969"
-                        android:src="@drawable/bolder_white"
-                        android:layout_marginRight="10dp"/>
+                        android:background="@android:color/background_dark"
+                        android:layout_margin="1dp"
+                        />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -479,6 +488,15 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/themes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                >
+            </androidx.recyclerview.widget.RecyclerView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -488,13 +506,18 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="5dp">
 
-                <Button
+                <TextView
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:id="@+id/Card_create"
+                    android:onClick="ClickCreateCustomTheme"
+                    android:textColor="@android:color/background_dark"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/themeAdd"
                     android:textStyle="bold"
                     android:textSize="20dp"
-                    android:onClick="ClickCreateCustomTheme"
                     android:background="@null" />
 
             </androidx.cardview.widget.CardView>
@@ -503,5 +526,5 @@
     </androidx.core.widget.NestedScrollView>
 
     <include layout="@layout/create_custom_theme"/>
-    </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
