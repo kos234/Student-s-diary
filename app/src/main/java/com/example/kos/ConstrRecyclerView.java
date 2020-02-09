@@ -2,23 +2,23 @@ package com.example.kos;
 
 public class ConstrRecyclerView {
 
-    String TextName, TextBottom;
+  String TextName, TextBottom;
 
-    public ConstrRecyclerView(String textName, String textBottom) {
-        TextName = textName;
-        TextBottom = textBottom;
-    }
+  public ConstrRecyclerView(String textName, String textBottom) {
+    TextName = textName;
+    TextBottom = textBottom;
+  }
 
-    public void changeText(String textNameEdit, String textBottomEdit){
-        TextName = textNameEdit;
-        TextBottom = textBottomEdit;
-    }
+  public void changeText(String textNameEdit, String textBottomEdit){
+    TextName = textNameEdit;
+    TextBottom = textBottomEdit;
+  }
 
-    public String getTextName() {
-        return TextName;
-    }
+  public String getTextName() {
+    return TextName;
+  }
 
-    public String getTextBottom() {
-        return TextBottom;
-    }
+  public String getTextBottom() {
+    return TextBottom;
+  }
 }

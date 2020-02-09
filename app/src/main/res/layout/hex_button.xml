@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/corners_alert"
-    android:id="@+id/alert_delete"
-    android:layout_gravity="center_horizontal">
+    android:gravity="right"
+    android:orientation="vertical">
 
-    <TextView
-        android:gravity="left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:id="@+id/title_alert"
-        android:text="@string/clearWeek"
-        android:textColor="@android:color/black"
-        android:textSize="22dp" />
-
-    <TextView
-        android:gravity="left"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:id="@+id/title_bottom_alert"
-        android:text="@string/bottom_title_clear_hw"
-        android:textSize="20dp" />
+        android:gravity="center"
+        android:orientation="horizontal">
+<TextView
+    android:id="@+id/textView_type_color"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="5dp"
+    android:textSize="20dp"
+    android:text="#"/>
+
+    <EditText
+        android:id="@+id/edit_text_type_color"
+        android:layout_width="wrap_content"
+        android:hint="FFFFFF"
+        android:layout_height="wrap_content"
+        android:background="@null" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -38,25 +40,26 @@
 
         <TextView
             android:gravity="center"
-            android:id="@+id/button_one_alert"
+            android:id="@+id/cancel_type_color"
             android:background="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/custom_button_add"
-            android:text="@string/buttonClearAll"
+            android:text="@string/cancel"
             android:textSize="19dp"
             android:layout_marginRight="15dp"
             />
 
         <TextView
             android:gravity="center"
-            android:id="@+id/button_two_alert"
+            android:id="@+id/save_type_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:text="@string/yes"
+            android:text="@string/save"
             android:textColor="@color/custom_button_add"
             android:textSize="19dp" />
 
     </LinearLayout>
+
 </LinearLayout>

@@ -17,6 +17,10 @@ public class ConstrThemeRecycler {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String[] getColors() {
         return colors;
     }

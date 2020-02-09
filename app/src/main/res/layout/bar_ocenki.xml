@@ -2,6 +2,7 @@
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:id="@+id/barOcenki"
+
     android:layout_height="match_parent">
 
     <TextView
@@ -10,23 +11,28 @@
         android:background="#fafafa"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_marginRight="1dp"
         android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="1dp"
+        android:id="@+id/title_bar"
         android:paddingBottom="5dp"
         android:text="@string/lessonTitle"
-        
-        
         android:textSize="19dp" />
 
     <FrameLayout
         android:id="@+id/frame_ocenki_one"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
         android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        
         android:paddingLeft="1dp"
+
         >
+        
         <TextView
+            android:id="@+id/one"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="10dp"
@@ -38,18 +44,21 @@
             android:text="@string/OneQuarter"
             android:textSize="19dp"
             />
-
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frame_ocenki_two"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
-        android:paddingLeft="1dp"
         android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        
+        android:paddingLeft="1dp"
+
         >
     <TextView
+        android:id="@+id/two"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="10dp"
@@ -61,17 +70,22 @@
         android:text="@string/TwoQuarter"
         android:textSize="19dp"
         />
+
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frame_ocenki_three"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
-        android:paddingLeft="1dp"
         android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        
+        android:paddingLeft="1dp"
+
         >
     <TextView
+        android:id="@+id/three"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="10dp"
@@ -88,11 +102,14 @@
 
     <FrameLayout
         android:id="@+id/frame_ocenki_four"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
-        android:paddingLeft="1dp"
         android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        
+        android:paddingLeft="1dp"
+
         >
     <TextView
         android:layout_width="match_parent"
@@ -101,7 +118,7 @@
         android:paddingRight="10dp"
         android:gravity="center"
         android:paddingBottom="5dp"
-        
+        android:id="@+id/four"
         android:background="#fafafa"
         android:text="@string/FourQuarter"
         android:textSize="19dp"
@@ -110,11 +127,13 @@
 
     <FrameLayout
         android:id="@+id/frame_ocenki_year"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
-        android:paddingLeft="1dp"
         android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        
+        android:paddingLeft="1dp"
         >
     <TextView
         android:layout_width="match_parent"
@@ -123,7 +142,8 @@
         android:paddingRight="10dp"
         android:gravity="center"
         android:paddingBottom="5dp"
-        
+
+        android:id="@+id/year"
         android:text="@string/gradesYear"
         android:background="#fafafa"
         android:textSize="19dp"
@@ -132,11 +152,13 @@
 
     <FrameLayout
         android:id="@+id/frame_ocenki_examination"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
-        android:paddingLeft="1dp"
         android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        
+        android:paddingLeft="1dp"
         >
     <TextView
         android:layout_width="match_parent"
@@ -144,7 +166,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="5dp"
-        
+        android:id="@+id/examination"
         android:gravity="center"
         android:background="#fafafa"
         android:text="@string/gradesExamination"
@@ -154,10 +176,14 @@
 
     <FrameLayout
         android:id="@+id/frame_ocenki_end"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
         android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        
+        android:paddingLeft="1dp"
+
         >
     <TextView
         android:layout_width="match_parent"
@@ -167,6 +193,7 @@
         android:paddingBottom="5dp"
         android:gravity="center"
         android:text="@string/gradesEnd"
+        android:id="@+id/end"
         android:background="#fafafa"
         android:textSize="19dp"
         />

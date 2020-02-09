@@ -7,11 +7,15 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
@@ -51,99 +55,113 @@ import static android.content.Context.MODE_PRIVATE;
 public class OcenkiFragment extends Fragment {
     private Context context;
     private SharedPreferences settings,
-                            Confirmed;
+                            Confirmed,
+                            Current_Theme;
     SharedPreferences.Editor editor;
     private String url;
     private TextView textViewDate;
     LayoutInflater inflater;
     private LinearLayout linearLayout;
 
+
     @Override
     public View onCreateView(LayoutInflater inflaterFrag, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflaterFrag.inflate(R.layout.fragment_ocenki, container, false);
         inflater = LayoutInflater.from(context);
+        settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        Confirmed = getActivity().getSharedPreferences("Confirmed", MODE_PRIVATE);
+        Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
+        editor = settings.edit();
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar5);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
+        Drawable menuToolbar = getResources().getDrawable(R.drawable.ic_menu_24px);
+        menuToolbar.setColorFilter(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)), PorterDuff.Mode.SRC_ATOP);
+        toolbar.setNavigationIcon(menuToolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(view.getId() != R.id.Ocenki)
-                ((MainActivity) getActivity()).openDrawer();
+                    ((MainActivity) getActivity()).openDrawer();
             }
         });
-        settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
-        Confirmed = getActivity().getSharedPreferences("Confirmed", MODE_PRIVATE);
-        editor = settings.edit();
+        toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
+        toolbar.setBackgroundColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(context, R.color.custom_toolbar)));
         linearLayout = view.findViewById(R.id.LinerOcenki_Item);
         textViewDate = view.findViewById(R.id.textViewOcen);
+        textViewDate.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
         textViewDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
-                    for(int i = 0; i < ConfirmationValue.length; i++)
-                        if(!ConfirmationValue[i].equals(getString(R.string.Not_Confirmed)))
-                            throw new Povtor("KRIA", 1);
-                        new ClearAsyncTask().execute();
-                    Toast.makeText(context,"Мона",Toast.LENGTH_LONG).show();
-            }catch (Povtor povtor){
-                    Toast.makeText(context,"Низя",Toast.LENGTH_LONG).show();
-                }
+                final LayoutInflater li = LayoutInflater.from(getActivity());
+                final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
+
+                AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
+                deleted.setView(promptsView);
+                GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                if(settings.getBoolean("BorderAlertSettings",false))
+                    alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
+                final AlertDialog alertDialog = deleted.create();
+
+                TextView textTitle = promptsView.findViewById(R.id.title_alert);
+                textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+                textTitle.setText(context.getString(R.string.deleting));
+
+                TextView textBottomTitle = promptsView.findViewById(R.id.title_bottom_alert);
+                textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                textBottomTitle.setText(context.getString(R.string.ReplaceOcenki));
+
+                TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setText(getString(R.string.cancel));
+                ButtonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.hide();
+                    }
+                });
+
+                TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
+                ButtonSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        try{
+                            String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+                            for(int i = 0; i < ConfirmationValue.length; i++)
+                                if(!ConfirmationValue[i].equals(getString(R.string.Not_Confirmed)))
+                                    throw new Povtor("KRIA", 1);
+                            new ClearAsyncTask().execute();
+                        }catch (Povtor povtor){
+                            Toast.makeText(context,getString(R.string.you_have_already_confirmed_grades),Toast.LENGTH_LONG).show();
+                        }
+
+                        alertDialog.hide();
+                    }
+                });
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonSave.setText(getString(R.string.yes));
+
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                alertDialog.show();
+
+
             }
         });
-
-        if(settings.getBoolean("FirstStartOcenki", true)){
-            final LayoutInflater li = LayoutInflater.from(getActivity());
-            final View promptsView = li.inflate(R.layout.mes_ocenki , null);
-            AlertDialog.Builder mesSetting = new AlertDialog.Builder(getActivity());
-            mesSetting.setView(promptsView);
-            CalendarView calendarView = promptsView.findViewById(R.id.calendar_view);
-            calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-                @Override
-                public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                   editor.putInt("mesStartOcenki",i1);
-                   editor.apply();
-                }
-            });
-            mesSetting
-                    .setCancelable(false)
-                    .setPositiveButton(context.getString(R.string.save),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(final DialogInterface dialog, int id) {
-                                    AlertDialog.Builder warning = new AlertDialog.Builder(getActivity());
-                                    warning.setMessage(context.getString(R.string.warningOcenki)).setCancelable(true).setPositiveButton(context.getString(R.string.Ok), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.cancel();
-                                            editor.putBoolean("FirstStartOcenki",false);
-                                            editor.apply();
-                                            new StartAsyncTask().execute();
-                                        }
-                                    });
-                                    AlertDialog alertDialog = warning.create();
-                                    alertDialog.setTitle(context.getString(R.string.Warning));
-                                    alertDialog.show();
-                                }
-
-                            });
-
-            //Создаем AlertDialog:
-            AlertDialog alertDialog = mesSetting.create();
-
-            //и отображаем его:
-
-            alertDialog.show();
-        }else
+        if(!settings.getBoolean("FirstStartOcenki", true))
             new StartAsyncTask().execute();
+
         ImageButton imageButtonLeft = view.findViewById(R.id.imageButtonLeft);
-            imageButtonLeft.setOnClickListener(new View.OnClickListener() {
+        imageButtonLeft.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_ATOP);
+        imageButtonLeft.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     new LeftAsyncTask().execute();
                 }
             });
         ImageButton imageButtonRight = view.findViewById(R.id.imageButtonRight);
+        imageButtonRight.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_ATOP);
         imageButtonRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,9 +181,102 @@ public class OcenkiFragment extends Fragment {
         this.context = context;
     }
 
+    public void cheakStart (){
+        if(settings.getBoolean("FirstStartOcenki", true)){
+
+            final LayoutInflater li = LayoutInflater.from(getActivity());
+            final View promptsView = li.inflate(R.layout.mes_ocenki , null);
+
+            AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
+            deleted.setView(promptsView);
+            GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+            alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+            if(settings.getBoolean("BorderAlertSettings",false))
+                alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+            promptsView.findViewById(R.id.liner_mes_ocenki).setBackground(alertbackground);
+            final AlertDialog alertDialog = deleted.create();
+
+            TextView textTitle = promptsView.findViewById(R.id.title_mes_ocenki);
+            textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+
+            textTitle = promptsView.findViewById(R.id.bottom_title_mes_ocenki);
+            textTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
+            CalendarView calendarView = promptsView.findViewById(R.id.calendar_view);
+            calendarView.setWeekNumberColor(Color.BLUE);
+            calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                @Override
+                public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
+                    editor.putInt("mesStartOcenki",i1);
+                    editor.apply();
+                }
+            });
+
+            TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+            ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+            ButtonCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.hide();
+                }
+            });
+
+            TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
+            ButtonSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    editor.putBoolean("FirstStartOcenki",false);
+                    editor.apply();
+                    new StartAsyncTask().execute();
+                    alertDialog.hide();
+
+                    final LayoutInflater liW = LayoutInflater.from(getActivity());
+                    final View promptsViewWarning = liW.inflate(R.layout.alert_delete_dnewnik , null);
+
+                    AlertDialog.Builder warning = new AlertDialog.Builder(getActivity());
+                    warning.setView(promptsViewWarning);
+                    GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                    alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                    if(settings.getBoolean("BorderAlertSettings",false))
+                        alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                    promptsViewWarning.findViewById(R.id.alert_delete).setBackground(alertbackground);
+                    final AlertDialog alertDialogWarning = warning.create();
+
+                    TextView textTitle = promptsViewWarning.findViewById(R.id.title_alert);
+                    textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+                    textTitle.setText(context.getString(R.string.Warning));
+
+                    TextView textBottomTitle = promptsViewWarning.findViewById(R.id.title_bottom_alert);
+                    textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                    textBottomTitle.setText(context.getString(R.string.warningOcenki));
+
+                    promptsViewWarning.findViewById(R.id.button_one_alert).setVisibility(View.INVISIBLE);
+
+
+                    TextView ButtonSave = promptsViewWarning.findViewById(R.id.button_two_alert);
+                    ButtonSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            alertDialogWarning.hide();
+                        }
+                    });
+                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonSave.setText(getString(R.string.Ok));
+
+                    alertDialogWarning.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    alertDialogWarning.show();
+                }
+            });
+            ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.show();
+
+        }
+    }
 
     public TableRow Confirmation(String urlConf){
-        TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
+        TableRow Confirmation = CreateStaticBar(R.layout.confirmed_ocenki);
         String[] ConfirmationValue = Confirmed.getString(urlConf,getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
         int[] ConfirmationID = new int[]{R.id.one, R.id.two, R.id.three, R.id.four, R.id.year, R.id.examination, R.id.end};
 
@@ -178,12 +289,47 @@ public class OcenkiFragment extends Fragment {
         return Confirmation;
     }
 
+    public TableRow CreateStaticBar (int layout_id){
+        TableRow bar = (TableRow) inflater.inflate(layout_id, null);
+        bar.setBackgroundColor(Current_Theme.getInt("custom_Table_column", ContextCompat.getColor(context, R.color.custom_Table_column)));
+
+        TextView  textName = bar.findViewById(R.id.title_bar);
+        TextView textOne = bar.findViewById(R.id.one);
+        TextView textTwo = bar.findViewById(R.id.two);
+        TextView textThree = bar.findViewById(R.id.three);
+        TextView textFour = bar.findViewById(R.id.four);
+        TextView textYear = bar.findViewById(R.id.year);
+        TextView  textExamination = bar.findViewById(R.id.examination);
+        TextView  textEnd = bar.findViewById(R.id.end);
+
+        textName.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+        textOne.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+        textTwo.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+        textThree.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+        textFour.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+        textYear.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+        textExamination.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+        textEnd.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+
+        textName.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textOne.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textTwo.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textThree.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textFour.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textYear.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textExamination.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textEnd.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+
+        return bar;
+    }
+
     public TableRow CreateRow(String[] strings, int NumString){
 
         TableRow Yrok = (TableRow) inflater.inflate(R.layout.ocenki_item, null);
+        Yrok.setBackgroundColor(Current_Theme.getInt("custom_Table_column", ContextCompat.getColor(context, R.color.custom_Table_column)));
         Yrok.setId(10203040 + NumString);
 
-        TextView  textName = Yrok.findViewById(R.id.nameYrokOcenki);
+        TextView textName = Yrok.findViewById(R.id.nameYrokOcenki);
         TextView textOne = Yrok.findViewById(R.id.ocenka_one);
         TextView textTwo = Yrok.findViewById(R.id.ocenka_two);
         TextView textThree = Yrok.findViewById(R.id.ocenka_three);
@@ -200,6 +346,24 @@ public class OcenkiFragment extends Fragment {
         textYear.setText(strings[5]);
         textExamination.setText(strings[6]);
         textEnd.setText(strings[7]);
+
+        textName.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+        textOne.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textTwo.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textThree.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textFour.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textYear.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textExamination.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textEnd.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
+        textName.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textOne.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textTwo.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textThree.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textFour.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textYear.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textExamination.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        textEnd.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
 
 
 
@@ -252,8 +416,7 @@ public class OcenkiFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            TableRow Bar = (TableRow) inflater.inflate(R.layout.bar_ocenki, null);
-            publishProgress(Bar);
+            publishProgress(CreateStaticBar(R.layout.bar_ocenki));
                 url = settings.getInt("endUrl",2020) + " - " + (settings.getInt("endUrl",2020) + 1);
                 editor.putInt("endUrl", (settings.getInt("endUrl",2020) + 1));
 
@@ -340,8 +503,7 @@ public class OcenkiFragment extends Fragment {
                     publishProgress(CreateRow(writeString.split("="),predmeti.size()));
                 }
 
-                TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
-                publishProgress(Confirmation);
+                publishProgress(CreateStaticBar(R.layout.confirmed_ocenki));
 
 
                 if(stringBuffer != null)
@@ -408,8 +570,7 @@ public class OcenkiFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            TableRow Bar = (TableRow) inflater.inflate(R.layout.bar_ocenki, null);
-            publishProgress(Bar);
+            publishProgress(CreateStaticBar(R.layout.bar_ocenki));
             url = (settings.getInt("endUrl",2020) - 2) + " - " + (settings.getInt("endUrl",2020) - 1);
             editor.putInt("endUrl", (settings.getInt("endUrl",2020) - 1));
 
@@ -496,8 +657,7 @@ public class OcenkiFragment extends Fragment {
                     publishProgress(CreateRow(writeString.split("="),predmeti.size()));
                 }
 
-                TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
-                publishProgress(Confirmation);
+                publishProgress(CreateStaticBar(R.layout.confirmed_ocenki));
 
 
                 if(stringBuffer != null)
@@ -564,8 +724,7 @@ public class OcenkiFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            TableRow Bar = (TableRow) inflater.inflate(R.layout.bar_ocenki, null);
-            publishProgress(Bar);
+            publishProgress(CreateStaticBar(R.layout.bar_ocenki));
             ArrayList predmeti = new ArrayList();
             String[] day = getResources().getStringArray(R.array.DayTxt);
             StringBuffer stringBuffer = new StringBuffer();
@@ -606,8 +765,7 @@ public class OcenkiFragment extends Fragment {
                 publishProgress(CreateRow(writeString.split("="),predmeti.size()));
             }
 
-            TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
-            publishProgress(Confirmation);
+            publishProgress(CreateStaticBar(R.layout.confirmed_ocenki));
 
 
             if(stringBuffer != null)
@@ -733,8 +891,7 @@ public class OcenkiFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            TableRow Bar = (TableRow) inflater.inflate(R.layout.bar_ocenki, null);
-            publishProgress(Bar);
+            publishProgress(CreateStaticBar(R.layout.bar_ocenki));
             Date date = new Date();
             if(settings.getInt("mesStartOcenki",8) <= date.getMonth()) {
                 url = (date.getYear() + 1900) + " - " + (date.getYear() + 1901);
@@ -828,8 +985,7 @@ public class OcenkiFragment extends Fragment {
                     publishProgress(CreateRow(writeString.split("="),predmeti.size()));
                 }
 
-                TableRow Confirmation = (TableRow) inflater.inflate(R.layout.confirmed_ocenki, null);
-                publishProgress(Confirmation);
+                publishProgress(CreateStaticBar(R.layout.confirmed_ocenki));
 
 
                 if(stringBuffer != null)
@@ -860,9 +1016,5 @@ public class OcenkiFragment extends Fragment {
 
             return null;
         }
-
-
     }
-
-
 }

@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:background="#00AF7F7F"
         android:text="@string/newTeacher"
         android:textAlignment="center"
@@ -22,14 +24,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:orientation="horizontal"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="20dp">
 
         <TextView
+            android:id="@+id/add_ychit_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="#00AF7F7F"
             android:text="@string/fio"
             android:textSize="19dp"
@@ -41,22 +43,23 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:ems="10"
+        android:background="@null"
         android:hint="@string/fioExample"
-        android:inputType="textPersonName" />
+        android:inputType="textCapSentences" />
     </org.apmem.tools.layouts.FlowLayout>
 
     <org.apmem.tools.layouts.FlowLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:orientation="horizontal"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="20dp">
 
         <TextView
+            android:id="@+id/add_ychit_yrok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="#00AF7F7F"
             android:text="@string/lessonTitle"
             android:textSize="19dp"
@@ -68,12 +71,44 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:hint="@string/lessonExample"
-        android:inputType="text"
+        android:background="@null"
+
+        android:inputType="textCapSentences"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
 
     </org.apmem.tools.layouts.FlowLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/button_one_alert"
+            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/custom_button_add"
+            android:text="@string/cancel"
+            android:textSize="19dp"
+            android:layout_marginRight="15dp"
+            />
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/button_two_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="@string/save"
+            android:textColor="@color/custom_button_add"
+            android:textSize="19dp" />
+
+    </LinearLayout>
 
 </LinearLayout>

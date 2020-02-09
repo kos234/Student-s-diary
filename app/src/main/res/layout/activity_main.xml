@@ -9,29 +9,29 @@
 
 
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      >
 
-        <FrameLayout
-            android:id="@+id/Smena"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+    <FrameLayout
+        android:id="@+id/Smena"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
         />
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@android:color/white"
-        app:headerLayout="@layout/head"
-        app:itemIconTint="#000000"
-        app:itemTextColor="#000000"
-        app:menu="@menu/drawermenu" />
+  <com.google.android.material.navigation.NavigationView
+      android:id="@+id/navigation"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="start"
+      android:background="@android:color/white"
+      app:headerLayout="@layout/head"
+      app:itemIconTint="#000000"
+      app:itemTextColor="#000000"
+      app:menu="@menu/drawermenu" />
 </androidx.drawerlayout.widget.DrawerLayout>

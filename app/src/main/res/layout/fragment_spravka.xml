@@ -27,6 +27,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/obz_one"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,6 +36,7 @@
             android:textSize="20dp" />
 
         <TextView
+            android:id="@+id/obz_two"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,19 +44,12 @@
             android:text="@string/obzTwo"
             android:textSize="20dp" />
         <TextView
+            android:id="@+id/obz_three"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/obzThree"
-            android:textSize="20dp" />
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:text="@string/obzFour"
             android:textSize="20dp" />
 
         <LinearLayout
@@ -87,11 +82,12 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/obz_four"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/obzFive"
+            android:text="@string/obzFour"
             android:textSize="20dp" />
 
         <LinearLayout

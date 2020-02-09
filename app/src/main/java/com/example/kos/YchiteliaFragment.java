@@ -5,14 +5,18 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -70,18 +74,22 @@ public class YchiteliaFragment extends Fragment {
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
 
         androidx.appcompat.widget.Toolbar toolbar = viewFragment.findViewById(R.id.toolbarPrepod);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
+        Drawable menuToolbar = getResources().getDrawable(R.drawable.ic_menu_24px);
+        menuToolbar.setColorFilter(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)), PorterDuff.Mode.SRC_ATOP);
+        toolbar.setNavigationIcon(menuToolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((MainActivity) getActivity()).openDrawer();
             }
         });
+        toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
+        toolbar.setBackgroundColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(context, R.color.custom_toolbar)));
         Start();
         recyclerView = viewFragment.findViewById(R.id.Ychitelia);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(context);
-        adapter = new RecyclerAdapter(constrRecyclerViewArrayList);
+        adapter = new RecyclerAdapter(constrRecyclerViewArrayList, context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -92,10 +100,41 @@ public class YchiteliaFragment extends Fragment {
                 final String textName = constrRecyclerViewArrayList.get(position).getTextName(),
                         textBottom = constrRecyclerViewArrayList.get(position).getTextBottom();
 
+                final LayoutInflater li = LayoutInflater.from(getActivity());
+                final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
+
                 AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
-                deleted.setMessage(context.getString(R.string.deleteTeacher)).setCancelable(true).setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                deleted.setView(promptsView);
+                GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                if(settings.getBoolean("BorderAlertSettings",false))
+                    alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
+                final AlertDialog alertDialog = deleted.create();
+
+                TextView textTitle = promptsView.findViewById(R.id.title_alert);
+                textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+                textTitle.setText(context.getString(R.string.deleting));
+
+                TextView textBottomTitle = promptsView.findViewById(R.id.title_bottom_alert);
+                textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                textBottomTitle.setText(context.getString(R.string.deleteTeacher));
+
+                TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setText(getString(R.string.cancel));
+                ButtonCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(View view) {
+                        alertDialog.hide();
+                    }
+                });
+
+                TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
+                ButtonSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
                         StringBuffer stringBuffer = new StringBuffer();
 
                         try {
@@ -139,17 +178,13 @@ public class YchiteliaFragment extends Fragment {
                         if(constrRecyclerViewArrayList.size() == 0)
                             TextViewVisible();
 
-
+                        alertDialog.hide();
                     }
-                })
-                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        });
-                AlertDialog alertDialog = deleted.create();
-                alertDialog.setTitle(context.getString(R.string.deleting));
+                });
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonSave.setText(getString(R.string.yes));
+
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
             }
         });
@@ -164,71 +199,111 @@ public class YchiteliaFragment extends Fragment {
                 final View promptsView = li.inflate(R.layout.add_ychitelia , null);
                 AlertDialog.Builder newadd = new AlertDialog.Builder(getActivity());
                 newadd.setView(promptsView);
+                GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                if(settings.getBoolean("BorderAlertSettings",false))
+                    alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                promptsView.findViewById(R.id.alert_add_ychit).setBackground(alertbackground);
+
+                final AlertDialog alertDialog = newadd.create();
+
+                TextView textTitle = promptsView.findViewById(R.id.textView2);
+                textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+
+
+                TextView textBottomName = promptsView.findViewById(R.id.add_ychit_name);
+                textBottomName.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                TextView textBottomYrok = promptsView.findViewById(R.id.add_ychit_yrok);
+                textBottomYrok.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
+
+                TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.hide();
+                    }
+                });
+
                 final EditText name = promptsView.findViewById(R.id.NamePrepod);
                 final EditText predmet = promptsView.findViewById(R.id.yrokPrepod);
+                MainActivity.setCursorPointerColor(name,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+                MainActivity.setCursorPointerColor(predmet,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+                MainActivity.setCursorColor(name,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+                MainActivity.setCursorColor(predmet,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+                name.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
+                name.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+                predmet.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
+                predmet.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+
                 name.setText(textName);
                 predmet.setText(textBottom);
-                newadd
-                        .setCancelable(true)
-                        .setPositiveButton(context.getString(R.string.save),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
-                                        StringBuffer stringBuffer = new StringBuffer();
-                                        NamePred = name.getText().toString();
-                                        PredPred = predmet.getText().toString();
-                                        if (NamePred.length() > 0  && PredPred.length() > 0 ) {
-                                            try {
-                                                FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
-                                                InputStreamReader reader = new InputStreamReader(read);
-                                                BufferedReader bufferedReader = new BufferedReader(reader);
-                                                String temp_read;
-                                                while ((temp_read = bufferedReader.readLine()) != null) {
-                                                    if  (!temp_read.equals(textName + "=" + textBottom))
-                                                        stringBuffer.append(temp_read).append("\n");
-                                                    else {
-                                                        stringBuffer.append(NamePred + "="+ PredPred).append("\n");
-                                                    }
-                                                }
 
-                                                bufferedReader.close();
-                                                reader.close();
-                                                read.close();
-                                            } catch (FileNotFoundException e) {
-                                                e.printStackTrace();
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            }
+                TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
+                ButtonSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            StringBuffer stringBuffer = new StringBuffer();
+                            NamePred = name.getText().toString();
+                            PredPred = predmet.getText().toString();
+                            if (NamePred.length() > 0 && PredPred.length() > 0) {
+                                try {
+                                    FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
+                                    InputStreamReader reader = new InputStreamReader(read);
+                                    BufferedReader bufferedReader = new BufferedReader(reader);
+                                    String temp_read;
+                                    while ((temp_read = bufferedReader.readLine()) != null) {
+                                        if (!temp_read.equals(textName + "=" + textBottom)){
+                                            if (temp_read.equals(NamePred + "=" + PredPred))
+                                                throw new Povtor("KRIA", 1);
 
+                                            stringBuffer.append(temp_read).append("\n");
+                                        } else
+                                            stringBuffer.append(NamePred + "=" + PredPred).append("\n");
 
-
-                                            try {
-                                                FileOutputStream write =  getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
-                                                String temp_write = stringBuffer.toString();
-
-                                                write.write(temp_write.getBytes());
-                                                write.close();
-                                            } catch (FileNotFoundException e) {
-                                                e.printStackTrace();
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            constrRecyclerViewArrayList.get(position).changeText(NamePred,PredPred);
-                                            adapter.notifyDataSetChanged();
-
-                                        }else {
-                                            Toast.makeText(getActivity(),context.getString(R.string.FieldsNot),Toast.LENGTH_LONG).show();
-                                        }
                                     }
 
-                                });
+                                    bufferedReader.close();
+                                    reader.close();
+                                    read.close();
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
 
-                //Создаем AlertDialog:
-                AlertDialog alertDialog = newadd.create();
 
-                //и отображаем его:
+                                try {
+                                    FileOutputStream write = getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
+                                    String temp_write = stringBuffer.toString();
 
+                                    write.write(temp_write.getBytes());
+                                    write.close();
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                constrRecyclerViewArrayList.get(position).changeText(NamePred, PredPred);
+                                adapter.notifyDataSetChanged();
+                                alertDialog.hide();
+
+                            } else {
+                                Toast.makeText(getActivity(), context.getString(R.string.FieldsNot), Toast.LENGTH_LONG).show();
+                            }
+
+                        }catch (Povtor povtor){
+                            Toast.makeText(context,context.getString(R.string.warningPovtorYct),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
+
             }
         });
         Button(viewFragment);
@@ -270,61 +345,89 @@ public class YchiteliaFragment extends Fragment {
         } catch (NullPointerException ignore) {
 
         }
-
+        TextView textView = viewFragment.findViewById(R.id.nullYchit);
         if(constrRecyclerViewArrayList.size() != 0){
-            TextView textView = viewFragment.findViewById(R.id.nullYchit);
             textView.setVisibility(View.INVISIBLE);
         }
+        else
+            textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
 
     }
 
     public void TextViewVisible() {
         TextView textView = viewFragment.findViewById(R.id.nullYchit);
         textView.setVisibility(View.VISIBLE);
+        textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
     }
 
     public void Button (final View viewFind){
         FloatingActionButton floatingActionButton = viewFind.findViewById(R.id.floatingActionButton2);
+        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add))));
+        Drawable drawableFAB = getResources().getDrawable(R.drawable.ic_add_24px);
+        drawableFAB.setColorFilter(Current_Theme.getInt("custom_button_add_plus", ContextCompat.getColor(context, R.color.custom_button_add_plus)), PorterDuff.Mode.SRC_ATOP);
+        floatingActionButton.setImageDrawable(drawableFAB);
         floatingActionButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                final LayoutInflater li = LayoutInflater.from(getActivity());
+                final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
                 final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
-                Delete.setMessage(context.getString(R.string.deleteAllTeachers))
-                        .setCancelable(true)
-                        .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                try {
-                    FileOutputStream write =  getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
-                    String temp_write ="";
+                Delete.setView(promptsView);
+                GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                if(settings.getBoolean("BorderAlertSettings",false))
+                    alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
 
-                    write.write(temp_write.getBytes());
-                    write.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                final AlertDialog Deleted = Delete.create();
+
+                TextView textTitle = promptsView.findViewById(R.id.title_alert);
+                textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+                textTitle.setText(context.getString(R.string.deleting));
+
+                TextView textBottomTitle = promptsView.findViewById(R.id.title_bottom_alert);
+                textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                textBottomTitle.setText(context.getString(R.string.deleteAllTeachers));
+
+                TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Deleted.hide();
+                    }
+                });
+
+                TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
+                ButtonSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            FileOutputStream write =  getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
+                            String temp_write ="";
+
+                            write.write(temp_write.getBytes());
+                            write.close();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         if(settings.getBoolean("AnimationSettings",true))
                             new AnimationDel().execute();
                         else {
                             constrRecyclerViewArrayList.clear();
                             adapter.notifyDataSetChanged();
                         }
+                        Deleted.hide();
 
-                            }
-                        })
-                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
+                    }
+                });
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
 
-                            }
-                        });
-
-                AlertDialog Deleted = Delete.create();
-                Deleted.setTitle(context.getString(R.string.deleting));
+                Deleted.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 Deleted.show();
+
                 return false;
             }
         });
@@ -336,78 +439,108 @@ public class YchiteliaFragment extends Fragment {
                 final View promptsView = li.inflate(R.layout.add_ychitelia , null);
                 AlertDialog.Builder newadd = new AlertDialog.Builder(getActivity());
                 newadd.setView(promptsView);
-                Drawable aletbackground = ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                aletbackground.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_ATOP);
-                promptsView.findViewById(R.id.alert_add_ychit).setBackground(aletbackground);
-                final EditText name = (EditText) promptsView.findViewById(R.id.NamePrepod);
-                final EditText predmet = (EditText) promptsView.findViewById(R.id.yrokPrepod);
-                newadd
-                        .setCancelable(true)
-                        .setPositiveButton(context.getString(R.string.save),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
-                                        try {
-                                            StringBuffer stringBuffer = new StringBuffer();
-                                            if (name.getText().toString().equals(""))
-                                                NamePred = getString(R.string.fioExample);
-                                            else
-                                                NamePred = name.getText().toString();
-                                            if (predmet.getText().toString().equals(""))
-                                                PredPred = getString(R.string.lessonExample);
-                                            else
-                                                PredPred = predmet.getText().toString();
+                GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                if(settings.getBoolean("BorderAlertSettings",false))
+                    alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                promptsView.findViewById(R.id.alert_add_ychit).setBackground(alertbackground);
+                final EditText name = promptsView.findViewById(R.id.NamePrepod);
+                final EditText predmet =  promptsView.findViewById(R.id.yrokPrepod);
+                MainActivity.setCursorPointerColor(name,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+                MainActivity.setCursorPointerColor(predmet,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+                MainActivity.setCursorColor(name,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+                MainActivity.setCursorColor(predmet,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+                final AlertDialog alertDialog = newadd.create();
+                name.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
+                name.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+                predmet.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
+                predmet.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
 
-                                            if (NamePred.length() > 0 && PredPred.length() > 0) {
-                                                try {
-                                                    FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
-                                                    InputStreamReader reader = new InputStreamReader(read);
-                                                    BufferedReader bufferedReader = new BufferedReader(reader);
 
-                                                    String temp_read;
-                                                    while ((temp_read = bufferedReader.readLine()) != null) {
-                                                        if (temp_read.equals(NamePred + "=" + PredPred))
-                                                            throw new Povtor("KRIA", 1);
-                                                    else
-                                                        stringBuffer.append(temp_read).append(("\n"));
-                                                    }
-                                                } catch (FileNotFoundException e) {
-                                                    e.printStackTrace();
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
+                TextView textTitle = promptsView.findViewById(R.id.textView2);
+                textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
 
-                                                try {
-                                                    FileOutputStream write = getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
-                                                    String temp_write = stringBuffer.toString() + NamePred + "=" + PredPred;
 
-                                                    write.write(temp_write.getBytes());
-                                                    write.close();
-                                                } catch (FileNotFoundException e) {
-                                                    e.printStackTrace();
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
+                TextView textBottomName = promptsView.findViewById(R.id.add_ychit_name);
+                textBottomName.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                TextView textBottomYrok = promptsView.findViewById(R.id.add_ychit_yrok);
+                textBottomYrok.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
 
-                                                constrRecyclerViewArrayList.add(constrRecyclerViewArrayList.size(),new ConstrRecyclerView(NamePred, PredPred));
-                                                if(settings.getBoolean("AnimationSettings",true))
-                                                     adapter.notifyItemInserted(constrRecyclerViewArrayList.size() - 1);
-                                                else
-                                                    adapter.notifyDataSetChanged();
+                TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setText(getString(R.string.cancel));
+                ButtonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.hide();
+                    }
+                });
 
-                                            } else {
-                                                Toast.makeText(getActivity(), context.getString(R.string.FieldsNot), Toast.LENGTH_LONG).show();
-                                            }
-                                        }  catch (Povtor povtor) {
-                                            Toast.makeText(context,context.getString(R.string.warningPovtorYct),Toast.LENGTH_LONG).show();
-                                        }
-                                        }
-                                });
+                TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
+                ButtonSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            StringBuffer stringBuffer = new StringBuffer();
+                            if (name.getText().toString().equals(""))
+                                NamePred = getString(R.string.fioExample);
+                            else
+                                NamePred = name.getText().toString();
+                            if (predmet.getText().toString().equals(""))
+                                PredPred = getString(R.string.lessonExample);
+                            else
+                                PredPred = predmet.getText().toString();
 
-                //Создаем AlertDialog:
-                AlertDialog alertDialog = newadd.create();
+                            if (NamePred.length() > 0 && PredPred.length() > 0) {
+                                try {
+                                    FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
+                                    InputStreamReader reader = new InputStreamReader(read);
+                                    BufferedReader bufferedReader = new BufferedReader(reader);
 
-                //и отображаем его:
+                                    String temp_read;
+                                    while ((temp_read = bufferedReader.readLine()) != null) {
+                                        if (temp_read.equals(NamePred + "=" + PredPred))
+                                            throw new Povtor("KRIA", 1);
+                                        else
+                                            stringBuffer.append(temp_read).append(("\n"));
+                                    }
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
 
+                                try {
+                                    FileOutputStream write = getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
+                                    String temp_write = stringBuffer.toString() + NamePred + "=" + PredPred;
+
+                                    write.write(temp_write.getBytes());
+                                    write.close();
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                constrRecyclerViewArrayList.add(constrRecyclerViewArrayList.size(),new ConstrRecyclerView(NamePred, PredPred));
+                                if(settings.getBoolean("AnimationSettings",true))
+                                    adapter.notifyItemInserted(constrRecyclerViewArrayList.size() - 1);
+                                else
+                                    adapter.notifyDataSetChanged();
+
+                            } else {
+                                Toast.makeText(getActivity(), context.getString(R.string.FieldsNot), Toast.LENGTH_LONG).show();
+                            }
+                            alertDialog.hide();
+                        }  catch (Povtor povtor) {
+                            Toast.makeText(context,context.getString(R.string.warningPovtorYct),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonSave.setText(getString(R.string.save));
+
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
             }
         });

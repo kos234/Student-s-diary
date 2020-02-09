@@ -5,8 +5,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -14,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -28,9 +36,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class ZnonkiFragment extends Fragment {
-    private SharedPreferences settings;
+    private SharedPreferences settings,Current_Theme;
     private ImageButton OnOff;
     private ViewPager viewPager;
     private NewPagerAdapter pagerAdapter;
@@ -42,14 +52,19 @@ public class ZnonkiFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view =  inflater.inflate(R.layout.fragment_znonki, container,false);
         settings = getActivity().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
+        Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
         final androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
+        Drawable iconNavigation = ContextCompat.getDrawable(context, R.drawable.ic_menu_24px);
+        iconNavigation.setColorFilter(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)), PorterDuff.Mode.SRC_ATOP);
+        toolbar.setNavigationIcon(iconNavigation);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((MainActivity) getActivity()).openDrawer();
             }
         });
+        toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
+        toolbar.setBackgroundColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(context, R.color.custom_toolbar)));
         viewPager = view.findViewById(R.id.rager);
         pagerAdapter = new NewPagerAdapter(GenerateData(), context, (FloatingActionButton) view.findViewById(R.id.floatingActionButton));
         viewPager.setAdapter(pagerAdapter);
@@ -90,17 +105,23 @@ public class ZnonkiFragment extends Fragment {
                     break;
 
                     case 5:
-                    editor.putString("Day","Saturday.txt" );
+                        if(settings.getBoolean("SaturdaySettings",true)) {
+                            editor.putString("Day", "Saturday.txt");
                             OnOff = settings.getBoolean("Saturday", true);
+                        }
                     break;
             }
                editor.apply();
             ImageButton imageButton = view.findViewById(R.id.onOff);
-            if(OnOff)
-               imageButton.setImageResource(R.drawable.ic_power_settings_new_24px);
-            else
-               imageButton.setImageResource(R.drawable.ic_power_settings_new_red_24px);
-           }
+            if(OnOff) {
+                Drawable drawable =  ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
+                drawable.setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
+                imageButton.setImageDrawable(drawable);
+            }else{
+                Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
+                drawable.setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
+                imageButton.setImageDrawable(drawable);
+           }}
 
            @Override
            public void onPageScrollStateChanged(int state) {
@@ -108,9 +129,12 @@ public class ZnonkiFragment extends Fragment {
            }
        });
         TabLayout tabLayout = view.findViewById(R.id.tabLayout4);
+        tabLayout.setTabTextColors(ColorStateList.valueOf(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text))));
+        tabLayout.setBackgroundColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(context, R.color.custom_toolbar)));
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setScrollX(tabLayout.getWidth());
-        tabLayout.getTabAt(5).select();
+        tabLayout.setSelectedTabIndicatorColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
+        tabLayout.getTabAt(0).select();
         Date start = new Date();
         switch (start.toString().substring(0,3)) {
             case "Tue":
@@ -130,8 +154,10 @@ public class ZnonkiFragment extends Fragment {
                 url = "Friday.txt";
                 break;
             case "Sat":
-                viewPager.setCurrentItem(5);
-                url = "Saturday.txt";
+                if(settings.getBoolean("SaturdaySettings",true)) {
+                    viewPager.setCurrentItem(5);
+                    url = "Saturday.txt";
+                }
                 break;
             default:
                 viewPager.setCurrentItem(0);
@@ -153,6 +179,9 @@ public class ZnonkiFragment extends Fragment {
 
         String[] day = getResources().getStringArray(R.array.DayTxt);
        for (int k = 0; k < day.length; k++) {
+           if(k + 1 == day.length && !settings.getBoolean("SaturdaySettings",true))
+               continue;
+
            String[] help;
            String delimeter = "=";
            ArrayList<ConstrRecyclerView> product = new ArrayList<>();
@@ -176,7 +205,7 @@ public class ZnonkiFragment extends Fragment {
                ignore.printStackTrace();
            }
 
-           constrFragmentViewPagerList.add(new ConstrFragmentViewPager(product, day[k], new RecyclerAdapter(product)));
+           constrFragmentViewPagerList.add(new ConstrFragmentViewPager(product, day[k], new RecyclerAdapter(product, context)));
        }
         return constrFragmentViewPagerList;
     }
@@ -195,6 +224,23 @@ public class ZnonkiFragment extends Fragment {
     }
     public void addListenerOnButton (final View viewOne){
         OnOff = viewOne.findViewById(R.id.onOff);
+        url = settings.getString("Day","Monday.txt");
+        String[] temp = url.split(".txt");
+        if (settings.getBoolean(temp[0], true)) {
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
+            drawable.setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
+            OnOff.setImageDrawable(drawable);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean(temp[0], false);
+            editor.apply();
+        }else {
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
+            drawable.setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
+            OnOff.setImageDrawable(drawable);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean(temp[0],true);
+            editor.apply();
+        }
         FloatingActionButton button = viewOne.findViewById(R.id.floatingActionButton);
         OnOff.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,12 +248,16 @@ public class ZnonkiFragment extends Fragment {
                 url = settings.getString("Day","Monday.txt");
                 String[] temp = url.split(".txt");
                         if (settings.getBoolean(temp[0], true)) {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_red_24px);
+                            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
+                            drawable.setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
+                            OnOff.setImageDrawable(drawable);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean(temp[0], false);
                             editor.apply();
                         }else {
-                            OnOff.setImageResource(R.drawable.ic_power_settings_new_24px);
+                            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
+                            drawable.setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
+                            OnOff.setImageDrawable(drawable);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean(temp[0],true);
                             editor.apply();
@@ -217,42 +267,62 @@ public class ZnonkiFragment extends Fragment {
         button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View view) {
+
+                final LayoutInflater li = LayoutInflater.from(context);
+                final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
                 final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
-                Delete.setMessage(context.getString(R.string.deleteAllLesson))
-                        .setCancelable(true)
-                        .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String[] day = context.getResources().getStringArray(R.array.DayTxt);
-                                for (int k = 0; k < day.length; k++) {
+                Delete.setView(promptsView);
+                GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                if(settings.getBoolean("BorderAlertSettings",false))
+                    alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
 
-                                    File outFile = new File(context.getFilesDir() + "/" + day[k]);
-                                    if (outFile.exists()) {
-                                        outFile.delete();
-                                    }
-                                }
+                final AlertDialog Deleted = Delete.create();
 
-                                pagerAdapter = new NewPagerAdapter(GenerateData(), context, (FloatingActionButton) view.findViewById(R.id.floatingActionButton));
-                                viewPager.setAdapter(pagerAdapter);
+                TextView textTitle = promptsView.findViewById(R.id.title_alert);
+                textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+                textTitle.setText(context.getString(R.string.deleting));
 
+                TextView textBottomTitle = promptsView.findViewById(R.id.title_bottom_alert);
+                textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                textBottomTitle.setText(context.getString(R.string.deleteAllLesson));
+
+                TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Deleted.hide();
+                    }
+                });
+
+                TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
+                ButtonSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String[] day = context.getResources().getStringArray(R.array.DayTxt);
+                        for (int k = 0; k < day.length; k++) {
+
+                            File outFile = new File(context.getFilesDir() + "/" + day[k]);
+                            if (outFile.exists()) {
+                                outFile.delete();
                             }
-                        })
-                        .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
+                        }
 
-                            }
-                        });
+                        pagerAdapter = new NewPagerAdapter(GenerateData(), context, (FloatingActionButton) view.findViewById(R.id.floatingActionButton));
+                        viewPager.setAdapter(pagerAdapter);
 
-                AlertDialog Deleted = Delete.create();
-                Deleted.setTitle(context.getString(R.string.deleting));
+                        Deleted.hide();
+
+                    }
+                });
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+
+                Deleted.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 Deleted.show();
                 return false;
             }
         });
-
     }
-
-
 }

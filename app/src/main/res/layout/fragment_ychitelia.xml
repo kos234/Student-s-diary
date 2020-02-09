@@ -21,9 +21,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        app:backgroundTint="@color/colorAccent"
         android:layout_margin="20dp"
         android:layout_gravity="bottom|right"
-        android:src="@drawable/kek" />
+        app:maxImageSize="50dp"
+        android:src="@drawable/ic_add_24px" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="?attr/actionBarSize"

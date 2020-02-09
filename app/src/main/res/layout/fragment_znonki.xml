@@ -26,7 +26,8 @@
         android:focusable="true"
         app:backgroundTint="@color/colorAccent"
         app:backgroundTintMode="src_atop"
-        app:srcCompat="@drawable/kek" />
+        app:maxImageSize="50dp"
+        android:src="@drawable/ic_add_24px" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout4"

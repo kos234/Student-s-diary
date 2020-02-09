@@ -26,6 +26,7 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_students"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
@@ -40,6 +41,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/title_students"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -59,6 +61,7 @@
                         android:gravity="center"
                         >
                         <TextView
+                            android:id="@+id/bottom_title_students"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -78,8 +81,8 @@
                             android:inputType="number"
                             />
                         <TextView
-                            android:id="@+id/dpText"
                             android:textSize="18dp"
+                            android:id="@+id/dpText"
                             android:gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -90,6 +93,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_timetables"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
@@ -104,6 +108,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/title_timetables"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -123,6 +128,7 @@
                         android:gravity="center"
                         >
                         <TextView
+                            android:id="@+id/bottom_title_timetables_not"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -140,11 +146,51 @@
 
                     </LinearLayout>
 
+                    <View
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/border_one"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        android:layout_marginTop="10dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        >
+                        <TextView
+                            android:id="@+id/bottom_title_timetables_saturday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/saturday"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            />
+
+                        <Switch
+                            android:id="@+id/switchSaturday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            />
+
+                    </LinearLayout>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_grades"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
@@ -159,6 +205,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/title_grades"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -178,6 +225,7 @@
                         android:gravity="center"
                         >
                         <TextView
+                            android:id="@+id/bottom_title_grades"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -200,6 +248,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
@@ -214,6 +263,65 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/title_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/settings"
+                        android:textColor="@android:color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        >
+                        <TextView
+                            android:id="@+id/bottom_title_settings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/alrt_color_default_setting"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            />
+
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:id="@+id/spinner_default"
+                            android:backgroundTint="@android:color/darker_gray"
+                            android:spinnerMode="dropdown"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_general_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title_general_setting"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -233,6 +341,7 @@
                         android:gravity="center"
                         >
                         <TextView
+                            android:id="@+id/bottom_title_general_setting_what"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -252,8 +361,11 @@
                     </LinearLayout>
 
                     <View
+                        android:id="@+id/border_two"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="1dp"
                         android:background="#7b7b7b"
                         android:layout_marginTop="10dp"
                         />
@@ -268,6 +380,7 @@
                         android:gravity="center"
                         >
                         <TextView
+                            android:id="@+id/bottom_title_general_setting_anim"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -287,8 +400,11 @@
                     </LinearLayout>
 
                     <View
+                        android:id="@+id/border_four"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="1dp"
                         android:background="#7b7b7b"
                         android:layout_marginTop="10dp"
                         />
@@ -303,20 +419,18 @@
                         android:gravity="center"
                         >
                         <TextView
+                            android:id="@+id/bottom_title_general_setting_dialog_stroke"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="@string/importingData"
+                            android:text="@string/alert_boreder_setting"
                             android:textSize="20dp"
                             android:textStyle="bold"
                             android:layout_weight="1"
                             />
 
-                        <Button
-                            android:id="@+id/importingButton"
-                            android:background="@null"
-                            android:text="@string/importing"
-                            android:textStyle="bold"
+                        <Switch
+                            android:id="@+id/switchBorder_alert"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -325,8 +439,11 @@
                     </LinearLayout>
 
                     <View
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/border_three"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="1dp"
                         android:background="#7b7b7b"
                         android:layout_marginTop="10dp"
                         />
@@ -341,24 +458,33 @@
                         android:gravity="center"
                         >
                         <TextView
+                            android:id="@+id/bottom_title_general_setting_width_stroke"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="@string/exportingData"
+                            android:text="@string/width_stroke_setting"
                             android:textSize="20dp"
                             android:textStyle="bold"
                             android:layout_weight="1"
                             />
 
-                        <Button
-                            android:id="@+id/exportingButton"
-                            android:background="@null"
-                            android:textStyle="bold"
-                            android:text="@string/exporting"
+                        <EditText
+                            android:layout_gravity="center"
+                            android:id="@+id/EditSizeBorder"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
+                            android:background="@null"
+                            android:inputType="number"
                             />
+
+                        <TextView
+                            android:textSize="18dp"
+                            android:id="@+id/dpBorder"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="dp"/>
 
                     </LinearLayout>
 
@@ -366,6 +492,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_themes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
@@ -380,6 +507,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/title_themes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -393,6 +521,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_white_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
@@ -408,6 +537,7 @@
                     android:padding="10dp">
 
                     <FrameLayout
+                        android:id="@+id/border_white_theme"
                         android:layout_width="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_height="wrap_content"
@@ -421,6 +551,7 @@
                     </FrameLayout>
 
                     <TextView
+                        android:id="@+id/bottom_title_white_theme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -441,6 +572,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_dark_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
@@ -456,6 +588,7 @@
                     android:padding="10dp">
 
                     <FrameLayout
+                        android:id="@+id/border_dark_theme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
@@ -470,6 +603,7 @@
                     </FrameLayout>
 
                     <TextView
+                        android:id="@+id/bottom_title_dark_theme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -498,6 +632,7 @@
             </androidx.recyclerview.widget.RecyclerView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_create_theme_nastroiki"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"

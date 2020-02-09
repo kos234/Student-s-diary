@@ -45,18 +45,15 @@ public class PagerAdapterInCard extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.item_card_view,container,false);
-        TextView Predmet,Kab,Dz,NameDay;
-        String help = null;
-        String help1= null;
-        String help2= null;
+        TextView Predmet,Kab,Dz,NameDay, Ocenka;
+        String help;
         CardView cardView = view.findViewById(R.id.card_table);
         cardView.setCardBackgroundColor(Current_Theme.getInt("custom_Table_column", ContextCompat.getColor(context, R.color.custom_Table_column)));
         help = helperDnewniks.get(position).getNamePred();
-        help1 =  helperDnewniks.get(position).getKab();
-        help2 = helperDnewniks.get(position).getDz();
         String[] temp = help.split("=");
-        String[] temp1 = help1.split("=");
-        String[] temp2 = help2.split("=");
+        String[] temp1 = helperDnewniks.get(position).getKab().split("=");
+        String[] temp2 = helperDnewniks.get(position).getDz().split("=");
+        String[] temp3 = helperDnewniks.get(position).getOcenka().split("=");
         for (int q = 0; q < help.split("=").length; q++){
             TableLayout tableLayout = view.findViewById(R.id.tableDnew);
             LayoutInflater inflater = LayoutInflater.from(view.getContext());
@@ -73,18 +70,23 @@ public class PagerAdapterInCard extends PagerAdapter {
             Dz.setBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
             Dz.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
 
+            Ocenka = tr.findViewById(R.id.textView1_4_dnev);
+            Ocenka.setBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+            Ocenka.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
             Predmet.setText(temp[q]);
             Kab.setText(temp1[q]);
-            String[] temp3 = temp2[q].split("`");
+            Ocenka.setText(temp3[q]);
+            String[] temp4 = temp2[q].split("`");
             String tempik = " ";
-            if (temp3.length == 1)
-            Dz.setText(temp3[0]);
+            if (temp4.length == 1)
+            Dz.setText(temp4[0]);
             else {
-                for (int n = 0; n < temp3.length; n++) {
-                    if(n+1 == temp3.length)
-                        tempik = tempik + temp3[n];
+                for (int n = 0; n < temp4.length; n++) {
+                    if(n+1 == temp4.length)
+                        tempik = tempik + temp4[n];
                         else
-                    tempik = tempik + temp3[n] + "\n";
+                    tempik = tempik + temp4[n] + "\n";
                 }
                 Dz.setText(tempik);
             }
@@ -99,6 +101,9 @@ public class PagerAdapterInCard extends PagerAdapter {
         tempTab.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
 
         tempTab =  view.findViewById(R.id.card_tab_two);
+        tempTab.setBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        tempTab.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+        tempTab =  view.findViewById(R.id.card_tab_three);
         tempTab.setBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
         tempTab.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
         container.addView(view,0);

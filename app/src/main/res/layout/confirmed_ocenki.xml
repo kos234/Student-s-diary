@@ -11,18 +11,22 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="5dp"
+        android:id="@+id/title_bar"
         android:text="@string/Confirmation"
-        android:layout_marginRight="1dp"
+        android:layout_marginBottom="2dp"
         android:layout_marginTop="1dp"
+        android:layout_marginRight="1dp"
         android:textSize="19dp" />
 
     <FrameLayout
         android:id="@+id/frame_ocenki_one"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
+        android:paddingBottom="2dp"
         android:paddingTop="1dp"
         android:paddingLeft="1dp"
+
         >
     <TextView
         android:layout_width="match_parent"
@@ -42,11 +46,14 @@
 
     <FrameLayout
         android:id="@+id/frame_ocenki_two"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
+        android:paddingBottom="2dp"
         android:paddingTop="1dp"
+
         android:paddingLeft="1dp"
+
         >
     <TextView
         android:layout_width="match_parent"
@@ -55,8 +62,6 @@
         android:id="@+id/two"
         android:onClick="Confirmation"
         android:paddingRight="10dp"
-
-
         android:paddingBottom="5dp"
 
         android:gravity="center"
@@ -65,13 +70,17 @@
         android:textSize="19dp"
         />
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/frame_ocenki_three"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
+        android:paddingBottom="2dp"
         android:paddingTop="1dp"
+
         android:paddingLeft="1dp"
+
         >
     <TextView
         android:layout_width="match_parent"
@@ -80,8 +89,6 @@
         android:id="@+id/three"
         android:paddingRight="10dp"
         android:onClick="Confirmation"
-
-
         android:paddingBottom="5dp"
 
         android:gravity="center"
@@ -90,13 +97,17 @@
         android:textSize="19dp"
         />
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/frame_ocenki_four"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
+        android:paddingBottom="2dp"
         android:paddingTop="1dp"
+
         android:paddingLeft="1dp"
+
         >
     <TextView
         android:layout_width="match_parent"
@@ -105,23 +116,24 @@
         android:paddingRight="10dp"
         android:id="@+id/four"
         android:onClick="Confirmation"
-
         android:paddingBottom="5dp"
-
-
         android:gravity="center"
         android:background="#fafafa"
         android:text="@string/Not_Confirmed"
         android:textSize="19dp"
         />
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/frame_ocenki_year"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
+        android:paddingBottom="2dp"
         android:paddingTop="1dp"
+
         android:paddingLeft="1dp"
+
         >
     <TextView
         android:layout_width="match_parent"
@@ -129,7 +141,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:id="@+id/year"
-
         android:onClick="Confirmation"
         android:paddingBottom="5dp"
 
@@ -140,15 +151,18 @@
         android:textSize="19dp"
         />
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/frame_ocenki_examination"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
+        android:paddingBottom="2dp"
         android:paddingTop="1dp"
-        android:paddingLeft="1dp"
-        >
 
+        android:paddingLeft="1dp"
+
+        >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -158,32 +172,32 @@
         android:onClick="Confirmation"
 
         android:paddingBottom="5dp"
-
-
         android:gravity="center"
         android:background="#fafafa"
         android:text="@string/Not_Confirmed"
         android:textSize="19dp"
         />
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/frame_ocenki_end"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingRight="1dp"
+        android:paddingBottom="2dp"
         android:paddingTop="1dp"
+
         android:paddingLeft="1dp"
+
         >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-
         android:id="@+id/end"
         android:paddingBottom="5dp"
-
         android:onClick="Confirmation"
-
         android:text="@string/Not_Confirmed"
         android:gravity="center"
         android:background="#fafafa"

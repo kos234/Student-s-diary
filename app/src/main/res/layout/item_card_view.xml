@@ -30,7 +30,6 @@
                     android:id="@+id/NameDay"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="1dp"
                     android:gravity="center"
                     android:background="@android:color/white">
 
@@ -54,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="1dp"
+                    android:paddingTop="1dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     >
@@ -74,16 +73,31 @@
                         android:textStyle="bold"
 
                         />
+
                     <TextView
+                        android:id="@+id/card_tab_two"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:background="@android:color/white"
                         android:layout_weight="1"
-                        android:id="@+id/card_tab_two"
+                        android:background="@android:color/white"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:layout_marginRight="1dp"
+                        android:text="@string/homeworkConst"
+                        android:textColor="@android:color/black"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@android:color/white"
+                        android:id="@+id/card_tab_three"
                         android:textColor="@android:color/black"
                         android:gravity="center"
-                        android:text="@string/homeworkConst"
+                        android:text="@string/grades"
                         android:padding="4dp"
                         android:textSize="18dp"
                         android:textStyle="bold"

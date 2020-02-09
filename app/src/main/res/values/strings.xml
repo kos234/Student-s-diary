@@ -9,11 +9,11 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="buttonClearAll">Сomplete cleaning</string>
-    <string name="buttonClearDz">Delegation homework</string>
+    <string name="bottom_title_clear_hw">Do you want to delete only the home work item records?</string>
     <string name="cancel">Cancel</string>
     <string name="clearWeek">Clean up the current week</string>
     <string name="save">Save</string>
-    <string name="lessonTitle">Lesson title:</string>
+    <string name="lessonTitle">Lesson title</string>
     <string name="lessonExample">English language</string>
     <string name="homework">Homework:</string>
     <string name="homeworkExample">№123</string>
@@ -42,10 +42,9 @@
     <string name="editCouple">Edit couple</string>
     <string name="timetables">Timetables</string>
     <string name="obzOne">This appendix is a project of pupil 9 \'B\' class, MBOU Gymnasium №25 of the city of Irkutsk, Perfiliev KonstantinaAlexandrovich for the 9th gradeе</string>
-    <string name="obzTwo">The source code of the application is publicly available on GitHub</string>
-    <string name="obzThree">This app has never been and will not be advertising, the only thing I need from you is notifications of various bugs or typos to me by mail or in the Vkontakte with a detailed description</string>
-    <string name="obzFour">Also, if you want to help me with translation into any language or you have some questions, you know where to write</string>
-    <string name="obzFive">I would like to express my great gratitude: Gaucher Dudar, the projects \"Start Android\" and \"DevColibri\", as well as the people with StackOverflow who helped me debug the code</string>
+    <string name="obzTwo">Application has open source code on GitHub</string>
+    <string name="obzThree">If you want to help with translation into any language or found an bug, misprint, incorrect translation – contact the author by mail or Vkontakte</string>
+    <string name="obzFour">I would like to express my great gratitude: Gaucher Dudar, the projects \"Start Android\" and \"DevColibri\", as well as the people with StackOverflow who helped me debug the code</string>
     <string name="help">Help</string>
     <string name="grades">Grades</string>
     <string name="warningOcenki">You will not be able to edit the grades after confirmation!</string>
@@ -105,7 +104,18 @@
     <string name="themeAdd">CREATE CUSTOM THEME</string>
     <string name="Apply_Theme">Apply Theme</string>
     <string name="Saving_theme">Saving theme</string>
-
+    <string name="HEX_code">HEX code</string>
+    <string name="Choose_color">Color palette</string>
+    <string name="alert_boreder_setting">Dialog stroke</string>
+    <string name="width_stroke_setting">Width of stroke</string>
+    <string name="alrt_color_default_setting">Default color selection</string>
+    <string name="not_chosen">Not chosen</string>
+    <string name="deleteTheme">Delete</string>
+    <string name="loading">Loading</string>
+    <string name="you_have_already_confirmed_grades">You have already confirmed the grades</string>
+    <string name="assessment_field">Grades:</string>
+    <string name="ReplaceOcenki">Clear school year?</string>
+    <string name="errorMicro">Microphone is occupied by another program</string>
 
     <string name="custom_color_name">Theme name</string>
     <string name="custom_color_icon">Сolor of theme icon</string>
@@ -117,6 +127,7 @@
     <string name="custom_color_text_light">Light color of text</string>
     <string name="custom_color_text_dark">Dark color of text</string>
     <string name="custom_color_text_hint">Hint text color</string>
+    <string name="custom_color_cursor">Cursor color</string>
     <string name="custom_color_card">Card color</string>
     <string name="custom_color_bottomBorder">Сolor of bottom border</string>
     <string name="custom_color_button_add">Button add color</string>
@@ -127,8 +138,11 @@
     <string name="custom_color_Table_column">Table column Color</string>
     <string name="custom_color_notification_on">Notification on color</string>
     <string name="custom_color_notification_off">Notification off color</string>
-    <string name="custom_color_switch_on">Switch color</string>
-    <string name="custom_color_switch_on_background">Background switch color</string>
+    <string name="custom_color_switch_on">Color of enabled  switch</string>
+    <string name="custom_color_switch_off">Color of disabled switch</string>
+    <string name="custom_color_block_choose_background">Background color of choose block</string>
+    <string name="custom_color_block_choose_border">Border color of choose block and dialogs</string>
+    <string name="custom_color_audio_player">Сolor of audio player</string>
 
 
     <!-- Расстановка правильных окончаний минут -->

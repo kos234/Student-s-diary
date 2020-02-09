@@ -9,21 +9,32 @@ android:layout_width="match_parent"
 android:layout_height="wrap_content"
     >
 
-<Button
-    android:id="@+id/ButtonStart"
+    <TextView
+    android:paddingTop="10dp"
     android:layout_gravity="left"
-    style="?android:attr/borderlessButtonStyle"
+    android:gravity="center"
+    android:id="@+id/button_one_alert"
+    android:background="@null"
     android:layout_width="wrap_content"
-    android:textColor="@color/colorAccent"
+    android:layout_height="wrap_content"
+    android:textColor="@color/custom_button_add"
     android:text="@string/StartMicro"
-    android:layout_height="wrap_content" />
+    android:textSize="19dp"
+    android:layout_marginRight="15dp"
+    />
 
-<Button
-    android:id="@+id/ButtonEnd"
-    style="?android:attr/borderlessButtonStyle"
-    android:layout_gravity="right"
-    android:text="@string/save"
-    android:textColor="@color/colorAccent"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:paddingTop="10dp"
+        android:layout_gravity="right"
+        android:gravity="center"
+        android:id="@+id/button_two_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/save"
+        android:textColor="@color/custom_button_add"
+        android:textSize="19dp" />
+
 </FrameLayout>

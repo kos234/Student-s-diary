@@ -9,11 +9,11 @@
     <string name="friday">Пятница</string>
     <string name="saturday">Суббота</string>
     <string name="buttonClearAll">Полная очистка</string>
-    <string name="buttonClearDz">Удаление домашнего задания</string>
+    <string name="bottom_title_clear_hw">Удалить только записи домашнего задания?</string>
     <string name="cancel">Отмена</string>
     <string name="clearWeek">Очиста текущей недели</string>
     <string name="save">Сохранить</string>
-    <string name="lessonTitle">Название предмета:</string>
+    <string name="lessonTitle">Название предмета</string>
     <string name="lessonExample">Русский язык</string>
     <string name="homework">Домашнее задание:</string>
     <string name="homeworkExample">№123</string>
@@ -41,11 +41,10 @@
     <string name="editLesson">Редактирование урока</string>
     <string name="editCouple">Редактирование пары</string>
     <string name="timetables">Расписание</string>
-    <string name="obzOne">Данное приложение является проектом ученика 9 \'Б\' класса, МБОУ Гимназии №25 города Иркутска, Перфильева Константина Александровича за 9 класс </string>
-    <string name="obzTwo">Исходный код приложения находится в открытом доступе на GitHub</string>
-    <string name="obzThree">В этом приложении никогда не было и не будет рекламы, единственное, что мне нужно от вас, это уведомления о различных багах или опечатках мне на почту или во Вконтакте с подробным описанием</string>
-    <string name="obzFour">Также если вы хотите помочь мне с переводом на любой язык или у вас возникли какие-то вопросы, вы знаете куда писать</string>
-    <string name="obzFive">Хочу выразить огромную благодарность: Гоше Дударю, проектам \"Start Android\" и \"DevColibri\", а также людям со StackOverflow, которые помогали мне в отладке кода</string>
+    <string name="obzOne">Данное приложение является проектом ученика 9 \'Б\' класса, МБОУ Гимназии №25 города Иркутска, Перфильева Константина Александровича за 9 класс</string>
+    <string name="obzTwo">Приложение имеет открытый исходный код на GitHub</string>
+    <string name="obzThree">Если вы хотите помочь с переводом на любой язык или нашли баг, опечатку, неверный перевод – обращайтесь на почту или Вконтакте автору</string>
+    <string name="obzFour">Хочу выразить огромную благодарность: Гоше Дударю, проектам \"Start Android\" и \"DevColibri\", а также людям со StackOverflow, которые помогали мне в отладке кода</string>
     <string name="help">Справка</string>
     <string name="grades">Оценки</string>
     <string name="warningOcenki">Редактирование оценок после подтверждения будет не возможно!</string>
@@ -105,7 +104,18 @@
     <string name="themeAdd">СОЗДАТЬ СВОЮ ТЕМУ</string>
     <string name="Apply_Theme">Применение темы</string>
     <string name="Saving_theme">Сохранение темы</string>
-
+    <string name="HEX_code">HEX код</string>
+    <string name="Choose_color">Цветовая палитра</string>
+    <string name="alert_boreder_setting">Обводка диалогов</string>
+    <string name="width_stroke_setting">Ширина обводки</string>
+    <string name="alrt_color_default_setting">Выбор цвета по умолчанию</string>
+    <string name="not_chosen">Не выбрано</string>
+    <string name="deleteTheme">Удалить</string>
+    <string name="loading">Загрузка</string>
+    <string name="you_have_already_confirmed_grades">Вы уже подтвердили оценки</string>
+    <string name="assessment_field">Оценка:</string>
+    <string name="ReplaceOcenki">Очистить учебный год?</string>
+    <string name="errorMicro">Микрофон занят другой программой</string>
 
     <string name="custom_color_name">Название темы</string>
     <string name="custom_color_icon">Цвет иконки темы</string>
@@ -117,6 +127,7 @@
     <string name="custom_color_text_light">Светлый цвет текста</string>
     <string name="custom_color_text_dark">Темный цвет текста</string>
     <string name="custom_color_text_hint">Цвет текста подсказки</string>
+    <string name="custom_color_cursor">Цвет курсора</string>
     <string name="custom_color_card">Цвет блоков</string>
     <string name="custom_color_bottomBorder">Цвет нижней границы</string>
     <string name="custom_color_button_add">Цвет кнопки добавления</string>
@@ -127,8 +138,11 @@
     <string name="custom_color_Table_column">Цвет колонок таблицы</string>
     <string name="custom_color_notification_on">Цвет включенных уведомлений</string>
     <string name="custom_color_notification_off">Цвет выключенных уведомлений</string>
-    <string name="custom_color_switch_on">Цвет переключателя</string>
-    <string name="custom_color_switch_on_background">Цвет заднего фона переключателя</string>
+    <string name="custom_color_switch_on">Цвет включенного переключателя</string>
+    <string name="custom_color_switch_off">Цвет выключенного переключателя</string>
+    <string name="custom_color_block_choose_background">Цвет фона блока выбора</string>
+    <string name="custom_color_block_choose_border">Цвет границы блока выбора и диалогов</string>
+    <string name="custom_color_audio_player">Цвет аудиоплеера</string>
 
 
     <!-- Расстановка правильных окончаний минут -->

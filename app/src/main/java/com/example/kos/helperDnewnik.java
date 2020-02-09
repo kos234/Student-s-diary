@@ -1,19 +1,15 @@
 package com.example.kos;
 
-
-import java.util.ArrayList;
-
 public class helperDnewnik {
-    String NameDay;
-    String NamePred;
-    String Kab;
-    String Dz;
+    String NameDay , NamePred, Kab ,Dz, Ocenka;
 
-    public helperDnewnik(String nameDay, String namePred, String kab, String dz) {
+
+    public helperDnewnik(String nameDay, String namePred, String kab, String dz, String Ocenka) {
         NameDay = nameDay;
         NamePred = namePred;
         Kab = kab;
         Dz = dz;
+        this.Ocenka = Ocenka;
     }
 
     public String getNameDay() {
@@ -31,5 +27,8 @@ public class helperDnewnik {
     public String getDz() {
         return Dz;
     }
-}
 
+    public String getOcenka() {
+        return Ocenka;
+    }
+}

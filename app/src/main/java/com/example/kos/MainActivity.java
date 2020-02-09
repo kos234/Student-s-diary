@@ -8,20 +8,20 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -31,9 +31,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.os.SystemClock;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
@@ -41,8 +39,6 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,7 +59,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import androidx.annotation.IntegerRes;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,7 +71,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.BufferedReader;
@@ -85,45 +80,36 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
-import java.util.zip.Inflater;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
-import static android.app.NotificationManager.IMPORTANCE_HIGH;
+import static android.app.NotificationManager.IMPORTANCE_NONE;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
     final Context context = this;
     private AlertDialog alertDialogConfirmation;
-    private SharedPreferences settings,
-                                Current_Theme,
-                                Confirmed,
-                                prefs = null;
-    private SharedPreferences.Editor editor,
-                        editorConfirmed;
-    private int what,
-            numStolbWrite = 0,
-            numZapic = 1;
-    FragmentManager fragmentManager;
+    private SharedPreferences settings, Current_Theme, Confirmed;
+    private SharedPreferences.Editor editor,editorConfirmed;
+    private int what, numStolbWrite = 0, numZapic = 1, positionTheme = 0;
+    private FragmentManager fragmentManager;
+    public List<Fragment> getFragment;
     private final Handler handler = new Handler();
     private MediaPlayer mediaPlayer;
-    MediaRecorder mediaRecorder;
-    private Boolean ic_micro = true;
+    private MediaRecorder mediaRecorder;
     private NotificationManager notificationManager;
-    private static final int NOTIFY_ID = 1,
-                            REQUEST_CODE_CAMERA = 1,
-                            REQUEST_CODE_MICROPHONE_CONF = 3,
-                            REQUEST_CODE_CAMERA_CONF = 4,
-                            REQUEST_CODE_FOLDER_CONF = 5;
-    private static final String CHANNEL_ID = "Novus_Pidor";
+    private static final int NOTIFY_ID = 1, REQUEST_CODE_CAMERA = 1, REQUEST_CODE_MICROPHONE_CONF = 3, REQUEST_CODE_CAMERA_CONF = 4, REQUEST_CODE_FOLDER_CONF = 5;
+    private static final String CHANNEL_ID = "NotificationTime";
     private String url;
     public String TempNameTheme;
-    NavigationView navigationView;
-    Boolean cancelAsyncTask = false;
+    private NavigationView navigationView;
+    private boolean cancelAsyncTask = false, ic_micro = true, ClickSaveThemeType = true;
     private View viewConfirm;
     public int color;
     private HashMap<Integer, Integer> colors = new HashMap();
@@ -135,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        prefs = getSharedPreferences("com.example.kos", MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -146,10 +131,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Добавить возможность отключать субботу
-     * Добавить выбор цвета по хексу
-     * Добавить открытие цветового выбора по дефолту
      * Редактирование темы
+     * Сделать так чтобы в edittext первая буква была заглавная, давно пора
+     * Изменить систему бэков
+     * Фрагмент по умолчанию 
     */
 
 
@@ -175,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.setBackgroundColor(Current_Theme.getInt("custom_background",ContextCompat.getColor(context, R.color.custom_background)));
             drawerLayout.removeView(imageView);
             new MyThread().start();
+            getFragment = fragmentManager.getFragments();
         }
 
         @Override
@@ -200,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        try {
                             int IdHideFragment;
                             switch (settings.getString("Fragment", "Dnewnik")) {
                                 case "Ychitelia":
@@ -230,38 +215,28 @@ public class MainActivity extends AppCompatActivity {
                             switch (menuItem.getItemId()){
                                 case R.id.Ychetel:
                                     IdShowFragment = 1;
-                                    if(IdShowFragment == IdHideFragment)
-                                        throw new Povtor("KRIA", 1);
                                     editor.putString("Fragment","Ychitelia" );
                                     break;
                                 case R.id.Zvonki:
                                         IdShowFragment = 2;
-                                    if(IdShowFragment == IdHideFragment)
-                                        throw new Povtor("KRIA", 1);
                                     editor.putString("Fragment","Znonki" );
                                     break;
                                 case R.id.Ocenki:
+                                    OcenkiFragment ocenkiFragment = (OcenkiFragment) getFragment.get(3);
+                                    ocenkiFragment.cheakStart();
                                         IdShowFragment = 3;
-                                    if(IdShowFragment == IdHideFragment)
-                                        throw new Povtor("KRIA", 1);
                                     editor.putString("Fragment","Ocenki" );
                                     break;
                                 case R.id.Nastroiki:
                                         IdShowFragment = 4;
-                                    if(IdShowFragment == IdHideFragment)
-                                        throw new Povtor("KRIA", 1);
                                     editor.putString("Fragment","Nastroiki" );
                                     break;
                                 case R.id.Spravka:
                                         IdShowFragment = 5;
-                                    if(IdShowFragment == IdHideFragment)
-                                        throw new Povtor("KRIA", 1);
                                     editor.putString("Fragment","Spravka" );
                                     break;
                                 default:
                                         IdShowFragment = 0;
-                                    if(IdShowFragment == IdHideFragment)
-                                        throw new Povtor("KRIA", 1);
                                     editor.putString("Fragment","Dnewnik" );
                                     break;
                             }
@@ -273,10 +248,6 @@ public class MainActivity extends AppCompatActivity {
                             drawerLayout.closeDrawer(Gravity.LEFT);
                             editor.apply();
 
-                        }catch (Povtor povtor){
-                            DrawerLayout drawer = findViewById(R.id.Drawer);
-                            drawer.closeDrawer(Gravity.LEFT);
-                        }
                         return false;
                     }
                 });
@@ -372,13 +343,17 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+
                 fragmentManager.beginTransaction().add(R.id.Smena, fragmentActiv).commit();
                 if(Invisibly)
                     fragmentManager.beginTransaction().hide(fragmentActiv).commit();
             }
-
             return null;
         }
+    }
+
+    public List<Fragment> getDnewnikFragment(){
+        return getFragment;
     }
 
 
@@ -445,7 +420,10 @@ public class MainActivity extends AppCompatActivity {
         final int numZapicFinal = numZapic;
         final String url = (settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020);
 
-        editText.setBackgroundColor(Color.parseColor("#fafafa"));
+        editText.setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+        editText.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        setCursorColor(editText,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+        setCursorPointerColor(editText,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
         editText.setVisibility(View.VISIBLE);
         final InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
@@ -536,6 +514,7 @@ public class MainActivity extends AppCompatActivity {
 
     }}
 
+
     class ReplaceColorStolb extends AsyncTask<Void,TableRow,Void>{
         @Override
         protected void onProgressUpdate(TableRow... values) {
@@ -617,7 +596,19 @@ public class MainActivity extends AppCompatActivity {
             final LayoutInflater li = LayoutInflater.from(context);
             viewConfirm = li.inflate(R.layout.confirmation_add , null);
             AlertDialog.Builder ConfirmationAlert = new AlertDialog.Builder(context);
+            GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+            alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+            if(settings.getBoolean("BorderAlertSettings",false))
+                alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+            viewConfirm.findViewById(R.id.liner_conf_add).setBackground(alertbackground);
             ImageButton ConfirmationMicrophone = viewConfirm.findViewById(R.id.ConfirmationMicrophone);
+            Drawable drawableMic =  ContextCompat.getDrawable(context, R.drawable.ic_microphone);
+            drawableMic.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_ATOP);
+            ConfirmationMicrophone.setImageDrawable(drawableMic);
+            GradientDrawable drawableOne = (GradientDrawable) getResources().getDrawable(R.drawable.shape);
+            drawableOne.setColor(Current_Theme.getInt("custom_color_block_choose_background", ContextCompat.getColor(context, R.color.custom_color_block_choose_background)));
+            drawableOne.setStroke(4, Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+            ConfirmationMicrophone.setBackground(drawableOne);
             ConfirmationMicrophone.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -630,6 +621,10 @@ public class MainActivity extends AppCompatActivity {
             });
 
             ImageButton ConfirmationCamera = viewConfirm.findViewById(R.id.ConfirmationCamera);
+            Drawable drawableCamera =  ContextCompat.getDrawable(context, R.drawable.ic_camera);
+            drawableCamera.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_ATOP);
+            ConfirmationCamera.setImageDrawable(drawableCamera);
+            ConfirmationCamera.setBackground(drawableOne);
             ConfirmationCamera.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -645,9 +640,21 @@ public class MainActivity extends AppCompatActivity {
             ConfirmationAlert
                     .setCancelable(true);
 
+            TextView textView = viewConfirm.findViewById(R.id.TextMicro);
+            textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+            textView = viewConfirm.findViewById(R.id.text_camera_conf);
+            textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
            alertDialogConfirmation = ConfirmationAlert.create();
 
             //и отображаем его:
+            alertDialogConfirmation.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    ic_micro = true;
+                }
+            });
+            alertDialogConfirmation.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialogConfirmation.show();
         }else{
             String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
@@ -671,22 +678,41 @@ public class MainActivity extends AppCompatActivity {
                                 dialogInterface.cancel();
                             }
                         });
+                        GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                        alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                        if(settings.getBoolean("BorderAlertSettings",false))
+                            alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                        viewConfirm.findViewById(R.id.liner_conf_photo).setBackground(alertbackground);
+
+                        TextView textView = viewConfirm.findViewById(R.id.text_conf_photo);
+                        textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
                         ImageView imageView = viewConfirm.findViewById(R.id.ConfirmedPhoto);
                         Bitmap bitmapOrg = BitmapFactory.decodeFile(file.toString());
                         Matrix matrix = new Matrix();
                         matrix.postRotate(90);
                         Bitmap rotate = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true);
                         imageView.setImageBitmap(rotate);
-       //                 imageView.setRotation(90);
                         alertDialogConfirmation = ConfirmationAlert.create();
+                        alertDialogConfirmation.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                         alertDialogConfirmation.show();
 
                     }else {
                         viewConfirm = li.inflate(R.layout.confirmed_voice, null);
                         AlertDialog.Builder ConfirmationAlert = new AlertDialog.Builder(context);
                         ConfirmationAlert.setView(viewConfirm);
+                        GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                        alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                        if(settings.getBoolean("BorderAlertSettings",false))
+                            alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                        viewConfirm.findViewById(R.id.liner_conf_voice).setBackground(alertbackground);
+
                         ConfirmationAlert
                                 .setCancelable(true);
+
+                        TextView textView = viewConfirm.findViewById(R.id.textView_conf_voice);
+                        textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
                         final ImageButton imageButton = viewConfirm.findViewById(R.id.playVoicePlayer);
                         Display display = getWindowManager().getDefaultDisplay();
                         DisplayMetrics metricsB = new DisplayMetrics();
@@ -694,7 +720,9 @@ public class MainActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) Math.floor(metricsB.widthPixels / 6) , (int) Math.floor(metricsB.widthPixels / 6));
                         layoutParams.setMargins(0,0,0,20);
                         imageButton.setLayoutParams(layoutParams);
-                        imageButton.setBackgroundResource(R.drawable.ic_play_arrow_black);
+                        final Drawable drawableImagePlay = ContextCompat.getDrawable(context, R.drawable.ic_play_arrow_black);
+                        drawableImagePlay.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_IN);
+                        imageButton.setImageDrawable(drawableImagePlay);
                         try {
                             if (mediaPlayer != null) {
                                 mediaPlayer.release();
@@ -708,16 +736,17 @@ public class MainActivity extends AppCompatActivity {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                imageButton.setBackgroundResource(R.drawable.ic_play_arrow_black);
-                            }
-                        });
+
                         TextView timeEnd = viewConfirm.findViewById(R.id.TimeEndVoice);
+                        timeEnd.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
                         final TextView timeCurrent = viewConfirm.findViewById(R.id.TimeCurrentVoice);
+                        timeCurrent.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
                         final SeekBar seekBar = viewConfirm.findViewById(R.id.voiceRecordPlayer);
                          seekBar.setMax(mediaPlayer.getDuration());
+                        seekBar.getProgressDrawable().setColorFilter(Current_Theme.getInt("custom_color_audio_player", ContextCompat.getColor(context, R.color.custom_color_audio_player)), PorterDuff.Mode.MULTIPLY);
+                        seekBar.getThumb().setColorFilter(Current_Theme.getInt("custom_color_audio_player", ContextCompat.getColor(context, R.color.custom_color_audio_player)), PorterDuff.Mode.SRC_IN);
+
                         seekBar.setOnTouchListener(new View.OnTouchListener() {
                             @Override
                             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -742,19 +771,30 @@ public class MainActivity extends AppCompatActivity {
                                 return false;
                             }
                         });
+
+
                         imageButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 if (mediaPlayer.isPlaying()){
                                     mediaPlayer.pause();
-                                    imageButton.setBackgroundResource(R.drawable.ic_play_arrow_black);
+                                    imageButton.setImageDrawable(drawableImagePlay);
                                 }else{
                                     mediaPlayer.start();
                                   startPlayProgressUpdater(seekBar,timeCurrent);
-                                  imageButton.setBackgroundResource(R.drawable.ic_pause_black);
+                                    Drawable drawableImagePause = ContextCompat.getDrawable(context, R.drawable.ic_pause_black);
+                                    drawableImagePause.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_IN);
+                                    imageButton.setImageDrawable(drawableImagePause);
                                 }
+                            }
+                        });
 
-
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mediaPlayer) {
+                                Drawable drawableImagePlay = ContextCompat.getDrawable(context, R.drawable.ic_play_arrow_black);
+                                drawableImagePlay.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_IN);
+                                imageButton.setImageDrawable(drawableImagePlay);
                             }
                         });
 
@@ -776,6 +816,20 @@ public class MainActivity extends AppCompatActivity {
                             timeEnd.setText((int) Math.floor(mediaPlayer.getDuration()/ 1000/60) + ":" + (int) Math.floor(mediaPlayer.getDuration()/1000));
 
                         alertDialogConfirmation = ConfirmationAlert.create();
+                        alertDialogConfirmation.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialogInterface) {
+                                if (mediaPlayer != null) {
+                                    try {
+                                        mediaPlayer.release();
+                                        mediaPlayer = null;
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+                        alertDialogConfirmation.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                         alertDialogConfirmation.show();
                     }
 
@@ -841,20 +895,21 @@ public class MainActivity extends AppCompatActivity {
             TextView text = viewConfirm.findViewById(R.id.TextMicro);
             text.setText(getString(R.string.Voice_recording) + " ");
             TextView time = viewConfirm.findViewById(R.id.TimeMicro);
+            time.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
             time.setText("00:00");
-
-            mediaRecorder = new MediaRecorder();
-            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB );
-            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            final Button buttonStart = linearLayout.findViewById(R.id.ButtonStart);
+            final TextView buttonStart = linearLayout.findViewById(R.id.button_one_alert);
+            buttonStart.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                 buttonStart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
                         if(buttonStart.getText().equals(getString(R.string.StartMicro))){
-                            try {
+                            mediaRecorder = new MediaRecorder();
+                            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB );
+                            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
+                            try {
                                 File mFolder = new File(context.getExternalFilesDir(null) + "/confirmation");
                                 File file = new File(mFolder.getAbsolutePath() + "/" + (settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020) + "_" + numStolbWrite +".amr");
                                 if (!mFolder.exists()) {
@@ -863,11 +918,11 @@ public class MainActivity extends AppCompatActivity {
                                 mediaRecorder.setMaxDuration(3599000);
                                 mediaRecorder.setOutputFile(file.toString());
                                 mediaRecorder.prepare();
-                                new TimeRecording().execute();
                                 mediaRecorder.start();
+                                new TimeRecording().execute();
                                 buttonStart.setText(getString(R.string.PauseMicro));
                             } catch (IllegalStateException e) {
-                                e.printStackTrace();
+                                Toast.makeText(context,getString(R.string.errorMicro),Toast.LENGTH_LONG).show();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -890,29 +945,34 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-            Button buttonEnd = linearLayout.findViewById(R.id.ButtonEnd);
+            TextView buttonEnd = linearLayout.findViewById(R.id.button_two_alert);
+            buttonEnd.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                 buttonEnd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        alertDialogConfirmation.hide();
-                        cancelAsyncTask = true;
-                        mediaRecorder.stop();
-                        String ConfirmationWrite = "";
-                        String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
-                        for (int i = 0; i < ConfirmationValue.length; i++){
-                            if(i == numStolbWrite){
-                                ConfirmationWrite = ConfirmationWrite + getString(R.string.Confirmed) + "~amr=";
-                            }else
-                                ConfirmationWrite = ConfirmationWrite + ConfirmationValue[i] + "=";
-                        }
-                        editorConfirmed.putString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),ConfirmationWrite);
-                        editorConfirmed.apply();
-                        ConfirmationTextView.setText(getString(R.string.Confirmed));
-                    }
+                        if(mediaRecorder != null) {
+                            alertDialogConfirmation.hide();
+                            cancelAsyncTask = true;
+                            mediaRecorder.stop();
+                            String ConfirmationWrite = "";
+                            String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl", 2020) - 1) + " - " + settings.getInt("endUrl", 2020), getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
+                            for (int i = 0; i < ConfirmationValue.length; i++) {
+                                if (i == numStolbWrite) {
+                                    ConfirmationWrite = ConfirmationWrite + getString(R.string.Confirmed) + "~amr=";
+                                } else
+                                    ConfirmationWrite = ConfirmationWrite + ConfirmationValue[i] + "=";
+                            }
+                            editorConfirmed.putString((settings.getInt("endUrl", 2020) - 1) + " - " + settings.getInt("endUrl", 2020), ConfirmationWrite);
+                            editorConfirmed.apply();
+                            ConfirmationTextView.setText(getString(R.string.Confirmed));
+                            color = Color.DKGRAY;
+                            new ReplaceColorStolb().execute();
+                            alertDialogConfirmation.hide();
+                        }}
                 });
 
-            color = Color.DKGRAY;
-            new ReplaceColorStolb().execute();
+
+
 
         }
     }
@@ -1048,6 +1108,7 @@ public class MainActivity extends AppCompatActivity {
         TextView textViewName = view.findViewById(R.id.textView1_1_dnev);
         TextView textViewKab = view.findViewById(R.id.textView1_2_dnev);
         final TextView textViewDz = view.findViewById(R.id.textView1_3_dnev);
+        final TextView textViewOcenka = view.findViewById(R.id.textView1_4_dnev);
        url = (settings.getInt("StartNedeli",1) + settings.getInt("Card",1)) + "." + settings.getInt("IntMes",1) + "." + settings.getInt("Year",1);
        final StringBuffer stringBuffer = new StringBuffer();
        String[] helpKab, finalHelp = new String[1];
@@ -1093,11 +1154,12 @@ public class MainActivity extends AppCompatActivity {
         final View promptsView = li.inflate(R.layout.edit_dz , null);
         final TextView textView = promptsView.findViewById(R.id.textViewNameYrok);
         final EditText editText = promptsView.findViewById(R.id.textEdit);
+        final EditText editOcenka = promptsView.findViewById(R.id.textOcenka);
         if(2 <= finalHelp.length) {
             String[] temp3 = finalHelp[1].split("`");
             String tempik = "";
             if (temp3.length == 1)
-                editText.setText(temp3[0]);   //ssssssssssssssssssssssssssssssssssssssssssssssss
+                editText.setText(temp3[0]);
             else {
                 for (int n = 0; n < temp3.length; n++) {
                     if(n+1 == temp3.length)
@@ -1113,24 +1175,73 @@ public class MainActivity extends AppCompatActivity {
         else {
             helpKab = finalHelp[0].split(",");
             textView.setText(helpKab[0]);
+            textView.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+            editText.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
+            editText.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+            setCursorColor(editText, Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+            setCursorPointerColor(editText, Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+            editOcenka.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
+            editOcenka.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+            setCursorColor(editOcenka, Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+            setCursorPointerColor(editOcenka, Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+
             AlertDialog.Builder Zapic = new AlertDialog.Builder(context);
             final String[] finalHelp1 = finalHelp;
             final String[] tempbuffer = stringBuffer.toString().split("~");
             final int finalI = i;
-            Zapic.setView(promptsView).setCancelable(true).setPositiveButton(context.getString(R.string.save), new DialogInterface.OnClickListener() {
+            Zapic.setView(promptsView);
+            GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+            alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+            if(settings.getBoolean("BorderAlertSettings",false))
+                alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+            promptsView.findViewById(R.id.linerEditDz).setBackground(alertbackground);
+            final AlertDialog alertDialog = Zapic.create();
+
+            TextView textTitle = promptsView.findViewById(R.id.edit_dz_title);
+            textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+
+            TextView textBottom = promptsView.findViewById(R.id.edit_dz_name);
+            textBottom.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+            textBottom = promptsView.findViewById(R.id.edit_dz_dz);
+            textBottom.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+            textBottom = promptsView.findViewById(R.id.edit_dz_ocenka);
+            textBottom.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
+            TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+            ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+            ButtonCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int p) {
-                    String tempTextEdit = "123";
-                    if (!editText.getText().equals(""))
+                public void onClick(View view) {
+                    alertDialog.hide();
+                }
+            });
+
+            TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
+            ButtonSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.hide();
+
+                    String tempTextEdit , tempOcenka;
+                    if (!editText.getText().toString().equals(""))
                         tempTextEdit = editText.getText().toString();
-                        textViewDz.setText(tempTextEdit);
+                    else
+                        tempTextEdit = "№123";
+                    if (!editOcenka.getText().toString().equals(""))
+                        tempOcenka = editOcenka.getText().toString();
+                    else
+                        tempOcenka = "5";
+
+                    textViewDz.setText(tempTextEdit);
+                    textViewOcenka.setText(tempOcenka);
+
                     for (int j = 1; j <= tempbuffer.length; j++) {
                         if (j == finalI) {
-                            String[] reject = editText.getText().toString().split("\n");
-                            String TempJect = "";
+                            String[] reject = tempTextEdit.split("\n");
+                            String DzWrite = "";
                             for (int u = 0; u < reject.length; u++)
-                                TempJect = TempJect + reject[u] + "`";
-                            EndstringBuffer.append(finalHelp1[0] + "=" + TempJect).append("\n");
+                                DzWrite = DzWrite + reject[u] + "`";
+                            EndstringBuffer.append(finalHelp1[0] + "=" + DzWrite + "=" + tempOcenka).append("\n");
                         } else
                             EndstringBuffer.append(tempbuffer[j - 1]).append("\n");
 
@@ -1154,60 +1265,15 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             });
-            AlertDialog alertDialog = Zapic.create();
+            ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
 
-            //и отображаем его:
-
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialog.show();
 
 
         }}catch (Povtor povtor){}
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (prefs.getBoolean("firstrun", true)) {
-            settings = getSharedPreferences("Settings", MODE_PRIVATE);
-            editor.putBoolean("Monday",true);
-            editor.putBoolean("Tuesday",true);
-            editor.putBoolean("Wednesday",true);
-            editor.putBoolean("Thursday",true);
-            editor.putBoolean("Friday",true);
-            editor.putBoolean("Saturday",true);
-            editor.apply();
-
-
-            AlertDialog.Builder onStart = new AlertDialog.Builder(MainActivity.this);
-            onStart.setMessage("Это приложение может отправить до 500 уведомлений в день, рекомендуем выключить все оповещение от этого приложения.")
-                    .setCancelable(true)
-                    .setPositiveButton("Открыть настройки", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-                                intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
-                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-                                intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
-                                intent.putExtra("app_package", context.getPackageName());
-                                intent.putExtra("app_uid", context.getApplicationInfo().uid);
-                            } else {
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                                intent.setData(Uri.parse("package:" + context.getPackageName()));
-                            }
-                            context.startActivity(intent);
-                        }
-                    });
-              AlertDialog onStartStarting = onStart.create();
-              onStartStarting.setTitle("Предупреждение");
-              onStartStarting.show();
-            prefs.edit().putBoolean("firstrun", false).commit();
-        }
     }
 
     public void ClickMedia(View view){
@@ -1401,25 +1467,30 @@ public class MainActivity extends AppCompatActivity {
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                                NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT);
+                                NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_NONE);
                                 notificationManager.createNotificationChannel(notificationChannel);
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                                 NotificationCompat.Builder notifycationBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                                         .setAutoCancel(false)
+                                        .setVibrate(null)
+                                        .setSound(null)
                                         .setSmallIcon(R.drawable.ic_stat_name)
                                         .setWhen(System.currentTimeMillis())
                                         .setContentIntent(pendingIntent)
                                         .setContentTitle(Name)
-                                        .setContentText(Type + ": " + HourSay + MinSay)
-                                        .setPriority(IMPORTANCE_HIGH);
+                                        .setContentText(Type + ": " + HourSay + MinSay);
                                 notificationManager.notify(NOTIFY_ID, notifycationBuilder.build());
                             } else {
                                 NotificationCompat.Builder builder =
                                         new NotificationCompat.Builder(context)
                                                 .setSmallIcon(R.drawable.ic_stat_name)
+                                                .setAutoCancel(false)
+                                                .setVibrate(null)
+                                                .setSound(null)
                                                 .setContentTitle(Name)
+                                                .setPriority(IMPORTANCE_NONE)
                                                 .setContentText(Type + ": " + HourSay + MinSay);
 
                                 Notification notification = builder.build();
@@ -1482,6 +1553,40 @@ public class MainActivity extends AppCompatActivity {
         return say;
     }
 
+    public void EditTheme(final String[] colorsTheme, int position){
+        new Thread(new Runnable() {
+            public void run() {
+        colors.put(R.id.custom_icon, Integer.valueOf(colorsTheme[2]));
+        colors.put(R.id.custom_border_theme, Integer.valueOf(colorsTheme[3]));
+        colors.put(R.id.custom_background, Integer.valueOf(colorsTheme[4]));
+        colors.put(R.id.custom_toolbar, Integer.valueOf(colorsTheme[5]));
+        colors.put(R.id.custom_toolbar_text, Integer.valueOf(colorsTheme[6]));
+        colors.put(R.id.custom_notification_bar, Integer.valueOf(colorsTheme[7]));
+        colors.put(R.id.custom_text_light, Integer.valueOf(colorsTheme[8]));
+        colors.put(R.id.custom_text_dark, Integer.valueOf(colorsTheme[9]));
+        colors.put(R.id.custom_text_hint, Integer.valueOf(colorsTheme[10]));
+        colors.put(R.id.custom_cursor, Integer.valueOf(colorsTheme[11]));
+        colors.put(R.id.custom_card, Integer.valueOf(colorsTheme[12]));
+        colors.put(R.id.custom_bottomBorder, Integer.valueOf(colorsTheme[13]));
+        colors.put(R.id.custom_button_add, Integer.valueOf(colorsTheme[14]));
+        colors.put(R.id.custom_button_add_plus, Integer.valueOf(colorsTheme[15]));
+        colors.put(R.id.custom_button_arrow, Integer.valueOf(colorsTheme[16]));
+        colors.put(R.id.custom_progress, Integer.valueOf(colorsTheme[17]));
+        colors.put(R.id.custom_not_confirmed, Integer.valueOf(colorsTheme[18]));
+        colors.put(R.id.custom_Table_column, Integer.valueOf(colorsTheme[19]));
+        colors.put(R.id.custom_notification_on, Integer.valueOf(colorsTheme[20]));
+        colors.put(R.id.custom_notification_off, Integer.valueOf(colorsTheme[21]));
+        colors.put(R.id.custom_switch_on, Integer.valueOf(colorsTheme[22]));
+        colors.put(R.id.custom_switch_off, Integer.valueOf(colorsTheme[23]));
+        colors.put(R.id.custom_color_block_choose_background, Integer.valueOf(colorsTheme[24]));
+        colors.put(R.id.custom_color_block_choose_border, Integer.valueOf(colorsTheme[25]));
+        colors.put(R.id.custom_color_audio_player, Integer.valueOf(colorsTheme[26]));
+            }
+        }).start();
+        ClickSaveThemeType = false;
+        positionTheme = position;
+    }
+
     public void ClickCreateCustomTheme(View view){
         LinearLayout linearLayout = findViewById(R.id.field_create_fragment);
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
@@ -1490,13 +1595,15 @@ public class MainActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 public void run() {
                     colors.put(R.id.custom_icon, ContextCompat.getColor(context,R.color.custom_icon));
+                    colors.put(R.id.custom_border_theme, ContextCompat.getColor(context, R.color.custom_border_theme));
                     colors.put(R.id.custom_background, ContextCompat.getColor(context, R.color.custom_background));
                     colors.put(R.id.custom_toolbar, ContextCompat.getColor(context, R.color.custom_toolbar));
                     colors.put(R.id.custom_toolbar_text, ContextCompat.getColor(context, R.color.custom_toolbar_text));
                     colors.put(R.id.custom_notification_bar, ContextCompat.getColor(context, R.color.custom_notification_bar));
                     colors.put(R.id.custom_text_light, ContextCompat.getColor(context, R.color.custom_text_light));
                     colors.put(R.id.custom_text_dark, ContextCompat.getColor(context, R.color.custom_text_dark));
-                    colors.put(R.id.custom_text_hint, ContextCompat.getColor(context, R.color.custom_hint_text));
+                    colors.put(R.id.custom_text_hint, ContextCompat.getColor(context, R.color.custom_text_hint));
+                    colors.put(R.id.custom_cursor, ContextCompat.getColor(context, R.color.custom_cursor));
                     colors.put(R.id.custom_card, ContextCompat.getColor(context, R.color.custom_card));
                     colors.put(R.id.custom_bottomBorder, ContextCompat.getColor(context, R.color.custom_bottomBorder));
                     colors.put(R.id.custom_button_add, ContextCompat.getColor(context, R.color.custom_button_add));
@@ -1508,63 +1615,286 @@ public class MainActivity extends AppCompatActivity {
                     colors.put(R.id.custom_notification_on, ContextCompat.getColor(context, R.color.custom_notification_on));
                     colors.put(R.id.custom_notification_off, ContextCompat.getColor(context, R.color.custom_notification_off));
                     colors.put(R.id.custom_switch_on, ContextCompat.getColor(context, R.color.custom_switch_on));
-                    colors.put(R.id.custom_switch_on_background, ContextCompat.getColor(context, R.color.custom_switch_on_background));
-                    colors.put(R.id.custom_border_theme, ContextCompat.getColor(context, R.color.custom_border_theme));
+                    colors.put(R.id.custom_switch_off, ContextCompat.getColor(context, R.color.custom_switch_off));
+                    colors.put(R.id.custom_color_block_choose_background, ContextCompat.getColor(context, R.color.custom_color_block_choose_background));
+                    colors.put(R.id.custom_color_block_choose_border, ContextCompat.getColor(context, R.color.custom_color_block_choose_border));
+                    colors.put(R.id.custom_color_audio_player, ContextCompat.getColor(context, R.color.custom_color_audio_player));
                 }
             }).start();
 
-
-
-            final EditText editText = linearLayout.findViewById(R.id.custom_name);
-            editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                    if (i == EditorInfo.IME_ACTION_DONE) {
-                        if (getCurrentFocus() != null) {
-                            View vw = getCurrentFocus();
-                            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                            inputMethodManager.hideSoftInputFromWindow(vw.getWindowToken(), 0);
-                                TempNameTheme = editText.getText().toString();
-
-                            editText.clearFocus();
-                        }
-                    }
-                    return false;
-                }
-            });
-
-        }else{
+            ClickSaveThemeType = true;
+        }else {
             new CreateTheme().execute(colors);
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
     }
 
-    public void ClickColor(final View view){
-        AmbilWarnaDialog colorEdit = new AmbilWarnaDialog(context, colors.get(view.getId()), new AmbilWarnaDialog.OnAmbilWarnaListener() {
-            @Override
-            public void onCancel(AmbilWarnaDialog dialog) {
 
+    public void ClickColor(final View viewColor){
+
+        if(settings.getString("dafauilt_choose_color",getString(R.string.not_chosen)).equals(getString(R.string.not_chosen)) || settings.getString("dafauilt_choose_color",getString(R.string.not_chosen)).equals(getString(R.string.HEX_code))){
+
+        final LayoutInflater li = LayoutInflater.from(context);
+        final View promptsView = li.inflate(R.layout.type_color , null);
+        final AlertDialog.Builder deleted = new AlertDialog.Builder(context);
+        deleted.setView(promptsView);
+        deleted.setCancelable(true);
+
+        final AlertDialog alertDialog = deleted.create();
+
+            GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+            alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+            if(settings.getBoolean("BorderAlertSettings",false))
+                alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+            promptsView.findViewById(R.id.Liner_type_color).setBackground(alertbackground);
+
+
+            GradientDrawable drawableOne = (GradientDrawable) getResources().getDrawable(R.drawable.shape);
+            drawableOne.setColor(Current_Theme.getInt("custom_color_block_choose_background", ContextCompat.getColor(context, R.color.custom_color_block_choose_background)));
+            drawableOne.setStroke(4, Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+
+            final Button buttonHex = promptsView.findViewById(R.id.hex_code);
+
+            if(settings.getString("dafauilt_choose_color",getString(R.string.not_chosen)).equals(getString(R.string.HEX_code))){
+                LinearLayout linearLayoutRoot = promptsView.findViewById(R.id.Liner_type_color);
+                LinearLayout linearLayoutDelete = linearLayoutRoot.findViewById(R.id.Liner_Choose_Color);
+                linearLayoutRoot.removeView(linearLayoutDelete);
+
+                LinearLayout linearLayout = promptsView.findViewById(R.id.LinerHex);
+                linearLayout.removeView(buttonHex);
+                linearLayout.addView(li.inflate(R.layout.hex_button, null));
+
+                TextView textView = linearLayout.findViewById(R.id.textView_type_color);
+                textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
+                final EditText editText = linearLayout.findViewById(R.id.edit_text_type_color);
+                editText.setHintTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                editText.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
+                editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        if (i == EditorInfo.IME_ACTION_DONE) {
+                            if (getCurrentFocus() != null) {
+                                View vw = getCurrentFocus();
+                                InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                inputMethodManager.hideSoftInputFromWindow(vw.getWindowToken(), 0);
+                            }
+                        }
+                        return false;
+                    }
+                });
+
+                TextView ButtonCancel = linearLayout.findViewById(R.id.cancel_type_color);
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.hide();
+                    }
+                });
+
+                TextView ButtonSave = linearLayout.findViewById(R.id.save_type_color);
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String hexColor;
+                        if(editText.getText().equals(""))
+                            hexColor = "FFFFFF";
+                        else
+                            hexColor = editText.getText().toString();
+
+                        viewColor.setBackgroundColor(Color.parseColor("#" + hexColor));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            colors.replace(viewColor.getId(), Color.parseColor("#" + hexColor));
+                        else {
+                            colors.remove(viewColor.getId());
+                            colors.put(viewColor.getId(), Color.parseColor("#" + hexColor));
+                        }
+
+                        alertDialog.hide();
+                    }
+                });
+            }else {
+
+            buttonHex.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+            buttonHex.setBackgroundDrawable(drawableOne);
+            buttonHex.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    LinearLayout linearLayoutRoot = promptsView.findViewById(R.id.Liner_type_color);
+                    LinearLayout linearLayoutDelete = linearLayoutRoot.findViewById(R.id.Liner_Choose_Color);
+                    linearLayoutRoot.removeView(linearLayoutDelete);
+
+                    LinearLayout linearLayout = promptsView.findViewById(R.id.LinerHex);
+                    linearLayout.removeView(buttonHex);
+                    linearLayout.addView(li.inflate(R.layout.hex_button, null));
+
+                    TextView textView = linearLayout.findViewById(R.id.textView_type_color);
+                    textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
+                    final EditText editText = linearLayout.findViewById(R.id.edit_text_type_color);
+                    editText.setHintTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                    editText.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
+                    editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                        @Override
+                        public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                            if (i == EditorInfo.IME_ACTION_DONE) {
+                                if (getCurrentFocus() != null) {
+                                    View vw = getCurrentFocus();
+                                    InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    inputMethodManager.hideSoftInputFromWindow(vw.getWindowToken(), 0);
+                                }
+                            }
+                            return false;
+                        }
+                    });
+
+                    TextView ButtonCancel = linearLayout.findViewById(R.id.cancel_type_color);
+                    ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            alertDialog.hide();
+                        }
+                    });
+
+                    TextView ButtonSave = linearLayout.findViewById(R.id.save_type_color);
+                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            viewColor.setBackgroundColor(Color.parseColor("#" + editText.getText()));
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                colors.replace(viewColor.getId(), Color.parseColor("#" + editText.getText()));
+                            else {
+                                colors.remove(viewColor.getId());
+                                colors.put(viewColor.getId(), Color.parseColor("#" + editText.getText()));
+                            }
+
+                            alertDialog.hide();
+                        }
+                    });
+
+
+                }
+            });
+
+            GradientDrawable drawableTwo = (GradientDrawable) getResources().getDrawable(R.drawable.shape);
+            drawableTwo.setColor(Current_Theme.getInt("custom_color_block_choose_background", ContextCompat.getColor(context, R.color.custom_color_block_choose_background)));
+            drawableTwo.setStroke(4, Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+
+            Button buttonChoose = promptsView.findViewById(R.id.choose_color);
+            buttonChoose.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+            buttonChoose.setBackgroundDrawable(drawableTwo);
+            buttonChoose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    alertDialog.hide();
+
+                    AmbilWarnaDialog colorEdit = new AmbilWarnaDialog(context, colors.get(viewColor.getId()), new AmbilWarnaDialog.OnAmbilWarnaListener() {
+                        @Override
+                        public void onCancel(AmbilWarnaDialog dialog) {
+
+                        }
+
+                        @Override
+                        public void onOk(AmbilWarnaDialog dialog, int color) {
+                            viewColor.setBackgroundColor(color);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                colors.replace(viewColor.getId(), color);
+                            else {
+                                colors.remove(viewColor.getId());
+                                colors.put(viewColor.getId(), color);
+                            }
+
+                        }
+                    });
+                    GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                    alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                    if(settings.getBoolean("BorderAlertSettings",false))
+                        alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+
+
+                    colorEdit.show();
+                }
+            });
             }
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.show();
 
-            @Override
-            public void onOk(AmbilWarnaDialog dialog, int color) {
-                view.setBackgroundColor(color);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                    colors.replace(view.getId(),color);
-                else {
-                    colors.remove(view.getId());
-                    colors.put(view.getId(),color);
+
+    }else{
+            AmbilWarnaDialog colorEdit = new AmbilWarnaDialog(context, colors.get(viewColor.getId()), new AmbilWarnaDialog.OnAmbilWarnaListener() {
+                @Override
+                public void onCancel(AmbilWarnaDialog dialog) {
+
                 }
 
-            }
-        });
+                @Override
+                public void onOk(AmbilWarnaDialog dialog, int color) {
+                    viewColor.setBackgroundColor(color);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                        colors.replace(viewColor.getId(), color);
+                    else {
+                        colors.remove(viewColor.getId());
+                        colors.put(viewColor.getId(), color);
+                    }
 
-        colorEdit.show();
+                }
+            });
+
+            colorEdit.show();
+        }
+    }
+
+    public static void setCursorColor(EditText view, @ColorInt int color) {
+        try {
+            Field field = TextView.class.getDeclaredField("mCursorDrawableRes");
+            field.setAccessible(true);
+            int drawableResId = field.getInt(view);
+
+            field = TextView.class.getDeclaredField("mEditor");
+            field.setAccessible(true);
+            Object editor = field.get(view);
+
+            Drawable drawable = ContextCompat.getDrawable(view.getContext(), drawableResId);
+            drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            Drawable[] drawables = {drawable, drawable};
+
+            field = editor.getClass().getDeclaredField("mCursorDrawable");
+            field.setAccessible(true);
+            field.set(editor, drawables);
+        } catch (Exception ignored) {
+        }
+    }
+
+    public static void setCursorPointerColor(EditText view, @ColorInt int color) {
+        try {
+            Field field = TextView.class.getDeclaredField("mTextSelectHandleRes");
+            field.setAccessible(true);
+            int drawableResId = field.getInt(view);
+
+            field = TextView.class.getDeclaredField("mEditor");
+            field.setAccessible(true);
+            Object editor = field.get(view);
+
+            Drawable drawable = ContextCompat.getDrawable(view.getContext(), drawableResId);
+            drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+
+            field = editor.getClass().getDeclaredField("mSelectHandleCenter");
+            field.setAccessible(true);
+            field.set(editor, drawable);
+        } catch (Exception ignored) {
+        }
     }
 
     class CreateTheme extends AsyncTask<HashMap<Integer, Integer>, String, Void>{
         AlertDialog alertDialog;
         TextView textView;
+        int id_theme = -1;
 
         @Override
         protected void onPreExecute() {
@@ -1574,6 +1904,11 @@ public class MainActivity extends AppCompatActivity {
             final View promptsView = li.inflate(R.layout.loading_color , null);
             progressDialog.setView(promptsView)
                     .setCancelable(false);
+            GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.loading_drawable);
+            alertbackground.setColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+            if(settings.getBoolean("BorderAlertSettings",false))
+                alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+            promptsView.findViewById(R.id.linerLoading).setBackground(alertbackground);
             textView = promptsView.findViewById(R.id.textLoading);
             textView.setText(getString(R.string.Saving_theme));
             alertDialog = progressDialog.create();
@@ -1584,9 +1919,14 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             alertDialog.hide();
-            Intent intent = new Intent(context, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            if(ClickSaveThemeType || id_theme == settings.getInt("id_current_theme", R.id.switchWhite)) {
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }else {
+                NastroikiFragment nastroikiFragment = (NastroikiFragment) getFragment.get(4);
+                nastroikiFragment.NotifyAdapter(positionTheme, TempNameTheme);
+            }
         }
 
         @Override
@@ -1598,13 +1938,51 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(HashMap<Integer, Integer>... hashMaps) {
             StringBuffer stringBuffer = new StringBuffer();
+            EditText editText = findViewById(R.id.custom_name);
+            if(editText.getText().toString().equals(""))
+                TempNameTheme = getString(R.string.WhiteTheme);
+            else  TempNameTheme = editText.getText().toString();
+
             try {
                 FileInputStream read = context.openFileInput("Themes.txt");
                 InputStreamReader reader = new InputStreamReader(read);
                 BufferedReader bufferedReader = new BufferedReader(reader);
                 String temp_read;
+                int wtite_num = 0;
                 while ((temp_read = bufferedReader.readLine()) != null) {
+                    if(!ClickSaveThemeType && (positionTheme == wtite_num)) {
+                        stringBuffer.append(temp_read.split("=")[0] + "=" + TempNameTheme + "=" +
+                                hashMaps[0].get(R.id.custom_icon) + "=" +
+                                hashMaps[0].get(R.id.custom_border_theme) + "=" +
+                                hashMaps[0].get(R.id.custom_background) + "=" +
+                                hashMaps[0].get(R.id.custom_toolbar) + "=" +
+                                hashMaps[0].get(R.id.custom_toolbar_text) + "=" +
+                                hashMaps[0].get(R.id.custom_notification_bar) + "=" +
+                                hashMaps[0].get(R.id.custom_text_light) + "=" +
+                                hashMaps[0].get(R.id.custom_text_dark) + "=" +
+                                hashMaps[0].get(R.id.custom_text_hint) + "=" +
+                                hashMaps[0].get(R.id.custom_cursor) + "=" +
+                                hashMaps[0].get(R.id.custom_card) + "=" +
+                                hashMaps[0].get(R.id.custom_bottomBorder) + "=" +
+                                hashMaps[0].get(R.id.custom_button_add) + "=" +
+                                hashMaps[0].get(R.id.custom_button_add_plus) + "=" +
+                                hashMaps[0].get(R.id.custom_button_arrow) + "=" +
+                                hashMaps[0].get(R.id.custom_progress) + "=" +
+                                hashMaps[0].get(R.id.custom_not_confirmed) + "=" +
+                                hashMaps[0].get(R.id.custom_Table_column) + "=" +
+                                hashMaps[0].get(R.id.custom_notification_on) + "=" +
+                                hashMaps[0].get(R.id.custom_notification_off) + "=" +
+                                hashMaps[0].get(R.id.custom_switch_on) + "=" +
+                                hashMaps[0].get(R.id.custom_switch_off) + "=" +
+                                hashMaps[0].get(R.id.custom_color_block_choose_background) + "=" +
+                                hashMaps[0].get(R.id.custom_color_block_choose_border) + "=" +
+                                hashMaps[0].get(R.id.custom_color_audio_player)).append("\n");
+
+                        id_theme = Integer.parseInt(temp_read.split("=")[0]);
+                    }else
                    stringBuffer.append(temp_read).append("\n");
+
+                    wtite_num = wtite_num + 1;
                 }
                 bufferedReader.close();
                 reader.close();
@@ -1617,37 +1995,47 @@ public class MainActivity extends AppCompatActivity {
                 ignore.printStackTrace();
             }
 
-            int Generate_id = new Random().nextInt(1000) + 142132;
-            editor.putInt("id_current_theme", Generate_id);
-            editor.apply();
-            if(TempNameTheme == null)
-                TempNameTheme = getString(R.string.WhiteTheme);
+            int Generate_id = 0;
+            if(ClickSaveThemeType) {
+                Generate_id = new Random().nextInt(1000) + 142132;
+                editor.putInt("id_current_theme", Generate_id);
+                editor.apply();
+            }
+
 
             try {
                   FileOutputStream write =  context.openFileOutput("Themes.txt", MODE_PRIVATE);
-                  String temp_write = stringBuffer.toString() +
-                    Generate_id + "=" + TempNameTheme + "=" +
-                      hashMaps[0].get(R.id.custom_icon) + "=" +
-                      hashMaps[0].get(R.id.custom_border_theme)  + "=" +
-                      hashMaps[0].get(R.id.custom_background) + "=" +
-                      hashMaps[0].get(R.id.custom_toolbar) + "=" +
-                      hashMaps[0].get(R.id.custom_toolbar_text) + "=" +
-                      hashMaps[0].get(R.id.custom_notification_bar) + "=" +
-                      hashMaps[0].get(R.id.custom_text_light) + "=" +
-                      hashMaps[0].get(R.id.custom_text_dark) + "=" +
-                      hashMaps[0].get(R.id.custom_text_hint) + "=" +
-                      hashMaps[0].get(R.id.custom_card) + "=" +
-                      hashMaps[0].get(R.id.custom_bottomBorder) + "=" +
-                      hashMaps[0].get(R.id.custom_button_add) + "=" +
-                      hashMaps[0].get(R.id.custom_button_add_plus) + "=" +
-                      hashMaps[0].get(R.id.custom_button_arrow) + "=" +
-                      hashMaps[0].get(R.id.custom_progress) + "=" +
-                      hashMaps[0].get(R.id.custom_not_confirmed) + "=" +
-                      hashMaps[0].get(R.id.custom_Table_column) + "=" +
-                      hashMaps[0].get(R.id.custom_notification_on) + "=" +
-                      hashMaps[0].get(R.id.custom_notification_off) + "=" +
-                      hashMaps[0].get(R.id.custom_switch_on) + "=" +
-                      hashMaps[0].get(R.id.custom_switch_on_background);
+                  String temp_write = stringBuffer.toString();
+
+                if(ClickSaveThemeType){
+                    temp_write = temp_write + Generate_id + "=" + TempNameTheme + "=" +
+                            hashMaps[0].get(R.id.custom_icon) + "=" +
+                            hashMaps[0].get(R.id.custom_border_theme)  + "=" +
+                            hashMaps[0].get(R.id.custom_background) + "=" +
+                            hashMaps[0].get(R.id.custom_toolbar) + "=" +
+                            hashMaps[0].get(R.id.custom_toolbar_text) + "=" +
+                            hashMaps[0].get(R.id.custom_notification_bar) + "=" +
+                            hashMaps[0].get(R.id.custom_text_light) + "=" +
+                            hashMaps[0].get(R.id.custom_text_dark) + "=" +
+                            hashMaps[0].get(R.id.custom_text_hint) + "=" +
+                            hashMaps[0].get(R.id.custom_cursor) + "=" +
+                            hashMaps[0].get(R.id.custom_card) + "=" +
+                            hashMaps[0].get(R.id.custom_bottomBorder) + "=" +
+                            hashMaps[0].get(R.id.custom_button_add) + "=" +
+                            hashMaps[0].get(R.id.custom_button_add_plus) + "=" +
+                            hashMaps[0].get(R.id.custom_button_arrow) + "=" +
+                            hashMaps[0].get(R.id.custom_progress) + "=" +
+                            hashMaps[0].get(R.id.custom_not_confirmed) + "=" +
+                            hashMaps[0].get(R.id.custom_Table_column) + "=" +
+                            hashMaps[0].get(R.id.custom_notification_on) + "=" +
+                            hashMaps[0].get(R.id.custom_notification_off) + "=" +
+                            hashMaps[0].get(R.id.custom_switch_on) + "=" +
+                            hashMaps[0].get(R.id.custom_switch_off) + "=" +
+                            hashMaps[0].get(R.id.custom_color_block_choose_background) + "=" +
+                            hashMaps[0].get(R.id.custom_color_block_choose_border) + "=" +
+                            hashMaps[0].get(R.id.custom_color_audio_player);
+                }
+
 
                   write.write(temp_write.getBytes());
                   write.close();
@@ -1657,33 +2045,40 @@ public class MainActivity extends AppCompatActivity {
                   e.printStackTrace();
               }
 
-            publishProgress(getString(R.string.Apply_Theme));
+            if(ClickSaveThemeType || id_theme == settings.getInt("id_current_theme", R.id.switchWhite)) {
+                publishProgress(getString(R.string.Apply_Theme));
 
-            SharedPreferences.Editor editorColor = Current_Theme.edit();
+                SharedPreferences.Editor editorColor = Current_Theme.edit();
 
-            editorColor.putInt("custom_icon", hashMaps[0].get(R.id.custom_icon));
-            editorColor.putInt("custom_border_theme", hashMaps[0].get(R.id.custom_border_theme));
-            editorColor.putInt("custom_background", hashMaps[0].get(R.id.custom_background));
-            editorColor.putInt("custom_toolbar", hashMaps[0].get(R.id.custom_toolbar));
-            editorColor.putInt("custom_toolbar_text", hashMaps[0].get(R.id.custom_toolbar_text));
-            editorColor.putInt("custom_notification_bar", hashMaps[0].get(R.id.custom_notification_bar));
-            editorColor.putInt("custom_text_light", hashMaps[0].get(R.id.custom_text_light));
-            editorColor.putInt("custom_text_dark", hashMaps[0].get(R.id.custom_text_dark));
-            editorColor.putInt("custom_text_hint", hashMaps[0].get(R.id.custom_text_hint));
-            editorColor.putInt("custom_card", hashMaps[0].get(R.id.custom_card));
-            editorColor.putInt("custom_bottomBorder", hashMaps[0].get(R.id.custom_bottomBorder));
-            editorColor.putInt("custom_button_add", hashMaps[0].get(R.id.custom_button_add));
-            editorColor.putInt("custom_button_add_plus", hashMaps[0].get(R.id.custom_button_add_plus));
-            editorColor.putInt("custom_button_arrow", hashMaps[0].get(R.id.custom_button_arrow));
-            editorColor.putInt("custom_progress", hashMaps[0].get(R.id.custom_progress));
-            editorColor.putInt("custom_not_confirmed", hashMaps[0].get(R.id.custom_not_confirmed));
-            editorColor.putInt("custom_Table_column", hashMaps[0].get(R.id.custom_Table_column));
-            editorColor.putInt("custom_notification_on", hashMaps[0].get(R.id.custom_notification_on));
-            editorColor.putInt("custom_notification_off", hashMaps[0].get(R.id.custom_notification_off));
-            editorColor.putInt("custom_switch_on", hashMaps[0].get(R.id.custom_switch_on));
-            editorColor.putInt("custom_switch_on_background", hashMaps[0].get(R.id.custom_switch_on_background));
+                editorColor.putInt("custom_icon", hashMaps[0].get(R.id.custom_icon));
+                editorColor.putInt("custom_border_theme", hashMaps[0].get(R.id.custom_border_theme));
+                editorColor.putInt("custom_background", hashMaps[0].get(R.id.custom_background));
+                editorColor.putInt("custom_toolbar", hashMaps[0].get(R.id.custom_toolbar));
+                editorColor.putInt("custom_toolbar_text", hashMaps[0].get(R.id.custom_toolbar_text));
+                editorColor.putInt("custom_notification_bar", hashMaps[0].get(R.id.custom_notification_bar));
+                editorColor.putInt("custom_text_light", hashMaps[0].get(R.id.custom_text_light));
+                editorColor.putInt("custom_text_dark", hashMaps[0].get(R.id.custom_text_dark));
+                editorColor.putInt("custom_text_hint", hashMaps[0].get(R.id.custom_text_hint));
+                editorColor.putInt("custom_cursor", hashMaps[0].get(R.id.custom_cursor));
+                editorColor.putInt("custom_card", hashMaps[0].get(R.id.custom_card));
+                editorColor.putInt("custom_bottomBorder", hashMaps[0].get(R.id.custom_bottomBorder));
+                editorColor.putInt("custom_button_add", hashMaps[0].get(R.id.custom_button_add));
+                editorColor.putInt("custom_button_add_plus", hashMaps[0].get(R.id.custom_button_add_plus));
+                editorColor.putInt("custom_button_arrow", hashMaps[0].get(R.id.custom_button_arrow));
+                editorColor.putInt("custom_progress", hashMaps[0].get(R.id.custom_progress));
+                editorColor.putInt("custom_not_confirmed", hashMaps[0].get(R.id.custom_not_confirmed));
+                editorColor.putInt("custom_Table_column", hashMaps[0].get(R.id.custom_Table_column));
+                editorColor.putInt("custom_notification_on", hashMaps[0].get(R.id.custom_notification_on));
+                editorColor.putInt("custom_notification_off", hashMaps[0].get(R.id.custom_notification_off));
+                editorColor.putInt("custom_switch_on", hashMaps[0].get(R.id.custom_switch_on));
+                editorColor.putInt("custom_switch_off", hashMaps[0].get(R.id.custom_switch_off));
+                editorColor.putInt("custom_color_block_choose_background", hashMaps[0].get(R.id.custom_color_block_choose_background));
+                editorColor.putInt("custom_color_block_choose_border", hashMaps[0].get(R.id.custom_color_block_choose_border));
+                editorColor.putInt("custom_color_audio_player", hashMaps[0].get(R.id.custom_color_audio_player));
 
-            editorColor.apply();
+                editorColor.apply();
+
+            }
             return null;
         }
     }

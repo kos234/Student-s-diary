@@ -5,13 +5,13 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:layout_marginBottom="1dp"
         android:background="#fafafa"
         android:id="@+id/nameYrokOcenki"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_marginBottom="1dp"
         android:gravity="center_vertical"
         android:layout_marginRight="1dp"
         android:textSize="19dp" />
@@ -63,6 +63,7 @@
         android:paddingRight="1dp"
         android:paddingLeft="1dp"
         android:paddingBottom="1dp"
+        
         android:onClick="ClickTab"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -99,12 +100,13 @@
     </FrameLayout>
 
     <FrameLayout
-        android:paddingBottom="1dp"
+        
         android:id="@+id/frame_ocenki_three"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="1dp"
         android:paddingLeft="1dp"
+        android:paddingBottom="1dp"
         android:onClick="ClickTab"
        >
         <TextView
@@ -140,13 +142,14 @@
     </FrameLayout>
 
     <FrameLayout
-        android:paddingBottom="1dp"
+        
         android:id="@+id/frame_ocenki_four"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="ClickTab"
         android:paddingRight="1dp"
         android:paddingLeft="1dp"
+        android:paddingBottom="1dp"
        >
         <TextView
             android:paddingLeft="10dp"
@@ -181,10 +184,11 @@
     </FrameLayout>
 
     <FrameLayout
-        android:paddingBottom="1dp"
+        
         android:id="@+id/frame_ocenki_year"
         android:paddingRight="1dp"
         android:paddingLeft="1dp"
+        android:paddingBottom="1dp"
         android:layout_width="match_parent"
         android:onClick="ClickTab"
         android:layout_height="match_parent"
@@ -222,11 +226,12 @@
     </FrameLayout>
 
     <FrameLayout
-        android:paddingBottom="1dp"
+        
         android:id="@+id/frame_ocenki_examination"
         android:paddingRight="1dp"
         android:onClick="ClickTab"
         android:paddingLeft="1dp"
+        android:paddingBottom="1dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
        >
@@ -263,12 +268,13 @@
     </FrameLayout>
 
     <FrameLayout
-        android:paddingBottom="1dp"
+        
         android:id="@+id/frame_ocenki_end"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="ClickTab"
         android:paddingLeft="1dp"
+        android:paddingBottom="1dp"
        >
         <TextView
             android:paddingLeft="10dp"

@@ -9,6 +9,7 @@ import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,9 +52,12 @@ public class DnewnikFragment extends Fragment {
     int dayInMes;
     int endMes;
     int endNedeli;
+    public PagerAdapterInCard pagerAdapterInCard;
+    public ViewPager viewPager;
     private SharedPreferences Current_Theme;
     private String nameMes;
     private String dayName;
+    SharedPreferences settings;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -63,9 +67,12 @@ public class DnewnikFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dnewnik, container, false);
         linearLayout = view.findViewById(R.id.LinerTask);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
+        settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         new StartAsyncTask().execute();
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar3);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu_24px));
+        Drawable menuToolbar = getResources().getDrawable(R.drawable.ic_menu_24px);
+        menuToolbar.setColorFilter(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)), PorterDuff.Mode.SRC_ATOP);
+        toolbar.setNavigationIcon(menuToolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,42 +82,52 @@ public class DnewnikFragment extends Fragment {
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
         toolbar.setBackgroundColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(context, R.color.custom_toolbar)));
         Cliks(view);
-        view.findViewById(R.id.LinerDnew).setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
 
         final TextView textView = view.findViewById(R.id.textViewDnew);
         textView.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 final LayoutInflater li = LayoutInflater.from(getActivity());
                 final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
                 final AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
                 deleted.setView(promptsView);
-                Drawable alertbackground = ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                alertbackground.setColorFilter(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)), PorterDuff.Mode.SRC_ATOP);
+                deleted.setCancelable(true);
+                final AlertDialog alertDialog = deleted.create();
+                GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                if(settings.getBoolean("BorderAlertSettings",false))
+                    alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+
                 promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
-                TextView ButtonClearAll = promptsView.findViewById(R.id.buttonClearAll);
+
+                TextView ButtonClearAll = promptsView.findViewById(R.id.button_one_alert);
                 ButtonClearAll.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                 ButtonClearAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         new ClearAllAsyncTask().execute();
+                        alertDialog.hide();
                     }
                 });
 
-                TextView textTitle = promptsView.findViewById(R.id.title_delete_week);
+                TextView textTitle = promptsView.findViewById(R.id.title_alert);
                 textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
-                TextView ButtonClearHomework = promptsView.findViewById(R.id.buttonClearHomework);
+
+                TextView textBottomTitle = promptsView.findViewById(R.id.title_bottom_alert);
+                textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+
+                TextView ButtonClearHomework = promptsView.findViewById(R.id.button_two_alert);
                 ButtonClearHomework.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         new ClearDzAsyncTask().execute();
+                        alertDialog.hide();
                     }
                 });
-
                 ButtonClearHomework.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
-                deleted.setCancelable(true);
-                AlertDialog alertDialog = deleted.create();
+
                 alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
             }
@@ -151,7 +168,6 @@ public class DnewnikFragment extends Fragment {
     }
 
     class ClearAllAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
         @Override
@@ -169,11 +185,11 @@ public class DnewnikFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
+            pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
-            final ViewPager viewPager = new ViewPager(context);
+             viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
@@ -202,6 +218,8 @@ public class DnewnikFragment extends Fragment {
         protected Void doInBackground(Void... voids) {
 helperDnewniks.clear();
             for (int i = 0; i < 6; i++){
+                if(i + 1 == 6 && !settings.getBoolean("SaturdaySettings",true))
+                    continue;
 
                 String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
@@ -242,7 +260,7 @@ helperDnewniks.clear();
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
-                        String temp_read,helpZapis = "",helpZapis2= "",helpZapis3= "";
+                        String temp_read,namePred = "",kab= "",dz= "", ocenka = "";
                         String[] help, helpKab;
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
@@ -251,14 +269,15 @@ helperDnewniks.clear();
                             helpKab = help[1].split(",");
 
 
-                            helpZapis = helpZapis  + helpKab[0]+ "=";
-                            helpZapis2 = helpZapis2  + helpKab[1].substring(1)+ "=";
-                            helpZapis3 = helpZapis3 + " =";
+                            namePred = namePred  + helpKab[0]+ "=";
+                            kab = kab  + helpKab[1].substring(1)+ "=";
+                            dz = dz + " =";
+                            ocenka = ocenka + " =";
                         }
 
-                        helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
+                        helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
                     } catch (FileNotFoundException q) {
-                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz)));
+                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz), ""));
                         q.printStackTrace();
                     } catch (IOException j) {
                         j.printStackTrace();
@@ -293,7 +312,6 @@ helperDnewniks.clear();
     }
 
     class LeftAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         @Override
         protected void onPreExecute() {
@@ -309,11 +327,11 @@ helperDnewniks.clear();
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
+            pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
-            final ViewPager viewPager = new ViewPager(context);
+             viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
@@ -573,6 +591,8 @@ helperDnewniks.clear();
             editor.putInt("IntMes",startMes);
             editor.apply();
             for (int i = 0; i < 6; i++){
+                if(i + 1 == 6 && !settings.getBoolean("SaturdaySettings",true))
+                    continue;
                 String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
 
@@ -620,7 +640,7 @@ helperDnewniks.clear();
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
-                    String temp_read,helpZapis = "", helpZapis2 = "",helpZapis3 = "";
+                    String temp_read,namePred = "", kab = "",dz = "", ocenka = "";
                     String[] help, helpKab;
                     String delimeter = "=";
                     if((temp_read = bufferedReader.readLine()) == null){
@@ -628,12 +648,16 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        helpZapis = helpKab[0]+ "=";
-                        helpZapis2 = helpKab[1].substring(1)+ "=";
+                        namePred = helpKab[0]+ "=";
+                        kab = helpKab[1].substring(1)+ "=";
                         if(2 <= help.length)
-                            helpZapis3 = help[1]+ "=";
+                            dz = help[1]+ "=";
                         else
-                            helpZapis3 = " =";
+                            dz = " =";
+                        if (3 <= help.length)
+                            ocenka = ocenka + help[2]+ "=";
+                        else
+                            ocenka = ocenka + " =";
                     }
                     while ((temp_read = bufferedReader.readLine()) != null) {
                         help = temp_read.split(delimeter);
@@ -641,14 +665,18 @@ helperDnewniks.clear();
                         helpKab = help[0].split(",");
 
 
-                        helpZapis = helpZapis  + helpKab[0]+ "=";
-                        helpZapis2 = helpZapis2  + helpKab[1].substring(1)+ "=";
+                        namePred = namePred  + helpKab[0]+ "=";
+                        kab = kab  + helpKab[1].substring(1)+ "=";
                         if (2 <= help.length)
-                            helpZapis3 = helpZapis3 + help[1]+ "=";
+                            dz = dz + help[1]+ "=";
                         else
-                            helpZapis3 = helpZapis3 + " =";
+                            dz = dz + " =";
+                        if (3 <= help.length)
+                            ocenka = ocenka + help[2]+ "=";
+                        else
+                            ocenka = ocenka + " =";
                     }
-                    helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
+                    helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
 
@@ -659,7 +687,7 @@ helperDnewniks.clear();
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
-                        String temp_read,helpZapis = "",helpZapis2= "",helpZapis3= "";
+                        String temp_read,namePred = "",kab= "",dz= "", ocenka = "";
                         String[] help, helpKab;
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
@@ -668,15 +696,16 @@ helperDnewniks.clear();
                             helpKab = help[1].split(",");
 
 
-                            helpZapis = helpZapis  + helpKab[0]+ "=";
-                            helpZapis2 = helpZapis2  + helpKab[1].substring(1)+ "=";
-                            helpZapis3 = helpZapis3 + " =";
+                            namePred = namePred  + helpKab[0]+ "=";
+                            kab = kab  + helpKab[1].substring(1)+ "=";
+                            dz = dz + " =";
+                            ocenka = ocenka + " =";
                         }
 
-                        helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
+                        helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
                     } catch (FileNotFoundException q) {
                         q.printStackTrace();
-                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz)));
+                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz), ""));
                     } catch (IOException j) {
                         j.printStackTrace();
                     }
@@ -712,7 +741,6 @@ helperDnewniks.clear();
     }
 
     class RightAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         @Override
         protected void onPreExecute() {
@@ -729,11 +757,11 @@ helperDnewniks.clear();
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
+            pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
-            final ViewPager viewPager = new ViewPager(context);
+             viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
@@ -992,6 +1020,8 @@ helperDnewniks.clear();
             editor.putInt("IntMes",startMes);
             editor.apply();
             for (int i = 0; i < 6; i++){
+                if(i + 1 == 6 && !settings.getBoolean("SaturdaySettings",true))
+                    continue;
 
                 String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
@@ -1040,7 +1070,7 @@ helperDnewniks.clear();
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
-                    String temp_read,helpZapis = "", helpZapis2 = "",helpZapis3 = "";
+                    String temp_read,namePred = "", kab = "",dz = "", ocenka = "";
                     String[] help, helpKab;
                     String delimeter = "=";
                     if((temp_read = bufferedReader.readLine()) == null){
@@ -1048,12 +1078,17 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        helpZapis = helpKab[0] + "=";
-                        helpZapis2 = helpKab[1].substring(1)+ "=";
+                        namePred = helpKab[0] + "=";
+                        kab = helpKab[1].substring(1)+ "=";
                     if(2 <= help.length)
-                        helpZapis3 = help[1]+ "=";
+                        dz = help[1]+ "=";
                     else
-                        helpZapis3 = " =";
+                        dz = " =";
+
+                        if (3 <= help.length)
+                            ocenka = ocenka + help[2]+ "=";
+                        else
+                            ocenka = ocenka + " =";
                     }
                     while ((temp_read = bufferedReader.readLine()) != null) {
                         help = temp_read.split(delimeter);
@@ -1061,14 +1096,19 @@ helperDnewniks.clear();
                         helpKab = help[0].split(",");
 
 
-                        helpZapis = helpZapis  + helpKab[0]+ "=";
-                        helpZapis2 = helpZapis2  + helpKab[1].substring(1)+ "=";
+                        namePred = namePred  + helpKab[0]+ "=";
+                        kab = kab  + helpKab[1].substring(1)+ "=";
                         if (2 <= help.length)
-                        helpZapis3 = helpZapis3 + help[1]+ "=";
+                        dz = dz + help[1]+ "=";
                         else
-                            helpZapis3 = helpZapis3 + " =";
+                            dz = dz + " =";
+
+                        if (3 <= help.length)
+                            ocenka = ocenka + help[2]+ "=";
+                        else
+                            ocenka = ocenka + " =";
                     }
-                    helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
+                    helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
 
@@ -1079,7 +1119,7 @@ helperDnewniks.clear();
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
-                        String temp_read,helpZapis = "",helpZapis2= "",helpZapis3= "";
+                        String temp_read,namePred = "",kab= "",dz= "", ocenka = "";
                         String[] help, helpKab;
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
@@ -1088,14 +1128,15 @@ helperDnewniks.clear();
                             helpKab = help[1].split(",");
 
 
-                            helpZapis = helpZapis  + helpKab[0]+ "=";
-                            helpZapis2 = helpZapis2  + helpKab[1].substring(1)+ "=";
-                            helpZapis3 = helpZapis3 + " =";
+                            namePred = namePred  + helpKab[0]+ "=";
+                            kab = kab  + helpKab[1].substring(1)+ "=";
+                            dz = dz + " =";
+                            ocenka = ocenka + " =";
                         }
-                        helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
+                        helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz,ocenka));
                     } catch (FileNotFoundException q) {
                         q.printStackTrace();
-                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz)));
+                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz), ""));
                     } catch (IOException j) {
                         j.printStackTrace();
                     }
@@ -1132,7 +1173,6 @@ helperDnewniks.clear();
         }
     }
     class ClearDzAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
         @Override
@@ -1151,11 +1191,11 @@ helperDnewniks.clear();
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
+            pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
-            final ViewPager viewPager = new ViewPager(context);
+             viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
@@ -1185,6 +1225,8 @@ helperDnewniks.clear();
         protected Void doInBackground(Void... voids) {
             helperDnewniks.clear();
             for (int i = 0; i < 6; i++){
+                if(i + 1 == 6 && !settings.getBoolean("SaturdaySettings",true))
+                    continue;
 
                 String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
 
@@ -1226,7 +1268,7 @@ helperDnewniks.clear();
                         FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
-                    String temp_read,helpZapis = "", helpZapis2 = "",helpZapis3 = "";
+                    String temp_read,namePred = "", kab = "",dz = "", ocenka = "";
                     String[] help, helpKab;
                     String delimeter = "=";
                     if((temp_read = bufferedReader.readLine()) == null){
@@ -1234,9 +1276,10 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        helpZapis = helpKab[0]+ "=";
-                        helpZapis2 = helpKab[1].substring(1)+ "=";
-                        helpZapis3 = helpZapis3 + " =";
+                        namePred = helpKab[0]+ "=";
+                        kab = helpKab[1].substring(1)+ "=";
+                        dz = dz + " =";
+                        ocenka = ocenka + " =";
                         stringBuffer.append(help[0]).append("=\n");
                     }
                     while ((temp_read = bufferedReader.readLine()) != null) {
@@ -1245,15 +1288,16 @@ helperDnewniks.clear();
                         helpKab = help[0].split(",");
 
 
-                        helpZapis = helpZapis  + helpKab[0]+ "=";
-                        helpZapis2 = helpZapis2  + helpKab[1].substring(1)+ "=";
-                        helpZapis3 = helpZapis3 + " =";
+                        namePred = namePred  + helpKab[0]+ "=";
+                        kab = kab  + helpKab[1].substring(1)+ "=";
+                        dz = dz + " =";
+                        ocenka = ocenka + " =";
                         stringBuffer.append(help[0]).append("=\n");
                     }
-                    helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
+                    helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
 
                 } catch (FileNotFoundException e) {
-                    helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz)));
+                    helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz),""));
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -1284,7 +1328,6 @@ helperDnewniks.clear();
     }
 
     class StartAsyncTask extends AsyncTask<Void,String[],Void> {
-        SharedPreferences settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
         @Override
@@ -1301,11 +1344,11 @@ helperDnewniks.clear();
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            final PagerAdapterInCard pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
+           pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
-            final ViewPager viewPager = new ViewPager(context);
+             viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
@@ -1859,6 +1902,9 @@ helperDnewniks.clear();
             editor.putInt("Year",date.getYear());
             editor.apply();
             for (int i = 0; i < 6; i++){
+                if(i + 1 == 6 && !settings.getBoolean("SaturdaySettings",true))
+                    continue;
+
                 String url = (startNedeli + i) + "." + startMes + "." + date.getYear();
 
                 String nameDay ;
@@ -1905,7 +1951,7 @@ helperDnewniks.clear();
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
-                    String temp_read,helpZapis = "", helpZapis2 = "",helpZapis3 = "";
+                    String temp_read,namePred = "", kab = "",dz = "", ocenka = "";
                     String[] help, helpKab;
                     String delimeter = "=";
                     if((temp_read = bufferedReader.readLine()) == null){
@@ -1913,12 +1959,16 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        helpZapis = helpKab[0]+ "=";
-                        helpZapis2 = helpKab[1].substring(1)+ "=";
+                        namePred = helpKab[0]+ "=";
+                        kab = helpKab[1].substring(1)+ "=";
                         if(2 <= help.length)
-                            helpZapis3 = help[1]+ "=";
+                            dz = help[1]+ "=";
                         else
-                            helpZapis3 = " =";
+                            dz = " =";
+                        if (3 <= help.length)
+                            ocenka = ocenka + help[2]+ "=";
+                        else
+                            ocenka = ocenka + " =";
                     }
                     while ((temp_read = bufferedReader.readLine()) != null) {
                         help = temp_read.split(delimeter);
@@ -1926,15 +1976,20 @@ helperDnewniks.clear();
                         helpKab = help[0].split(",");
 
 
-                        helpZapis = helpZapis  + helpKab[0]+ "=";
-                        helpZapis2 = helpZapis2  + helpKab[1].substring(1)+ "=";
+                        namePred = namePred  + helpKab[0]+ "=";
+                        kab = kab  + helpKab[1].substring(1)+ "=";
                         if (2 <= help.length)
-                            helpZapis3 = helpZapis3 + help[1]+ "=";
+                            dz = dz + help[1]+ "=";
                         else
-                            helpZapis3 = helpZapis3 + " =";
+                            dz = dz + " =";
+
+                        if (3 <= help.length)
+                            ocenka = ocenka + help[2]+ "=";
+                        else
+                            ocenka = ocenka + " =";
                     }
 
-                    helperDnewniks.add(new helperDnewnik(nameDay,helpZapis,helpZapis2,helpZapis3));
+                    helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
 
@@ -1945,7 +2000,7 @@ helperDnewniks.clear();
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
-                        String temp_read,helpZapis = "",helpZapis2= "",helpZapis3= "";
+                        String temp_read,namePred = "",kab= "",dz= "", ocenka = "";
                         String[] help, helpKab;
                         String delimeter = "=";
                             if((temp_read = bufferedReader.readLine()) == null)
@@ -1956,9 +2011,10 @@ helperDnewniks.clear();
                                 helpKab = help[1].split(",");
 
 
-                                helpZapis = helpZapis + helpKab[0] + "=";
-                                helpZapis2 = helpZapis2 + helpKab[1].substring(1) + "=";
-                                helpZapis3 = helpZapis3 + " =";
+                                namePred = namePred + helpKab[0] + "=";
+                                kab = kab + helpKab[1].substring(1) + "=";
+                                dz = dz + " =";
+                                ocenka = ocenka + " =";
                             }
                             while ((temp_read = bufferedReader.readLine()) != null) {
                                 help = temp_read.split(delimeter);
@@ -1966,14 +2022,15 @@ helperDnewniks.clear();
                                 helpKab = help[1].split(",");
 
 
-                                helpZapis = helpZapis + helpKab[0] + "=";
-                                helpZapis2 = helpZapis2 + helpKab[1].substring(1) + "=";
-                                helpZapis3 = helpZapis3 + " =";
+                                namePred = namePred + helpKab[0] + "=";
+                                kab = kab + helpKab[1].substring(1) + "=";
+                                dz = dz + " =";
+                                ocenka = ocenka + " =";
                             }
-                            helperDnewniks.add(new helperDnewnik(nameDay, helpZapis, helpZapis2, helpZapis3));
+                            helperDnewniks.add(new helperDnewnik(nameDay, namePred, kab, dz, ocenka));
                     } catch (FileNotFoundException q) {
                         q.printStackTrace();
-                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz)));
+                        helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz),""));
                     } catch (IOException j) {
                         j.printStackTrace();
                     }
@@ -2010,6 +2067,10 @@ helperDnewniks.clear();
 
 
 
+    }
+
+    public void notifyTab(){
+        viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
     }
 
 }

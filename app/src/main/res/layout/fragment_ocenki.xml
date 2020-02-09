@@ -68,11 +68,11 @@
         >
 
 
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        >
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            >
 
             <LinearLayout
                 android:id="@+id/LinerOcenki_Item"
@@ -82,7 +82,7 @@
                 android:gravity="center">
             </LinearLayout>
 
-    </HorizontalScrollView>
+        </HorizontalScrollView>
 
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

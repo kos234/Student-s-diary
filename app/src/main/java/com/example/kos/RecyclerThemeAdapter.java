@@ -12,6 +12,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -23,7 +25,8 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
     private RecyclerThemeAdapter.OnItemClickListener itemClickListener;
     private RecyclerThemeAdapter.OnItemLongClickListener itemLongClickListener;
     private RecyclerThemeAdapter.OnCheckedChangeListener onCheckedChangeListener;
-    private SharedPreferences settings;
+    private SharedPreferences settings, Current_Theme;
+    private Context context;
     private Switch aSwitch;
 
     public void setOnItemClickListener(RecyclerThemeAdapter.OnItemClickListener listener){itemClickListener = listener;}
@@ -43,9 +46,12 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
     public RecyclerThemeAdapter(ArrayList<ConstrThemeRecycler> constrRecyclerThemeViewArrayList, Context context) {
         this.constrRecyclerThemeViewArrayList = constrRecyclerThemeViewArrayList;
         settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
+        Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
+        this.context = context;
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
+        public CardView cardView;
         public TextView textViewName;
         public FrameLayout bolder;
         public ImageView icon;
@@ -53,6 +59,7 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
 
         public RecyclerViewHolder(@NonNull View itemView, final RecyclerThemeAdapter.OnItemClickListener listener, final RecyclerThemeAdapter.OnItemLongClickListener longClickListener, final RecyclerThemeAdapter.OnCheckedChangeListener checkedChangeListener) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.card_custom_theme);
             textViewName = itemView.findViewById(R.id.name_add);
             bolder = itemView.findViewById(R.id.bolder_add);
             icon = itemView.findViewById(R.id.icon_add);
@@ -102,16 +109,20 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
     @Override
     public void onBindViewHolder(@NonNull RecyclerThemeAdapter.RecyclerViewHolder holder, int position) {
         ConstrThemeRecycler constrRecyclerView = constrRecyclerThemeViewArrayList.get(position);
-
+        holder.cardView.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
         holder.textViewName.setText(constrRecyclerView.getName());
+        holder.textViewName.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
         holder.bolder.setBackgroundColor(constrRecyclerView.getColorBolder());
         holder.icon.setBackgroundColor(constrRecyclerView.getColorIcon());
         holder.switchTheme.setId(constrRecyclerView.getIdSwitch());
+        NastroikiFragment.setSwitchColor(holder.switchTheme, context);
         aSwitch = holder.switchTheme;
         if(holder.switchTheme.getId() == settings.getInt("id_current_theme", R.id.switchWhite)){
             holder.switchTheme.setChecked(true);
         }
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -121,5 +132,4 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
     public Switch getSwitch(){
         return aSwitch;
     }
-
 }
