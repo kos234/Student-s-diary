@@ -36,6 +36,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -393,6 +394,46 @@ public class NastroikiFragment extends Fragment {
             }
         });
 
+        final Switch switchBlackTheme = view.findViewById(R.id.switchDark);
+        setSwitchColor(switchBlackTheme, context);
+        if(settings.getInt("id_current_theme", R.id.switchDark) == R.id.switchDark)
+            switchBlackTheme.setChecked(true);
+        switchBlackTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(settings.getInt("id_current_theme", R.id.switchDark) == R.id.switchDark)
+                    switchBlackTheme.setChecked(true);
+                else
+                    new ChangeTheme().execute(new String[]{Integer.toString(R.id.switchDark), null,
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_icon)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_border_theme)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_background)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_toolbar)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_toolbar_text)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_notification_bar)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_text_light)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_text_dark)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_text_hint)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_cursor)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_card)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_bottomBorder)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_button_add)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_button_add_plus)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_button_arrow)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_progress)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_not_confirmed)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_Table_column)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_notification_on)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_notification_off)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_switch_on)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_switch_off)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_color_block_choose_background)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_color_block_choose_border)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_color_audio_player)),
+                    });
+            }
+        });
+
         Switch switchBorderAlert = view.findViewById(R.id.switchBorder_alert);
         setSwitchColor(switchBorderAlert, context);
         switchBorderAlert.setChecked(settings.getBoolean("BorderAlertSettings",false));
@@ -598,8 +639,7 @@ public class NastroikiFragment extends Fragment {
                             constrRecyclerViewArrayList.remove(position);
                             if(settings.getBoolean("AnimationSettings",true)) {
                                 adapter.notifyItemRemoved(position);
-                                //UPDATE FIX
-                                recyclerView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                                adapter.notifyItemRangeChanged(position, constrRecyclerViewArrayList.size());
                             }else
                                 adapter.notifyDataSetChanged();
                             alertDialog.hide();
@@ -670,9 +710,13 @@ public class NastroikiFragment extends Fragment {
             if(settings.getBoolean("BorderAlertSettings",false))
                 alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
             promptsView.findViewById(R.id.linerLoading).setBackground(alertbackground);
+            ProgressBar progressBar = promptsView.findViewById(R.id.progress_loading_color);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
             textView = promptsView.findViewById(R.id.textLoading);
             textView.setText(getString(R.string.loading));
+            textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
             alertDialog = progressDialog.create();
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialog.show();
         }
 

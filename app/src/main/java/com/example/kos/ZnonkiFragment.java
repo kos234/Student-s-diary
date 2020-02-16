@@ -182,7 +182,7 @@ public class ZnonkiFragment extends Fragment {
            if(k + 1 == day.length && !settings.getBoolean("SaturdaySettings",true))
                continue;
 
-           String[] help;
+           String[] help, helpSplitTimes, helpTimesOne, helpTimesTwo;
            String delimeter = "=";
            ArrayList<ConstrRecyclerView> product = new ArrayList<>();
            try {
@@ -192,7 +192,16 @@ public class ZnonkiFragment extends Fragment {
                String temp_read;
                while ((temp_read = bufferedReader.readLine()) != null) {
                    help = temp_read.split(delimeter);
-                   product.add(new ConstrRecyclerView(help[0], help[1]));
+                   helpSplitTimes = help[0].split("-");
+                   helpTimesOne = helpSplitTimes[0].split(":");
+                   helpTimesTwo = helpSplitTimes[1].split(":");
+
+                   String write;
+                   if(helpTimesOne.length == 3 && helpTimesTwo.length == 3)
+                       write = helpTimesOne[0] + ":" + helpTimesOne[1] + " " + helpTimesOne[2] + " - " +  helpTimesTwo[0] + ":" + helpTimesTwo[1] + " " + helpTimesTwo[2];
+                   else
+                       write = helpTimesOne[0] + ":" + helpTimesOne[1] + " - " +  helpTimesTwo[0] + ":" + helpTimesTwo[1];
+                   product.add(new ConstrRecyclerView(write, help[1]));
                }
                bufferedReader.close();
                reader.close();
@@ -289,6 +298,7 @@ public class ZnonkiFragment extends Fragment {
                 textBottomTitle.setText(context.getString(R.string.deleteAllLesson));
 
                 TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+                ButtonCancel.setText(getString(R.string.cancel));
                 ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                 ButtonCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -300,7 +310,7 @@ public class ZnonkiFragment extends Fragment {
                 TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
                 ButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View viewClick) {
                         String[] day = context.getResources().getStringArray(R.array.DayTxt);
                         for (int k = 0; k < day.length; k++) {
 
@@ -312,6 +322,28 @@ public class ZnonkiFragment extends Fragment {
 
                         pagerAdapter = new NewPagerAdapter(GenerateData(), context, (FloatingActionButton) view.findViewById(R.id.floatingActionButton));
                         viewPager.setAdapter(pagerAdapter);
+
+                       switch (settings.getString("Day", "Monday.txt")) {
+                            case "Tuesday.txt":
+                                viewPager.setCurrentItem(1);
+                                break;
+                            case "Wednesday.txt":
+                                viewPager.setCurrentItem(2);
+                                break;
+                            case "Thursday.txt":
+                                viewPager.setCurrentItem(3);
+                                break;
+                            case "Friday.txt":
+                                viewPager.setCurrentItem(4);
+                                break;
+                            case "Saturday.txt":
+                                if(settings.getBoolean("SaturdaySettings",true))
+                                    viewPager.setCurrentItem(5);
+                                break;
+                            default:
+                                viewPager.setCurrentItem(0);
+                                break;
+                        }
 
                         Deleted.hide();
 

@@ -27,6 +27,7 @@
         />
 
     <org.apmem.tools.layouts.FlowLayout
+        android:id="@+id/field_times_add_one"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -35,6 +36,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:layout_gravity="center"
             android:id="@+id/text_time_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,6 +45,7 @@
             android:textSize="19dp" />
 
         <EditText
+            android:layout_gravity="center"
             android:id="@+id/timeStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,13 +63,15 @@
     </org.apmem.tools.layouts.FlowLayout>
 
     <org.apmem.tools.layouts.FlowLayout
-    android:layout_width="fill_parent"
+        android:id="@+id/field_times_add_two"
+        android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="20dp"
     android:layout_marginTop="30dp"
     android:layout_marginRight="20dp">
 
     <TextView
+        android:layout_gravity="center"
         android:id="@+id/text_time_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,6 +81,7 @@
         />
 
     <EditText
+        android:layout_gravity="center"
         android:background="@null"
         android:id="@+id/timeEnd"
         android:layout_width="wrap_content"

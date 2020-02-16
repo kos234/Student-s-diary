@@ -2,6 +2,8 @@ package com.example.kos;
 
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -53,9 +55,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -81,6 +85,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import android.text.format.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -126,41 +131,64 @@ public class MainActivity extends AppCompatActivity {
 
         new onStart().execute();
 
-
+        /**
+         * Перевести в кастомизацию цвет столбцов при подтверждении и загрузки при смене тем
+         * Документация
+         * Фрагмент по умолчанию
+         * попробовать изменить цвет текста в календаре
+         * Сделать шаблоны тем, шо типа если включена темная тема был выбран шаблон темной темы
+         */
 
     }
 
-    /**
-     * Редактирование темы
-     * Сделать так чтобы в edittext первая буква была заглавная, давно пора
-     * Изменить систему бэков
-     * Фрагмент по умолчанию 
-    */
-
-
     class onStart extends AsyncTask<Void,ConstrOnStart,Void>{
-        ImageView imageView;
+        LinearLayout start_image;
         int menuSize;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            settings = getSharedPreferences("Settings", MODE_PRIVATE);
+            Current_Theme = getSharedPreferences("Current_Theme", MODE_PRIVATE);
             drawerLayout = findViewById(R.id.Drawer);
-            DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            imageView = new ImageView(context);
-            imageView.setLayoutParams(params);
-            imageView.setBackgroundColor(Color.RED);
-            drawerLayout.addView(imageView);
+            LayoutInflater li = LayoutInflater.from(context);
+            start_image = (LinearLayout) li.inflate(R.layout.start_display, null);
+            start_image.setBackgroundColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(context, R.color.custom_toolbar)));
+            TextView textTemp = start_image.findViewById(R.id.title_start_display);
+            textTemp.setTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
+            ProgressBar progressBar = start_image.findViewById(R.id.progress_start_display);
+            int color = Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress));
+            if(color == ContextCompat.getColor(context, R.color.custom_progress))
+                color = Color.WHITE;
+            progressBar.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            drawerLayout.addView(start_image);
             navigationView = findViewById(R.id.navigation);
             menuSize = navigationView.getMenu().size();
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(context, R.color.custom_toolbar)));
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             drawerLayout.setBackgroundColor(Current_Theme.getInt("custom_background",ContextCompat.getColor(context, R.color.custom_background)));
-            drawerLayout.removeView(imageView);
+            start_image.animate()
+                    .translationY(0)
+                    .alpha(0.0f)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            drawerLayout.removeView(start_image);
+                        }
+                    });
             new MyThread().start();
             getFragment = fragmentManager.getFragments();
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(Current_Theme.getInt("custom_notification_bar", ContextCompat.getColor(context, R.color.custom_notification_bar)));
         }
 
         @Override
@@ -171,10 +199,6 @@ public class MainActivity extends AppCompatActivity {
                 if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_FOLDER_CONF);
                 }
-                Window window = getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.setStatusBarColor(Current_Theme.getInt("custom_notification_bar", ContextCompat.getColor(context, R.color.custom_notification_bar)));
             }
 
             else if(values[0].getId() == 2)
@@ -256,12 +280,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            settings = getSharedPreferences("Settings", MODE_PRIVATE);
-            Current_Theme = getSharedPreferences("Current_Theme", MODE_PRIVATE);
             Confirmed = getSharedPreferences("Confirmed", MODE_PRIVATE);
             editor = settings.edit();
             editorConfirmed = Confirmed.edit();
-
 
             publishProgress(new ConstrOnStart(1));
 
@@ -337,16 +358,15 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     fragmentActiv = (Fragment) fragmentClass.newInstance();
+                    fragmentManager.beginTransaction().add(R.id.Smena, fragmentActiv).commit();
+                    if(Invisibly)
+                        fragmentManager.beginTransaction().hide(fragmentActiv).commit();
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 }
 
-
-                fragmentManager.beginTransaction().add(R.id.Smena, fragmentActiv).commit();
-                if(Invisibly)
-                    fragmentManager.beginTransaction().hide(fragmentActiv).commit();
             }
             return null;
         }
@@ -479,9 +499,9 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                             } catch (FileNotFoundException q) {
-                                q.printStackTrace();
+                               
                             } catch (IOException j) {
-                                j.printStackTrace();
+                                
                             }
                             color = Color.RED;
                             new ReplaceColorStolb().execute();
@@ -1144,9 +1164,9 @@ public class MainActivity extends AppCompatActivity {
                 stringBuffer.append(temp_read).append("~");
             }
         } catch (FileNotFoundException q) {
-            q.printStackTrace();
+           
         } catch (IOException j) {
-            j.printStackTrace();
+            
         }
 
         final StringBuffer EndstringBuffer = new StringBuffer();
@@ -1330,14 +1350,43 @@ public class MainActivity extends AppCompatActivity {
     }}
 
   class MyThread extends Thread {
+
+        public String[] generateDate(String readString){
+            String[] returnStrings = new String[5],
+                    help = readString.split("="),
+                    helpTimes = help[0].split("-"),
+                    helpTimeOne = helpTimes[0].split(":"),
+                    helpTimeTwo = helpTimes[1].split(":");
+
+            returnStrings[0] = help[1].split(",")[0];
+
+            if(helpTimeOne.length == 3 && helpTimeTwo.length == 3){
+                if(helpTimeOne[2].equals("PM"))
+                    returnStrings[1] = String.valueOf(Integer.valueOf(helpTimeOne[0]) + 12);
+                else
+                    returnStrings[1] = helpTimeOne[0];
+
+                if(helpTimeTwo[2].equals("PM"))
+                    returnStrings[3] = String.valueOf(Integer.valueOf(helpTimeTwo[0]) + 12);
+                else
+                    returnStrings[3] = helpTimeTwo[0];
+            }
+            else{
+                returnStrings[1] = helpTimeOne[0];
+                returnStrings[3] = helpTimeTwo[0];
+            }
+            returnStrings[2] = helpTimeOne[1];
+            returnStrings[4] = helpTimeTwo[1];
+
+            return returnStrings;
+        }
+
         public void run(){
             String Type = null,
                     Name = null,
                     HourSay = null,
                     MinSay = null,
                     urlNot = null;
-            String[] help, helpKab;
-            String delimeter = "=";
             int TimeHoursStart , TimeMinsStart , TimeHoursEnd, TimeMinsEnd,
                     OneYrokHours = 666,
                     OneYrokMins = 666,
@@ -1384,6 +1433,7 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case "Sat":
+                        if(settings.getBoolean("SaturdaySettings",true))
                             if (settings.getBoolean("Saturday", true))
                                 urlNot = "Saturday.txt";
                             else continue;
@@ -1399,14 +1449,13 @@ public class MainActivity extends AppCompatActivity {
                         String temp_read;
 
                         while ((temp_read = bufferedReader.readLine()) != null) {
-                            help = temp_read.split(delimeter);
-                            helpKab = help[1].split(",");
-                            Name = helpKab[0];
+                            String[] dateTimes = generateDate(temp_read);
+                            Name = dateTimes[0];
 
-                            TimeHoursStart = Integer.parseInt(help[0].substring(0, 2));
-                            TimeMinsStart = Integer.parseInt(help[0].substring(3, 5));
-                            TimeHoursEnd = Integer.parseInt(help[0].substring(8, 10));
-                            TimeMinsEnd = Integer.parseInt(help[0].substring(11,13));
+                            TimeHoursStart = Integer.parseInt(dateTimes[1]);
+                            TimeMinsStart = Integer.parseInt(dateTimes[2]);
+                            TimeHoursEnd = Integer.parseInt(dateTimes[3]);
+                            TimeMinsEnd = Integer.parseInt(dateTimes[4]);
 
                             //Sat Jan 18 07:48:09 UTC 2020
 
@@ -1909,9 +1958,13 @@ public class MainActivity extends AppCompatActivity {
             if(settings.getBoolean("BorderAlertSettings",false))
                 alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
             promptsView.findViewById(R.id.linerLoading).setBackground(alertbackground);
+            ProgressBar progressBar = promptsView.findViewById(R.id.progress_loading_color);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
             textView = promptsView.findViewById(R.id.textLoading);
             textView.setText(getString(R.string.Saving_theme));
+            textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
             alertDialog = progressDialog.create();
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialog.show();
         }
 

@@ -14,6 +14,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.apmem.tools.layouts.FlowLayout;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -94,7 +97,7 @@ public class NewPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull final ViewGroup container, final int position) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        final LayoutInflater layoutInflater = LayoutInflater.from(context);
         final View view = layoutInflater.inflate(R.layout.fragment_item_pager, container, false);
         constrFragmentViewPagerArrayList.get(position).setView(view);
         final ArrayList<ConstrRecyclerView> product = constrFragmentViewPagerArrayList.get(position).getArray();
@@ -149,7 +152,7 @@ public class NewPagerAdapter extends PagerAdapter {
                 TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
                 ButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View viewClick) {
                         StringBuffer stringBuffer = new StringBuffer();
                         final String textTime = product.get(position).getTextName();
                         try {
@@ -213,7 +216,7 @@ public class NewPagerAdapter extends PagerAdapter {
         adapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final int position) {
-                String textTime = product.get(position).getTextName();
+                final String textTime = product.get(position).getTextName();
                 String textBottom = product.get(position).getTextBottom();
 
                 final LayoutInflater li = LayoutInflater.from(context);
@@ -233,11 +236,67 @@ public class NewPagerAdapter extends PagerAdapter {
                 final TextView textView = promptsView.findViewById(R.id.textView2);
                 final EditText Yrok = promptsView.findViewById(R.id.nameYrok);
                 final EditText Kab = promptsView.findViewById(R.id.numKab);
-                final String[] help,helpop,helpyrok;
+                final String[] help,helpop,helpyrok, timeOneAM, timeTwoAM;
 
-                help = textTime.split("-");
-                zvonokone.setText(help[0].substring(0,5));
-                zvonoktwo.setText(help[1].substring(1));
+                help = textTime.split(" - ");
+                timeOneAM = help[0].split(" ");
+                timeTwoAM = help[1].split(" ");
+
+                zvonokone.setText(timeOneAM[0]);
+                zvonoktwo.setText(timeTwoAM[0]);
+
+                final boolean is12Hour = timeOneAM.length == 2 && timeTwoAM.length == 2;
+
+                final Spinner spinnerAmPmOne = new Spinner(context), spinnerAmPmTwo = new Spinner(context);
+                if(is12Hour){
+                    FlowLayout flowLayoutFieldOne = promptsView.findViewById(R.id.field_times_add_one);
+                    FlowLayout flowLayoutFieldTwo = promptsView.findViewById(R.id.field_times_add_two);
+
+                    FlowLayout.LayoutParams layoutParamsSpinnerOne = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParamsSpinnerOne.setMargins(5,0,0,0);
+                    FlowLayout.LayoutParams layoutParamsSpinnerTwo = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParamsSpinnerTwo.setMargins(5,0,0,0);
+
+                    List<String> AmPmListOne = new ArrayList<>();
+                    switch (timeOneAM[1]){
+                        case "AM":
+                            AmPmListOne.add("AM");
+                            AmPmListOne.add("PM");
+                            break;
+
+                        case "PM":
+                            AmPmListOne.add("PM");
+                            AmPmListOne.add("AM");
+                            break;
+                    }
+
+                    List<String> AmPmListTwo = new ArrayList<>();
+                    switch (timeTwoAM[1]){
+                        case "AM":
+                            AmPmListTwo.add("AM");
+                            AmPmListTwo.add("PM");
+                            break;
+
+                        case "PM":
+                            AmPmListTwo.add("PM");
+                            AmPmListTwo.add("AM");
+                            break;
+                    }
+
+                    SpinnerAdapter spinnerAdapterAmPmOne = new SpinnerAdapter(context,AmPmListOne,true);
+                    SpinnerAdapter spinnerAdapterAmPmTwo = new SpinnerAdapter(context,AmPmListTwo,true);
+                    spinnerAmPmOne.setAdapter(spinnerAdapterAmPmOne);
+                    spinnerAmPmTwo.setAdapter(spinnerAdapterAmPmTwo);
+                    spinnerAmPmOne.setLayoutParams(layoutParamsSpinnerOne);
+                    spinnerAmPmTwo.setLayoutParams(layoutParamsSpinnerTwo);
+                    spinnerAmPmOne.getBackground().setColorFilter(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), PorterDuff.Mode.SRC_ATOP);
+                    spinnerAmPmTwo.getBackground().setColorFilter(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), PorterDuff.Mode.SRC_ATOP);
+
+                    flowLayoutFieldOne.addView(spinnerAmPmOne);
+                    flowLayoutFieldTwo.addView(spinnerAmPmTwo);
+
+                }
+
                 helpop = textBottom.split(",");
                 Yrok.setText(helpop[0]);
                 helpyrok = helpop[1].split("№");
@@ -274,48 +333,90 @@ public class NewPagerAdapter extends PagerAdapter {
                 ButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         String ZvonOne = zvonokone.getText().toString();
                         String ZvonTwo = zvonoktwo.getText().toString();
                         String NameYrok = Yrok.getText().toString();
                         String NumKab = Kab.getText().toString();
-                        if (ZvonOne.length() == 5 && ZvonTwo.length() == 5 && NameYrok.length() > 0 && NumKab.length() > 0){
+
+                        if(ZvonOne.equals("")) ZvonOne = "08:00";
+                        if(ZvonTwo.equals("")) ZvonTwo = "08:40";
+                        if(NameYrok.equals("")) NameYrok = context.getString(R.string.lessonExample);
+                        if(NumKab.equals("")) NumKab = "5";
+
                             int TimeStartHour = 666;
                             int TimeStartMin = 666;
                             int TimeEndHour = 666;
                             int TimeEndMin = 666;
-                            if (checkString(ZvonOne.substring(0,2)))
-                                TimeStartHour = Integer.parseInt(ZvonOne.substring(0,2));
-                            if(checkString(ZvonOne.substring(3)))
-                                TimeStartMin = Integer.parseInt(ZvonOne.substring(3));
-                            if(checkString(ZvonTwo.substring(0,2)))
-                                TimeEndHour = Integer.parseInt(ZvonTwo.substring(0,2));
-                            if(checkString(ZvonTwo.substring(3)))
-                                TimeEndMin = Integer.parseInt(ZvonTwo.substring(3));
+                            if (checkString(ZvonOne.substring(0,2))) TimeStartHour = Integer.parseInt(ZvonOne.substring(0,2));
+                            if(checkString(ZvonOne.substring(3))) TimeStartMin = Integer.parseInt(ZvonOne.substring(3));
+                            if(checkString(ZvonTwo.substring(0,2))) TimeEndHour = Integer.parseInt(ZvonTwo.substring(0,2));
+                            if(checkString(ZvonTwo.substring(3))) TimeEndMin = Integer.parseInt(ZvonTwo.substring(3));
 
 
-                            if(TimeStartHour < 25 && TimeStartMin < 60 && ZvonOne.charAt(2) == ':' && TimeEndHour < 25 && TimeEndMin < 60 && ZvonTwo.charAt(2) == ':') {
-                                if ((TimeStartHour < TimeEndHour) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin)) {
+                        if(((TimeStartHour < 25 && TimeEndHour < 25 && !is12Hour)) || (TimeStartHour < 13 && TimeEndHour < 13 && is12Hour) && TimeStartMin < 60 && ZvonOne.charAt(2) == ':' && TimeEndMin < 60 && ZvonTwo.charAt(2) == ':') {
+                            if (((TimeStartHour < TimeEndHour) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin)) && !is12Hour || is12Hour &&  !(spinnerAmPmOne.getSelectedItem().equals("PM") && spinnerAmPmTwo.getSelectedItem().equals("AM")) && ((TimeStartHour < TimeEndHour || (spinnerAmPmOne.getSelectedItem().equals("AM") && spinnerAmPmTwo.getSelectedItem().equals("PM"))) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin))) {
                                     StringBuffer stringBuffer = new StringBuffer();
                                     try {
                                         boolean Zapic = true;
-
-                                        StringBuffer stringBuffered = new StringBuffer();
+                                        int NumString = 0;
+                                        String writeTimes;
+                                        String[] viewTimes = new String[2];
+                                        if(is12Hour) {
+                                            writeTimes = ZvonOne + ":" + spinnerAmPmOne.getSelectedItem() + "-" + ZvonTwo + ":" + spinnerAmPmTwo.getSelectedItem() + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab;
+                                            viewTimes[0] = ZvonOne + " " + spinnerAmPmOne.getSelectedItem() + " - " + ZvonTwo + " " + spinnerAmPmTwo.getSelectedItem();
+                                            viewTimes[1] = NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab;
+                                        }else {
+                                            writeTimes = ZvonOne + "-" + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab;
+                                            viewTimes[0] = ZvonOne + " - " + ZvonTwo;
+                                            viewTimes[1] = NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab;
+                                        }
 
                                         try {
                                             FileInputStream read = context.openFileInput(url);
                                             InputStreamReader reader = new InputStreamReader(read);
                                             BufferedReader bufferedReader = new BufferedReader(reader);
                                             String temp_read;
-                                            String[] helpip ;
+                                            String[] help,helpTimes, helpAmPMOne, helpAmPMTwo;
                                             String delimeter = "=";
+
+                                            int i = 0;
                                             while ((temp_read = bufferedReader.readLine()) != null) {
+                                                if(position != i){
+                                                help = temp_read.split(delimeter);
+                                                helpTimes = help[0].split("-");
+                                                helpAmPMOne = helpTimes[0].split(":");
+                                                helpAmPMTwo = helpTimes[1].split(":");
 
-                                                helpip = temp_read.split(delimeter);
 
+                                                if((Integer.parseInt(helpAmPMOne[0]) == TimeStartHour && Integer.parseInt(helpAmPMOne[1]) == TimeStartMin) && (Integer.parseInt(helpAmPMTwo[0]) == TimeEndHour && Integer.parseInt(helpAmPMTwo[1]) == TimeEndMin))
+                                                    if(is12Hour) {
+                                                        if (helpAmPMOne[2].equals(spinnerAmPmOne.getSelectedItem()) && helpAmPMTwo[2].equals(spinnerAmPmTwo.getSelectedItem()))
+                                                            throw new Povtor("KRIA", 1);
+                                                    }else throw new Povtor("KRIA", 1);
 
-                                                if  (!helpip[0].equals(help[0].substring(0,5) + " - " + help[1].substring(1)))
-                                                    stringBuffered.append(temp_read).append("~");
+                                                if((Integer.parseInt(helpAmPMOne[0]) > TimeStartHour || Integer.parseInt(helpAmPMOne[1]) > TimeStartMin) && !is12Hour && Zapic) {
+                                                    stringBuffer.append(writeTimes).append(("\n")).append(temp_read).append(("\n"));
+                                                    Zapic = false;
+                                                    NumString = i;
+                                                } else if(is12Hour && Zapic)
+                                                    if((helpAmPMOne[2].equals("AM") && spinnerAmPmOne.getSelectedItem().equals("AM") || helpAmPMOne[2].equals("PM") && spinnerAmPmOne.getSelectedItem().equals("PM")) && (Integer.parseInt(helpAmPMOne[0]) > TimeStartHour || (Integer.parseInt(helpAmPMOne[1]) > TimeStartMin && Integer.parseInt(helpAmPMOne[0]) == TimeStartHour))){
+                                                    stringBuffer.append(writeTimes).append(("\n")).append(temp_read).append(("\n"));
+                                                    Zapic = false;
+                                                    NumString = i;
+                                                }else {
+                                                    stringBuffer.append(temp_read).append(("\n"));
+                                                    i = i + 1;
+                                                }
+//                                                if((Integer.parseInt(helpAmPMOne[0]) == Integer.parseInt(timeOneAM[0].substring(0,2)) && Integer.parseInt(helpAmPMOne[1]) == Integer.parseInt(timeOneAM[0].substring(3))) || (Integer.parseInt(helpAmPMTwo[0]) == Integer.parseInt(timeTwoAM[0].substring(0,2)) && Integer.parseInt(helpAmPMTwo[1]) == Integer.parseInt(timeTwoAM[0].substring(3)))){
+//                                                    if(is12Hour) {
+//                                                        if (helpAmPMOne[2].equals(timeOneAM[1]) && helpAmPMTwo[2].equals(timeTwoAM[1]))
+//                                                            stringBuffer.append(writeTimes).append(("\n"));
+//                                                    }else stringBuffer.append(writeTimes).append(("\n"));
+//
+//                                                }else
+//                                                    stringBuffer.append(temp_read).append(("\n"));
+
+                                            }else i = i + 1;
                                             }
 
                                             bufferedReader.close();
@@ -327,25 +428,10 @@ public class NewPagerAdapter extends PagerAdapter {
                                             e.printStackTrace();
                                         }
 
-                                        if(!stringBuffered.toString().equals("")) {
-                                            String[] mas = stringBuffered.toString().split("~");
-                                            for (int i = 0; i < mas.length; i++) {
-                                                String[] helping;
-                                                helping = mas[i].split("=");
-                                                if ((Integer.parseInt(helping[0].substring(0, 2)) == TimeStartHour && Integer.parseInt(helping[0].substring(3, 5)) == TimeStartMin) || (Integer.parseInt(helping[0].substring(8, 10)) == TimeEndHour && Integer.parseInt(helping[0].substring(11)) == TimeEndMin)) {
-                                                    throw new Povtor("Syko blyat", 1);
-                                                }
-                                                if (Integer.parseInt(helping[0].substring(0, 2)) > TimeStartHour && Zapic) {
-                                                    stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab).append(("\n")).append(mas[i]).append(("\n"));
-                                                    Zapic = false;
-
-                                                } else
-                                                    stringBuffer.append(mas[i]).append(("\n"));
-                                            }
-
+                                        if (Zapic) {
+                                            stringBuffer.append(writeTimes);
+                                            NumString = product.size();
                                         }
-                                        if (Zapic)
-                                            stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab);
 
                                         try {
                                             FileOutputStream write =  context.openFileOutput(url, context.MODE_PRIVATE);
@@ -359,8 +445,10 @@ public class NewPagerAdapter extends PagerAdapter {
                                             e.printStackTrace();
                                         }
 
-                                        product.get(position).changeText(ZvonOne + " - " + ZvonTwo, NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab);
-                                        adapter.notifyDataSetChanged();
+                                        product.get(position).changeText(viewTimes[0], viewTimes[1]);
+                                        adapter.onMove(position, NumString);
+
+                                        alertDialog.hide();
 
                                     } catch (Povtor povtor) {
                                         Toast.makeText(context,context.getString(R.string.timeSpan),Toast.LENGTH_LONG).show();
@@ -373,14 +461,7 @@ public class NewPagerAdapter extends PagerAdapter {
                                         context, context.getString(R.string.FieldsNot), Toast.LENGTH_SHORT
                                 ).show();
                             }
-                        }
-                        else {
-                            Toast.makeText(
-                                    context, context.getString(R.string.wrongFormat), Toast.LENGTH_SHORT
-                            ).show();
-                        }
 
-                        alertDialog.hide();
                     }
                 });
 
@@ -453,6 +534,33 @@ public class NewPagerAdapter extends PagerAdapter {
                                           newzvonok.setCancelable(true);
                                           final AlertDialog alertDialog = newzvonok.create();
 
+                                          final Spinner spinnerAmPmOne = new Spinner(context), spinnerAmPmTwo = new Spinner(context);
+                                          if(!DateFormat.is24HourFormat(context)){
+                                              FlowLayout flowLayoutFieldOne = promptsView.findViewById(R.id.field_times_add_one);
+                                              FlowLayout flowLayoutFieldTwo = promptsView.findViewById(R.id.field_times_add_two);
+
+                                              FlowLayout.LayoutParams layoutParamsSpinnerOne = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                              layoutParamsSpinnerOne.setMargins(5,0,0,0);
+                                              FlowLayout.LayoutParams layoutParamsSpinnerTwo = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                              layoutParamsSpinnerTwo.setMargins(5,0,0,0);
+
+                                              List<String> AmPmList = new ArrayList<>();
+                                              AmPmList.add("AM");
+                                              AmPmList.add("PM");
+
+                                              SpinnerAdapter spinnerAdapterAmPm = new SpinnerAdapter(context,AmPmList,true);
+                                              spinnerAmPmOne.setAdapter(spinnerAdapterAmPm);
+                                              spinnerAmPmTwo.setAdapter(spinnerAdapterAmPm);
+                                              spinnerAmPmOne.setLayoutParams(layoutParamsSpinnerOne);
+                                              spinnerAmPmTwo.setLayoutParams(layoutParamsSpinnerTwo);
+                                              spinnerAmPmOne.getBackground().setColorFilter(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), PorterDuff.Mode.SRC_ATOP);
+                                              spinnerAmPmTwo.getBackground().setColorFilter(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), PorterDuff.Mode.SRC_ATOP);
+
+                                              flowLayoutFieldOne.addView(spinnerAmPmOne);
+                                              flowLayoutFieldTwo.addView(spinnerAmPmTwo);
+
+                                          }
+
                                           TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
                                           ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                                           ButtonCancel.setOnClickListener(new View.OnClickListener() {
@@ -472,7 +580,6 @@ public class NewPagerAdapter extends PagerAdapter {
                                                 String  NameYrok = Yrok.getText().toString();
                                                 String NumKab = Kab.getText().toString();
 
-                                                if ((ZvonOne.length() == 5 || ZvonOne.equals("")) && (ZvonTwo.length() == 5 || ZvonTwo.equals(""))){
                                                     if(ZvonOne.equals("")) ZvonOne = "08:00";
                                                     if(ZvonTwo.equals("")) ZvonTwo = "08:40";
                                                     if(NameYrok.equals("")) NameYrok = context.getString(R.string.lessonExample);
@@ -489,8 +596,8 @@ public class NewPagerAdapter extends PagerAdapter {
                                                     if(checkString(ZvonTwo.substring(3))) TimeEndMin = Integer.parseInt(ZvonTwo.substring(3));
 
 
-                                                    if(TimeStartHour < 25 && TimeStartMin < 60 && ZvonOne.charAt(2) == ':' && TimeEndHour < 25 && TimeEndMin < 60 && ZvonTwo.charAt(2) == ':') {
-                                                        if ((TimeStartHour < TimeEndHour) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin)) {
+                                                    if(((TimeStartHour < 25 && TimeEndHour < 25 && DateFormat.is24HourFormat(context))) || (TimeStartHour < 13 && TimeEndHour < 13 && !DateFormat.is24HourFormat(context)) && TimeStartMin < 60 && ZvonOne.charAt(2) == ':' && TimeEndMin < 60 && ZvonTwo.charAt(2) == ':') {
+                                                        if (((TimeStartHour < TimeEndHour) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin)) && DateFormat.is24HourFormat(context) || !DateFormat.is24HourFormat(context) && !(spinnerAmPmOne.getSelectedItem().equals("PM") && spinnerAmPmTwo.getSelectedItem().equals("AM")) &&  ((TimeStartHour < TimeEndHour || (spinnerAmPmOne.getSelectedItem().equals("AM") && spinnerAmPmTwo.getSelectedItem().equals("PM"))) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin))) {
 
                                                             StringBuffer stringBuffer = new StringBuffer();
 
@@ -529,26 +636,49 @@ public class NewPagerAdapter extends PagerAdapter {
                                                                         break;
                                                                 }
 
+                                                                String writeTimes;
+                                                                String[] viewTimes = new String[2];
+                                                                if(!DateFormat.is24HourFormat(context)) {
+                                                                    writeTimes = ZvonOne + ":" + spinnerAmPmOne.getSelectedItem() + "-" + ZvonTwo + ":" + spinnerAmPmTwo.getSelectedItem() + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab;
+                                                                    viewTimes[0] = ZvonOne + " " + spinnerAmPmOne.getSelectedItem() + " - " + ZvonTwo + " " + spinnerAmPmTwo.getSelectedItem();
+                                                                    viewTimes[1] = NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab;
+                                                                }else {
+                                                                    writeTimes = ZvonOne + "-" + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab;
+                                                                    viewTimes[0] = ZvonOne + " - " + ZvonTwo;
+                                                                    viewTimes[1] = NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab;
+                                                                }
                                                                 try {
                                                                     FileInputStream read =  context.openFileInput(urlTek);
                                                                     InputStreamReader reader = new InputStreamReader(read);
                                                                     BufferedReader bufferedReader = new BufferedReader(reader);
 
                                                                     String temp_read;
-                                                                    String[] help;
+                                                                    String[] help,helpTimes, helpAmPMOne, helpAmPMTwo;
                                                                     String delimeter = "=";
                                                                     int i = 0;
+
                                                                     while ((temp_read = bufferedReader.readLine()) != null) {
 
                                                                         help = temp_read.split(delimeter);
-                                                                        if((Integer.parseInt(help[0].substring(0,2)) == TimeStartHour && Integer.parseInt(help[0].substring(3,5)) == TimeStartMin) || (Integer.parseInt(help[0].substring(8,10)) == TimeEndHour && Integer.parseInt(help[0].substring(11)) == TimeEndMin)) {
-                                                                            throw new Povtor("KRIA", 1);
-                                                                        }
-                                                                        if(Integer.parseInt(help[0].substring(0,2)) > TimeStartHour   && Zapic) {
-                                                                            stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab).append(("\n")).append(temp_read).append(("\n"));
+                                                                        helpTimes = help[0].split("-");
+                                                                        helpAmPMOne = helpTimes[0].split(":");
+                                                                        helpAmPMTwo = helpTimes[1].split(":");
+                                                                        if((Integer.parseInt(helpAmPMOne[0]) == TimeStartHour && Integer.parseInt(helpAmPMOne[1]) == TimeStartMin) || (Integer.parseInt(helpAmPMTwo[0]) == TimeEndHour && Integer.parseInt(helpAmPMTwo[1]) == TimeEndMin))
+                                                                            if(!DateFormat.is24HourFormat(context)) {
+                                                                                if (helpAmPMOne[2].equals(spinnerAmPmOne.getSelectedItem()) && helpAmPMTwo[2].equals(spinnerAmPmTwo.getSelectedItem()))
+                                                                                    throw new Povtor("KRIA", 1);
+                                                                            }else throw new Povtor("KRIA", 1);
+
+                                                                        if((Integer.parseInt(helpAmPMOne[0]) > TimeStartHour || Integer.parseInt(helpAmPMOne[1]) > TimeStartMin) && DateFormat.is24HourFormat(context) && Zapic) {
+                                                                            stringBuffer.append(writeTimes).append(("\n")).append(temp_read).append(("\n"));
                                                                             Zapic = false;
                                                                             NumString = i;
-                                                                        } else {
+                                                                        } else if(!DateFormat.is24HourFormat(context) && Zapic)
+                                                                            if((helpAmPMOne[2].equals("AM") && spinnerAmPmOne.getSelectedItem().equals("AM") || helpAmPMOne[2].equals("PM") && spinnerAmPmOne.getSelectedItem().equals("PM")) && (Integer.parseInt(helpAmPMOne[0]) > TimeStartHour || (Integer.parseInt(helpAmPMOne[1]) > TimeStartMin && Integer.parseInt(helpAmPMOne[0]) == TimeStartHour))){
+                                                                                stringBuffer.append(writeTimes).append(("\n")).append(temp_read).append(("\n"));
+                                                                            Zapic = false;
+                                                                            NumString = i;
+                                                                        }else {
                                                                             stringBuffer.append(temp_read).append(("\n"));
                                                                             i = i + 1;
                                                                         }
@@ -559,7 +689,7 @@ public class NewPagerAdapter extends PagerAdapter {
                                                                     e.printStackTrace();
                                                                 }
                                                                 if (Zapic) {
-                                                                    stringBuffer.append(ZvonOne + " - " + ZvonTwo + "=" + NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab);
+                                                                    stringBuffer.append(writeTimes);
                                                                     NumString = constrFragmentViewPagerArrayList.get(positionTek).getArray().size();
                                                                 }
                                                                 try {
@@ -575,7 +705,7 @@ public class NewPagerAdapter extends PagerAdapter {
                                                                 }
                                                                 if(constrFragmentViewPagerArrayList.get(positionTek).getArray().size() == 0)
                                                                     TextViewInisible(constrFragmentViewPagerArrayList.get(positionTek).getView());
-                                                                constrFragmentViewPagerArrayList.get(positionTek).getArray().add(NumString,new ConstrRecyclerView(ZvonOne + " - " + ZvonTwo, NameYrok + ", " + spinner.getSelectedItem() + " №" + NumKab));
+                                                                constrFragmentViewPagerArrayList.get(positionTek).getArray().add(NumString,new ConstrRecyclerView(viewTimes[0] , viewTimes[1]));
                                                                 if(settings.getBoolean("AnimationSettings",true))
                                                                     constrFragmentViewPagerArrayList.get(positionTek).getRecyclerAdapter().notifyItemInserted(NumString);
                                                                 else
@@ -594,12 +724,6 @@ public class NewPagerAdapter extends PagerAdapter {
                                                                 context, context.getString(R.string.FieldsNot), Toast.LENGTH_SHORT
                                                         ).show();
                                                     }
-                                                }
-                                                else {
-                                                    Toast.makeText(
-                                                            context, context.getString(R.string.wrongFormat), Toast.LENGTH_SHORT
-                                                    ).show();
-                                                }
                                             }
                                         });
 

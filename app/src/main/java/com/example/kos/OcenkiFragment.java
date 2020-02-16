@@ -395,6 +395,8 @@ public class OcenkiFragment extends Fragment {
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
+
             linearLayout.addView(progressBar, layoutParams);
         }
 
@@ -549,6 +551,8 @@ public class OcenkiFragment extends Fragment {
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
+
             linearLayout.addView(progressBar, layoutParams);
         }
 
@@ -704,6 +708,8 @@ public class OcenkiFragment extends Fragment {
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
+
             linearLayout.addView(progressBar, layoutParams);
         }
 
@@ -870,6 +876,8 @@ public class OcenkiFragment extends Fragment {
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
+
             linearLayout.addView(progressBar, layoutParams);
         }
 

@@ -58,13 +58,14 @@ public class DnewnikFragment extends Fragment {
     private String nameMes;
     private String dayName;
     SharedPreferences settings;
+    public View view;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dnewnik, container, false);
+        view = inflater.inflate(R.layout.fragment_dnewnik, container, false);
         linearLayout = view.findViewById(R.id.LinerTask);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
         settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
@@ -256,7 +257,7 @@ helperDnewniks.clear();
                     StringBuffer stringBuffer = new StringBuffer();
 
                     try {
-                        FileInputStream read =  getActivity().openFileInput(ulrTwo);
+                        FileInputStream read =  context.openFileInput(ulrTwo);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -354,7 +355,7 @@ helperDnewniks.clear();
                 }
             });
             linearLayout.addView(viewPager,layoutParams);
-            dateNedel = getActivity().findViewById(R.id.textViewDnew);
+            dateNedel = view.findViewById(R.id.textViewDnew);
             String[] textUrl = new String[4];
             if(startNedeli < 10) textUrl[0] = "0" + startNedeli; else textUrl[0] = Integer.toString(startNedeli);
             if(startMes < 10) textUrl[1] = "0" + startMes; else textUrl[1] = Integer.toString(startMes);
@@ -683,7 +684,7 @@ helperDnewniks.clear();
                     StringBuffer stringBuffer = new StringBuffer();
 
                     try {
-                        FileInputStream read =  getActivity().openFileInput(ulrTwo);
+                        FileInputStream read =  context.openFileInput(ulrTwo);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -784,7 +785,7 @@ helperDnewniks.clear();
                 }
             });
             linearLayout.addView(viewPager,layoutParams);
-            dateNedel = getActivity().findViewById(R.id.textViewDnew);
+            dateNedel = view.findViewById(R.id.textViewDnew);
             String[] textUrl = new String[4];
             if(startNedeli < 10) textUrl[0] = "0" + startNedeli; else textUrl[0] = Integer.toString(startNedeli);
             if(startMes < 10) textUrl[1] = "0" + startMes; else textUrl[1] = Integer.toString(startMes);
@@ -1115,7 +1116,7 @@ helperDnewniks.clear();
                     StringBuffer stringBuffer = new StringBuffer();
 
                     try {
-                        FileInputStream read =  getActivity().openFileInput(ulrTwo);
+                        FileInputStream read =  context.openFileInput(ulrTwo);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -1392,7 +1393,7 @@ helperDnewniks.clear();
                     break;
             }
             linearLayout.addView(viewPager,layoutParams);
-            dateNedel = getActivity().findViewById(R.id.textViewDnew);
+            dateNedel = view.findViewById(R.id.textViewDnew);
             String[] textUrl = new String[4];
             if(startNedeli < 10) textUrl[0] = "0" + startNedeli; else textUrl[0] = Integer.toString(startNedeli);
             if(startMes < 10) textUrl[1] = "0" + startMes; else textUrl[1] = Integer.toString(startMes);
@@ -1996,7 +1997,7 @@ helperDnewniks.clear();
                     StringBuffer stringBuffer = new StringBuffer();
 
                     try {
-                        FileInputStream read =  getActivity().openFileInput(ulrTwo);
+                        FileInputStream read =  context.openFileInput(ulrTwo);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
