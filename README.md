@@ -1,4 +1,5 @@
-h1 Student's diary
+h1 заголовок первого уровня
+=====================
 
 
 On development stage: release in playmarket, adding the ability to select the number of quarters
