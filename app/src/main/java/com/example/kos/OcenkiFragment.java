@@ -3,41 +3,32 @@ package com.example.kos;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
-import android.os.Environment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.tabs.TabLayout;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -47,20 +38,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class OcenkiFragment extends Fragment {
+class OcenkiFragment extends Fragment {
     private Context context;
     private SharedPreferences settings,
                             Confirmed,
                             Current_Theme;
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
     private String url;
     private TextView textViewDate;
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
     private LinearLayout linearLayout;
 
 
@@ -275,7 +265,7 @@ public class OcenkiFragment extends Fragment {
         }
     }
 
-    public TableRow Confirmation(String urlConf){
+    private TableRow Confirmation(String urlConf){
         TableRow Confirmation = CreateStaticBar(R.layout.confirmed_ocenki);
         String[] ConfirmationValue = Confirmed.getString(urlConf,getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
         int[] ConfirmationID = new int[]{R.id.one, R.id.two, R.id.three, R.id.four, R.id.year, R.id.examination, R.id.end};
@@ -289,7 +279,7 @@ public class OcenkiFragment extends Fragment {
         return Confirmation;
     }
 
-    public TableRow CreateStaticBar (int layout_id){
+    private TableRow CreateStaticBar(int layout_id){
         TableRow bar = (TableRow) inflater.inflate(layout_id, null);
         bar.setBackgroundColor(Current_Theme.getInt("custom_Table_column", ContextCompat.getColor(context, R.color.custom_Table_column)));
 
@@ -323,7 +313,7 @@ public class OcenkiFragment extends Fragment {
         return bar;
     }
 
-    public TableRow CreateRow(String[] strings, int NumString){
+    private TableRow CreateRow(String[] strings, int NumString){
 
         TableRow Yrok = (TableRow) inflater.inflate(R.layout.ocenki_item, null);
         Yrok.setBackgroundColor(Current_Theme.getInt("custom_Table_column", ContextCompat.getColor(context, R.color.custom_Table_column)));
@@ -384,9 +374,9 @@ public class OcenkiFragment extends Fragment {
         return Yrok;
     }
 
-    public class RightAsyncTask extends AsyncTask<Void,TableRow,Void>{
-        ArrayList<String[]> TabArray = new ArrayList<>();
-        TableLayout tableLayout = new TableLayout(context);
+    class RightAsyncTask extends AsyncTask<Void,TableRow,Void>{
+        final ArrayList<String[]> TabArray = new ArrayList<>();
+        final TableLayout tableLayout = new TableLayout(context);
 
         @Override
         protected void onPreExecute() {
@@ -540,9 +530,9 @@ public class OcenkiFragment extends Fragment {
 
     }
 
-    public class LeftAsyncTask extends AsyncTask<Void,TableRow,Void>{
-        ArrayList<String[]> TabArray = new ArrayList<>();
-        TableLayout tableLayout = new TableLayout(context);
+    class LeftAsyncTask extends AsyncTask<Void,TableRow,Void>{
+        final ArrayList<String[]> TabArray = new ArrayList<>();
+        final TableLayout tableLayout = new TableLayout(context);
 
         @Override
         protected void onPreExecute() {
@@ -696,9 +686,9 @@ public class OcenkiFragment extends Fragment {
 
     }
 
-    public class ClearAsyncTask extends AsyncTask<Void,TableRow,Void>{
+    class ClearAsyncTask extends AsyncTask<Void,TableRow,Void>{
 
-        TableLayout tableLayout = new TableLayout(context);
+        final TableLayout tableLayout = new TableLayout(context);
 
 
         @Override
@@ -865,9 +855,9 @@ public class OcenkiFragment extends Fragment {
         }
     }
 
-    public class StartAsyncTask extends AsyncTask<Void,TableRow,Void>{
-        ArrayList<String[]> TabArray = new ArrayList<>();
-        TableLayout tableLayout = new TableLayout(context);
+    class StartAsyncTask extends AsyncTask<Void,TableRow,Void>{
+        final ArrayList<String[]> TabArray = new ArrayList<>();
+        final TableLayout tableLayout = new TableLayout(context);
 
         @Override
         protected void onPreExecute() {

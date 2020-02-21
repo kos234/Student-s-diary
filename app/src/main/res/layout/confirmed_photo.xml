@@ -17,11 +17,22 @@
         android:textSize="20dp"
         android:textStyle="bold" />
 
-
     <ImageView
         android:layout_margin="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ConfirmedPhoto"/>
+
+        <TextView
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:id="@+id/button_one_conf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="@string/yes"
+            android:textColor="@color/custom_button_add"
+            android:textSize="19dp" />
 
 </LinearLayout>

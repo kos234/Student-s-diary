@@ -19,9 +19,9 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 
 public class PagerAdapterInCard extends PagerAdapter {
-    private List<helperDnewnik> helperDnewniks;
-    private Context context;
-    private SharedPreferences Current_Theme;
+    private final List<helperDnewnik> helperDnewniks;
+    private final Context context;
+    private final SharedPreferences Current_Theme;
 
 
     public PagerAdapterInCard(List<helperDnewnik> helperDnewniks, Context context) {

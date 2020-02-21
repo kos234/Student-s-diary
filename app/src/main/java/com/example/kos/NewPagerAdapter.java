@@ -2,30 +2,23 @@ package com.example.kos;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.BlendMode;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Handler;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +29,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.apmem.tools.layouts.FlowLayout;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -46,12 +40,13 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class NewPagerAdapter extends PagerAdapter {
-    Context context;
-    private String[] name;
-    SharedPreferences settings,Current_Theme;
-    List<ConstrFragmentViewPager> constrFragmentViewPagerArrayList;
-    public FloatingActionButton floatingActionButton;
+class NewPagerAdapter extends PagerAdapter {
+    private final Context context;
+    private final String[] name;
+    private final SharedPreferences settings;
+    private final SharedPreferences Current_Theme;
+    private final List<ConstrFragmentViewPager> constrFragmentViewPagerArrayList;
+    private final FloatingActionButton floatingActionButton;
 
     public NewPagerAdapter(List<ConstrFragmentViewPager> constrFragmentViewPagerArrayList, Context context,FloatingActionButton floatingActionButton) {
         this.constrFragmentViewPagerArrayList = constrFragmentViewPagerArrayList;
@@ -175,22 +170,22 @@ public class NewPagerAdapter extends PagerAdapter {
                             reader.close();
                             read.close();
                         } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+
                         } catch (IOException e) {
-                            e.printStackTrace();
+
                         }
 
 
 
                         try {
-                            FileOutputStream write = context.openFileOutput(url,context.MODE_PRIVATE);
+                            FileOutputStream write = context.openFileOutput(url, MODE_PRIVATE);
 
                             write.write(stringBuffer.toString().getBytes());
                             write.close();
                         } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+
                         } catch (IOException e) {
-                            e.printStackTrace();
+
                         }
 
                         product.remove(position);
@@ -391,8 +386,8 @@ public class NewPagerAdapter extends PagerAdapter {
                                                 if((Integer.parseInt(helpAmPMOne[0]) == TimeStartHour && Integer.parseInt(helpAmPMOne[1]) == TimeStartMin) && (Integer.parseInt(helpAmPMTwo[0]) == TimeEndHour && Integer.parseInt(helpAmPMTwo[1]) == TimeEndMin))
                                                     if(is12Hour) {
                                                         if (helpAmPMOne[2].equals(spinnerAmPmOne.getSelectedItem()) && helpAmPMTwo[2].equals(spinnerAmPmTwo.getSelectedItem()))
-                                                            throw new Povtor("KRIA", 1);
-                                                    }else throw new Povtor("KRIA", 1);
+                                                            throw new Povtor("KRIA");
+                                                    }else throw new Povtor("KRIA");
 
                                                 if((Integer.parseInt(helpAmPMOne[0]) > TimeStartHour || Integer.parseInt(helpAmPMOne[1]) > TimeStartMin) && !is12Hour && Zapic) {
                                                     stringBuffer.append(writeTimes).append(("\n")).append(temp_read).append(("\n"));
@@ -423,9 +418,9 @@ public class NewPagerAdapter extends PagerAdapter {
                                             reader.close();
                                             read.close();
                                         } catch (FileNotFoundException e) {
-                                            e.printStackTrace();
+
                                         } catch (IOException e) {
-                                            e.printStackTrace();
+
                                         }
 
                                         if (Zapic) {
@@ -434,15 +429,15 @@ public class NewPagerAdapter extends PagerAdapter {
                                         }
 
                                         try {
-                                            FileOutputStream write =  context.openFileOutput(url, context.MODE_PRIVATE);
+                                            FileOutputStream write =  context.openFileOutput(url, MODE_PRIVATE);
                                             String temp_write = stringBuffer.toString();
 
                                             write.write(temp_write.getBytes());
                                             write.close();
                                         } catch (FileNotFoundException e) {
-                                            e.printStackTrace();
+
                                         } catch (IOException e) {
-                                            e.printStackTrace();
+
                                         }
 
                                         product.get(position).changeText(viewTimes[0], viewTimes[1]);
@@ -504,6 +499,116 @@ public class NewPagerAdapter extends PagerAdapter {
         Drawable drawableFAB = context.getDrawable(R.drawable.ic_add_24px);
         drawableFAB.setColorFilter(Current_Theme.getInt("custom_button_add_plus", ContextCompat.getColor(context, R.color.custom_button_add_plus)), PorterDuff.Mode.SRC_ATOP);
         floatingActionButton.setImageDrawable(drawableFAB);
+        floatingActionButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View view) {
+
+                final LayoutInflater li = LayoutInflater.from(context);
+                final View promptsView = li.inflate(R.layout.alert_delete_dnewnik, null);
+                final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
+                Delete.setView(promptsView);
+                GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context, R.drawable.corners_alert);
+                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                if (settings.getBoolean("BorderAlertSettings", false))
+                    alertbackground.setStroke(settings.getInt("dpBorderSettings", 4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
+
+                final AlertDialog Deleted = Delete.create();
+
+                TextView textTitle = promptsView.findViewById(R.id.title_alert);
+                textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+                textTitle.setText(context.getString(R.string.deleting));
+
+                TextView textBottomTitle = promptsView.findViewById(R.id.title_bottom_alert);
+                textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                textBottomTitle.setText(context.getString(R.string.deleteAllLesson));
+
+                TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+                ButtonCancel.setText(context.getString(R.string.cancel));
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Deleted.hide();
+                    }
+                });
+
+                TextView ButtonALl = promptsView.findViewById(R.id.button_two_alert);
+                ButtonALl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View viewClick) {
+                        String[] day = context.getResources().getStringArray(R.array.DayTxt);
+                        for (String s : day) {
+
+                            File outFile = new File(context.getFilesDir() + "/" + s);
+                            if (outFile.exists()) {
+                                outFile.delete();
+                            }
+                        }
+                        ZnonkiFragment znonkiFragment = (ZnonkiFragment) ((MainActivity) context).getFragment.get(2);
+                        znonkiFragment.DeleteAll();
+
+                        Deleted.hide();
+
+                    }
+                });
+                ButtonALl.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonALl.setText(context.getString(R.string.deleteAllDayLesson));
+
+                TextView ButtonOne = promptsView.findViewById(R.id.button_two_alert);
+                ButtonOne.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View viewClick) {
+                        int positionTek = 0;
+                        String urlTek = "Monday.txt";
+                        switch (settings.getString("Day","Monday.txt")){
+                            case "Tuesday.txt":
+                                positionTek = 1;
+                                urlTek = "Tuesday.txt";
+                                break;
+
+                            case "Wednesday.txt":
+                                positionTek = 2;
+                                urlTek = "Wednesday.txt";
+                                break;
+
+                            case "Thursday.txt":
+                                positionTek = 3;
+                                urlTek = "Thursday.txt";
+                                break;
+
+                            case "Friday.txt":
+                                positionTek = 4;
+                                urlTek = "Friday.txt";
+                                break;
+
+                            case "Saturday.txt":
+                                if(settings.getBoolean("SaturdaySettings",true)) {
+                                    positionTek = 5;
+                                    urlTek = "Saturday.txt";
+                                }
+                                break;
+                        }
+
+                        File outFile = new File(context.getFilesDir() + "/" + urlTek);
+                        if (outFile.exists()) {
+                            outFile.delete();
+                        }
+
+                        new AnimationDel().execute(constrFragmentViewPagerArrayList.get(positionTek));
+
+                        Deleted.hide();
+
+                    }
+                });
+                ButtonOne.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonOne.setText(context.getString(R.string.deleteOneDayLesson));
+
+                Deleted.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                Deleted.show();
+                return false;
+            }
+        });
         floatingActionButton.setOnClickListener(new View.OnClickListener()  {
                                       @Override
                                       public void onClick(final View view) {
@@ -666,8 +771,8 @@ public class NewPagerAdapter extends PagerAdapter {
                                                                         if((Integer.parseInt(helpAmPMOne[0]) == TimeStartHour && Integer.parseInt(helpAmPMOne[1]) == TimeStartMin) || (Integer.parseInt(helpAmPMTwo[0]) == TimeEndHour && Integer.parseInt(helpAmPMTwo[1]) == TimeEndMin))
                                                                             if(!DateFormat.is24HourFormat(context)) {
                                                                                 if (helpAmPMOne[2].equals(spinnerAmPmOne.getSelectedItem()) && helpAmPMTwo[2].equals(spinnerAmPmTwo.getSelectedItem()))
-                                                                                    throw new Povtor("KRIA", 1);
-                                                                            }else throw new Povtor("KRIA", 1);
+                                                                                    throw new Povtor("KRIA");
+                                                                            }else throw new Povtor("KRIA");
 
                                                                         if((Integer.parseInt(helpAmPMOne[0]) > TimeStartHour || Integer.parseInt(helpAmPMOne[1]) > TimeStartMin) && DateFormat.is24HourFormat(context) && Zapic) {
                                                                             stringBuffer.append(writeTimes).append(("\n")).append(temp_read).append(("\n"));
@@ -684,24 +789,24 @@ public class NewPagerAdapter extends PagerAdapter {
                                                                         }
                                                                     }
                                                                 } catch (FileNotFoundException e) {
-                                                                    e.printStackTrace();
+
                                                                 } catch (IOException e) {
-                                                                    e.printStackTrace();
+
                                                                 }
                                                                 if (Zapic) {
                                                                     stringBuffer.append(writeTimes);
                                                                     NumString = constrFragmentViewPagerArrayList.get(positionTek).getArray().size();
                                                                 }
                                                                 try {
-                                                                    FileOutputStream write =  context.openFileOutput(urlTek, context.MODE_PRIVATE);
+                                                                    FileOutputStream write =  context.openFileOutput(urlTek, MODE_PRIVATE);
                                                                     String temp_write = stringBuffer.toString();
 
                                                                     write.write(temp_write.getBytes());
                                                                     write.close();
                                                                 } catch (FileNotFoundException e) {
-                                                                    e.printStackTrace();
+
                                                                 } catch (IOException e) {
-                                                                    e.printStackTrace();
+
                                                                 }
                                                                 if(constrFragmentViewPagerArrayList.get(positionTek).getArray().size() == 0)
                                                                     TextViewInisible(constrFragmentViewPagerArrayList.get(positionTek).getView());
@@ -766,18 +871,46 @@ public class NewPagerAdapter extends PagerAdapter {
         return view;
     }
 
-    public void TextViewVisible(View view) {
+    private void TextViewVisible(View view) {
         TextView textView = view.findViewById(R.id.nullZvon);
         textView.setVisibility(View.VISIBLE);
         textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
     }
 
-    public void TextViewInisible(View view) {
+    private void TextViewInisible(View view) {
         TextView textView = view.findViewById(R.id.nullZvon);
         textView.setVisibility(View.INVISIBLE);
     }
 
-    public boolean checkString(String string) {
+    class AnimationDel extends AsyncTask<ConstrFragmentViewPager,Integer,Void>{
+        ConstrFragmentViewPager constrFragmentViewPager;
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            constrFragmentViewPager.getRecyclerAdapter().notifyItemRemoved(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            TextViewVisible(constrFragmentViewPager.getView());
+        }
+
+        @Override
+        protected Void doInBackground(ConstrFragmentViewPager... voids) {
+            constrFragmentViewPager = voids[0];
+            for (int l = constrFragmentViewPager.getArray().size() - 1; l >= 0; l--){
+                constrFragmentViewPager.getArray().remove(l);
+                publishProgress(l);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {}
+            }
+            return null;
+        }
+    }
+
+    private boolean checkString(String string) {
         try {
             Integer.parseInt(string);
         } catch (Exception e) {

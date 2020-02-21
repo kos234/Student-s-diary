@@ -8,10 +8,11 @@
     <string name="thursday">Thursday</string>
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
-    <string name="buttonClearAll">Сomplete cleaning</string>
-    <string name="bottom_title_clear_hw">Do you want to delete only the home work item records?</string>
+    <string name="buttonClearAll">Complete cleaning</string>
+    <string name="buttonClearGrades">Grades</string>
+    <string name="buttonClearHomeWork">Homework</string>
     <string name="cancel">Cancel</string>
-    <string name="clearWeek">Clean up the current week</string>
+    <string name="clearWeek">Clears current week</string>
     <string name="save">Save</string>
     <string name="lessonTitle">Lesson title</string>
     <string name="lessonExample">English language</string>
@@ -23,7 +24,7 @@
     <string name="teachers">Teachers</string>
     <string name="yes">Yes</string>
     <string name="deleteTeacher">Delete teacher?</string>
-    <string name="deleting">Deleting</string>
+    <string name="deleting">Cleaning</string>
     <string name="FieldsNot">Fields must not be empty!</string>
     <string name="deleteAllTeachers">Delete all teachers?</string>
     <string name="newLesson">New lesson or couple</string>
@@ -33,7 +34,9 @@
     <string name="classroomSchool">Classroom(School)</string>
     <string name="classroomUniversity">Classroom(University)</string>
     <string name="classroomNumber">Classroom number:</string>
-    <string name="deleteAllLesson">Delete all lesson?</string>
+    <string name="deleteAllLesson">Clear only:</string>
+    <string name="deleteOneDayLesson">Current day</string>
+    <string name="deleteAllDayLesson">All day</string>
     <string name="timeSpan">The time span must not be the same as the previous or begin later, but end sooner!</string>
     <string name="timeSpanStartEnd">Not a valid span! Start time cannot be greater than end time and per revolution!</string>
     <string name="wrongFormat">Wrong format!</string>
@@ -41,7 +44,7 @@
     <string name="editLesson">Edit lesson</string>
     <string name="editCouple">Edit couple</string>
     <string name="timetables">Timetables</string>
-    <string name="obzOne">This appendix is a project of pupil 9 \'B\' class, MBOU Gymnasium №25 of the city of Irkutsk, Perfiliev KonstantinaAlexandrovich for the 9th gradeе</string>
+    <string name="obzOne">This appendix is a project of pupil 9 \'B\' class, MBOU Gymnasium №25 of the city of Irkutsk, Perfiliev KonstantinaAlexandrovich for the 9th grade</string>
     <string name="obzTwo">Application has open source code on GitHub</string>
     <string name="obzThree">If you want to help with translation into any language or found an bug, misprint, incorrect translation – contact the author by mail or Vkontakte</string>
     <string name="obzFour">I would like to express my great gratitude: Gaucher Dudar, the projects \"Start Android\" and \"DevColibri\", as well as the people with StackOverflow who helped me debug the code</string>
@@ -116,6 +119,8 @@
     <string name="assessment_field">Grades:</string>
     <string name="ReplaceOcenki">Clear school year?</string>
     <string name="errorMicro">Microphone is occupied by another program</string>
+    <string name="fragment_default">Default fragment</string>
+    <string name="fragment_default_off">Disabled</string>
 
     <string name="custom_color_name">Theme name</string>
     <string name="custom_color_icon">Сolor of theme icon</string>

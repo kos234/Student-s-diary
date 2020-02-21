@@ -458,6 +458,45 @@
                         android:gravity="center"
                         >
                         <TextView
+                            android:id="@+id/bottom_title_general_setting_fragment_default"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/fragment_default"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            />
+
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:id="@+id/spinner_fragment_default"
+                            android:backgroundTint="@android:color/darker_gray"
+                            android:spinnerMode="dropdown"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/border_five"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        android:layout_marginTop="10dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        >
+                        <TextView
                             android:id="@+id/bottom_title_general_setting_width_stroke"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

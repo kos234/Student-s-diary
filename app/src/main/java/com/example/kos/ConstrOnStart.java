@@ -2,9 +2,10 @@ package com.example.kos;
 
 import android.text.SpannableString;
 
-public class ConstrOnStart {
-  int Id, item;
-  SpannableString s;
+class ConstrOnStart {
+  private final int Id;
+    private int item;
+  private SpannableString s;
 
   public ConstrOnStart(int id, int item, SpannableString s) {
     Id = id;

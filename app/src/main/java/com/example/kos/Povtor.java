@@ -6,12 +6,9 @@ import androidx.annotation.RequiresApi;
 
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class Povtor extends Exception {
+class Povtor extends Exception {
 
-  private int cho;
-
-  public Povtor(String message, int cho) {
+    public Povtor(String message) {
     super(message);
-    this.cho=cho;
-  }
+    }
 }

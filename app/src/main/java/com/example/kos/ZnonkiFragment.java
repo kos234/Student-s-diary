@@ -1,16 +1,11 @@
 package com.example.kos;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -21,13 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,18 +32,19 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class ZnonkiFragment extends Fragment {
+class ZnonkiFragment extends Fragment {
     private SharedPreferences settings,Current_Theme;
     private ImageButton OnOff;
     private ViewPager viewPager;
     private NewPagerAdapter pagerAdapter;
     private Context context;
     private String url;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view =  inflater.inflate(R.layout.fragment_znonki, container,false);
+        view =  inflater.inflate(R.layout.fragment_znonki, container,false);
         settings = getActivity().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
         final androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -76,7 +70,7 @@ public class ZnonkiFragment extends Fragment {
 
            @Override
            public void onPageSelected(int position) {
-               Boolean OnOff = true;
+               boolean OnOff = true;
                SharedPreferences.Editor editor = settings.edit();
             switch (position){
                 case 0:
@@ -174,6 +168,33 @@ public class ZnonkiFragment extends Fragment {
         return view;
     }
 
+    public void DeleteAll(){
+        pagerAdapter = new NewPagerAdapter(GenerateData(), context, (FloatingActionButton) view.findViewById(R.id.floatingActionButton));
+        viewPager.setAdapter(pagerAdapter);
+
+        switch (settings.getString("Day", "Monday.txt")) {
+            case "Tuesday.txt":
+                viewPager.setCurrentItem(1);
+                break;
+            case "Wednesday.txt":
+                viewPager.setCurrentItem(2);
+                break;
+            case "Thursday.txt":
+                viewPager.setCurrentItem(3);
+                break;
+            case "Friday.txt":
+                viewPager.setCurrentItem(4);
+                break;
+            case "Saturday.txt":
+                if(settings.getBoolean("SaturdaySettings",true))
+                    viewPager.setCurrentItem(5);
+                break;
+            default:
+                viewPager.setCurrentItem(0);
+                break;
+        }
+    }
+
     private List<ConstrFragmentViewPager> GenerateData() {
         List<ConstrFragmentViewPager> constrFragmentViewPagerList = new ArrayList<>();
 
@@ -231,7 +252,7 @@ public class ZnonkiFragment extends Fragment {
         super.onAttach(activity);
         this.context = activity;
     }
-    public void addListenerOnButton (final View viewOne){
+    private void addListenerOnButton(final View viewOne){
         OnOff = viewOne.findViewById(R.id.onOff);
         url = settings.getString("Day","Monday.txt");
         String[] temp = url.split(".txt");
@@ -250,7 +271,6 @@ public class ZnonkiFragment extends Fragment {
             editor.putBoolean(temp[0],true);
             editor.apply();
         }
-        FloatingActionButton button = viewOne.findViewById(R.id.floatingActionButton);
         OnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -273,88 +293,6 @@ public class ZnonkiFragment extends Fragment {
                         }
             }
         });
-        button.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View view) {
 
-                final LayoutInflater li = LayoutInflater.from(context);
-                final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
-                final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
-                Delete.setView(promptsView);
-                GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
-                if(settings.getBoolean("BorderAlertSettings",false))
-                    alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
-                promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
-
-                final AlertDialog Deleted = Delete.create();
-
-                TextView textTitle = promptsView.findViewById(R.id.title_alert);
-                textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
-                textTitle.setText(context.getString(R.string.deleting));
-
-                TextView textBottomTitle = promptsView.findViewById(R.id.title_bottom_alert);
-                textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
-                textBottomTitle.setText(context.getString(R.string.deleteAllLesson));
-
-                TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-                ButtonCancel.setText(getString(R.string.cancel));
-                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
-                ButtonCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Deleted.hide();
-                    }
-                });
-
-                TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
-                ButtonSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View viewClick) {
-                        String[] day = context.getResources().getStringArray(R.array.DayTxt);
-                        for (int k = 0; k < day.length; k++) {
-
-                            File outFile = new File(context.getFilesDir() + "/" + day[k]);
-                            if (outFile.exists()) {
-                                outFile.delete();
-                            }
-                        }
-
-                        pagerAdapter = new NewPagerAdapter(GenerateData(), context, (FloatingActionButton) view.findViewById(R.id.floatingActionButton));
-                        viewPager.setAdapter(pagerAdapter);
-
-                       switch (settings.getString("Day", "Monday.txt")) {
-                            case "Tuesday.txt":
-                                viewPager.setCurrentItem(1);
-                                break;
-                            case "Wednesday.txt":
-                                viewPager.setCurrentItem(2);
-                                break;
-                            case "Thursday.txt":
-                                viewPager.setCurrentItem(3);
-                                break;
-                            case "Friday.txt":
-                                viewPager.setCurrentItem(4);
-                                break;
-                            case "Saturday.txt":
-                                if(settings.getBoolean("SaturdaySettings",true))
-                                    viewPager.setCurrentItem(5);
-                                break;
-                            default:
-                                viewPager.setCurrentItem(0);
-                                break;
-                        }
-
-                        Deleted.hide();
-
-                    }
-                });
-                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
-
-                Deleted.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                Deleted.show();
-                return false;
-            }
-        });
     }
 }

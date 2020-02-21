@@ -3,7 +3,6 @@ package com.example.kos;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
@@ -15,17 +14,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,22 +32,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class YchiteliaFragment extends Fragment {
+class YchiteliaFragment extends Fragment {
     private Context context;
     private String NamePred, PredPred;
-    private ArrayList<ConstrRecyclerView> constrRecyclerViewArrayList = new ArrayList<>();
-    private RecyclerView recyclerView;
+    private final ArrayList<ConstrRecyclerView> constrRecyclerViewArrayList = new ArrayList<>();
     private RecyclerAdapter adapter;
-    SharedPreferences Current_Theme;
-    private RecyclerView.LayoutManager layoutManager;
+    private SharedPreferences Current_Theme;
 
 
-    View viewFragment;
+    private View viewFragment;
     private SharedPreferences settings;
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -86,9 +76,9 @@ public class YchiteliaFragment extends Fragment {
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
         toolbar.setBackgroundColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(context, R.color.custom_toolbar)));
         Start();
-        recyclerView = viewFragment.findViewById(R.id.Ychitelia);
+        RecyclerView recyclerView = viewFragment.findViewById(R.id.Ychitelia);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(context);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         adapter = new RecyclerAdapter(constrRecyclerViewArrayList, context);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -322,7 +312,7 @@ public class YchiteliaFragment extends Fragment {
         this.context = activity;
     }
 
-    public void Start() {
+    private void Start() {
         String[] help ;
         String delimeter = "=";
         constrRecyclerViewArrayList.clear();
@@ -354,13 +344,13 @@ public class YchiteliaFragment extends Fragment {
 
     }
 
-    public void TextViewVisible() {
+    private void TextViewVisible() {
         TextView textView = viewFragment.findViewById(R.id.nullYchit);
         textView.setVisibility(View.VISIBLE);
         textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
     }
 
-    public void Button (final View viewFind){
+    private void Button(final View viewFind){
         FloatingActionButton floatingActionButton = viewFind.findViewById(R.id.floatingActionButton2);
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add))));
         Drawable drawableFAB = getResources().getDrawable(R.drawable.ic_add_24px);
@@ -527,6 +517,8 @@ public class YchiteliaFragment extends Fragment {
                                     adapter.notifyItemInserted(constrRecyclerViewArrayList.size() - 1);
                                 else
                                     adapter.notifyDataSetChanged();
+
+                                TextViewVisible();
 
                             } else {
                                 Toast.makeText(getActivity(), context.getString(R.string.FieldsNot), Toast.LENGTH_LONG).show();

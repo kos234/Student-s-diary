@@ -31,7 +31,7 @@
     <color name="custom_color_audio_player">#D81B60</color>
 
     <color name="black_icon">@android:color/black</color>
-    <color name="black_border_theme">@android:color/white</color>
+    <color name="black_border_theme">#424242</color>
     <color name="black_background">#0e0e0e</color>
     <color name="black_toolbar">#2c2d2e</color>
     <color name="black_toolbar_text">#e1e3e6</color>

@@ -4,9 +4,9 @@ import android.widget.TableLayout;
 
 import java.util.ArrayList;
 
-public class ConstrCheak {
-  ArrayList<String[]> arrayList;
-  TableLayout tableLayout;
+class ConstrCheak {
+  private final ArrayList<String[]> arrayList;
+  private final TableLayout tableLayout;
 
   public ConstrCheak(ArrayList<String[]> arrayList, TableLayout tableLayout) {
     this.arrayList = arrayList;

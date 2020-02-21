@@ -26,7 +26,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:id="@+id/title_bottom_alert"
-        android:text="@string/bottom_title_clear_hw"
+        android:text="@string/deleteAllLesson"
         android:textSize="20dp" />
 
     <LinearLayout
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/custom_button_add"
-            android:text="@string/buttonClearAll"
+            android:text="@string/buttonClearGrades"
             android:textSize="19dp"
             android:layout_marginRight="15dp"
             />
@@ -51,10 +51,22 @@
         <TextView
             android:gravity="center"
             android:id="@+id/button_two_alert"
+            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/custom_button_add"
+            android:text="@string/buttonClearHomeWork"
+            android:textSize="19dp"
+            android:layout_marginRight="15dp"
+            />
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/button_three_alert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:text="@string/yes"
+            android:text="@string/buttonClearAll"
             android:textColor="@color/custom_button_add"
             android:textSize="19dp" />
 

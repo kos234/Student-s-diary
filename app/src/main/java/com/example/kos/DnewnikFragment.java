@@ -3,9 +3,7 @@ package com.example.kos;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -17,7 +15,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -42,23 +39,22 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class DnewnikFragment extends Fragment {
+class DnewnikFragment extends Fragment {
     private Context context;
     private TextView dateNedel;
-    private List<helperDnewnik> helperDnewniks = new ArrayList<>();
-    LinearLayout linearLayout;
-    int startNedeli;
-    int startMes;
-    int dayInMes;
-    int endMes;
-    int endNedeli;
-    public PagerAdapterInCard pagerAdapterInCard;
-    public ViewPager viewPager;
+    private final List<helperDnewnik> helperDnewniks = new ArrayList<>();
+    private LinearLayout linearLayout;
+    private int startNedeli;
+    private int startMes;
+    private int dayInMes;
+    private int endMes;
+    private int endNedeli;
+    private PagerAdapterInCard pagerAdapterInCard;
+    private ViewPager viewPager;
     private SharedPreferences Current_Theme;
     private String nameMes;
-    private String dayName;
-    SharedPreferences settings;
-    public View view;
+    private SharedPreferences settings;
+    private View view;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -103,7 +99,7 @@ public class DnewnikFragment extends Fragment {
 
                 promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
 
-                TextView ButtonClearAll = promptsView.findViewById(R.id.button_one_alert);
+                TextView ButtonClearAll = promptsView.findViewById(R.id.button_three_alert);
                 ButtonClearAll.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                 ButtonClearAll.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -129,6 +125,16 @@ public class DnewnikFragment extends Fragment {
                 });
                 ButtonClearHomework.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
 
+                TextView ButtonClearOcenki = promptsView.findViewById(R.id.button_one_alert);
+                ButtonClearOcenki.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new ClearOcenkiAsyncTask().execute();
+                        alertDialog.hide();
+                    }
+                });
+                ButtonClearOcenki.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+
                 alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
             }
@@ -138,7 +144,7 @@ public class DnewnikFragment extends Fragment {
     }
 
 
-    public void Cliks (final View viewRoditel){
+    private void Cliks(final View viewRoditel){
         ImageButton imageButtonOne = viewRoditel.findViewById(R.id.imageButtonDnew);
         imageButtonOne.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_ATOP);
         ImageButton imageButtonTwo = viewRoditel.findViewById(R.id.imageButtonDnew2);
@@ -169,7 +175,7 @@ public class DnewnikFragment extends Fragment {
     }
 
     class ClearAllAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences.Editor editor = settings.edit();
+        final SharedPreferences.Editor editor = settings.edit();
 
         @Override
         protected void onPreExecute() {
@@ -266,7 +272,7 @@ helperDnewniks.clear();
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             help = temp_read.split(delimeter);
-                            stringBuffer.append(help[1]).append("=\n");
+                            stringBuffer.append(help[1] + "= =").append("=\n");
                             helpKab = help[1].split(",");
 
 
@@ -313,7 +319,7 @@ helperDnewniks.clear();
     }
 
     class LeftAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences.Editor editor = settings.edit();
+        final SharedPreferences.Editor editor = settings.edit();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -693,7 +699,7 @@ helperDnewniks.clear();
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             help = temp_read.split(delimeter);
-                            stringBuffer.append(help[1]).append("=\n");
+                            stringBuffer.append(help[1] + "= =").append("=\n");
                             helpKab = help[1].split(",");
 
 
@@ -742,7 +748,7 @@ helperDnewniks.clear();
     }
 
     class RightAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences.Editor editor = settings.edit();
+        final SharedPreferences.Editor editor = settings.edit();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1125,7 +1131,7 @@ helperDnewniks.clear();
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             help = temp_read.split(delimeter);
-                            stringBuffer.append(help[1]).append("=\n");
+                            stringBuffer.append(help[1] + "= =").append("=\n");
                             helpKab = help[1].split(",");
 
 
@@ -1173,8 +1179,170 @@ helperDnewniks.clear();
             return null;
         }
     }
+    class ClearOcenkiAsyncTask extends AsyncTask<Void,String[],Void>{
+        final SharedPreferences.Editor editor = settings.edit();
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.gravity = Gravity.CENTER;
+            linearLayout.removeAllViews();
+            ProgressBar progressBar = new ProgressBar(context);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
+
+            linearLayout.addView(progressBar, layoutParams);
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.gravity = Gravity.CENTER;
+            linearLayout.removeAllViews();
+            viewPager = new ViewPager(context);
+            viewPager.setAdapter(pagerAdapterInCard);
+            viewPager.setClipToPadding(false);
+            viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
+            viewPager.setPageMargin(60);
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+
+                    editor.putInt("Card",position);
+                    editor.apply();
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            linearLayout.addView(viewPager,layoutParams);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            helperDnewniks.clear();
+            for (int i = 0; i < 6; i++){
+                if(i + 1 == 6 && !settings.getBoolean("SaturdaySettings",true))
+                    continue;
+
+                String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+
+
+                String nameDay;
+
+                switch (i){
+                    case 1:
+                        nameDay = context.getString(R.string.tuesday);
+                        break;
+                    case 2:
+                        nameDay = context.getString(R.string.wednesday);
+                        break;
+                    case 3:
+                        nameDay = context.getString(R.string.thursday);
+                        break;
+                    case 4:
+                        nameDay = context.getString(R.string.friday);
+                        break;
+                    case 5:
+                        nameDay = context.getString(R.string.saturday);
+                        break;
+
+                    default:
+                        nameDay = context.getString(R.string.monday);
+                        break;
+                }
+                StringBuffer stringBuffer = new StringBuffer();
+                try {
+                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                    File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                    if (!mFolder.exists()) {
+                        mFolder.mkdir();
+                    }
+                    if (!FileTxt.exists()) {
+                        FileTxt.createNewFile();
+                    }
+
+                    FileInputStream read =  new  FileInputStream(FileTxt);
+                    InputStreamReader reader = new InputStreamReader(read);
+                    BufferedReader bufferedReader = new BufferedReader(reader);
+                    String temp_read,namePred = "", kab = "",dz = "", ocenka = "";
+                    String[] help, helpKab;
+                    String delimeter = "=";
+                    if((temp_read = bufferedReader.readLine()) == null){
+                        throw new FileNotFoundException();
+                    }else{
+                        help = temp_read.split(delimeter);
+                        helpKab = help[0].split(",");
+                        namePred = helpKab[0]+ "=";
+                        kab = helpKab[1].substring(1)+ "=";
+                        if(2 <= help.length)
+                            dz = help[1]+ "=";
+                        else
+                            dz = " =";
+                        ocenka = ocenka + " =";
+                        stringBuffer.append(help[0] + "=" + help[1]).append("=\n");
+                    }
+                    while ((temp_read = bufferedReader.readLine()) != null) {
+                        help = temp_read.split(delimeter);
+
+                        helpKab = help[0].split(",");
+
+
+                        namePred = namePred  + helpKab[0]+ "=";
+                        kab = kab  + helpKab[1].substring(1)+ "=";
+                        if(2 <= help.length)
+                            dz = help[1]+ "=";
+                        else
+                            dz = " =";
+                        ocenka = ocenka + " =";
+                        stringBuffer.append(help[0] + "=" + help[1]).append("=\n");
+                    }
+                    helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
+
+                } catch (FileNotFoundException e) {
+                    helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz),""));
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                    File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                    if (!mFolder.exists()) {
+                        mFolder.mkdir();
+                    }
+                    if (!FileTxt.exists()) {
+                        FileTxt.createNewFile();
+                    }
+
+                    FileOutputStream write =  new FileOutputStream(FileTxt);
+                    String temp_write = stringBuffer.toString();
+
+                    write.write(temp_write.getBytes());
+                    write.close();
+                } catch (FileNotFoundException p) {
+                    p.printStackTrace();
+                } catch (IOException a) {
+                    a.printStackTrace();
+                }
+            }
+            return null;
+        }
+    }
+
     class ClearDzAsyncTask extends AsyncTask<Void,String[],Void>{
-        SharedPreferences.Editor editor = settings.edit();
+        final SharedPreferences.Editor editor = settings.edit();
 
         @Override
         protected void onPreExecute() {
@@ -1280,7 +1448,10 @@ helperDnewniks.clear();
                         namePred = helpKab[0]+ "=";
                         kab = helpKab[1].substring(1)+ "=";
                         dz = dz + " =";
-                        ocenka = ocenka + " =";
+                        if (3 <= help.length)
+                            ocenka = ocenka + help[2]+ "=";
+                        else
+                            ocenka = ocenka + " =";
                         stringBuffer.append(help[0]).append("=\n");
                     }
                     while ((temp_read = bufferedReader.readLine()) != null) {
@@ -1292,8 +1463,11 @@ helperDnewniks.clear();
                         namePred = namePred  + helpKab[0]+ "=";
                         kab = kab  + helpKab[1].substring(1)+ "=";
                         dz = dz + " =";
-                        ocenka = ocenka + " =";
-                        stringBuffer.append(help[0]).append("=\n");
+                        if (3 <= help.length)
+                            ocenka = ocenka + help[2]+ "=";
+                        else
+                            ocenka = ocenka + " =";
+                        stringBuffer.append(help[0]+"= =" + help[2]).append("=\n");
                     }
                     helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
 
@@ -1303,6 +1477,7 @@ helperDnewniks.clear();
                 catch (IOException e) {
                     e.printStackTrace();
                 }
+
                 try {
                     File mFolder = new File(context.getFilesDir() + "/dnewnik");
                         File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
@@ -1329,7 +1504,7 @@ helperDnewniks.clear();
     }
 
     class StartAsyncTask extends AsyncTask<Void,String[],Void> {
-        SharedPreferences.Editor editor = settings.edit();
+        final SharedPreferences.Editor editor = settings.edit();
 
         @Override
         protected void onPreExecute() {
@@ -1412,7 +1587,7 @@ helperDnewniks.clear();
             startMes = 00;
             dayInMes = 00;
             endMes = 00;
-            dayName = date.toString().substring(0,3);
+            String dayName = date.toString().substring(0, 3);
             endNedeli = 00;
             int dayRemove = 0;
             switch (nameMes){
@@ -2008,7 +2183,7 @@ helperDnewniks.clear();
                                 throw new FileNotFoundException();
                             else{
                                 help = temp_read.split(delimeter);
-                                stringBuffer.append(help[1]).append("=\n");
+                                stringBuffer.append(help[1] + "= =").append("=\n");
                                 helpKab = help[1].split(",");
 
 
@@ -2019,7 +2194,7 @@ helperDnewniks.clear();
                             }
                             while ((temp_read = bufferedReader.readLine()) != null) {
                                 help = temp_read.split(delimeter);
-                                stringBuffer.append(help[1]).append("=\n");
+                                stringBuffer.append(help[1] + "= =").append("=\n");
                                 helpKab = help[1].split(",");
 
 

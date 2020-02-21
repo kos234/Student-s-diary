@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class SpravkaFragment extends Fragment {
+class SpravkaFragment extends Fragment {
 
 
     @Override

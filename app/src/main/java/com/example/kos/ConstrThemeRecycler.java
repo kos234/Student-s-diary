@@ -1,9 +1,11 @@
 package com.example.kos;
 
-public class ConstrThemeRecycler {
-    String name;
-    String[] colors;
-    int ColorBolder, ColorIcon, IdSwitch;
+class ConstrThemeRecycler {
+    private String name;
+    private final String[] colors;
+    private final int ColorBolder;
+    private final int ColorIcon;
+    private final int IdSwitch;
 
     public ConstrThemeRecycler(String[] colors) {
         IdSwitch = Integer.parseInt(colors[0]);

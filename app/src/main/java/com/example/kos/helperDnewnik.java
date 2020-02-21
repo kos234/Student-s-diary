@@ -1,7 +1,11 @@
 package com.example.kos;
 
-public class helperDnewnik {
-    String NameDay , NamePred, Kab ,Dz, Ocenka;
+class helperDnewnik {
+    private final String NameDay;
+    private final String NamePred;
+    private final String Kab;
+    private final String Dz;
+    private final String Ocenka;
 
 
     public helperDnewnik(String nameDay, String namePred, String kab, String dz, String Ocenka) {

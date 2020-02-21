@@ -21,12 +21,13 @@ import java.util.ArrayList;
 import static android.content.Context.MODE_PRIVATE;
 
 public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdapter.RecyclerViewHolder> {
-    private ArrayList<ConstrThemeRecycler> constrRecyclerThemeViewArrayList;
+    private final ArrayList<ConstrThemeRecycler> constrRecyclerThemeViewArrayList;
     private RecyclerThemeAdapter.OnItemClickListener itemClickListener;
     private RecyclerThemeAdapter.OnItemLongClickListener itemLongClickListener;
     private RecyclerThemeAdapter.OnCheckedChangeListener onCheckedChangeListener;
-    private SharedPreferences settings, Current_Theme;
-    private Context context;
+    private final SharedPreferences settings;
+    private final SharedPreferences Current_Theme;
+    private final Context context;
     private Switch aSwitch;
 
     public void setOnItemClickListener(RecyclerThemeAdapter.OnItemClickListener listener){itemClickListener = listener;}
@@ -40,7 +41,7 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
         void onItemLongClick(int position);
     }
     public interface OnCheckedChangeListener{
-        void onCheckedChanged(int position, boolean b);
+        void onCheckedChanged(int position);
     }
 
     public RecyclerThemeAdapter(ArrayList<ConstrThemeRecycler> constrRecyclerThemeViewArrayList, Context context) {
@@ -51,13 +52,13 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
-        public CardView cardView;
-        public TextView textViewName;
-        public FrameLayout bolder;
-        public ImageView icon;
-        public Switch switchTheme;
+        final CardView cardView;
+        final TextView textViewName;
+        final FrameLayout bolder;
+        final ImageView icon;
+        final Switch switchTheme;
 
-        public RecyclerViewHolder(@NonNull View itemView, final RecyclerThemeAdapter.OnItemClickListener listener, final RecyclerThemeAdapter.OnItemLongClickListener longClickListener, final RecyclerThemeAdapter.OnCheckedChangeListener checkedChangeListener) {
+        RecyclerViewHolder(@NonNull View itemView, final RecyclerThemeAdapter.OnItemClickListener listener, final RecyclerThemeAdapter.OnItemLongClickListener longClickListener, final RecyclerThemeAdapter.OnCheckedChangeListener checkedChangeListener) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card_custom_theme);
             textViewName = itemView.findViewById(R.id.name_add);
@@ -70,7 +71,7 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(checkedChangeListener != null){
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){checkedChangeListener.onCheckedChanged(position, b);}
+                        if(position != RecyclerView.NO_POSITION){checkedChangeListener.onCheckedChanged(position);}
                     }
                 }
             });
@@ -102,8 +103,7 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
     @Override
     public RecyclerThemeAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.themes_item,parent,false);
-        RecyclerThemeAdapter.RecyclerViewHolder recyclerViewHolder = new RecyclerThemeAdapter.RecyclerViewHolder(view, itemClickListener, itemLongClickListener, onCheckedChangeListener);
-        return recyclerViewHolder;
+        return new RecyclerViewHolder(view, itemClickListener, itemLongClickListener, onCheckedChangeListener);
     }
 
     @Override

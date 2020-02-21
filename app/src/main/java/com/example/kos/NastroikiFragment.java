@@ -18,7 +18,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,22 +30,18 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -58,16 +53,16 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class NastroikiFragment extends Fragment {
+class NastroikiFragment extends Fragment {
     private Context context;
     private SharedPreferences settings,
             Current_Theme;
-    public BottomSheetBehavior bottomSheetBehavior;
-    public LinearLayout linearLayoutBottom;
+    private BottomSheetBehavior bottomSheetBehavior;
+    private LinearLayout linearLayoutBottom;
     private SharedPreferences.Editor editor;
-    private ArrayList<ConstrThemeRecycler> constrRecyclerViewArrayList = new ArrayList<>();
-    RecyclerView recyclerView;
-    RecyclerThemeAdapter adapter;
+    private final ArrayList<ConstrThemeRecycler> constrRecyclerViewArrayList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private RecyclerThemeAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,196 +90,201 @@ public class NastroikiFragment extends Fragment {
 
         //Visual
 
-        linearLayoutBottom.findViewById(R.id.field_create_fragment).setBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        final int cardColor = Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)), textLightcolor = Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), borderColor = Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)), borderThemeColor = Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme));
+        linearLayoutBottom.findViewById(R.id.field_create_fragment).setBackgroundColor(cardColor);
         CardView cardVisual = view.findViewById(R.id.card_students);
-        cardVisual.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = view.findViewById(R.id.card_timetables);
-        cardVisual.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = view.findViewById(R.id.card_grades);
-        cardVisual.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = view.findViewById(R.id.card_settings);
-        cardVisual.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = view.findViewById(R.id.card_general_setting);
-        cardVisual.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = view.findViewById(R.id.card_themes);
-        cardVisual.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = view.findViewById(R.id.card_white_theme);
-        cardVisual.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = view.findViewById(R.id.card_dark_theme);
-        cardVisual.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = view.findViewById(R.id.card_create_theme_nastroiki);
-        cardVisual.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = linearLayoutBottom.findViewById(R.id.save_theme);
-        cardVisual.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+        cardVisual.setCardBackgroundColor(cardColor);
 
         TextView textVisual = view.findViewById(R.id.title_students);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_students);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.title_timetables);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_timetables_not);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_timetables_saturday);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.title_grades);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_grades);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.title_settings);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_settings);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.title_general_setting);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_general_setting_what);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_general_setting_anim);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_general_setting_dialog_stroke);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_general_setting_width_stroke);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_white_theme);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.title_themes);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_dark_theme);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.Card_create);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.title_save_theme);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_name);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
+        textVisual = view.findViewById(R.id.bottom_title_general_setting_fragment_default);
+        textVisual.setTextColor(textLightcolor);
 
 
 
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_icon);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_border);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_back);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_bar);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_text_bar);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_not_bar);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_text_light);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_text_dark);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_text_hint);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_cursor);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_card);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_bottom_border);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_add);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_add_plus);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_arrow);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_loading);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_not_conf);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_table);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_not_on);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_not_off);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_switch_on);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_switch_off);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_choose_back);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_choose_border);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_audio);
-        textVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        textVisual.setTextColor(textLightcolor);
 
 
         View viewBorderVisual = view.findViewById(R.id.border_one);
-        viewBorderVisual.setBackgroundColor(Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)));
+        viewBorderVisual.setBackgroundColor(borderColor);
         viewBorderVisual = view.findViewById(R.id.border_two);
-        viewBorderVisual.setBackgroundColor(Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)));
+        viewBorderVisual.setBackgroundColor(borderColor);
         viewBorderVisual = view.findViewById(R.id.border_three);
-        viewBorderVisual.setBackgroundColor(Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)));
+        viewBorderVisual.setBackgroundColor(borderColor);
         viewBorderVisual = view.findViewById(R.id.border_four);
-        viewBorderVisual.setBackgroundColor(Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)));
+        viewBorderVisual.setBackgroundColor(borderColor);
+        viewBorderVisual = view.findViewById(R.id.border_five);
+        viewBorderVisual.setBackgroundColor(borderColor);
 
         FrameLayout borderTheme = view.findViewById(R.id.border_white_theme);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_icon);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_border);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_back);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_bar);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_bar_text);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_not_bar);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_text_light);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_text_dark);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_text_hint);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_cursor);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_card);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_bottom_border);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_add);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_add_plus);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));;
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_arrow);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_progress);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_not_conf);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_table);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_not_on);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_not_off);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_switch_on);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_switch_off);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_choose_back);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_choose_border);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_audio);
-        borderTheme.setBackgroundColor(Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme)));
+        borderTheme.setBackgroundColor(borderThemeColor);
 
         EditText editVisual = linearLayoutBottom.findViewById(R.id.custom_name);
         MainActivity.setCursorPointerColor(editVisual,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
         MainActivity.setCursorColor(editVisual,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
         editVisual.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
-        editVisual.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        editVisual.setTextColor(textLightcolor);
 
         final EditText editText = view.findViewById(R.id.EditDpDnew);
         MainActivity.setCursorPointerColor(editText,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
         MainActivity.setCursorColor(editText,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
         editText.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
-        editText.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        editText.setTextColor(textLightcolor);
         TextView textDpColor = view.findViewById(R.id.dpText);
         textDpColor.setTextColor(editText.getHintTextColors());
         editText.setHint(Integer.toString(settings.getInt("dpSizeSettings",120)));
@@ -458,7 +458,7 @@ public class NastroikiFragment extends Fragment {
 
         final EditText editTextSizeBorder = view.findViewById(R.id.EditSizeBorder);
         editTextSizeBorder.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
-        editTextSizeBorder.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+        editTextSizeBorder.setTextColor(textLightcolor);
         MainActivity.setCursorPointerColor(editTextSizeBorder,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
         MainActivity.setCursorColor(editTextSizeBorder,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
         TextView textDpBorder = view.findViewById(R.id.dpBorder);
@@ -484,7 +484,7 @@ public class NastroikiFragment extends Fragment {
         });
 
         Spinner spinner = view.findViewById(R.id.spinner_default);
-        spinner.getBackground().setColorFilter(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), PorterDuff.Mode.SRC_ATOP);
+        spinner.getBackground().setColorFilter(textLightcolor, PorterDuff.Mode.SRC_ATOP);
         List<String> choose = new ArrayList<>();
         if(settings.getString("dafauilt_choose_color",getString(R.string.not_chosen)).equals(getString(R.string.not_chosen))){
             choose.add(getString(R.string.not_chosen));
@@ -499,14 +499,94 @@ public class NastroikiFragment extends Fragment {
             choose.add(getString(R.string.not_chosen));
             choose.add(getString(R.string.HEX_code));
         }
+
         final SpinnerAdapter spinnerAdapter = new SpinnerAdapter(context,choose,false);
         spinner.setAdapter(spinnerAdapter);
-        spinner.getBackground().setColorFilter(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), PorterDuff.Mode.SRC_ATOP);
+        spinner.getBackground().setColorFilter(textLightcolor, PorterDuff.Mode.SRC_ATOP);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         editor.putString("dafauilt_choose_color", spinnerAdapter.getItem(i));
                         editor.apply();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        Spinner spinnerFragment = view.findViewById(R.id.spinner_fragment_default);
+        spinnerFragment.getBackground().setColorFilter(textLightcolor, PorterDuff.Mode.SRC_ATOP);
+        List<String> chooseFragment = new ArrayList<>();
+        String switchValue = settings.getString("dafauilt_fragment",getString(R.string.fragment_default_off));
+        if(switchValue.equals(getString(R.string.app_name))) {
+            chooseFragment.add(getString(R.string.app_name));
+            chooseFragment.add(getString(R.string.timetables));
+            chooseFragment.add(getString(R.string.teachers));
+            chooseFragment.add(getString(R.string.grades));
+            chooseFragment.add(getString(R.string.settings));
+            chooseFragment.add(getString(R.string.help));
+            chooseFragment.add(getString(R.string.fragment_default_off));
+        }else if(switchValue.equals(getString(R.string.timetables))) {
+            chooseFragment.add(getString(R.string.timetables));
+            chooseFragment.add(getString(R.string.teachers));
+            chooseFragment.add(getString(R.string.grades));
+            chooseFragment.add(getString(R.string.settings));
+            chooseFragment.add(getString(R.string.help));
+            chooseFragment.add(getString(R.string.app_name));
+            chooseFragment.add(getString(R.string.fragment_default_off));
+        }else if(switchValue.equals(getString(R.string.teachers))) {
+            chooseFragment.add(getString(R.string.teachers));
+            chooseFragment.add(getString(R.string.grades));
+            chooseFragment.add(getString(R.string.settings));
+            chooseFragment.add(getString(R.string.help));
+            chooseFragment.add(getString(R.string.app_name));
+            chooseFragment.add(getString(R.string.timetables));
+            chooseFragment.add(getString(R.string.fragment_default_off));
+        }else if(switchValue.equals(getString(R.string.grades))) {
+            chooseFragment.add(getString(R.string.grades));
+            chooseFragment.add(getString(R.string.settings));
+            chooseFragment.add(getString(R.string.help));
+            chooseFragment.add(getString(R.string.app_name));
+            chooseFragment.add(getString(R.string.timetables));
+            chooseFragment.add(getString(R.string.teachers));
+            chooseFragment.add(getString(R.string.fragment_default_off));
+        }else if(switchValue.equals(getString(R.string.settings))) {
+            chooseFragment.add(getString(R.string.settings));
+            chooseFragment.add(getString(R.string.help));
+            chooseFragment.add(getString(R.string.app_name));
+            chooseFragment.add(getString(R.string.timetables));
+            chooseFragment.add(getString(R.string.teachers));
+            chooseFragment.add(getString(R.string.grades));
+            chooseFragment.add(getString(R.string.fragment_default_off));
+        }else if(switchValue.equals(getString(R.string.help))) {
+            chooseFragment.add(getString(R.string.help));
+            chooseFragment.add(getString(R.string.app_name));
+            chooseFragment.add(getString(R.string.timetables));
+            chooseFragment.add(getString(R.string.teachers));
+            chooseFragment.add(getString(R.string.grades));
+            chooseFragment.add(getString(R.string.settings));
+            chooseFragment.add(getString(R.string.fragment_default_off));
+        }else {
+            chooseFragment.add(getString(R.string.fragment_default_off));
+            chooseFragment.add(getString(R.string.app_name));
+            chooseFragment.add(getString(R.string.timetables));
+            chooseFragment.add(getString(R.string.teachers));
+            chooseFragment.add(getString(R.string.grades));
+            chooseFragment.add(getString(R.string.settings));
+            chooseFragment.add(getString(R.string.help));
+        }
+
+        final SpinnerAdapter spinnerAdapterFragment = new SpinnerAdapter(context,chooseFragment,false);
+        spinnerFragment.setAdapter(spinnerAdapterFragment);
+        spinnerFragment.getBackground().setColorFilter(textLightcolor, PorterDuff.Mode.SRC_ATOP);
+        spinnerFragment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                editor.putString("dafauilt_fragment", spinnerAdapterFragment.getItem(i));
+                editor.apply();
             }
 
             @Override
@@ -526,7 +606,7 @@ public class NastroikiFragment extends Fragment {
 
             adapter.setOnCheckedChangeListener(new RecyclerThemeAdapter.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(int position, boolean b) {
+                public void onCheckedChanged(int position) {
                     if (constrRecyclerViewArrayList.get(position).getIdSwitch() == settings.getInt("id_current_theme", R.id.switchWhite)) {
                         adapter.getSwitch().setChecked(true);
                     }else
@@ -553,7 +633,7 @@ public class NastroikiFragment extends Fragment {
                     textTitle.setText(context.getString(R.string.deleting));
 
                     TextView textBottomTitle = promptsView.findViewById(R.id.title_bottom_alert);
-                    textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                    textBottomTitle.setTextColor(textLightcolor);
                     textBottomTitle.setText(context.getString(R.string.deleteTheme) + " \"" + constrRecyclerViewArrayList.get(position).getName() + "\" ?");
 
                     TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
@@ -706,7 +786,7 @@ public class NastroikiFragment extends Fragment {
             progressDialog.setView(promptsView)
                     .setCancelable(false);
             GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.loading_drawable);
-            alertbackground.setColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+            alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
             if(settings.getBoolean("BorderAlertSettings",false))
                 alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
             promptsView.findViewById(R.id.linerLoading).setBackground(alertbackground);

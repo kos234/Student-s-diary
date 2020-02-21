@@ -12,15 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class SpinnerAdapter extends ArrayAdapter<String> {
-    SharedPreferences Current_Theme;
-    boolean TypeColor;
+class SpinnerAdapter extends ArrayAdapter<String> {
+    private final SharedPreferences Current_Theme;
+    private final boolean TypeColor;
     public SpinnerAdapter(@NonNull Context context, List<String> value, boolean TypeColor) {
         super(context, R.layout.spinner_list , value);
         Current_Theme = getContext().getSharedPreferences("Current_Theme", MODE_PRIVATE);
@@ -38,7 +36,7 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
         return viewGenerate(position, convertView, parent);
     }
 
-    public View viewGenerate(int position,  View convertView, ViewGroup parent){
+    private View viewGenerate(int position, View convertView, ViewGroup parent){
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_list, parent,false);
         }

@@ -2,7 +2,6 @@ package com.example.kos;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,11 @@ import java.util.ArrayList;
 import static android.content.Context.MODE_PRIVATE;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
-  private ArrayList<ConstrRecyclerView> constrRecyclerViewArrayList;
+  private final ArrayList<ConstrRecyclerView> constrRecyclerViewArrayList;
   private OnItemClickListener itemClickListener;
-  private SharedPreferences Current_Theme;
-  private Context context;
+  private final SharedPreferences Current_Theme;
+  private final SharedPreferences settings;
+  private final Context context;
   private OnItemLongClickListener itemLongClickListener;
 
   public void setOnItemClickListener(OnItemClickListener listener){itemClickListener = listener;}
@@ -37,14 +37,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
   public RecyclerAdapter(ArrayList<ConstrRecyclerView> constrRecyclerViewArrayList, Context context) {
     this.constrRecyclerViewArrayList = constrRecyclerViewArrayList;
       Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
+    settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
       this.context = context;
   }
 
   public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
-    public TextView textViewName, textViewBottom;
-    public CardView cardView;
+    final TextView textViewName;
+    final TextView textViewBottom;
+    final CardView cardView;
 
-    public RecyclerViewHolder(@NonNull View itemView, final OnItemClickListener listener, final OnItemLongClickListener longClickListener) {
+    RecyclerViewHolder(@NonNull View itemView, final OnItemClickListener listener, final OnItemLongClickListener longClickListener) {
       super(itemView);
       textViewName = itemView.findViewById(R.id.textViewName);
       textViewBottom = itemView.findViewById(R.id.textViewBottom);
@@ -77,8 +79,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
   @Override
   public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item,parent,false);
-    RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view, itemClickListener, itemLongClickListener);
-    return recyclerViewHolder;
+    return new RecyclerViewHolder(view, itemClickListener, itemLongClickListener);;
   }
 
   @Override
@@ -100,8 +101,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
       ConstrRecyclerView constrRecyclerTemp = constrRecyclerViewArrayList.get(firstPos);
       constrRecyclerViewArrayList.remove(firstPos);
       constrRecyclerViewArrayList.add(fixPos, constrRecyclerTemp);
+    if(settings.getBoolean("AnimationSettings",true)){
       notifyItemMoved(firstPos, fixPos);
-      notifyItemChanged(fixPos );
+      notifyItemChanged(fixPos );}
+    else notifyDataSetChanged();
   }
 
   @Override

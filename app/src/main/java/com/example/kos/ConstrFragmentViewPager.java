@@ -4,12 +4,12 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-public class ConstrFragmentViewPager {
+class ConstrFragmentViewPager {
 
-  public ArrayList<ConstrRecyclerView> products;
-  public String url;
-  public RecyclerAdapter recyclerAdapter;
-  public View view;
+  private final ArrayList<ConstrRecyclerView> products;
+  private final String url;
+  private final RecyclerAdapter recyclerAdapter;
+  private View view;
 
   public ConstrFragmentViewPager(ArrayList<ConstrRecyclerView> products, String url, RecyclerAdapter recyclerAdapter) {
     this.products = products;

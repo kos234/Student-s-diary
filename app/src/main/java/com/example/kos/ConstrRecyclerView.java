@@ -1,8 +1,9 @@
 package com.example.kos;
 
-public class ConstrRecyclerView {
+class ConstrRecyclerView {
 
-  String TextName, TextBottom;
+  private String TextName;
+    private String TextBottom;
 
   public ConstrRecyclerView(String textName, String textBottom) {
     TextName = textName;

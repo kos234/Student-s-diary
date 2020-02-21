@@ -59,7 +59,6 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -85,7 +84,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import android.text.format.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -98,7 +96,7 @@ import static android.app.NotificationManager.IMPORTANCE_NONE;
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
-    final Context context = this;
+    private final Context context = this;
     private AlertDialog alertDialogConfirmation;
     private SharedPreferences settings, Current_Theme, Confirmed;
     private SharedPreferences.Editor editor,editorConfirmed;
@@ -112,12 +110,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int NOTIFY_ID = 1, REQUEST_CODE_CAMERA = 1, REQUEST_CODE_MICROPHONE_CONF = 3, REQUEST_CODE_CAMERA_CONF = 4, REQUEST_CODE_FOLDER_CONF = 5;
     private static final String CHANNEL_ID = "NotificationTime";
     private String url;
-    public String TempNameTheme;
+    private String TempNameTheme;
     private NavigationView navigationView;
     private boolean cancelAsyncTask = false, ic_micro = true, ClickSaveThemeType = true;
     private View viewConfirm;
-    public int color;
-    private HashMap<Integer, Integer> colors = new HashMap();
+    private int color;
+    private final HashMap<Integer, Integer> colors = new HashMap();
     private TextView ConfirmationTextView;
 
 
@@ -132,11 +130,7 @@ public class MainActivity extends AppCompatActivity {
         new onStart().execute();
 
         /**
-         * Перевести в кастомизацию цвет столбцов при подтверждении и загрузки при смене тем
-         * Документация
-         * Фрагмент по умолчанию
          * попробовать изменить цвет текста в календаре
-         * Сделать шаблоны тем, шо типа если включена темная тема был выбран шаблон темной темы
          */
 
     }
@@ -156,10 +150,10 @@ public class MainActivity extends AppCompatActivity {
             TextView textTemp = start_image.findViewById(R.id.title_start_display);
             textTemp.setTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
             ProgressBar progressBar = start_image.findViewById(R.id.progress_start_display);
-            int color = Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress));
-            if(color == ContextCompat.getColor(context, R.color.custom_progress))
-                color = Color.WHITE;
-            progressBar.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            int colorTitle = Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress));
+            if(colorTitle == ContextCompat.getColor(context, R.color.custom_progress))
+                colorTitle = Color.WHITE;
+            progressBar.getIndeterminateDrawable().setColorFilter(colorTitle, PorterDuff.Mode.SRC_ATOP);
             drawerLayout.addView(start_image);
             navigationView = findViewById(R.id.navigation);
             menuSize = navigationView.getMenu().size();
@@ -173,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             drawerLayout.setBackgroundColor(Current_Theme.getInt("custom_background",ContextCompat.getColor(context, R.color.custom_background)));
+            if(settings.getBoolean("AnimationSettings",true)){
             start_image.animate()
                     .translationY(0)
                     .alpha(0.0f)
@@ -182,7 +177,9 @@ public class MainActivity extends AppCompatActivity {
                             super.onAnimationEnd(animation);
                             drawerLayout.removeView(start_image);
                         }
-                    });
+                    });}
+            else drawerLayout.removeView(start_image);
+
             new MyThread().start();
             getFragment = fragmentManager.getFragments();
             Window window = getWindow();
@@ -325,34 +322,40 @@ public class MainActivity extends AppCompatActivity {
                 switch (s) {
                     case 1:
                         fragmentClass = YchiteliaFragment.class;
-                        if(settings.getString("Fragment", "Dnewnik").equals("Ychitelia"))
+                        if ((settings.getString("Fragment", "Dnewnik").equals("Ychitelia") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.teachers))){
                             Invisibly = false;
-                        break;
+                            editor.putString("Fragment", "Ychitelia");
+                        } break;
                     case 2:
                         fragmentClass = ZnonkiFragment.class;
-                        if(settings.getString("Fragment", "Dnewnik").equals("Znonki"))
+                        if((settings.getString("Fragment", "Dnewnik").equals("Znonki") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.timetables))){
                             Invisibly = false;
-                        break;
+                            editor.putString("Fragment", "Znonki");
+                        }break;
                     case 3:
                         fragmentClass = OcenkiFragment.class;
-                        if(settings.getString("Fragment", "Dnewnik").equals("Ocenki"))
+                        if((settings.getString("Fragment", "Dnewnik").equals("Ocenki") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.grades))){
                             Invisibly = false;
-                        break;
+                            editor.putString("Fragment", "Ocenki");
+                        }break;
                     case 4:
                         fragmentClass = NastroikiFragment.class;
-                        if(settings.getString("Fragment", "Dnewnik").equals("Nastroiki"))
+                        if((settings.getString("Fragment", "Dnewnik").equals("Nastroiki") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.settings))) {
                             Invisibly = false;
-                        break;
+                            editor.putString("Fragment", "Nastroiki");
+                        }break;
                     case 5:
                         fragmentClass = SpravkaFragment.class;
-                        if(settings.getString("Fragment", "Dnewnik").equals("Spravka"))
+                        if((settings.getString("Fragment", "Dnewnik").equals("Spravka") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.help))) {
                             Invisibly = false;
-                        break;
+                            editor.putString("Fragment", "Spravka");
+                        }break;
                     default:
                         fragmentClass = DnewnikFragment.class;
-                        if(settings.getString("Fragment", "Dnewnik").equals("Dnewnik"))
+                        if((settings.getString("Fragment", "Dnewnik").equals("Dnewnik") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.app_name))) {
                             Invisibly = false;
-                        break;
+                            editor.putString("Fragment", "Dnewnik");
+                        } break;
                 }
                 Fragment fragmentActiv = null;
 
@@ -366,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 }
-
+                editor.apply();
             }
             return null;
         }
@@ -503,7 +506,7 @@ public class MainActivity extends AppCompatActivity {
                             } catch (IOException j) {
                                 
                             }
-                            color = Color.RED;
+                            color = Current_Theme.getInt("custom_not_confirmed", ContextCompat.getColor(context, R.color.custom_not_confirmed));
                             new ReplaceColorStolb().execute();
 
                             try {
@@ -609,6 +612,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.end:
                 numStolbWrite = 6;
                 break;
+                default:
+                    numStolbWrite = 0;
+                    break;
         }
 
         if(ConfirmationTextView.getText().equals(getString(R.string.Not_Confirmed))){
@@ -691,13 +697,7 @@ public class MainActivity extends AppCompatActivity {
                         AlertDialog.Builder ConfirmationAlert = new AlertDialog.Builder(context);
                         ConfirmationAlert.setView(viewConfirm);
                         ConfirmationAlert
-                                .setCancelable(true)
-                                .setPositiveButton(getString(R.string.Ok), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        });
+                                .setCancelable(true);
                         GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
                         alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                         if(settings.getBoolean("BorderAlertSettings",false))
@@ -714,6 +714,16 @@ public class MainActivity extends AppCompatActivity {
                         Bitmap rotate = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true);
                         imageView.setImageBitmap(rotate);
                         alertDialogConfirmation = ConfirmationAlert.create();
+
+                        TextView button = viewConfirm.findViewById(R.id.button_one_conf);
+                        button.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialogConfirmation.hide();
+                            }
+                        });
+
                         alertDialogConfirmation.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                         alertDialogConfirmation.show();
 
@@ -836,6 +846,24 @@ public class MainActivity extends AppCompatActivity {
                             timeEnd.setText((int) Math.floor(mediaPlayer.getDuration()/ 1000/60) + ":" + (int) Math.floor(mediaPlayer.getDuration()/1000));
 
                         alertDialogConfirmation = ConfirmationAlert.create();
+
+                        TextView button = viewConfirm.findViewById(R.id.button_one_conf);
+                        button.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialogConfirmation.hide();
+                                if (mediaPlayer != null) {
+                                    try {
+                                        mediaPlayer.release();
+                                        mediaPlayer = null;
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+
                         alertDialogConfirmation.setOnCancelListener(new DialogInterface.OnCancelListener() {
                             @Override
                             public void onCancel(DialogInterface dialogInterface) {
@@ -869,7 +897,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    public void startPlayProgressUpdater(final SeekBar seekBar, final TextView textView) {
+    private void startPlayProgressUpdater(final SeekBar seekBar, final TextView textView) {
         seekBar.setProgress(mediaPlayer.getCurrentPosition());
 
         if((int) Math.floor(mediaPlayer.getCurrentPosition()/1000) < 60)
@@ -900,7 +928,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void MicroConfirmation(){
+    private void MicroConfirmation(){
         if(ic_micro){
             ic_micro = false;
             LayoutInflater li = LayoutInflater.from(context);
@@ -985,7 +1013,7 @@ public class MainActivity extends AppCompatActivity {
                             editorConfirmed.putString((settings.getInt("endUrl", 2020) - 1) + " - " + settings.getInt("endUrl", 2020), ConfirmationWrite);
                             editorConfirmed.apply();
                             ConfirmationTextView.setText(getString(R.string.Confirmed));
-                            color = Color.DKGRAY;
+                            color = Current_Theme.getInt("custom_Table_column", ContextCompat.getColor(context, R.color.custom_Table_column));
                             new ReplaceColorStolb().execute();
                             alertDialogConfirmation.hide();
                         }}
@@ -1013,7 +1041,7 @@ public class MainActivity extends AppCompatActivity {
                     editorConfirmed.apply();
                     ConfirmationTextView.setText(getString(R.string.Confirmed));
                     alertDialogConfirmation.hide();
-                    color = Color.DKGRAY;
+                    color = Current_Theme.getInt("custom_Table_column", ContextCompat.getColor(context, R.color.custom_Table_column));
                     new ReplaceColorStolb().execute();
                 }
 
@@ -1080,7 +1108,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void CameraConfirmarion (){
+    private void CameraConfirmarion(){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File mFolder = new File(context.getExternalFilesDir(null) + "/confirmation");
         File file = new File(mFolder.getAbsolutePath() + "/" + (settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020) + "_" + numStolbWrite +".jpg");
@@ -1095,7 +1123,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_CAMERA_CONF: {
                 if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
@@ -1109,6 +1137,8 @@ public class MainActivity extends AppCompatActivity {
             case REQUEST_CODE_MICROPHONE_CONF: {
                 if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(context,getString(R.string.NotMicrophonePermission),Toast.LENGTH_LONG).show();
+                } else {
+                    MicroConfirmation();
                 }
 
                 return;
@@ -1246,11 +1276,11 @@ public class MainActivity extends AppCompatActivity {
                     if (!editText.getText().toString().equals(""))
                         tempTextEdit = editText.getText().toString();
                     else
-                        tempTextEdit = "№123";
+                        tempTextEdit = "";
                     if (!editOcenka.getText().toString().equals(""))
                         tempOcenka = editOcenka.getText().toString();
                     else
-                        tempOcenka = "5";
+                        tempOcenka = "";
 
                     textViewDz.setText(tempTextEdit);
                     textViewOcenka.setText(tempOcenka);
@@ -1259,8 +1289,7 @@ public class MainActivity extends AppCompatActivity {
                         if (j == finalI) {
                             String[] reject = tempTextEdit.split("\n");
                             String DzWrite = "";
-                            for (int u = 0; u < reject.length; u++)
-                                DzWrite = DzWrite + reject[u] + "`";
+                            for (String s : reject) DzWrite = DzWrite + s + "`";
                             EndstringBuffer.append(finalHelp1[0] + "=" + DzWrite + "=" + tempOcenka).append("\n");
                         } else
                             EndstringBuffer.append(tempbuffer[j - 1]).append("\n");
@@ -1351,7 +1380,7 @@ public class MainActivity extends AppCompatActivity {
 
   class MyThread extends Thread {
 
-        public String[] generateDate(String readString){
+        String[] generateDate(String readString){
             String[] returnStrings = new String[5],
                     help = readString.split("="),
                     helpTimes = help[0].split("-"),
@@ -1397,8 +1426,8 @@ public class MainActivity extends AppCompatActivity {
                     minTemp = 666,
                     hourTemp = 666;
 
-            Boolean OneYrok = true;
-            Boolean clear = true;
+            boolean OneYrok = true;
+            boolean clear = true;
 
             while (true) {
                 if(!settings.getBoolean("notifySettings",true))
@@ -1564,7 +1593,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String Padej (int kool, Boolean Type) {
+    private String Padej(int kool, Boolean Type) {
         String say = " ";
         if (kool == 0)  {
             if(Type)
@@ -1637,39 +1666,98 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ClickCreateCustomTheme(View view){
-        LinearLayout linearLayout = findViewById(R.id.field_create_fragment);
+        final LinearLayout linearLayout = findViewById(R.id.field_create_fragment);
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
         if(view.getId() == R.id.Card_create) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            if(settings.getInt("id_current_theme", R.id.switchDark) == R.id.switchDark) {
             new Thread(new Runnable() {
                 public void run() {
-                    colors.put(R.id.custom_icon, ContextCompat.getColor(context,R.color.custom_icon));
-                    colors.put(R.id.custom_border_theme, ContextCompat.getColor(context, R.color.custom_border_theme));
-                    colors.put(R.id.custom_background, ContextCompat.getColor(context, R.color.custom_background));
-                    colors.put(R.id.custom_toolbar, ContextCompat.getColor(context, R.color.custom_toolbar));
-                    colors.put(R.id.custom_toolbar_text, ContextCompat.getColor(context, R.color.custom_toolbar_text));
-                    colors.put(R.id.custom_notification_bar, ContextCompat.getColor(context, R.color.custom_notification_bar));
-                    colors.put(R.id.custom_text_light, ContextCompat.getColor(context, R.color.custom_text_light));
-                    colors.put(R.id.custom_text_dark, ContextCompat.getColor(context, R.color.custom_text_dark));
-                    colors.put(R.id.custom_text_hint, ContextCompat.getColor(context, R.color.custom_text_hint));
-                    colors.put(R.id.custom_cursor, ContextCompat.getColor(context, R.color.custom_cursor));
-                    colors.put(R.id.custom_card, ContextCompat.getColor(context, R.color.custom_card));
-                    colors.put(R.id.custom_bottomBorder, ContextCompat.getColor(context, R.color.custom_bottomBorder));
-                    colors.put(R.id.custom_button_add, ContextCompat.getColor(context, R.color.custom_button_add));
-                    colors.put(R.id.custom_button_add_plus, ContextCompat.getColor(context, R.color.custom_button_add_plus));
-                    colors.put(R.id.custom_button_arrow, ContextCompat.getColor(context, R.color.custom_button_arrow));
-                    colors.put(R.id.custom_progress, ContextCompat.getColor(context, R.color.custom_progress));
-                    colors.put(R.id.custom_not_confirmed, ContextCompat.getColor(context, R.color.custom_not_confirmed));
-                    colors.put(R.id.custom_Table_column, ContextCompat.getColor(context, R.color.custom_Table_column));
-                    colors.put(R.id.custom_notification_on, ContextCompat.getColor(context, R.color.custom_notification_on));
-                    colors.put(R.id.custom_notification_off, ContextCompat.getColor(context, R.color.custom_notification_off));
-                    colors.put(R.id.custom_switch_on, ContextCompat.getColor(context, R.color.custom_switch_on));
-                    colors.put(R.id.custom_switch_off, ContextCompat.getColor(context, R.color.custom_switch_off));
-                    colors.put(R.id.custom_color_block_choose_background, ContextCompat.getColor(context, R.color.custom_color_block_choose_background));
-                    colors.put(R.id.custom_color_block_choose_border, ContextCompat.getColor(context, R.color.custom_color_block_choose_border));
-                    colors.put(R.id.custom_color_audio_player, ContextCompat.getColor(context, R.color.custom_color_audio_player));
+
+                        colors.put(R.id.custom_icon, ContextCompat.getColor(context,R.color.black_icon));
+                        colors.put(R.id.custom_border_theme, ContextCompat.getColor(context, R.color.black_border_theme));
+                        colors.put(R.id.custom_background, ContextCompat.getColor(context, R.color.black_background));
+                        colors.put(R.id.custom_toolbar, ContextCompat.getColor(context, R.color.black_toolbar));
+                        colors.put(R.id.custom_toolbar_text, ContextCompat.getColor(context, R.color.black_toolbar_text));
+                        colors.put(R.id.custom_notification_bar, ContextCompat.getColor(context, R.color.black_notification_bar));
+                        colors.put(R.id.custom_text_light, ContextCompat.getColor(context, R.color.black_text_light));
+                        colors.put(R.id.custom_text_dark, ContextCompat.getColor(context, R.color.black_text_dark));
+                        colors.put(R.id.custom_text_hint, ContextCompat.getColor(context, R.color.black_text_hint));
+                        colors.put(R.id.custom_cursor, ContextCompat.getColor(context, R.color.black_cursor));
+                        colors.put(R.id.custom_card, ContextCompat.getColor(context, R.color.black_card));
+                        colors.put(R.id.custom_bottomBorder, ContextCompat.getColor(context, R.color.black_bottomBorder));
+                        colors.put(R.id.custom_button_add, ContextCompat.getColor(context, R.color.black_button_add));
+                        colors.put(R.id.custom_button_add_plus, ContextCompat.getColor(context, R.color.black_button_add_plus));
+                        colors.put(R.id.custom_button_arrow, ContextCompat.getColor(context, R.color.black_button_arrow));
+                        colors.put(R.id.custom_progress, ContextCompat.getColor(context, R.color.black_progress));
+                        colors.put(R.id.custom_not_confirmed, ContextCompat.getColor(context, R.color.black_not_confirmed));
+                        colors.put(R.id.custom_Table_column, ContextCompat.getColor(context, R.color.black_Table_column));
+                        colors.put(R.id.custom_notification_on, ContextCompat.getColor(context, R.color.black_notification_on));
+                        colors.put(R.id.custom_notification_off, ContextCompat.getColor(context, R.color.black_notification_off));
+                        colors.put(R.id.custom_switch_on, ContextCompat.getColor(context, R.color.black_switch_on));
+                        colors.put(R.id.custom_switch_off, ContextCompat.getColor(context, R.color.black_switch_off));
+                        colors.put(R.id.custom_color_block_choose_background, ContextCompat.getColor(context, R.color.black_color_block_choose_background));
+                        colors.put(R.id.custom_color_block_choose_border, ContextCompat.getColor(context, R.color.black_color_block_choose_border));
+                        colors.put(R.id.custom_color_audio_player, ContextCompat.getColor(context, R.color.black_color_audio_player));
                 }
             }).start();
+                TextView textView = linearLayout.findViewById(R.id.custom_name);
+                textView.setText(getString(R.string.custom_color_text_dark));
+                linearLayout.findViewById(R.id.custom_icon).setBackgroundColor(ContextCompat.getColor(context,R.color.black_icon));
+                linearLayout.findViewById(R.id.custom_border_theme).setBackgroundColor(ContextCompat.getColor(context,R.color.black_border_theme));
+                linearLayout.findViewById(R.id.custom_background).setBackgroundColor(ContextCompat.getColor(context,R.color.black_background));
+                linearLayout.findViewById(R.id.custom_toolbar).setBackgroundColor(ContextCompat.getColor(context,R.color.black_toolbar));
+                linearLayout.findViewById(R.id.custom_toolbar_text).setBackgroundColor(ContextCompat.getColor(context,R.color.black_toolbar_text));
+                linearLayout.findViewById(R.id.custom_notification_bar).setBackgroundColor(ContextCompat.getColor(context,R.color.black_notification_bar));
+                linearLayout.findViewById(R.id.custom_text_light).setBackgroundColor(ContextCompat.getColor(context,R.color.black_text_light));
+                linearLayout.findViewById(R.id.custom_text_dark).setBackgroundColor(ContextCompat.getColor(context,R.color.black_text_dark));
+                linearLayout.findViewById(R.id.custom_text_hint).setBackgroundColor(ContextCompat.getColor(context,R.color.black_text_hint));
+                linearLayout.findViewById(R.id.custom_cursor).setBackgroundColor(ContextCompat.getColor(context,R.color.black_cursor));
+                linearLayout.findViewById(R.id.custom_card).setBackgroundColor(ContextCompat.getColor(context,R.color.black_card));
+                linearLayout.findViewById(R.id.custom_bottomBorder).setBackgroundColor(ContextCompat.getColor(context,R.color.black_bottomBorder));
+                linearLayout.findViewById(R.id.custom_button_add).setBackgroundColor(ContextCompat.getColor(context,R.color.black_button_add));
+                linearLayout.findViewById(R.id.custom_button_add_plus).setBackgroundColor(ContextCompat.getColor(context,R.color.black_button_add_plus));
+                linearLayout.findViewById(R.id.custom_button_arrow).setBackgroundColor(ContextCompat.getColor(context,R.color.black_button_arrow));
+                linearLayout.findViewById(R.id.custom_progress).setBackgroundColor(ContextCompat.getColor(context,R.color.black_progress));
+                linearLayout.findViewById(R.id.custom_not_confirmed).setBackgroundColor(ContextCompat.getColor(context,R.color.black_not_confirmed));
+                linearLayout.findViewById(R.id.custom_Table_column).setBackgroundColor(ContextCompat.getColor(context,R.color.black_Table_column));
+                linearLayout.findViewById(R.id.custom_notification_on).setBackgroundColor(ContextCompat.getColor(context,R.color.black_notification_on));
+                linearLayout.findViewById(R.id.custom_notification_off).setBackgroundColor(ContextCompat.getColor(context,R.color.black_notification_off));
+                linearLayout.findViewById(R.id.custom_switch_on).setBackgroundColor(ContextCompat.getColor(context,R.color.black_switch_on));
+                linearLayout.findViewById(R.id.custom_switch_off).setBackgroundColor(ContextCompat.getColor(context,R.color.black_switch_off));
+                linearLayout.findViewById(R.id.custom_color_block_choose_background).setBackgroundColor(ContextCompat.getColor(context,R.color.black_color_block_choose_background));
+                linearLayout.findViewById(R.id.custom_color_block_choose_border).setBackgroundColor(ContextCompat.getColor(context,R.color.black_color_block_choose_border));
+                linearLayout.findViewById(R.id.custom_color_audio_player).setBackgroundColor(ContextCompat.getColor(context,R.color.black_color_audio_player));
+            }else{
+                    new Thread(new Runnable() {
+                        public void run() {
+                        colors.put(R.id.custom_icon, ContextCompat.getColor(context, R.color.custom_icon));
+                        colors.put(R.id.custom_border_theme, ContextCompat.getColor(context, R.color.custom_border_theme));
+                        colors.put(R.id.custom_background, ContextCompat.getColor(context, R.color.custom_background));
+                        colors.put(R.id.custom_toolbar, ContextCompat.getColor(context, R.color.custom_toolbar));
+                        colors.put(R.id.custom_toolbar_text, ContextCompat.getColor(context, R.color.custom_toolbar_text));
+                        colors.put(R.id.custom_notification_bar, ContextCompat.getColor(context, R.color.custom_notification_bar));
+                        colors.put(R.id.custom_text_light, ContextCompat.getColor(context, R.color.custom_text_light));
+                        colors.put(R.id.custom_text_dark, ContextCompat.getColor(context, R.color.custom_text_dark));
+                        colors.put(R.id.custom_text_hint, ContextCompat.getColor(context, R.color.custom_text_hint));
+                        colors.put(R.id.custom_cursor, ContextCompat.getColor(context, R.color.custom_cursor));
+                        colors.put(R.id.custom_card, ContextCompat.getColor(context, R.color.custom_card));
+                        colors.put(R.id.custom_bottomBorder, ContextCompat.getColor(context, R.color.custom_bottomBorder));
+                        colors.put(R.id.custom_button_add, ContextCompat.getColor(context, R.color.custom_button_add));
+                        colors.put(R.id.custom_button_add_plus, ContextCompat.getColor(context, R.color.custom_button_add_plus));
+                        colors.put(R.id.custom_button_arrow, ContextCompat.getColor(context, R.color.custom_button_arrow));
+                        colors.put(R.id.custom_progress, ContextCompat.getColor(context, R.color.custom_progress));
+                        colors.put(R.id.custom_not_confirmed, ContextCompat.getColor(context, R.color.custom_not_confirmed));
+                        colors.put(R.id.custom_Table_column, ContextCompat.getColor(context, R.color.custom_Table_column));
+                        colors.put(R.id.custom_notification_on, ContextCompat.getColor(context, R.color.custom_notification_on));
+                        colors.put(R.id.custom_notification_off, ContextCompat.getColor(context, R.color.custom_notification_off));
+                        colors.put(R.id.custom_switch_on, ContextCompat.getColor(context, R.color.custom_switch_on));
+                        colors.put(R.id.custom_switch_off, ContextCompat.getColor(context, R.color.custom_switch_off));
+                        colors.put(R.id.custom_color_block_choose_background, ContextCompat.getColor(context, R.color.custom_color_block_choose_background));
+                        colors.put(R.id.custom_color_block_choose_border, ContextCompat.getColor(context, R.color.custom_color_block_choose_border));
+                        colors.put(R.id.custom_color_audio_player, ContextCompat.getColor(context, R.color.custom_color_audio_player));
+                }
+            }).start(); }
 
             ClickSaveThemeType = true;
         }else {
@@ -1954,7 +2042,7 @@ public class MainActivity extends AppCompatActivity {
             progressDialog.setView(promptsView)
                     .setCancelable(false);
             GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.loading_drawable);
-            alertbackground.setColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+            alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
             if(settings.getBoolean("BorderAlertSettings",false))
                 alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
             promptsView.findViewById(R.id.linerLoading).setBackground(alertbackground);
