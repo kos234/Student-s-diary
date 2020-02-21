@@ -4,7 +4,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:id="@+id/LinerMicro"
@@ -36,7 +37,7 @@
                 android:background="#00AF7F7F"
                 android:gravity="center"
                 android:text="@string/ConfirmationMicrophone"
-                android:textSize="19dp" />
+                android:textSize="19sp" />
 
             <TextView
                 android:id="@+id/TimeMicro"
@@ -44,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:background="#00AF7F7F"
                 android:gravity="center"
-                android:textSize="19dp" />
+                android:textSize="19sp" />
         </org.apmem.tools.layouts.FlowLayout>
 
 
@@ -75,7 +76,7 @@
             android:layout_height="wrap_content"
             android:background="#00AF7F7F"
             android:text="@string/ConfirmationCamera"
-            android:textSize="19dp"
+            android:textSize="19sp"
             />
     </LinearLayout>
 

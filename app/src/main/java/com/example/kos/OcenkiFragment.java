@@ -39,10 +39,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
-class OcenkiFragment extends Fragment {
+public class OcenkiFragment extends Fragment {
     private Context context;
     private SharedPreferences settings,
                             Confirmed,
@@ -59,7 +60,7 @@ class OcenkiFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflaterFrag.inflate(R.layout.fragment_ocenki, container, false);
         inflater = LayoutInflater.from(context);
-        settings = getActivity().getSharedPreferences("Settings", MODE_PRIVATE);
+        settings = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", MODE_PRIVATE);
         Confirmed = getActivity().getSharedPreferences("Confirmed", MODE_PRIVATE);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
         editor = settings.edit();
@@ -71,7 +72,7 @@ class OcenkiFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(view.getId() != R.id.Ocenki)
-                    ((MainActivity) getActivity()).openDrawer();
+                    ((MainActivity) Objects.requireNonNull(getActivity())).openDrawer();
             }
         });
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
@@ -88,7 +89,7 @@ class OcenkiFragment extends Fragment {
                 AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
                 deleted.setView(promptsView);
                 GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                 if(settings.getBoolean("BorderAlertSettings",false))
                     alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
                 promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
@@ -119,9 +120,9 @@ class OcenkiFragment extends Fragment {
 
                         try{
                             String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
-                            for(int i = 0; i < ConfirmationValue.length; i++)
-                                if(!ConfirmationValue[i].equals(getString(R.string.Not_Confirmed)))
-                                    throw new Povtor("KRIA", 1);
+                            for (String s : ConfirmationValue)
+                                if (!s.equals(getString(R.string.Not_Confirmed)))
+                                    throw new Povtor("KRIA");
                             new ClearAsyncTask().execute();
                         }catch (Povtor povtor){
                             Toast.makeText(context,getString(R.string.you_have_already_confirmed_grades),Toast.LENGTH_LONG).show();
@@ -133,7 +134,7 @@ class OcenkiFragment extends Fragment {
                 ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                 ButtonSave.setText(getString(R.string.yes));
 
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
 
 
@@ -180,7 +181,7 @@ class OcenkiFragment extends Fragment {
             AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
             deleted.setView(promptsView);
             GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-            alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+            Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
             if(settings.getBoolean("BorderAlertSettings",false))
                 alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
             promptsView.findViewById(R.id.liner_mes_ocenki).setBackground(alertbackground);
@@ -226,7 +227,7 @@ class OcenkiFragment extends Fragment {
                     AlertDialog.Builder warning = new AlertDialog.Builder(getActivity());
                     warning.setView(promptsViewWarning);
                     GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                    alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                    Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                     if(settings.getBoolean("BorderAlertSettings",false))
                         alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
                     promptsViewWarning.findViewById(R.id.alert_delete).setBackground(alertbackground);
@@ -253,13 +254,13 @@ class OcenkiFragment extends Fragment {
                     ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                     ButtonSave.setText(getString(R.string.Ok));
 
-                    alertDialogWarning.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    Objects.requireNonNull(alertDialogWarning.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                     alertDialogWarning.show();
                 }
             });
             ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
 
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialog.show();
 
         }
@@ -457,27 +458,27 @@ class OcenkiFragment extends Fragment {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 String[] day = getResources().getStringArray(R.array.DayTxt);
-                StringBuffer stringBuffer = new StringBuffer();
+                StringBuilder stringBuffer = new StringBuilder();
                 String writeString;
-                for (int k = 0; k < day.length; k++) {
+                for (String s : day) {
 
                     try {
-                        FileInputStream read = getActivity().openFileInput(day[k]);
+                        FileInputStream read = getActivity().openFileInput(s);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
                         String temp_read;
-                        String[] help,helpName;
+                        String[] help, helpName;
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             help = temp_read.split(delimeter);
                             helpName = help[1].split(",");
 
-                            if(predmeti.indexOf(helpName[0]) < 0){
+                            if (predmeti.indexOf(helpName[0]) < 0) {
                                 predmeti.add(helpName[0]);
                                 writeString = helpName[0] + "= = = = = = = ";
                                 stringBuffer.append(writeString).append("\n");
-                                publishProgress(CreateRow(writeString.split(delimeter),predmeti.size()));
+                                publishProgress(CreateRow(writeString.split(delimeter), predmeti.size()));
                             }
                         }
                     } catch (FileNotFoundException q) {
@@ -613,27 +614,27 @@ class OcenkiFragment extends Fragment {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 String[] day = getResources().getStringArray(R.array.DayTxt);
-                StringBuffer stringBuffer = new StringBuffer();
+                StringBuilder stringBuffer = new StringBuilder();
                 String writeString;
-                for (int k = 0; k < day.length; k++) {
+                for (String s : day) {
 
                     try {
-                        FileInputStream read = getActivity().openFileInput(day[k]);
+                        FileInputStream read = getActivity().openFileInput(s);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
                         String temp_read;
-                        String[] help,helpName;
+                        String[] help, helpName;
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             help = temp_read.split(delimeter);
                             helpName = help[1].split(",");
 
-                            if(predmeti.indexOf(helpName[0]) < 0){
+                            if (predmeti.indexOf(helpName[0]) < 0) {
                                 predmeti.add(helpName[0]);
                                 writeString = helpName[0] + "= = = = = = = ";
                                 stringBuffer.append(writeString).append("\n");
-                                publishProgress(CreateRow(writeString.split(delimeter),predmeti.size()));
+                                publishProgress(CreateRow(writeString.split(delimeter), predmeti.size()));
                             }
                         }
                     } catch (FileNotFoundException q) {
@@ -723,27 +724,27 @@ class OcenkiFragment extends Fragment {
             publishProgress(CreateStaticBar(R.layout.bar_ocenki));
             ArrayList predmeti = new ArrayList();
             String[] day = getResources().getStringArray(R.array.DayTxt);
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuffer = new StringBuilder();
             String writeString;
-            for (int k = 0; k < day.length; k++) {
+            for (String s : day) {
 
                 try {
-                    FileInputStream read = getActivity().openFileInput(day[k]);
+                    FileInputStream read = getActivity().openFileInput(s);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
                     String temp_read;
-                    String[] help,helpName;
+                    String[] help, helpName;
                     String delimeter = "=";
                     while ((temp_read = bufferedReader.readLine()) != null) {
                         help = temp_read.split(delimeter);
                         helpName = help[1].split(",");
 
-                        if(predmeti.indexOf(helpName[0]) < 0){
+                        if (predmeti.indexOf(helpName[0]) < 0) {
                             predmeti.add(helpName[0]);
                             writeString = helpName[0] + "= = = = = = = ";
                             stringBuffer.append(writeString).append("\n");
-                            publishProgress(CreateRow(writeString.split(delimeter),predmeti.size()));
+                            publishProgress(CreateRow(writeString.split(delimeter), predmeti.size()));
                         }
                     }
                 } catch (FileNotFoundException q) {
@@ -793,7 +794,7 @@ class OcenkiFragment extends Fragment {
         @Override
         protected void onProgressUpdate(CheakConvenorResult... values) {
             super.onProgressUpdate(values);
-            int FrameId = R.id.frame_ocenki_one;
+            int FrameId;
 
             switch (values[0].getStolbID()) {
                 case 2:
@@ -835,7 +836,7 @@ class OcenkiFragment extends Fragment {
                         String[] helpCheak = value[0].getArrayList().get(j),
                                 ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
                         if (!helpCheak[i].equals(" ") && ConfirmationValue[i-1].equals(getString(R.string.Not_Confirmed)))
-                            throw new Povtor("KRIA", 1);
+                            throw new Povtor("KRIA");
                     } catch (Povtor povtor) {
                         TableRow tableRow;
 
@@ -945,27 +946,27 @@ class OcenkiFragment extends Fragment {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 String[] day = getResources().getStringArray(R.array.DayTxt);
-                StringBuffer stringBuffer = new StringBuffer();
+                StringBuilder stringBuffer = new StringBuilder();
                 String writeString;
-                for (int k = 0; k < day.length; k++) {
+                for (String s : day) {
 
                     try {
-                        FileInputStream read = getActivity().openFileInput(day[k]);
+                        FileInputStream read = getActivity().openFileInput(s);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
                         String temp_read;
-                        String[] help,helpName;
+                        String[] help, helpName;
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             help = temp_read.split(delimeter);
                             helpName = help[1].split(",");
 
-                            if(predmeti.indexOf(helpName[0]) < 0){
-                               predmeti.add(helpName[0]);
-                               writeString = helpName[0] + "= = = = = = = ";
-                               stringBuffer.append(writeString).append("\n");
-                               publishProgress(CreateRow(writeString.split(delimeter),predmeti.size()));
+                            if (predmeti.indexOf(helpName[0]) < 0) {
+                                predmeti.add(helpName[0]);
+                                writeString = helpName[0] + "= = = = = = = ";
+                                stringBuffer.append(writeString).append("\n");
+                                publishProgress(CreateRow(writeString.split(delimeter), predmeti.size()));
                             }
                         }
                     } catch (FileNotFoundException q) {

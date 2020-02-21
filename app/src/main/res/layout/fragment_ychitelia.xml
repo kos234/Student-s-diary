@@ -20,10 +20,9 @@
         android:id="@+id/floatingActionButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
         app:backgroundTint="@color/colorAccent"
         android:layout_margin="20dp"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         app:maxImageSize="50dp"
         android:src="@drawable/ic_add_24px" />
 
@@ -40,7 +39,7 @@
         android:id="@+id/nullYchit"
         android:gravity="center"
         android:textStyle="bold"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -49,11 +49,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
-class NastroikiFragment extends Fragment {
+public class NastroikiFragment extends Fragment {
     private Context context;
     private SharedPreferences settings,
             Current_Theme;
@@ -78,7 +79,7 @@ class NastroikiFragment extends Fragment {
         toolbar.setNavigationIcon(menuToolbar);        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).openDrawer();
+                ((MainActivity) Objects.requireNonNull(getActivity())).openDrawer();
             }
         });
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
@@ -292,10 +293,10 @@ class NastroikiFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_DONE) {
-                    if (getActivity().getCurrentFocus() != null) {
+                    if (Objects.requireNonNull(getActivity()).getCurrentFocus() != null) {
                         View vw = getActivity().getCurrentFocus();
                         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(vw.getWindowToken(), 0);
+                        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(vw.getWindowToken(), 0);
                         editor.putInt("dpSizeSettings",Integer.parseInt(editText.getText().toString()));
                         editor.apply();
                         editText.clearFocus();
@@ -468,10 +469,10 @@ class NastroikiFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_DONE) {
-                    if (getActivity().getCurrentFocus() != null) {
+                    if (Objects.requireNonNull(getActivity()).getCurrentFocus() != null) {
                         View vw = getActivity().getCurrentFocus();
                         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(vw.getWindowToken(), 0);
+                        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(vw.getWindowToken(), 0);
                         editor.putInt("dpBorderSettings",Integer.parseInt(editTextSizeBorder.getText().toString()));
                         editor.apply();
                         editTextSizeBorder.clearFocus();
@@ -622,7 +623,7 @@ class NastroikiFragment extends Fragment {
                     AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
                     deleted.setView(promptsView);
                     GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                    alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                    Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                     if(settings.getBoolean("BorderAlertSettings",false))
                         alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
                     promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
@@ -651,7 +652,7 @@ class NastroikiFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
 
-                            StringBuffer stringBuffer = new StringBuffer();
+                            StringBuilder stringBuffer = new StringBuilder();
 
                             try {
                                 FileInputStream read = context.openFileInput("Themes.txt");
@@ -676,7 +677,7 @@ class NastroikiFragment extends Fragment {
                             }
 
                             try {
-                                FileOutputStream write = getActivity().openFileOutput("Themes.txt", getActivity().MODE_PRIVATE);
+                                FileOutputStream write = Objects.requireNonNull(getActivity()).openFileOutput("Themes.txt", getActivity().MODE_PRIVATE);
                                 String temp_write = stringBuffer.toString();
 
                                 write.write(temp_write.getBytes());
@@ -729,14 +730,14 @@ class NastroikiFragment extends Fragment {
                     ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                     ButtonSave.setText(getString(R.string.yes));
 
-                    alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     alertDialog.show();
                 }
             });
             adapter.setOnItemClickListener(new RecyclerThemeAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    ((MainActivity) getActivity()).EditTheme(constrRecyclerViewArrayList.get(position).getColors(), position);
+                    ((MainActivity) Objects.requireNonNull(getActivity())).EditTheme(constrRecyclerViewArrayList.get(position).getColors(), position);
 
                     new EditTheme().execute(constrRecyclerViewArrayList.get(position).getColors());
                 }
@@ -786,7 +787,7 @@ class NastroikiFragment extends Fragment {
             progressDialog.setView(promptsView)
                     .setCancelable(false);
             GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.loading_drawable);
-            alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+            Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
             if(settings.getBoolean("BorderAlertSettings",false))
                 alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
             promptsView.findViewById(R.id.linerLoading).setBackground(alertbackground);
@@ -796,7 +797,7 @@ class NastroikiFragment extends Fragment {
             textView.setText(getString(R.string.loading));
             textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
             alertDialog = progressDialog.create();
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialog.show();
         }
 
@@ -857,9 +858,18 @@ class NastroikiFragment extends Fragment {
             final View promptsView = li.inflate(R.layout.loading_color , null);
             progressDialog.setView(promptsView)
                     .setCancelable(false);
+            GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.loading_drawable);
+            Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+            if(settings.getBoolean("BorderAlertSettings",false))
+                alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+            promptsView.findViewById(R.id.linerLoading).setBackground(alertbackground);
+            ProgressBar progressBar = promptsView.findViewById(R.id.progress_loading_color);
+            progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
             TextView textView = promptsView.findViewById(R.id.textLoading);
+            textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
             textView.setText(getString(R.string.Apply_Theme));
             alertDialog = progressDialog.create();
+            Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialog.show();
         }
 
@@ -918,7 +928,7 @@ class NastroikiFragment extends Fragment {
         constrRecyclerViewArrayList.clear();
 
         try {
-            FileInputStream read = getActivity().openFileInput("Themes.txt");
+            FileInputStream read = Objects.requireNonNull(getActivity()).openFileInput("Themes.txt");
             InputStreamReader reader = new InputStreamReader(read);
             BufferedReader bufferedReader = new BufferedReader(reader);
             String temp_read;

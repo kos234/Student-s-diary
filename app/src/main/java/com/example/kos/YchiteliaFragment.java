@@ -32,11 +32,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
-class YchiteliaFragment extends Fragment {
+public class YchiteliaFragment extends Fragment {
     private Context context;
     private String NamePred, PredPred;
     private final ArrayList<ConstrRecyclerView> constrRecyclerViewArrayList = new ArrayList<>();
@@ -70,7 +71,7 @@ class YchiteliaFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).openDrawer();
+                ((MainActivity) Objects.requireNonNull(getActivity())).openDrawer();
             }
         });
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
@@ -96,7 +97,7 @@ class YchiteliaFragment extends Fragment {
                 AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
                 deleted.setView(promptsView);
                 GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                 if(settings.getBoolean("BorderAlertSettings",false))
                     alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
                 promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
@@ -125,10 +126,10 @@ class YchiteliaFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
-                        StringBuffer stringBuffer = new StringBuffer();
+                        StringBuilder stringBuffer = new StringBuilder();
 
                         try {
-                            FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
+                            FileInputStream read = Objects.requireNonNull(getActivity()).openFileInput("Ychitelia.txt");
                             InputStreamReader reader = new InputStreamReader(read);
                             BufferedReader bufferedReader = new BufferedReader(reader);
                             String temp_read;
@@ -174,7 +175,7 @@ class YchiteliaFragment extends Fragment {
                 ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                 ButtonSave.setText(getString(R.string.yes));
 
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
             }
         });
@@ -190,7 +191,7 @@ class YchiteliaFragment extends Fragment {
                 AlertDialog.Builder newadd = new AlertDialog.Builder(getActivity());
                 newadd.setView(promptsView);
                 GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                 if(settings.getBoolean("BorderAlertSettings",false))
                     alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
                 promptsView.findViewById(R.id.alert_add_ychit).setBackground(alertbackground);
@@ -235,23 +236,23 @@ class YchiteliaFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         try {
-                            StringBuffer stringBuffer = new StringBuffer();
+                            StringBuilder stringBuffer = new StringBuilder();
                             NamePred = name.getText().toString();
                             PredPred = predmet.getText().toString();
                             if (NamePred.length() > 0 && PredPred.length() > 0) {
                                 try {
-                                    FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
+                                    FileInputStream read = Objects.requireNonNull(getActivity()).openFileInput("Ychitelia.txt");
                                     InputStreamReader reader = new InputStreamReader(read);
                                     BufferedReader bufferedReader = new BufferedReader(reader);
                                     String temp_read;
                                     while ((temp_read = bufferedReader.readLine()) != null) {
                                         if (!temp_read.equals(textName + "=" + textBottom)){
                                             if (temp_read.equals(NamePred + "=" + PredPred))
-                                                throw new Povtor("KRIA", 1);
+                                                throw new Povtor("KRIA");
 
                                             stringBuffer.append(temp_read).append("\n");
                                         } else
-                                            stringBuffer.append(NamePred + "=" + PredPred).append("\n");
+                                            stringBuffer.append(NamePred).append("=").append(PredPred).append("\n");
 
                                     }
 
@@ -291,7 +292,7 @@ class YchiteliaFragment extends Fragment {
                     }
                 });
                 ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
 
             }
@@ -317,7 +318,7 @@ class YchiteliaFragment extends Fragment {
         String delimeter = "=";
         constrRecyclerViewArrayList.clear();
         try {
-            FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
+            FileInputStream read = Objects.requireNonNull(getActivity()).openFileInput("Ychitelia.txt");
             InputStreamReader reader = new InputStreamReader(read);
             BufferedReader bufferedReader = new BufferedReader(reader);
             String temp_read;
@@ -364,7 +365,7 @@ class YchiteliaFragment extends Fragment {
                 final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
                 Delete.setView(promptsView);
                 GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                 if(settings.getBoolean("BorderAlertSettings",false))
                     alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
                 promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
@@ -393,7 +394,7 @@ class YchiteliaFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         try {
-                            FileOutputStream write =  getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
+                            FileOutputStream write =  Objects.requireNonNull(getActivity()).openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
                             String temp_write ="";
 
                             write.write(temp_write.getBytes());
@@ -415,7 +416,7 @@ class YchiteliaFragment extends Fragment {
                 });
                 ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
 
-                Deleted.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                Objects.requireNonNull(Deleted.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 Deleted.show();
 
                 return false;
@@ -430,7 +431,7 @@ class YchiteliaFragment extends Fragment {
                 AlertDialog.Builder newadd = new AlertDialog.Builder(getActivity());
                 newadd.setView(promptsView);
                 GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                 if(settings.getBoolean("BorderAlertSettings",false))
                     alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
                 promptsView.findViewById(R.id.alert_add_ychit).setBackground(alertbackground);
@@ -471,7 +472,7 @@ class YchiteliaFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         try {
-                            StringBuffer stringBuffer = new StringBuffer();
+                            StringBuilder stringBuffer = new StringBuilder();
                             if (name.getText().toString().equals(""))
                                 NamePred = getString(R.string.fioExample);
                             else
@@ -483,14 +484,14 @@ class YchiteliaFragment extends Fragment {
 
                             if (NamePred.length() > 0 && PredPred.length() > 0) {
                                 try {
-                                    FileInputStream read = getActivity().openFileInput("Ychitelia.txt");
+                                    FileInputStream read = Objects.requireNonNull(getActivity()).openFileInput("Ychitelia.txt");
                                     InputStreamReader reader = new InputStreamReader(read);
                                     BufferedReader bufferedReader = new BufferedReader(reader);
 
                                     String temp_read;
                                     while ((temp_read = bufferedReader.readLine()) != null) {
                                         if (temp_read.equals(NamePred + "=" + PredPred))
-                                            throw new Povtor("KRIA", 1);
+                                            throw new Povtor("KRIA");
                                         else
                                             stringBuffer.append(temp_read).append(("\n"));
                                     }
@@ -532,7 +533,7 @@ class YchiteliaFragment extends Fragment {
                 ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                 ButtonSave.setText(getString(R.string.save));
 
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
             }
         });

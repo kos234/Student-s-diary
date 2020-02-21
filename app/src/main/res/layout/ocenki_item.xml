@@ -13,8 +13,8 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:gravity="center_vertical"
-        android:layout_marginRight="1dp"
-        android:textSize="19dp" />
+        android:layout_marginEnd="1dp"
+        android:textSize="19sp" />
 
     <FrameLayout
         android:id="@+id/frame_ocenki_one"
@@ -33,7 +33,7 @@
             android:background="#fafafa"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:gravity="center_horizontal|center_vertical"
             android:id="@+id/ocenka_one"
              />
@@ -43,13 +43,13 @@
             android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:gravity="center"
             android:visibility="invisible"
             android:id="@+id/ocenka_edit_one"
             android:imeOptions="actionDone"
             android:inputType="number"
-            />
+            android:autofillHints="" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -71,7 +71,7 @@
             android:background="#fafafa"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:gravity="center_horizontal|center_vertical"
@@ -84,13 +84,13 @@
             android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:gravity="center"
             android:visibility="invisible"
             android:id="@+id/ocenka_edit_two"
             android:imeOptions="actionDone"
             android:inputType="number"
-            />
+            android:autofillHints="" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -113,7 +113,7 @@
             android:background="#fafafa"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:gravity="center_horizontal|center_vertical"
@@ -126,13 +126,13 @@
             android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:gravity="center"
             android:visibility="invisible"
             android:id="@+id/ocenka_edit_three"
             android:imeOptions="actionDone"
             android:inputType="number"
-            />
+            android:autofillHints="" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -157,7 +157,7 @@
             android:background="#fafafa"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:gravity="center_horizontal|center_vertical"
             android:id="@+id/ocenka_four"
 
@@ -168,13 +168,13 @@
             android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:gravity="center"
             android:visibility="invisible"
             android:id="@+id/ocenka_edit_four"
             android:imeOptions="actionDone"
             android:inputType="number"
-            />
+            android:autofillHints="" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -199,7 +199,7 @@
         android:background="#fafafa"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="19dp"
+        android:textSize="19sp"
         android:gravity="center_horizontal|center_vertical"
         android:id="@+id/ocenka_year"
 
@@ -210,13 +210,13 @@
         android:paddingRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="19dp"
+        android:textSize="19sp"
         android:gravity="center"
         android:visibility="invisible"
         android:id="@+id/ocenka_edit_year"
         android:imeOptions="actionDone"
         android:inputType="number"
-        />
+        android:autofillHints="" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -241,7 +241,7 @@
             android:background="#fafafa"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:gravity="center_horizontal|center_vertical"
             android:id="@+id/ocenka_examination"
 
@@ -252,13 +252,13 @@
             android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:gravity="center"
             android:visibility="invisible"
             android:id="@+id/ocenka_edit_examination"
             android:imeOptions="actionDone"
             android:inputType="number"
-            />
+            android:autofillHints="" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -273,7 +273,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="ClickTab"
-        android:paddingLeft="1dp"
+        android:paddingStart="1dp"
         android:paddingBottom="1dp"
        >
         <TextView
@@ -282,7 +282,7 @@
             android:background="#fafafa"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:gravity="center_horizontal|center_vertical"
             android:id="@+id/ocenka_end"
 
@@ -293,13 +293,13 @@
             android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="19dp"
+            android:textSize="19sp"
             android:gravity="center"
             android:visibility="invisible"
             android:id="@+id/ocenka_edit_end"
             android:imeOptions="actionDone"
             android:inputType="number"
-            />
+            android:autofillHints="" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"

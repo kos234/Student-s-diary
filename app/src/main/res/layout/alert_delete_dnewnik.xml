@@ -7,33 +7,33 @@
     android:layout_gravity="center_horizontal">
 
     <TextView
-        android:gravity="left"
+        android:gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:id="@+id/title_alert"
         android:text="@string/clearWeek"
         android:textColor="@android:color/black"
-        android:textSize="22dp" />
+        android:textSize="22sp" />
 
     <TextView
-        android:gravity="left"
+        android:gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:id="@+id/title_bottom_alert"
         android:text="@string/deleteAllLesson"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_margin="20dp"
         android:gravity="center"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_height="wrap_content">
 
         <TextView
@@ -44,8 +44,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/custom_button_add"
             android:text="@string/buttonClearGrades"
-            android:textSize="19dp"
-            android:layout_marginRight="15dp"
+            android:textSize="19sp"
+            android:layout_marginEnd="15dp"
             />
 
         <TextView
@@ -56,8 +56,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/custom_button_add"
             android:text="@string/buttonClearHomeWork"
-            android:textSize="19dp"
-            android:layout_marginRight="15dp"
+            android:textSize="19sp"
+            android:layout_marginEnd="15dp"
             />
 
         <TextView
@@ -68,7 +68,7 @@
             android:background="@null"
             android:text="@string/buttonClearAll"
             android:textColor="@color/custom_button_add"
-            android:textSize="19dp" />
+            android:textSize="19sp" />
 
     </LinearLayout>
 </LinearLayout>

@@ -9,12 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:gravity="center"
         android:id="@+id/text_conf_photo"
         android:text="@string/ConfirmedByPhoto"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <ImageView
@@ -26,13 +26,13 @@
         <TextView
             android:layout_margin="20dp"
             android:gravity="center"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:id="@+id/button_one_conf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="@string/yes"
             android:textColor="@color/custom_button_add"
-            android:textSize="19dp" />
+            android:textSize="19sp" />
 
 </LinearLayout>

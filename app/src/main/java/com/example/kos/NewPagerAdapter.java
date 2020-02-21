@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -119,7 +120,7 @@ class NewPagerAdapter extends PagerAdapter {
                 final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
                 Delete.setView(promptsView);
                 GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                 if(settings.getBoolean("BorderAlertSettings",false))
                     alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
                 promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
@@ -148,7 +149,7 @@ class NewPagerAdapter extends PagerAdapter {
                 ButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View viewClick) {
-                        StringBuffer stringBuffer = new StringBuffer();
+                        StringBuilder stringBuffer = new StringBuilder();
                         final String textTime = product.get(position).getTextName();
                         try {
                             FileInputStream read = context.openFileInput(url);
@@ -202,7 +203,7 @@ class NewPagerAdapter extends PagerAdapter {
                 });
                 ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
 
-                Deleted.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                Objects.requireNonNull(Deleted.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 Deleted.show();
 
             }
@@ -220,7 +221,7 @@ class NewPagerAdapter extends PagerAdapter {
                 newzvonok.setView(promptsView);
 
                 GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                 if(settings.getBoolean("BorderAlertSettings",false))
                     alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
 
@@ -350,7 +351,7 @@ class NewPagerAdapter extends PagerAdapter {
 
                         if(((TimeStartHour < 25 && TimeEndHour < 25 && !is12Hour)) || (TimeStartHour < 13 && TimeEndHour < 13 && is12Hour) && TimeStartMin < 60 && ZvonOne.charAt(2) == ':' && TimeEndMin < 60 && ZvonTwo.charAt(2) == ':') {
                             if (((TimeStartHour < TimeEndHour) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin)) && !is12Hour || is12Hour &&  !(spinnerAmPmOne.getSelectedItem().equals("PM") && spinnerAmPmTwo.getSelectedItem().equals("AM")) && ((TimeStartHour < TimeEndHour || (spinnerAmPmOne.getSelectedItem().equals("AM") && spinnerAmPmTwo.getSelectedItem().equals("PM"))) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin))) {
-                                    StringBuffer stringBuffer = new StringBuffer();
+                                    StringBuilder stringBuffer = new StringBuilder();
                                     try {
                                         boolean Zapic = true;
                                         int NumString = 0;
@@ -489,7 +490,7 @@ class NewPagerAdapter extends PagerAdapter {
                 zvonoktwo.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
                 Yrok.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
                 Kab.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
                 alertDialog.show();
             }
@@ -497,7 +498,7 @@ class NewPagerAdapter extends PagerAdapter {
 
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add))));
         Drawable drawableFAB = context.getDrawable(R.drawable.ic_add_24px);
-        drawableFAB.setColorFilter(Current_Theme.getInt("custom_button_add_plus", ContextCompat.getColor(context, R.color.custom_button_add_plus)), PorterDuff.Mode.SRC_ATOP);
+        Objects.requireNonNull(drawableFAB).setColorFilter(Current_Theme.getInt("custom_button_add_plus", ContextCompat.getColor(context, R.color.custom_button_add_plus)), PorterDuff.Mode.SRC_ATOP);
         floatingActionButton.setImageDrawable(drawableFAB);
         floatingActionButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -508,7 +509,7 @@ class NewPagerAdapter extends PagerAdapter {
                 final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
                 Delete.setView(promptsView);
                 GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context, R.drawable.corners_alert);
-                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                 if (settings.getBoolean("BorderAlertSettings", false))
                     alertbackground.setStroke(settings.getInt("dpBorderSettings", 4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
                 promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
@@ -533,7 +534,7 @@ class NewPagerAdapter extends PagerAdapter {
                     }
                 });
 
-                TextView ButtonALl = promptsView.findViewById(R.id.button_two_alert);
+                TextView ButtonALl = promptsView.findViewById(R.id.button_three_alert);
                 ButtonALl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View viewClick) {
@@ -594,8 +595,12 @@ class NewPagerAdapter extends PagerAdapter {
                         if (outFile.exists()) {
                             outFile.delete();
                         }
-
-                        new AnimationDel().execute(constrFragmentViewPagerArrayList.get(positionTek));
+                        if(settings.getBoolean("AnimationSettings",true))
+                            new AnimationDel().execute(constrFragmentViewPagerArrayList.get(positionTek));
+                        else {
+                            constrFragmentViewPagerArrayList.get(positionTek).getArray().clear();
+                            constrFragmentViewPagerArrayList.get(positionTek).getRecyclerAdapter().notifyDataSetChanged();
+                        }
 
                         Deleted.hide();
 
@@ -604,7 +609,7 @@ class NewPagerAdapter extends PagerAdapter {
                 ButtonOne.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
                 ButtonOne.setText(context.getString(R.string.deleteOneDayLesson));
 
-                Deleted.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                Objects.requireNonNull(Deleted.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 Deleted.show();
                 return false;
             }
@@ -618,7 +623,7 @@ class NewPagerAdapter extends PagerAdapter {
                                           final AlertDialog.Builder newzvonok = new AlertDialog.Builder(context);
                                           newzvonok.setView(promptsView);
                                           GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                                          alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                                          Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                                           if(settings.getBoolean("BorderAlertSettings",false))
                                               alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
 
@@ -704,7 +709,7 @@ class NewPagerAdapter extends PagerAdapter {
                                                     if(((TimeStartHour < 25 && TimeEndHour < 25 && DateFormat.is24HourFormat(context))) || (TimeStartHour < 13 && TimeEndHour < 13 && !DateFormat.is24HourFormat(context)) && TimeStartMin < 60 && ZvonOne.charAt(2) == ':' && TimeEndMin < 60 && ZvonTwo.charAt(2) == ':') {
                                                         if (((TimeStartHour < TimeEndHour) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin)) && DateFormat.is24HourFormat(context) || !DateFormat.is24HourFormat(context) && !(spinnerAmPmOne.getSelectedItem().equals("PM") && spinnerAmPmTwo.getSelectedItem().equals("AM")) &&  ((TimeStartHour < TimeEndHour || (spinnerAmPmOne.getSelectedItem().equals("AM") && spinnerAmPmTwo.getSelectedItem().equals("PM"))) || (TimeStartHour == TimeEndHour && TimeStartMin < TimeEndMin))) {
 
-                                                            StringBuffer stringBuffer = new StringBuffer();
+                                                            StringBuilder stringBuffer = new StringBuilder();
 
                                                             try {
                                                                 boolean Zapic = true;
@@ -860,7 +865,7 @@ class NewPagerAdapter extends PagerAdapter {
                                           zvonoktwo.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
                                           Yrok.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
                                           Kab.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
-                                          alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                                          Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                                           alertDialog.show();
 
                                      }

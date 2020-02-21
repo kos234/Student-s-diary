@@ -78,17 +78,17 @@ public class PagerAdapterInCard extends PagerAdapter {
             Kab.setText(temp1[q]);
             Ocenka.setText(temp3[q]);
             String[] temp4 = temp2[q].split("`");
-            String tempik = " ";
+            StringBuilder tempik = new StringBuilder(" ");
             if (temp4.length == 1)
             Dz.setText(temp4[0]);
             else {
                 for (int n = 0; n < temp4.length; n++) {
                     if(n+1 == temp4.length)
-                        tempik = tempik + temp4[n];
+                        tempik.append(temp4[n]);
                         else
-                    tempik = tempik + temp4[n] + "\n";
+                    tempik.append(temp4[n]).append("\n");
                 }
-                Dz.setText(tempik);
+                Dz.setText(tempik.toString());
             }
             tableLayout.addView(tr);
         }

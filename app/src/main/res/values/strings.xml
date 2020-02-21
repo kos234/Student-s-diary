@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Student\'s diary</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>
@@ -39,7 +37,6 @@
     <string name="deleteAllDayLesson">All day</string>
     <string name="timeSpan">The time span must not be the same as the previous or begin later, but end sooner!</string>
     <string name="timeSpanStartEnd">Not a valid span! Start time cannot be greater than end time and per revolution!</string>
-    <string name="wrongFormat">Wrong format!</string>
     <string name="deleteLesson">Delete lesson?</string>
     <string name="editLesson">Edit lesson</string>
     <string name="editCouple">Edit couple</string>
@@ -60,7 +57,7 @@
     <string name="gradesEnd">End</string>
     <string name="settings">Settings</string>
     <string name="setting">Setting</string>
-    <string name="Ok">Ok</string>
+    <string name="Ok">OK</string>
     <string name="Warning">Warning</string>
     <string name="chooseMonth">Select the month you want to start the training:</string>
     <string name="behavior">Behavior</string>
@@ -91,7 +88,6 @@
     <string name="PovedSettings">Add field \"Behaviors\"</string>
     <string name="WhatSettings">This parameter will affect something</string>
     <string name="General_setting">General setting</string>
-    <string name="DeletedOcen">You cannot delete already confirmed grades!</string>
     <string name="DaySizeSetting">Block size \"Day\"</string>
     <string name="StartYrok">Until the start of the lesson</string>
     <string name="EndYrok">Until the end of the lesson</string>
@@ -100,10 +96,6 @@
     <string name="Themes">Themes</string>
     <string name="DarkTheme">Dark theme</string>
     <string name="WhiteTheme">Light theme</string>
-    <string name="exporting">Exporting</string>
-    <string name="exportingData">Exporting data</string>
-    <string name="importingData">Importing data</string>
-    <string name="importing">Importing</string>
     <string name="themeAdd">CREATE CUSTOM THEME</string>
     <string name="Apply_Theme">Apply Theme</string>
     <string name="Saving_theme">Saving theme</string>

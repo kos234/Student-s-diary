@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:background="#00AF7F7F"
         android:text="@string/newLesson"
         android:textAlignment="center"
@@ -30,9 +30,9 @@
         android:id="@+id/field_times_add_one"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -42,21 +42,22 @@
             android:layout_height="wrap_content"
             android:background="#00AF7F7F"
             android:text="@string/lessonStartTime"
-            android:textSize="19dp" />
+            android:textSize="19sp" />
 
         <EditText
             android:layout_gravity="center"
             android:id="@+id/timeStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:background="@null"
             android:hint="08:00"
             android:inputType="time"
             android:textAlignment="center"
-            android:textSize="19dp"
+            android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints="">
 
             <requestFocus />
         </EditText>
@@ -66,9 +67,9 @@
         android:id="@+id/field_times_add_two"
         android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="20dp"
+    android:layout_marginStart="20dp"
     android:layout_marginTop="30dp"
-    android:layout_marginRight="20dp">
+    android:layout_marginEnd="20dp">
 
     <TextView
         android:layout_gravity="center"
@@ -77,7 +78,7 @@
         android:layout_height="wrap_content"
         android:text="@string/lessonEndTime"
         android:textAlignment="center"
-        android:textSize="19dp"
+        android:textSize="19sp"
         />
 
     <EditText
@@ -86,13 +87,13 @@
         android:id="@+id/timeEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:textSize="19dp"
+        android:layout_marginStart="5dp"
+        android:textSize="19sp"
         android:hint="08:40"
         android:inputType="time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        >
+        android:autofillHints="">
 
         <requestFocus />
     </EditText>
@@ -102,9 +103,9 @@
     <org.apmem.tools.layouts.FlowLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginEnd="20dp">
 
         <TextView
             android:id="@+id/text_pred_name"
@@ -113,21 +114,22 @@
             android:background="#00AF7F7F"
             android:text="@string/lessonTitle"
             android:textAlignment="center"
-            android:textSize="19dp"
+            android:textSize="19sp"
 
             />
 
         <EditText
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:background="@null"
             android:id="@+id/nameYrok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/lessonExample"
             android:inputType="text"
-            android:textSize="19dp"
+            android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints="">
 
             <requestFocus />
         </EditText>
@@ -136,8 +138,8 @@
 
     <org.apmem.tools.layouts.FlowLayout
         android:layout_width="fill_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp">
 
@@ -149,13 +151,13 @@
             android:layout_height="wrap_content"
             android:text="@string/location"
             android:textAlignment="center"
-            android:textSize="19dp" />
+            android:textSize="19sp" />
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:backgroundTint="@android:color/darker_gray"
             android:gravity="center"
             android:spinnerMode="dropdown"
@@ -167,14 +169,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
     <TextView
         android:id="@+id/text_num_kab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00AF7F7F"
-        android:textSize="19dp"
+        android:textSize="19sp"
         android:text="@string/classroomNumber"
         android:textAlignment="center"
         />
@@ -183,13 +185,13 @@
         android:id="@+id/numKab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:hint="5"
         android:background="@null"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        >
+        android:autofillHints="">
 
         <requestFocus />
     </EditText>
@@ -199,7 +201,7 @@
         android:layout_width="wrap_content"
         android:layout_margin="20dp"
         android:gravity="center"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_height="wrap_content">
 
         <TextView
@@ -210,8 +212,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/custom_button_add"
             android:text="@string/cancel"
-            android:textSize="19dp"
-            android:layout_marginRight="15dp"
+            android:textSize="19sp"
+            android:layout_marginEnd="15dp"
             />
 
         <TextView
@@ -222,7 +224,7 @@
             android:background="@null"
             android:text="@string/save"
             android:textColor="@color/custom_button_add"
-            android:textSize="19dp" />
+            android:textSize="19sp" />
 
     </LinearLayout>
 </LinearLayout>

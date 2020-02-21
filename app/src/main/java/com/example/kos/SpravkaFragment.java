@@ -13,23 +13,25 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
+
 import static android.content.Context.MODE_PRIVATE;
 
 
-class SpravkaFragment extends Fragment {
+public class SpravkaFragment extends Fragment {
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_spravka, container, false);
-        SharedPreferences Current_Theme = getContext().getSharedPreferences("Current_Theme", MODE_PRIVATE);
+        SharedPreferences Current_Theme = Objects.requireNonNull(getContext()).getSharedPreferences("Current_Theme", MODE_PRIVATE);
 
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar5);
         Drawable menuToolbar = getResources().getDrawable(R.drawable.ic_menu_24px);
         menuToolbar.setColorFilter(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(getContext(), R.color.custom_toolbar_text)), PorterDuff.Mode.SRC_ATOP);
         toolbar.setNavigationIcon(menuToolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) { ((MainActivity) getActivity()).openDrawer(); }});
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) { ((MainActivity) Objects.requireNonNull(getActivity())).openDrawer(); }});
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(getContext(), R.color.custom_toolbar_text)));
         toolbar.setBackgroundColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(getContext(), R.color.custom_toolbar)));
 

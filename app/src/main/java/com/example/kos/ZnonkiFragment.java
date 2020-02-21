@@ -28,11 +28,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
-class ZnonkiFragment extends Fragment {
+public class ZnonkiFragment extends Fragment {
     private SharedPreferences settings,Current_Theme;
     private ImageButton OnOff;
     private ViewPager viewPager;
@@ -45,16 +46,16 @@ class ZnonkiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_znonki, container,false);
-        settings = getActivity().getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
+        settings = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
         final androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
         Drawable iconNavigation = ContextCompat.getDrawable(context, R.drawable.ic_menu_24px);
-        iconNavigation.setColorFilter(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)), PorterDuff.Mode.SRC_ATOP);
+        Objects.requireNonNull(iconNavigation).setColorFilter(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)), PorterDuff.Mode.SRC_ATOP);
         toolbar.setNavigationIcon(iconNavigation);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).openDrawer();
+                ((MainActivity) Objects.requireNonNull(getActivity())).openDrawer();
             }
         });
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
@@ -109,11 +110,11 @@ class ZnonkiFragment extends Fragment {
             ImageButton imageButton = view.findViewById(R.id.onOff);
             if(OnOff) {
                 Drawable drawable =  ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
-                drawable.setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
+                Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
                 imageButton.setImageDrawable(drawable);
             }else{
                 Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
-                drawable.setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
+                Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
                 imageButton.setImageDrawable(drawable);
            }}
 
@@ -128,7 +129,7 @@ class ZnonkiFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setScrollX(tabLayout.getWidth());
         tabLayout.setSelectedTabIndicatorColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
-        tabLayout.getTabAt(0).select();
+        Objects.requireNonNull(tabLayout.getTabAt(0)).select();
         Date start = new Date();
         switch (start.toString().substring(0,3)) {
             case "Tue":
@@ -258,14 +259,14 @@ class ZnonkiFragment extends Fragment {
         String[] temp = url.split(".txt");
         if (settings.getBoolean(temp[0], true)) {
             Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
-            drawable.setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
+            Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
             OnOff.setImageDrawable(drawable);
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean(temp[0], false);
             editor.apply();
         }else {
             Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
-            drawable.setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
+            Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
             OnOff.setImageDrawable(drawable);
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean(temp[0],true);
@@ -278,14 +279,14 @@ class ZnonkiFragment extends Fragment {
                 String[] temp = url.split(".txt");
                         if (settings.getBoolean(temp[0], true)) {
                             Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
-                            drawable.setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
+                            Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
                             OnOff.setImageDrawable(drawable);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean(temp[0], false);
                             editor.apply();
                         }else {
                             Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
-                            drawable.setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
+                            Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
                             OnOff.setImageDrawable(drawable);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean(temp[0],true);

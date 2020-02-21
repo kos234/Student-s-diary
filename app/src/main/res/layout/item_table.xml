@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/OneYrok"
     android:onClick="ClicksRow"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="1dp"
+    android:layout_weight="1"
+    android:gravity="center"
     >
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:paddingTop="1dp"
-        android:layout_weight="1"
-        android:gravity="center"
-
-        >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="1dp"
+        android:layout_marginEnd="1dp"
         android:layout_weight="1"
         android:orientation="vertical"
         >
@@ -32,7 +26,7 @@
             android:layout_marginBottom="1dp"
             android:background="@android:color/white"
             android:textColor="@android:color/black"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"
             />
 
@@ -41,56 +35,37 @@
             android:id="@+id/textView1_2_dnev"
             android:background="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_weight="10"
+            android:layout_weight="1"
             android:text="TextView"
-            android:textSize="17dp"
+            android:textSize="17sp"
             />
     </LinearLayout>
 
         <TextView
-            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:layout_weight="1"
             android:id="@+id/textView1_3_dnev"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@android:color/white"
             android:gravity="center"
             android:padding="5dp"
             android:text="TextView121"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
             <TextView
-                android:id="@+id/frame_dnewnik_field_two"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/grades"
-                android:padding="4dp"
-                android:visibility="invisible"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
                 android:id="@+id/textView1_4_dnev"
                 android:gravity="center"
                 android:text="@string/grades"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:padding="5dp"
                 />
-        </FrameLayout>
 
-    </LinearLayout>
 
 </TableRow>

@@ -35,11 +35,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
-class DnewnikFragment extends Fragment {
+public class DnewnikFragment extends Fragment {
     private Context context;
     private TextView dateNedel;
     private final List<helperDnewnik> helperDnewniks = new ArrayList<>();
@@ -73,7 +74,7 @@ class DnewnikFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).openDrawer();
+                ((MainActivity) Objects.requireNonNull(getActivity())).openDrawer();
             }
         });
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
@@ -93,7 +94,7 @@ class DnewnikFragment extends Fragment {
                 deleted.setCancelable(true);
                 final AlertDialog alertDialog = deleted.create();
                 GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
-                alertbackground.setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
                 if(settings.getBoolean("BorderAlertSettings",false))
                     alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
 
@@ -135,7 +136,7 @@ class DnewnikFragment extends Fragment {
                 });
                 ButtonClearOcenki.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
 
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
             }
         });
@@ -260,29 +261,33 @@ helperDnewniks.clear();
                         nameDay = context.getString(R.string.monday);
                         break;
                 }
-                    StringBuffer stringBuffer = new StringBuffer();
+                    StringBuilder stringBuffer = new StringBuilder();
 
                     try {
                         FileInputStream read =  context.openFileInput(ulrTwo);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
-                        String temp_read,namePred = "",kab= "",dz= "", ocenka = "";
+                        String temp_read;
+                        StringBuilder namePred = new StringBuilder();
+                        StringBuilder kab= new StringBuilder();
+                        StringBuilder dz= new StringBuilder();
+                        StringBuilder ocenka = new StringBuilder();
                         String[] help, helpKab;
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             help = temp_read.split(delimeter);
-                            stringBuffer.append(help[1] + "= =").append("=\n");
+                            stringBuffer.append(help[1]).append("= =").append("=\n");
                             helpKab = help[1].split(",");
 
 
-                            namePred = namePred  + helpKab[0]+ "=";
-                            kab = kab  + helpKab[1].substring(1)+ "=";
-                            dz = dz + " =";
-                            ocenka = ocenka + " =";
+                            namePred.append(helpKab[0]).append("=");
+                            kab.append(helpKab[1].substring(1)).append("=");
+                            dz.append(" =");
+                            ocenka.append(" =");
                         }
 
-                        helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
+                        helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(), dz.toString(), ocenka.toString()));
                     } catch (FileNotFoundException q) {
                         helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz), ""));
                         q.printStackTrace();
@@ -376,10 +381,10 @@ helperDnewniks.clear();
         protected Void doInBackground(Void... voids) {
             startNedeli = settings.getInt("StartNedeli",1);
             nameMes = settings.getString("StartMes","Jan");
-            startMes = 00;
-            dayInMes = 00;
-            endMes = 00;
-            endNedeli = 00;
+            startMes = 0;
+            dayInMes = 0;
+            endMes = 0;
+            endNedeli = 0;
             helperDnewniks.clear();
             switch (nameMes){
                 case "Jan":
@@ -647,7 +652,11 @@ helperDnewniks.clear();
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
-                    String temp_read,namePred = "", kab = "",dz = "", ocenka = "";
+                    String temp_read;
+                    StringBuilder namePred = new StringBuilder();
+                    StringBuilder kab = new StringBuilder();
+                    StringBuilder dz = new StringBuilder();
+                    StringBuilder ocenka = new StringBuilder();
                     String[] help, helpKab;
                     String delimeter = "=";
                     if((temp_read = bufferedReader.readLine()) == null){
@@ -655,16 +664,16 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        namePred = helpKab[0]+ "=";
-                        kab = helpKab[1].substring(1)+ "=";
+                        namePred = new StringBuilder(helpKab[0] + "=");
+                        kab = new StringBuilder(helpKab[1].substring(1) + "=");
                         if(2 <= help.length)
-                            dz = help[1]+ "=";
+                            dz = new StringBuilder(help[1] + "=");
                         else
-                            dz = " =";
+                            dz = new StringBuilder(" =");
                         if (3 <= help.length)
-                            ocenka = ocenka + help[2]+ "=";
+                            ocenka.append(help[2]).append("=");
                         else
-                            ocenka = ocenka + " =";
+                            ocenka.append(" =");
                     }
                     while ((temp_read = bufferedReader.readLine()) != null) {
                         help = temp_read.split(delimeter);
@@ -672,44 +681,48 @@ helperDnewniks.clear();
                         helpKab = help[0].split(",");
 
 
-                        namePred = namePred  + helpKab[0]+ "=";
-                        kab = kab  + helpKab[1].substring(1)+ "=";
+                        namePred.append(helpKab[0]).append("=");
+                        kab.append(helpKab[1].substring(1)).append("=");
                         if (2 <= help.length)
-                            dz = dz + help[1]+ "=";
+                            dz.append(help[1]).append("=");
                         else
-                            dz = dz + " =";
+                            dz.append(" =");
                         if (3 <= help.length)
-                            ocenka = ocenka + help[2]+ "=";
+                            ocenka.append(help[2]).append("=");
                         else
-                            ocenka = ocenka + " =";
+                            ocenka.append(" =");
                     }
-                    helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
+                    helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(), dz.toString(), ocenka.toString()));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
 
-                    StringBuffer stringBuffer = new StringBuffer();
+                    StringBuilder stringBuffer = new StringBuilder();
 
                     try {
                         FileInputStream read =  context.openFileInput(ulrTwo);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
-                        String temp_read,namePred = "",kab= "",dz= "", ocenka = "";
+                        String temp_read;
+                        StringBuilder namePred = new StringBuilder();
+                        StringBuilder kab= new StringBuilder();
+                        StringBuilder dz= new StringBuilder();
+                        StringBuilder ocenka = new StringBuilder();
                         String[] help, helpKab;
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             help = temp_read.split(delimeter);
-                            stringBuffer.append(help[1] + "= =").append("=\n");
+                            stringBuffer.append(help[1]).append("= =").append("=\n");
                             helpKab = help[1].split(",");
 
 
-                            namePred = namePred  + helpKab[0]+ "=";
-                            kab = kab  + helpKab[1].substring(1)+ "=";
-                            dz = dz + " =";
-                            ocenka = ocenka + " =";
+                            namePred.append(helpKab[0]).append("=");
+                            kab.append(helpKab[1].substring(1)).append("=");
+                            dz.append(" =");
+                            ocenka.append(" =");
                         }
 
-                        helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
+                        helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(), dz.toString(), ocenka.toString()));
                     } catch (FileNotFoundException q) {
                         q.printStackTrace();
                         helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz), ""));
@@ -808,8 +821,8 @@ helperDnewniks.clear();
             nameMes = settings.getString("StartMes","Jan");
             startMes = 0;
             dayInMes = 0;
-            endMes = 00;
-            endNedeli = 00;
+            endMes = 0;
+            endNedeli = 0;
             helperDnewniks.clear();
             switch (nameMes) {
                 case "Jan":
@@ -1077,7 +1090,11 @@ helperDnewniks.clear();
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
-                    String temp_read,namePred = "", kab = "",dz = "", ocenka = "";
+                    String temp_read;
+                    StringBuilder namePred = new StringBuilder();
+                    StringBuilder kab = new StringBuilder();
+                    StringBuilder dz = new StringBuilder();
+                    StringBuilder ocenka = new StringBuilder();
                     String[] help, helpKab;
                     String delimeter = "=";
                     if((temp_read = bufferedReader.readLine()) == null){
@@ -1085,17 +1102,17 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        namePred = helpKab[0] + "=";
-                        kab = helpKab[1].substring(1)+ "=";
+                        namePred = new StringBuilder(helpKab[0] + "=");
+                        kab = new StringBuilder(helpKab[1].substring(1) + "=");
                     if(2 <= help.length)
-                        dz = help[1]+ "=";
+                        dz = new StringBuilder(help[1] + "=");
                     else
-                        dz = " =";
+                        dz = new StringBuilder(" =");
 
                         if (3 <= help.length)
-                            ocenka = ocenka + help[2]+ "=";
+                            ocenka.append(help[2]).append("=");
                         else
-                            ocenka = ocenka + " =";
+                            ocenka.append(" =");
                     }
                     while ((temp_read = bufferedReader.readLine()) != null) {
                         help = temp_read.split(delimeter);
@@ -1103,44 +1120,48 @@ helperDnewniks.clear();
                         helpKab = help[0].split(",");
 
 
-                        namePred = namePred  + helpKab[0]+ "=";
-                        kab = kab  + helpKab[1].substring(1)+ "=";
+                        namePred.append(helpKab[0]).append("=");
+                        kab.append(helpKab[1].substring(1)).append("=");
                         if (2 <= help.length)
-                        dz = dz + help[1]+ "=";
+                        dz.append(help[1]).append("=");
                         else
-                            dz = dz + " =";
+                            dz.append(" =");
 
                         if (3 <= help.length)
-                            ocenka = ocenka + help[2]+ "=";
+                            ocenka.append(help[2]).append("=");
                         else
-                            ocenka = ocenka + " =";
+                            ocenka.append(" =");
                     }
-                    helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
+                    helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(), dz.toString(), ocenka.toString()));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
 
-                    StringBuffer stringBuffer = new StringBuffer();
+                    StringBuilder stringBuffer = new StringBuilder();
 
                     try {
                         FileInputStream read =  context.openFileInput(ulrTwo);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
-                        String temp_read,namePred = "",kab= "",dz= "", ocenka = "";
+                        String temp_read;
+                        StringBuilder namePred = new StringBuilder();
+                        StringBuilder kab= new StringBuilder();
+                        StringBuilder dz= new StringBuilder();
+                        StringBuilder ocenka = new StringBuilder();
                         String[] help, helpKab;
                         String delimeter = "=";
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             help = temp_read.split(delimeter);
-                            stringBuffer.append(help[1] + "= =").append("=\n");
+                            stringBuffer.append(help[1]).append("= =").append("=\n");
                             helpKab = help[1].split(",");
 
 
-                            namePred = namePred  + helpKab[0]+ "=";
-                            kab = kab  + helpKab[1].substring(1)+ "=";
-                            dz = dz + " =";
-                            ocenka = ocenka + " =";
+                            namePred.append(helpKab[0]).append("=");
+                            kab.append(helpKab[1].substring(1)).append("=");
+                            dz.append(" =");
+                            ocenka.append(" =");
                         }
-                        helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz,ocenka));
+                        helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(), dz.toString(), ocenka.toString()));
                     } catch (FileNotFoundException q) {
                         q.printStackTrace();
                         helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz), ""));
@@ -1261,7 +1282,7 @@ helperDnewniks.clear();
                         nameDay = context.getString(R.string.monday);
                         break;
                 }
-                StringBuffer stringBuffer = new StringBuffer();
+                StringBuilder stringBuffer = new StringBuilder();
                 try {
                     File mFolder = new File(context.getFilesDir() + "/dnewnik");
                     File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
@@ -1275,7 +1296,11 @@ helperDnewniks.clear();
                     FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
-                    String temp_read,namePred = "", kab = "",dz = "", ocenka = "";
+                    String temp_read;
+                    StringBuilder namePred = new StringBuilder();
+                    StringBuilder kab = new StringBuilder();
+                    StringBuilder dz = new StringBuilder();
+                    StringBuilder ocenka = new StringBuilder();
                     String[] help, helpKab;
                     String delimeter = "=";
                     if((temp_read = bufferedReader.readLine()) == null){
@@ -1283,14 +1308,14 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        namePred = helpKab[0]+ "=";
-                        kab = helpKab[1].substring(1)+ "=";
+                        namePred = new StringBuilder(helpKab[0] + "=");
+                        kab = new StringBuilder(helpKab[1].substring(1) + "=");
                         if(2 <= help.length)
-                            dz = help[1]+ "=";
+                            dz.append(help[1]).append("=");
                         else
-                            dz = " =";
-                        ocenka = ocenka + " =";
-                        stringBuffer.append(help[0] + "=" + help[1]).append("=\n");
+                            dz.append(" =");
+                        ocenka.append(" =");
+                        stringBuffer.append(help[0]).append("=").append(help[1]).append("=\n");
                     }
                     while ((temp_read = bufferedReader.readLine()) != null) {
                         help = temp_read.split(delimeter);
@@ -1298,16 +1323,16 @@ helperDnewniks.clear();
                         helpKab = help[0].split(",");
 
 
-                        namePred = namePred  + helpKab[0]+ "=";
-                        kab = kab  + helpKab[1].substring(1)+ "=";
+                        namePred.append(helpKab[0]).append("=");
+                        kab.append(helpKab[1].substring(1)).append("=");
                         if(2 <= help.length)
-                            dz = help[1]+ "=";
+                            dz.append(help[1]).append("=");
                         else
-                            dz = " =";
-                        ocenka = ocenka + " =";
-                        stringBuffer.append(help[0] + "=" + help[1]).append("=\n");
+                            dz.append(" =");
+                        ocenka.append(" =");
+                        stringBuffer.append(help[0]).append("=").append(help[1]).append("=\n");
                     }
-                    helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
+                    helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(),dz.toString(), ocenka.toString()));
 
                 } catch (FileNotFoundException e) {
                     helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz),""));
@@ -1423,7 +1448,7 @@ helperDnewniks.clear();
                         nameDay = context.getString(R.string.monday);
                         break;
                 }
-                StringBuffer stringBuffer = new StringBuffer();
+                StringBuilder stringBuffer = new StringBuilder();
                 try {
                     File mFolder = new File(context.getFilesDir() + "/dnewnik");
                         File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
@@ -1437,7 +1462,11 @@ helperDnewniks.clear();
                         FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
-                    String temp_read,namePred = "", kab = "",dz = "", ocenka = "";
+                    String temp_read;
+                    StringBuilder namePred = new StringBuilder();
+                    StringBuilder kab = new StringBuilder();
+                    StringBuilder dz = new StringBuilder();
+                    StringBuilder ocenka = new StringBuilder();
                     String[] help, helpKab;
                     String delimeter = "=";
                     if((temp_read = bufferedReader.readLine()) == null){
@@ -1445,13 +1474,13 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        namePred = helpKab[0]+ "=";
-                        kab = helpKab[1].substring(1)+ "=";
-                        dz = dz + " =";
+                        namePred = new StringBuilder(helpKab[0] + "=");
+                        kab = new StringBuilder(helpKab[1].substring(1) + "=");
+                        dz.append(" =");
                         if (3 <= help.length)
-                            ocenka = ocenka + help[2]+ "=";
+                            ocenka.append(help[2]).append("=");
                         else
-                            ocenka = ocenka + " =";
+                            ocenka.append(" =");
                         stringBuffer.append(help[0]).append("=\n");
                     }
                     while ((temp_read = bufferedReader.readLine()) != null) {
@@ -1460,16 +1489,16 @@ helperDnewniks.clear();
                         helpKab = help[0].split(",");
 
 
-                        namePred = namePred  + helpKab[0]+ "=";
-                        kab = kab  + helpKab[1].substring(1)+ "=";
-                        dz = dz + " =";
+                        namePred.append(helpKab[0]).append("=");
+                        kab.append(helpKab[1].substring(1)).append("=");
+                        dz.append(" =");
                         if (3 <= help.length)
-                            ocenka = ocenka + help[2]+ "=";
+                            ocenka.append(help[2]).append("=");
                         else
-                            ocenka = ocenka + " =";
-                        stringBuffer.append(help[0]+"= =" + help[2]).append("=\n");
+                            ocenka.append(" =");
+                        stringBuffer.append(help[0]).append("= =").append(help[2]).append("=\n");
                     }
-                    helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
+                    helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(), dz.toString(), ocenka.toString()));
 
                 } catch (FileNotFoundException e) {
                     helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz),""));
@@ -1584,11 +1613,11 @@ helperDnewniks.clear();
             Date date = new Date();
             startNedeli = Integer.parseInt(date.toString().substring(8,10));
             nameMes = date.toString().substring(4,7);
-            startMes = 00;
-            dayInMes = 00;
-            endMes = 00;
+            startMes = 0;
+            dayInMes = 0;
+            endMes = 0;
             String dayName = date.toString().substring(0, 3);
-            endNedeli = 00;
+            endNedeli = 0;
             int dayRemove = 0;
             switch (nameMes){
                 case "Jan":
@@ -2127,7 +2156,11 @@ helperDnewniks.clear();
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
-                    String temp_read,namePred = "", kab = "",dz = "", ocenka = "";
+                    String temp_read;
+                    StringBuilder namePred = new StringBuilder();
+                    StringBuilder kab = new StringBuilder();
+                    StringBuilder dz = new StringBuilder();
+                    StringBuilder ocenka = new StringBuilder();
                     String[] help, helpKab;
                     String delimeter = "=";
                     if((temp_read = bufferedReader.readLine()) == null){
@@ -2135,16 +2168,16 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        namePred = helpKab[0]+ "=";
-                        kab = helpKab[1].substring(1)+ "=";
+                        namePred = new StringBuilder(helpKab[0] + "=");
+                        kab = new StringBuilder(helpKab[1].substring(1) + "=");
                         if(2 <= help.length)
-                            dz = help[1]+ "=";
+                            dz = new StringBuilder(help[1] + "=");
                         else
-                            dz = " =";
+                            dz = new StringBuilder(" =");
                         if (3 <= help.length)
-                            ocenka = ocenka + help[2]+ "=";
+                            ocenka.append(help[2]).append("=");
                         else
-                            ocenka = ocenka + " =";
+                            ocenka.append(" =");
                     }
                     while ((temp_read = bufferedReader.readLine()) != null) {
                         help = temp_read.split(delimeter);
@@ -2152,58 +2185,62 @@ helperDnewniks.clear();
                         helpKab = help[0].split(",");
 
 
-                        namePred = namePred  + helpKab[0]+ "=";
-                        kab = kab  + helpKab[1].substring(1)+ "=";
+                        namePred.append(helpKab[0]).append("=");
+                        kab.append(helpKab[1].substring(1)).append("=");
                         if (2 <= help.length)
-                            dz = dz + help[1]+ "=";
+                            dz.append(help[1]).append("=");
                         else
-                            dz = dz + " =";
+                            dz.append(" =");
 
                         if (3 <= help.length)
-                            ocenka = ocenka + help[2]+ "=";
+                            ocenka.append(help[2]).append("=");
                         else
-                            ocenka = ocenka + " =";
+                            ocenka.append(" =");
                     }
 
-                    helperDnewniks.add(new helperDnewnik(nameDay,namePred,kab,dz, ocenka));
+                    helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(), dz.toString(), ocenka.toString()));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
 
-                    StringBuffer stringBuffer = new StringBuffer();
+                    StringBuilder stringBuffer = new StringBuilder();
 
                     try {
                         FileInputStream read =  context.openFileInput(ulrTwo);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
-                        String temp_read,namePred = "",kab= "",dz= "", ocenka = "";
+                        String temp_read;
+                        StringBuilder namePred = new StringBuilder();
+                        StringBuilder kab= new StringBuilder();
+                        StringBuilder dz= new StringBuilder();
+                        StringBuilder ocenka = new StringBuilder();
                         String[] help, helpKab;
                         String delimeter = "=";
                             if((temp_read = bufferedReader.readLine()) == null)
                                 throw new FileNotFoundException();
                             else{
                                 help = temp_read.split(delimeter);
-                                stringBuffer.append(help[1] + "= =").append("=\n");
+                                stringBuffer.append(help[1]).append("= =").append("=\n");
                                 helpKab = help[1].split(",");
 
 
-                                namePred = namePred + helpKab[0] + "=";
-                                kab = kab + helpKab[1].substring(1) + "=";
-                                dz = dz + " =";
-                                ocenka = ocenka + " =";
+                                namePred.append(helpKab[0]).append("=");
+                                kab.append(helpKab[1].substring(1)).append("=");
+                                dz.append(" =");
+                                ocenka.append(" =");
                             }
                             while ((temp_read = bufferedReader.readLine()) != null) {
                                 help = temp_read.split(delimeter);
-                                stringBuffer.append(help[1] + "= =").append("=\n");
+                                stringBuffer.append(help[1]).append("= =").append("=\n");
                                 helpKab = help[1].split(",");
 
 
-                                namePred = namePred + helpKab[0] + "=";
-                                kab = kab + helpKab[1].substring(1) + "=";
-                                dz = dz + " =";
-                                ocenka = ocenka + " =";
+                                namePred.append(helpKab[0]).append("=");
+                                kab.append(helpKab[1].substring(1)).append("=");
+                                dz.append(" =");
+                                ocenka.append(" =");
                             }
-                            helperDnewniks.add(new helperDnewnik(nameDay, namePred, kab, dz, ocenka));
+                            helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(), dz.toString(), ocenka.toString()));
                     } catch (FileNotFoundException q) {
                         q.printStackTrace();
                         helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz),""));

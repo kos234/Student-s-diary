@@ -13,11 +13,11 @@
         android:paddingRight="10dp"
         android:layout_marginBottom="2dp"
         android:layout_marginTop="2dp"
-        android:layout_marginRight="1dp"
+        android:layout_marginEnd="1dp"
         android:id="@+id/title_bar"
         android:paddingBottom="5dp"
         android:text="@string/lessonTitle"
-        android:textSize="19dp" />
+        android:textSize="19sp" />
 
     <FrameLayout
         android:id="@+id/frame_ocenki_one"
@@ -42,7 +42,7 @@
             android:gravity="center"
             android:background="#fafafa"
             android:text="@string/OneQuarter"
-            android:textSize="19dp"
+            android:textSize="19sp"
             />
     </FrameLayout>
 
@@ -68,7 +68,7 @@
         
         android:background="#fafafa"
         android:text="@string/TwoQuarter"
-        android:textSize="19dp"
+        android:textSize="19sp"
         />
 
     </FrameLayout>
@@ -95,7 +95,7 @@
         
         android:background="#fafafa"
         android:text="@string/ThreeQuarter"
-        android:textSize="19dp"
+        android:textSize="19sp"
         />
 
     </FrameLayout>
@@ -121,7 +121,7 @@
         android:id="@+id/four"
         android:background="#fafafa"
         android:text="@string/FourQuarter"
-        android:textSize="19dp"
+        android:textSize="19sp"
         />
     </FrameLayout>
 
@@ -146,7 +146,7 @@
         android:id="@+id/year"
         android:text="@string/gradesYear"
         android:background="#fafafa"
-        android:textSize="19dp"
+        android:textSize="19sp"
         />
     </FrameLayout>
 
@@ -170,7 +170,7 @@
         android:gravity="center"
         android:background="#fafafa"
         android:text="@string/gradesExamination"
-        android:textSize="19dp"
+        android:textSize="19sp"
         />
     </FrameLayout>
 
@@ -195,7 +195,7 @@
         android:text="@string/gradesEnd"
         android:id="@+id/end"
         android:background="#fafafa"
-        android:textSize="19dp"
+        android:textSize="19sp"
         />
     </FrameLayout>
 </TableRow>
