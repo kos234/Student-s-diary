@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:id="@+id/LinerZvon_item"
+    android:scrollbars="none"
     android:background="@drawable/corners_alert"
     android:layout_height="match_parent">
 <LinearLayout
