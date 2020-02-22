@@ -143,10 +143,111 @@ Student's diary
 #### Блок содержащий информацию о приложение и ссылку на проект
 
 ### **Функционал главного экрана:**
-1) Ссылка на [GitHub](https://github.com/kos234/Student-s-diary)
-2) Ссылка на почту Автора
-3) Ссылка на [Вконтакте автора](https://vk.com/i_love_python_and_you)
-4) Ссылка на ютуб канал [“Гоша Дударь”](https://www.youtube.com/user/PlurrimiTube)
-5) Ссылка на ютуб канал [“Start android”](https://www.youtube.com/user/vitaxafication)
-6) Ссылка на ютуб канал [“Devcolibri”](https://www.youtube.com/user/devcolibri)
+#### 1) Ссылка на [GitHub](https://github.com/kos234/Student-s-diary)
+#### 2) Ссылка на почту Автора
+#### 3) Ссылка на [Вконтакте автора](https://vk.com/i_love_python_and_you)
+#### 4) Ссылка на ютуб канал [“Гоша Дударь”](https://www.youtube.com/user/PlurrimiTube)
+#### 5) Ссылка на ютуб канал [“Start android”](https://www.youtube.com/user/vitaxafication)
+#### 6) Ссылка на ютуб канал [“Devcolibri”](https://www.youtube.com/user/devcolibri)
 ![screenshot of help](https://psv4.userapi.com/c856332/u388061716/docs/d7/555632c3e31e/2020-02-19_17-08-09.png?extra=s1aSSCecqNKzsNX-bo_cyoT5PH8YGBu62ZcSwSrUzHzVkBnXXY8Uj4dSTF_sYQvpw7UowoPZ5dKbCrxcwQ-RQ-NTNHDJvI6rq81AFb0IXsL-hkYvN6lU_qrQklhDRnv2LofQcH7tcLj2t1-FIzuWCjZ-)
+
+### **Функционал с программной части** – отсутствует, единственное что в нем есть, это поддержка кастомных тем, всё, что есть на экране, закреплено в макете
+
+Настройки
+-----------------------------------
+#### Блок содержащий настройки 
+
+### **Функционал родительского экрана:**
+#### 1) Настраивает расстояние между блоками дней в блоке “Дневник”(Пример - 1)
+#### 2) Включает или Выключает уведомления о конце, начале урока или перемены
+#### 3) Включает или выключает субботу в блоке “Расписание”
+#### 4) Включает или выключает поле “Поведение” в блоке “Оценки” (Внимание! Если учебный год уже был сгенерирован, то отключение этого параметра не уберет это поле из этого учебного года!)
+#### 5) Способ указания цвета в создании своей темы, по умолчанию возможен выбор (более подробно это описано в “Функционале экрана добавления тем”)
+#### 6) Включает или выключает анимации в приложении
+#### 7) Включает выключает обводку диалогов (Пример - 2)
+#### 8) Выбор фрагмента который будет включен при запуски приложения, по умолчанию запускается последний выбранный фрагмент
+#### 9) Ширина обводки диалогов
+#### 10) Включение уже установленной светлой цветовой темы, она используется как цветовая тема по умолчанию
+#### 11) Включение уже установленной темной цветовой темы
+#### 12) Поле с вашей темой (Их может быть сколько угодно), переключатель справа включает эту цветовую тему, короткое нажатие по этому блоку открывает меню редактирования, долгое нажатие открывает диалог удаления
+#### 13) Кнопка создания своей цветовой темы
+![screenshot of settings](https://psv4.userapi.com/c856428/u388061716/docs/d15/31bb26992334/2020-02-19_17-17-32.png?extra=_to9EsUooWpEEhYGHNgY4QzK76bWC0Pv9WamF-ANGovqefzEEcx2xhCk_h26i2k2cwEMmqvHQd59044obFuLuzjo0cCQ6YwcQtOed0KZ9o2ub7egT5HcY6vk7Ks6jtB1h3Cvipw7RFmRCLO_w_7aaXia)
+![screenshot of settings](https://psv4.userapi.com/c856536/u388061716/docs/d15/1e8dd22344d9/2020-02-19_17-21-40.png?extra=dNlro6LMECaBU8VORetUJL8HspZ1h5mw8C6SDIas7ncbjKBuvl4H88RNtFKcrTvDrgNOWxOslyGlsq8W6ut9ThJxh4g-ZGQivErAxg9qWZ4b-2hX7Cqp_wyy4GstT0RJemj0fPuOZDpLeOdntchjCZx_)
+
+### **Примеры:**
+####1)
+![screenshot of example one](https://psv4.userapi.com/c856536/u388061716/docs/d16/2f46eeee4366/2020-02-19_17-43-50.png?extra=id7Sfe9J2rTgmZNrOzOObZFsTbk02fSwHy4pFzUkfgLEMoUhVtCqQ_S_OKB89OfGdLiv1-g0TlbiX3UwVieGZxEYJa_BL4sXmzvv23c5hHHTYbivAv68B0lwzQshb_yzCJ_143DSL86-eZXUxf1bbfWR)
+![screenshot of example one](https://psv4.userapi.com/c856536/u388061716/docs/d8/8cc9cceddc73/2020-02-19_17-42-00.png?extra=76rvtxw4AzbKX8qNHDwbiDIePkiz5yXWjbyUcXuNyQesZ1vBDHH3hPtuEcBI9T5VjnusoXk0Bk7NlMV_Eha_a7ak_aLylo2CcE1gf2YZIb7rLoXNOcygximZL497AdWMz-4ChcFXAcRtA_5-mXwsTRyD)
+
+#### 2)
+![screenshot of example two](https://psv4.userapi.com/c856536/u388061716/docs/d9/0dc55b36aafa/2020-02-19_17-49-29.png?extra=zwDWBmJIprWbW04SUkEj-Ly39AdVLjJVfzhVL31zb-1xS1d36lBX4ml48QIQl0hwopleFAW1Uvs7d9MI897nouu9niCpaF0CEPPrTWnZwc3a5IjxvR_DoOzQ0pBB4oIL72_5lOJ7gG-9QJtFX_hdvQxf)
+![screenshot of example two](https://psv4.userapi.com/c856536/u388061716/docs/d9/a7864c0103ee/2020-02-19_17-48-28.png?extra=AGCp0Xanw20n1VBApgRkGVPBdYMvZCHr0HrRKtFVAPSjPLehHy4l76w8L4FSP7nk-Yqan5Gp2L-FmQNcoX-te8excVZb_KewH6lgl_ZRDkWATMHXxeJE68oh2haCx7ezj0AvacMhS6Ddi0gfXEnbmN2M)
+
+### **Функционал экрана создания тем, он же экран редактирования:**
+#### 1) Кнопка сохранения цветовой темы
+#### 2) Название темы
+#### 3) Цвет иконки темы (Используется только для иконки темы в родительском экране)
+#### 4) Цвет обводки иконки темы (Используется только для обводки иконки темы в родительском экране)
+#### 5) Цвет заднего фона (Используется как задний фон приложения и задний фон диалогов)
+#### 6) Цвет панели (Используется как цвет верхней панели с названием блока и экрана загрузки)
+#### 7) Цвет текста панели (Используется как цвет текста и кнопки меню на панели с названием блоков, а так же как цвет текста экрана загрузки)
+#### 8) Цвет панели уведомлений (Используется только для цвета панели уведомлений)
+#### 9) Цвет светлого текста (Используется только как цвет светлого текста)
+#### 10) Цвет тёмного текста (Используется только как цвет тёмного текста)
+#### 11) Цвет текста подсказки (Используется только как цвет текста подсказки поля редактирования)
+#### 12) Цвет курсора (Используется только как цвет курсора поля редактирования)
+#### 13) Цвет блоков (Используется только как цвет блоков)
+#### 14) Цвет нижней границы (Используется только как цвет границы между настройками в блоке “Настройки”)
+#### 15) Цвет кнопки добавления (Используется как цвет кнопки в блоках “Учителя”, “Расписания”, и цвет кнопок диалогов)
+#### 16) Цвет плюса кнопки добавления (Используется только как цвет плюса кнопки в блоках “Учителя” “Расписания”)
+#### 17) Цвет стрелок и кнопок меню фрагментов (Используется как цвет стрелок и текста даты учебного года и недели в блоках “Дневник”, “Оценки” и как цвет текста и иконок в меню фрагментов)
+#### 18) Цвет иконки загрузки (Используется как цвет кружка загрузки в блоках “Дневник”, “Оценки”, начального экрана и диалога загрузки при создании и смене цветовой темы)
+#### 19) Цвет неподтвержденных колонок таблиц (Используется только как цвет неподтвержденных колонок таблиц)
+#### 20) Цвет колонок таблиц (Используется как цвет колонок таблицы в блоках “Дневник”, “Оценки”)
+#### 21) Цвет иконки включенных уведомлений (Используется только как цвет иконки включенных уведомлений)
+#### 22) Цвет выключенных иконки включенных уведомлений (Используется только как цвет выключенных иконки включенных уведомлений)
+#### 23) Цвет включенного переключателя (Используется только как цвет включенного переключателя в настройках)
+#### 24) Цвет выключенного переключателя (Используется только как цвет выключенного переключателя в настройках)
+#### 25) Цвет фона блока выборов (Используется как цвет фона блоков выборов подтверждения и выбора способа указания цвета)
+#### 26) Цвет границы блока выборов и диалогов (Используется как цвет границы блоков выборов подтверждения и выбора способа указания цвета и диалогов)
+#### 27) Цвет аудио плеера (Используется только как цвет аудиоплеера)
+
+![screenshot of custom theme](https://psv4.userapi.com/c856536/u388061716/docs/d8/1d2817b1eae3/2020-02-19_17-58-46.png?extra=2j4Mb0KwdykYRI8PDhj1Y030_LR5rSo9PsAQReYAWctTFRiJStmZfzC3BGMR7N71YFpNsPDcwT6SQM_T3MNvsOWMS56Z7UwVdzrHO0Qh-EPWtohPGaSrFhZd-ojShoBlXkT-MSjWKbMT4qqtiTndwfHR)
+![screenshot of custom theme](https://psv4.userapi.com/c856536/u388061716/docs/d10/0951ebe2649d/2020-02-19_18-09-28.png?extra=9ZgrTO75FB6MX6Gls21arTxOxtBM3xFJGkWe3pFv_IYKHWlypQADGUfr-ssd0vl1oep5a9-KQSFoIxjV6cBF94cIkuGGhrpKMuRu-D5mXtmGefReLwiiT0AHqXPwZEEbi9fzz9_24Y4cbZFqr0c9qpQt)
+![screenshot of custom theme](https://psv4.userapi.com/c856536/u388061716/docs/d12/77daf4547bda/2020-02-19_18-24-40.png?extra=eZO29nXNCwcRruCZFrLAFpIKAb6mXd-ooguVy1sbBT7Q0mngsK4Ci9aL9EXQNGS-W4asoNSwN1wsrmxT-kXxAP_5GMqIeqX8o2CYF3v0W2yEWbft-xP5ItqvyEG5RAXls0qozcn0Rad_tJzwFhShSaFS)
+
+### **При нажатие на блоки с 3 по 27 открывается блок выбора способа указания цвета, вот его функционал:**
+#### 1) Указать HEX-код 
+#### 2) Выбрать цвет самому
+![screenshot of choose color](https://psv4.userapi.com/c856528/u388061716/docs/d11/93880a959147/2020-02-19_18-37-17.png?extra=tNcatoWm3zrgWqYubd70HPXMcDHp0FQWuGakzsLdagBNSDeaDFw9IN_ak1H8ytdyDrS_5qdzA1_ajFMgbUcidgeXr7krS_6tu1Xly63CUJx0sJpY2dHOciaQk6Ti7sv978BDjnkTzZ2OuoiUC5h1z2HZ)
+
+#### Если была нажата 1 кнопка, откроется меню:
+#### 1) Поле для HEX-кода
+![screenshot of hex color](https://psv4.userapi.com/c856528/u388061716/docs/d17/f2d3a3c162bf/2020-02-19_18-37-56_2.png?extra=cAueX8e_vUet3mMY2U-1LVo0DANuHlOt75EbkTrjf7tIJ0oMstJ9SXRjWd1iCQIkiREI6t56xzkood4VxCeFybYq9rD5XwzrdLcZEq8PPoI-VMnXgN7q1q0e3anEaqJSc77HN8ryQD41tjnvsc9po0bj)
+
+#### Если была нажата 2 кнопка, откроется меню:
+#### 1) Выбор спектра цвета
+#### 2) Выбор цвета из спектра
+#### 3) Предыдущий цвет
+#### 4) Итоговый цвет
+![screenshot of color](https://psv4.userapi.com/c856528/u388061716/docs/d12/941f8d83b57d/2020-02-19_18-39-21.png?extra=dpz2oLOiB47XNZP77jhvshqx9VqohZAvA5esk5nmDHAXx62cR5hIv9vV3O_q9Vh3nkCl1pg6jbItJz3vC4KS-F1IU1jpDy2iLPQUuOR2CRwlWPP9LKUav_RYJTO1GS4jmAnxJNzecT1ccVqYrPAtkRQH)
+
+### **Функционал с программной точки зрения:**
+#### Записывает настройки в `SharedPreferencess`(Массив данных с индексами) с названием `Settings`, при добавление цветовых тем, генерируется уникальный айди переключателя для блока с темами и идет запись цветовых значений в файл `Themes.txt` по шаблону `СГЕНЕРИРОВАННЫЙ АЙДИ ПЕРЕКЛЮЧАТЕЛЯ ДЛЯ БЛОКА =НАЗВАНИЕ ТЕМЫ=ПУНКТ 3= ПУНКТ 4 … ПУНКТ 27` и в `SharedPreferencess` файл с названием `Current_theme` записываются цветовые значения текущей темы для удобного получения значений из кода.
+
+
+### **License/Лицензия**
+
+Copyright 2020 Kos
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
