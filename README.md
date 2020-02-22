@@ -175,7 +175,7 @@ Student's diary
 ![screenshot of settings](https://psv4.userapi.com/c856536/u388061716/docs/d15/1e8dd22344d9/2020-02-19_17-21-40.png?extra=dNlro6LMECaBU8VORetUJL8HspZ1h5mw8C6SDIas7ncbjKBuvl4H88RNtFKcrTvDrgNOWxOslyGlsq8W6ut9ThJxh4g-ZGQivErAxg9qWZ4b-2hX7Cqp_wyy4GstT0RJemj0fPuOZDpLeOdntchjCZx_)
 
 ### **Примеры:**
-####1)
+#### 1)
 ![screenshot of example one](https://psv4.userapi.com/c856536/u388061716/docs/d16/2f46eeee4366/2020-02-19_17-43-50.png?extra=id7Sfe9J2rTgmZNrOzOObZFsTbk02fSwHy4pFzUkfgLEMoUhVtCqQ_S_OKB89OfGdLiv1-g0TlbiX3UwVieGZxEYJa_BL4sXmzvv23c5hHHTYbivAv68B0lwzQshb_yzCJ_143DSL86-eZXUxf1bbfWR)
 ![screenshot of example one](https://psv4.userapi.com/c856536/u388061716/docs/d8/8cc9cceddc73/2020-02-19_17-42-00.png?extra=76rvtxw4AzbKX8qNHDwbiDIePkiz5yXWjbyUcXuNyQesZ1vBDHH3hPtuEcBI9T5VjnusoXk0Bk7NlMV_Eha_a7ak_aLylo2CcE1gf2YZIb7rLoXNOcygximZL497AdWMz-4ChcFXAcRtA_5-mXwsTRyD)
 
@@ -238,7 +238,7 @@ Student's diary
 
 ### **License/Лицензия**
 
-Copyright 2020 Kos
+`Copyright 2020 Kos
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -250,4 +250,4 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License.
+limitations under the License.`
