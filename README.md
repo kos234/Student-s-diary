@@ -38,7 +38,7 @@ Student's diary
 #### 3) Список дней, белая полоса указывает на текущий день, нажатие на определенный день откроет соответствующий день, так-же переключение работает путём слайда
 #### 4) Блоки с информацией о уроке, содержит: время начала и конца, само название предмета и номер кабинета, аудитории; короткое нажатие откроет меню редактирование, долгое нажатие выведет окно удаление. Если нет записей, то на заднем фоне будет отображаться подсказка
 #### 5) Кнопка добавление новой записи, короткое нажатие открывает меню добавление(оно же меню редактирования), долгое нажатие выведет окно о очистке, где будет выбор: либо удалить все записи, либо только в текущем дне
-![screenshot of timetables](https://psv4.userapi.com/c856528/u388061716/docs/d17/c7d5b73dcd03/2020-02-17_18-22-02.png)
+![screenshot of timetables](https://psv4.userapi.com/c856528/u388061716/docs/d17/c7d5b73dcd03/2020-02-17_18-22-02.png?extra=iTxyLTUnARj1hzFFj7wNr7v7XG-QO-qrxROOZNeq1JqjE57p3HFyVhyo5MrDNC3uhmxFV4oeW7-wLLr___cHQ0QYKW7Ja-Wh9m_11LILBlmD6iCUDV-lnDyezUkDhxb09bNlWRSaoH4HRxTHnk1OJLyU)
 
 ### **Функционал экрана добавление, он же экран редактирования:**
 #### 1) Поле начала урока, принимает значение вида `ЧЧ:ММ`
@@ -47,7 +47,7 @@ Student's diary
 #### 4) Выбор место проведения, для школьников – кабинет, для студентов – аудитория
 #### 5) Номер кабинета, аудитории
 #### Если все поля были пусты (то есть вы ничего не вводили) запишутся данные по умолчанию, которые вы могли видеть в скрытом режиме
-![screenshot of timetables_add](https://psv4.userapi.com/c856236/u388061716/docs/d4/08e0d939f228/2020-02-17_18-32-33.png)
+![screenshot of timetables_add](https://psv4.userapi.com/c856236/u388061716/docs/d4/08e0d939f228/2020-02-17_18-32-33.png?extra=0MrtH9C8ptKvnEONP-L1b4peerCJlC2hGlUFlbK9uneyruO4Yk4TbcryWhXACleKAEJ6i99BOVfcOXobkVIVUvY3MiHtnsmEXFSbY7_j8ftGvuRM1qyLUIv6lQh71W-ur7qEZw8pZt9juCn0GZP1O24v)
 
 ### **Функционал с программной точки зрения:**
 #### При добавлении новых записей записывает в файлах `Monday.txt`, `Tuesday.txt` и так далее, информацию по шаблону: `ЧАС:МИНУТА:AM-ЧАС:МИНУТА:AM=НАЗВАНИЕ ПРЕДМЕТА, КАБИНЕТ/АУДИТОРИЯ НОМЕР /n`, если используется 24 часовой формат: `ЧАС:МИНУТА-ЧАС:МИНУТА=НАЗВАНИЕ ПРЕДМЕТА, КАБИНЕТ/АУДИТОРИЯ НОМЕР /n`. Сами файлы находятся в корневом каталоге приложения
@@ -64,13 +64,13 @@ Student's diary
 #### 3) Кнопка открывающая прошлую неделю, если она ещё не была создана, то она сгенерируется
 #### 4) Кнопка открывающая следующую неделю, если она ещё не была создана, то она сгенерируется
 #### 5) Таблица дней недели, клик по строке с нужным вам уроком откроет меню редактирования(Изменение названия предмета невозможно! Это делается через блок “Расписание”)
-![screenshot of timetables_add](https://psv4.userapi.com/c856320/u388061716/docs/d12/be639c8f934f/2020-02-17_18-51-58.png)
+![screenshot of diary](https://psv4.userapi.com/c856320/u388061716/docs/d12/be639c8f934f/2020-02-17_18-51-58.png?extra=-aU1OxdcKJR_yAqLP1dFI9H_vL0UOhyTDJzyu0sPyd1qG6K0NsZrgucvspdlmsMkMzbdEUtdn9EMza8KoqTZpfMgSYFmCWtDZbFQjoDzKGJngLuwC6QQzyhZmuhdwaqtZrHqGCM8sQAWQayD-YAxS_tN)
 
 ### **Функционал экрана редактирования:**
 #### 1) Название предмета, Не редактируется!
 #### 2) Добавление домашнего задания
 #### 3) Оценка за урок(если получили конечно)
-![screenshot of timetables_add](https://psv4.userapi.com/c856532/u388061716/docs/d12/0f6238f111db/2020-02-17_19-02-11.png)
+![screenshot of homework and gradess_add](https://psv4.userapi.com/c856532/u388061716/docs/d12/0f6238f111db/2020-02-17_19-02-11.png?extra=yG0AlQ9rI0OJSi9F1CNqxAHlesgkuOQuMNMxvQeLSyCsOykexQJjU2MksYR1yyjtflp8Q5cVJrKVbCg89DEDzVtbVaRqrRKQbAeyvA7add_fACfQMg3UOQU8CDcYWKJEMS99BK2yCYKCri_xqtoeKIPc)
 
 ### **Функционал с программной точки зрения:**
 #### При старте генерируется неделя и записывается в 6 файлов с названием типа: `ДЕНЬ.МЕСЯЦ.СКОЛЬКО ЛЕТ ПРОШЛО ПОСЛЕ 1900`(17.2.120), эти файлы находятся в папке `Dnewnik`, она в свою очередь в корневом каталоге приложения. При генерации читаются файлы `Monday.txt`, `Tuesday.txt` и так далее, из них берется информация после знака равно, то есть: `НАЗВАНИЕ ПРЕДМЕТА, КАБИНЕТ/АУДИТОРИЯ НОМЕР`. Если файлы были не найдены или пусты неделя не генерируется, но в блоки дней выводится подсказка о добавлении расписания через блок “Расписание”. Неделя записывается по шаблону: `НАЗВАНИЕ ПРЕДМЕТА, КАБИНЕТ/АУДИТОРИЯ НОМЕР=ДОМАШНЕЕ ЗАДАНИЕ@=ОЦЕНКА /n`.Символ `@` необходим для записи домашнего задания в несколько строк, каждый такой символ указывает на один перенос строки.
@@ -85,13 +85,13 @@ Student's diary
 #### 1) Кнопка открытия меню блоков
 #### 2) Блоки с информацией о учителе, содержит: имя учителя, преподавателя и предмет который он ведет; короткое нажатие откроет меню редактирование, долгое нажатие выведет окно удаление. Если нет записей, то на заднем фоне будет отображаться подсказка
 #### 3) Кнопка добавление нового учителя, короткое нажатие открывает меню добавление(оно же меню редактирования), долгое нажатие выведет окно о удаление списка учителей
-![screenshot of timetables_add](https://psv4.userapi.com/c856336/u388061716/docs/d18/965c40c74ee1/2020-02-17_19-23-08.png)
+![screenshot of teachers](https://psv4.userapi.com/c856336/u388061716/docs/d18/965c40c74ee1/2020-02-17_19-23-08.png?extra=5btO4A9FrSSvz8GDoKi92GhKfVnuE4bHY7wiID-K56LFoga-fL2GxmAjNnElEy-3lGLWqF3rAQ2B8iI2uGddHJxHUbx0Bh46SSsGvl-M9EzLXie2pUP1bTJtJQmDj3aBNbGFGwZ4Frp_hEHDu4cI4P8M)
 
 ### **Функционал экрана добавление, он же экран редактирования:**
 #### 1) Поле имени учителя, преподавателя
 #### 2) Поле названия предмета которое он преподаёт 
 #### Если все поля были пусты (то есть вы ничего не вводили) запишутся данные по умолчанию, которые вы могли видеть в скрытом режиме
-![screenshot of timetables_add](https://psv4.userapi.com/c848128/u388061716/docs/d1/4766bce487e7/2020-02-17_19-30-48.png)
+![screenshot of teachers_add](https://psv4.userapi.com/c848128/u388061716/docs/d1/4766bce487e7/2020-02-17_19-30-48.png?extra=frHLJd2GGEXl65JAMqYPTtLLbCaBXLVJprBipl9TN3vc5cpuqa073xiTNW3aoBN_PynHx18WuwVMDj2hiashsawRIHMg4C_eZy6XHsjRkRiivPFI1WbN_r_mlT5IgWWkRODyncvlWbDjPBIE8gQBHkGd)
 
 ### **Функционал с программной точки зрения:**
 #### При нажатие на кнопку добавление, записываются данные в файл `Ychitelia.txt` по шаблону: `ИМЯ УЧИТЕЛЯ, ПРЕПОДАВАТЕЛЯ=НАЗВАНИЕ ПРЕДМЕТА /n` и добавляется новый блок в `RecyclerView`
@@ -110,30 +110,30 @@ Student's diary
 #### 4) Кнопка открывающая следующий год, если он ещё не был создан, то он сгенерируется
 #### 5) Поле оценок, при клике на пустую ячейку открывается клавиатура добавления оценок, по нажатие на кнопку “окей” на клавиатуре, оценка сохраняется
 #### 6) Поле подтверждения, при клике на него открывается меню добавление подтверждения, если оно уже было добавлено, откроется один из способов подтверждения
-![screenshot of timetables_add](https://psv4.userapi.com/c856436/u388061716/docs/d18/a91e6fa1f54a/2020-02-17_19-42-08.png)
+![screenshot of gradess](https://psv4.userapi.com/c856436/u388061716/docs/d18/a91e6fa1f54a/2020-02-17_19-42-08.png?extra=fVxvpJL-Kk_MF4PSR7h-yGa0CtgSD5QkYWd--M7myzP0ToCTON-5gNZOHPZLXtBDr_1NRZZbZdGNAZPsOmjoLFRSqewPRotoR28yYW8LhbDXQe37jlKhGiLwpeWeR3XREte6pLHZExVOMjuq0QBnoBAc)
 
 ### **Функционал меню добавления:**
 #### 1) Кнопка записи голоса учителя для подтверждения оценок, по нажатие открывается меню записи
 #### 2) Кнопка открывающая камеру для подтверждения оценок, путём фотографии оценок или просто росписи учителя
-![screenshot of timetables_add](https://psv4.userapi.com/c856532/u388061716/docs/d8/54ebdf1f9857/2020-02-19_15-24-34.png)
+![screenshot of conf add](https://psv4.userapi.com/c856532/u388061716/docs/d8/54ebdf1f9857/2020-02-19_15-24-34.png?extra=OwRtrSpxsOPLzFuTGOJEeZw3PnWl61oKIrfh0CHyXpIwSD0D6iRIdVXF-Ye5SVY3LgWpVKg21GvGk_lfHj7neEU6Qq7hwpSNkgz_1SXNN1CtqL-5M1ZeD-C1TGjPAZCJWd6kxuwq1V0H4L2YEd774idP)
 
 ### **Функционал меню записи:**
 #### 1) Кнопка начинающая запись, запись может длиться максимум 59 минут 59 секунд.При начатой записи она будет выполнять функцию паузы (Временно не поддерживается на устройствах ниже Android 7)
 #### 2) Кнопка завершающая запись голоса 
 #### 3) Поле показывающее сколько уже идет запись 
-![screenshot of timetables_add](https://psv4.userapi.com/c856428/u388061716/docs/d16/7afddeed6edc/2020-02-19_15-30-36_2.png)
+![screenshot of timetables_add](https://psv4.userapi.com/c856428/u388061716/docs/d16/7afddeed6edc/2020-02-19_15-30-36_2.png?extra=vMDQpAN4GCO7_zeR7faSXhwgYcof0mBj2x2vGXpyEnDCRaf4me9J2qFYHk_QDQXT-K2xgKm6qx7h8yWNNDGbG0D82G-dWf6w-Xkw8svWEmd1VkG1LpRi-6W1flbdnRGlLHHi6ZUZVyTbhuMqUcE3WeWo)
 
 ### **Функционал экрана подтверждения с помощью записи голоса:**
 #### 1) Полоса плеера, используется для показа сколько было воспроизведено и в качестве инструмента для перемотки
 #### 2) Поле показывающее текущую временную позицию
 #### 3) Поле показывающее длительность записи
 #### 4) Кнопка плей, пауза
-![screenshot of timetables_add](https://psv4.userapi.com/c848128/u388061716/docs/d9/4ea26e92a05d/2020-02-19_17-52-53.png)
+![screenshot of conf voice](https://psv4.userapi.com/c848128/u388061716/docs/d9/4ea26e92a05d/2020-02-19_17-52-53.png?extra=6IkenPFGSwQ8MxOr0T8jNWayVkHggKBKOtzzR2yj1cqIaWQq0Zx2_NypxEANdoyCtQs67fi8vFtv5qzJZEd2wM4W73-VDuJMgdp2hcXSwRnNkEPxUNUH0dwSuri_D7PrD0jSZQ7CW_au87UFe1MjDn-o)
 
 ### **Функционал экрана подтверждения с помощью фотографии:**
 #### 1) Сама фотография
 #### 2) Кнопка закрытия диалога
-![screenshot of timetables_add](https://psv4.userapi.com/c856416/u388061716/docs/d12/4b21fb0c1801/2020-02-20_18-41-44.png)
+![screenshot of conf photo](https://psv4.userapi.com/c856416/u388061716/docs/d12/4b21fb0c1801/2020-02-20_18-41-44.png?extra=qpTBcxmCvEycJ09SMS_i9WMZccyG2zF4-fJZpCaPystdoBRNY7RuGR0xyQYHHbIC1Z7yHQGqmrIuTo2cpSuuAVSIcTmc7XOAJuAVKW4X1VdMrbIEnW7oZh1kRaCJPaFxbsS3wI7uRMJQdQBQ2yVMNP9Z)
 
 ### **Функционал с программной точки зрения:**
 #### Читаются файлы: `Monday.txt`, `Tuesday.txt` и так далее, из них  берутся предметы, если предмет уже был записан то он пропускается. Получившийся список записывается в файл `ГОД НАЧАЛА ОБУЧЕНИЕ – ГОД КОНЦА ОБУЧЕНИЯ` в папке `Ocenki`, находящейся в директории приложения, по шаблону `НАЗВАНИЕ ПРЕДМЕТА=ОЦЕНКА ЗА 1 ЧЕТВЕРТЬ=ОЦЕНКА ЗА 2 ЧЕТВЕРТЬ=ОЦЕНКА ЗА 3 ЧЕТВЕРТЬ=ОЦЕНКА ЗА 4 ЧЕТВЕРТЬ=ГОДОВАЯ ОЦЕНКА=ЭКЗАМЕНАЦИОННАЯ ОЦЕНКА=ИТОГОВАЯ ОЦЕНКА /n`
@@ -149,4 +149,4 @@ Student's diary
 4) Ссылка на ютуб канал [“Гоша Дударь”](https://www.youtube.com/user/PlurrimiTube)
 5) Ссылка на ютуб канал [“Start android”](https://www.youtube.com/user/vitaxafication)
 6) Ссылка на ютуб канал [“Devcolibri”](https://www.youtube.com/user/devcolibri)
-![screenshot of timetables_add](https://psv4.userapi.com/c856332/u388061716/docs/d7/555632c3e31e/2020-02-19_17-08-09.png)
+![screenshot of help](https://psv4.userapi.com/c856332/u388061716/docs/d7/555632c3e31e/2020-02-19_17-08-09.png?extra=s1aSSCecqNKzsNX-bo_cyoT5PH8YGBu62ZcSwSrUzHzVkBnXXY8Uj4dSTF_sYQvpw7UowoPZ5dKbCrxcwQ-RQ-NTNHDJvI6rq81AFb0IXsL-hkYvN6lU_qrQklhDRnv2LofQcH7tcLj2t1-FIzuWCjZ-)
