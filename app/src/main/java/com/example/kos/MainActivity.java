@@ -1189,9 +1189,7 @@ public class MainActivity extends AppCompatActivity {
                 stringBuffer.append(temp_read).append("~");
             }
         } catch (FileNotFoundException q) {
-           
         } catch (IOException j) {
-            
         }
 
         final StringBuffer EndstringBuffer = new StringBuffer();
