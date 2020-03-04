@@ -69,6 +69,7 @@ public class NastroikiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_nastroiki, container, false);
+        try{
         settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
         editor = settings.edit();
@@ -79,7 +80,9 @@ public class NastroikiFragment extends Fragment {
         toolbar.setNavigationIcon(menuToolbar);        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try{
                 ((MainActivity) Objects.requireNonNull(getActivity())).openDrawer();
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             }
         });
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
@@ -292,6 +295,7 @@ public class NastroikiFragment extends Fragment {
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                try{
                 if (i == EditorInfo.IME_ACTION_DONE) {
                     if (Objects.requireNonNull(getActivity()).getCurrentFocus() != null) {
                         View vw = getActivity().getCurrentFocus();
@@ -307,6 +311,7 @@ public class NastroikiFragment extends Fragment {
                         dnewnikFragment.notifyTab();
                     }
                 }
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
                 return false;
             }
         });
@@ -317,8 +322,10 @@ public class NastroikiFragment extends Fragment {
             switchNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    try{
                         editor.putBoolean("notifySettings", b);
                          editor.apply();
+                    }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
                 }
             });
 
@@ -328,8 +335,10 @@ public class NastroikiFragment extends Fragment {
             switchWhat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    try{
                     editor.putBoolean("whatSettings", b);
                     editor.apply();
+                    }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
                 }
             });
 
@@ -339,8 +348,10 @@ public class NastroikiFragment extends Fragment {
             switchPoved.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    try{
                     editor.putBoolean("PovedSettings", b);
                     editor.apply();
+                    }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
                 }
             });
 
@@ -350,8 +361,10 @@ public class NastroikiFragment extends Fragment {
         switchAnimations.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                try{
                 editor.putBoolean("AnimationSettings", b);
                 editor.apply();
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             }
         });
 
@@ -362,6 +375,7 @@ public class NastroikiFragment extends Fragment {
         switchWhiteTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                try{
                 if(settings.getInt("id_current_theme", R.id.switchWhite) == R.id.switchWhite)
                     switchWhiteTheme.setChecked(true);
                 else
@@ -392,7 +406,8 @@ public class NastroikiFragment extends Fragment {
                             Integer.toString(ContextCompat.getColor(context, R.color.custom_color_block_choose_border)),
                             Integer.toString(ContextCompat.getColor(context, R.color.custom_color_audio_player)),
                     });
-            }
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);} }
+
         });
 
         final Switch switchBlackTheme = view.findViewById(R.id.switchDark);
@@ -402,6 +417,7 @@ public class NastroikiFragment extends Fragment {
         switchBlackTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                try{
                 if(settings.getInt("id_current_theme", R.id.switchDark) == R.id.switchDark)
                     switchBlackTheme.setChecked(true);
                 else
@@ -432,7 +448,7 @@ public class NastroikiFragment extends Fragment {
                             Integer.toString(ContextCompat.getColor(context, R.color.black_color_block_choose_border)),
                             Integer.toString(ContextCompat.getColor(context, R.color.black_color_audio_player)),
                     });
-            }
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
         });
 
         Switch switchBorderAlert = view.findViewById(R.id.switchBorder_alert);
@@ -441,8 +457,10 @@ public class NastroikiFragment extends Fragment {
         switchBorderAlert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                try{
                 editor.putBoolean("BorderAlertSettings", b);
                 editor.apply();
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             }
         });
 
@@ -452,8 +470,18 @@ public class NastroikiFragment extends Fragment {
         switchSaturday.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                try{
                 editor.putBoolean("SaturdaySettings", b);
                 editor.apply();
+
+                    List<Fragment> getDnewnikFragment = ((MainActivity) getActivity()).getDnewnikFragment();
+                    DnewnikFragment dnewnikFragment = (DnewnikFragment) getDnewnikFragment.get(0);
+                    dnewnikFragment.notifySaturday();
+
+                    ZnonkiFragment znonkiFragment = (ZnonkiFragment) getDnewnikFragment.get(1);
+                    znonkiFragment.notifySaturday();
+
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             }
         });
 
@@ -468,6 +496,7 @@ public class NastroikiFragment extends Fragment {
         editTextSizeBorder.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                try{
                 if (i == EditorInfo.IME_ACTION_DONE) {
                     if (Objects.requireNonNull(getActivity()).getCurrentFocus() != null) {
                         View vw = getActivity().getCurrentFocus();
@@ -480,6 +509,7 @@ public class NastroikiFragment extends Fragment {
                         editTextSizeBorder.setText(null);
                     }
                 }
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
                 return false;
             }
         });
@@ -507,8 +537,10 @@ public class NastroikiFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                try{
                         editor.putString("dafauilt_choose_color", spinnerAdapter.getItem(i));
                         editor.apply();
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             }
 
             @Override
@@ -585,10 +617,10 @@ public class NastroikiFragment extends Fragment {
         spinnerFragment.getBackground().setColorFilter(textLightcolor, PorterDuff.Mode.SRC_ATOP);
         spinnerFragment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) { try{
                 editor.putString("dafauilt_fragment", spinnerAdapterFragment.getItem(i));
                 editor.apply();
-            }
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);} }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -607,16 +639,16 @@ public class NastroikiFragment extends Fragment {
 
             adapter.setOnCheckedChangeListener(new RecyclerThemeAdapter.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(int position) {
+                public void onCheckedChanged(int position) {try{
                     if (constrRecyclerViewArrayList.get(position).getIdSwitch() == settings.getInt("id_current_theme", R.id.switchWhite)) {
                         adapter.getSwitch().setChecked(true);
                     }else
                     new ChangeTheme().execute(constrRecyclerViewArrayList.get(position).getColors());
-                }
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
             });
             adapter.setOnItemLongClickListener(new RecyclerThemeAdapter.OnItemLongClickListener() {
                 @Override
-                public void onItemLongClick(final int position) {
+                public void onItemLongClick(final int position) {try{
                     final LayoutInflater li = LayoutInflater.from(getActivity());
                     final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
 
@@ -732,17 +764,19 @@ public class NastroikiFragment extends Fragment {
 
                     Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     alertDialog.show();
-                }
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
             });
             adapter.setOnItemClickListener(new RecyclerThemeAdapter.OnItemClickListener() {
                 @Override
-                public void onItemClick(int position) {
+                public void onItemClick(int position) {try{
                     ((MainActivity) Objects.requireNonNull(getActivity())).EditTheme(constrRecyclerViewArrayList.get(position).getColors(), position);
 
                     new EditTheme().execute(constrRecyclerViewArrayList.get(position).getColors());
-                }
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
             });
         }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}
+
         return view;
     }
 
@@ -779,7 +813,7 @@ public class NastroikiFragment extends Fragment {
         TextView textView;
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute() {try{
             super.onPreExecute();
             AlertDialog.Builder progressDialog = new AlertDialog.Builder(context);
             final LayoutInflater li = LayoutInflater.from(context);
@@ -799,18 +833,18 @@ public class NastroikiFragment extends Fragment {
             alertDialog = progressDialog.create();
             Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialog.show();
-        }
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Void aVoid) {try{
             super.onPostExecute(aVoid);
             alertDialog.hide();
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-        }
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
 
         @Override
-        protected void onProgressUpdate(String[]... strings) {
+        protected void onProgressUpdate(String[]... strings) {try{
             TextView name = linearLayoutBottom.findViewById(R.id.custom_name);
             name.setText(strings[0][1]);
             linearLayoutBottom.findViewById(R.id.custom_icon).setBackgroundColor(Integer.parseInt(strings[0][2]));
@@ -838,12 +872,13 @@ public class NastroikiFragment extends Fragment {
             linearLayoutBottom.findViewById(R.id.custom_color_block_choose_background).setBackgroundColor(Integer.parseInt(strings[0][24]));
             linearLayoutBottom.findViewById(R.id.custom_color_block_choose_border).setBackgroundColor(Integer.parseInt(strings[0][25]));
             linearLayoutBottom.findViewById(R.id.custom_color_audio_player).setBackgroundColor(Integer.parseInt(strings[0][26]));
-        }
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
 
         @Override
-        protected Void doInBackground(String[]... strings) {
+        protected Void doInBackground(String[]... strings) {try{
            publishProgress(strings[0]);
-            return null;
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
+        return null;
         }
     }
 
@@ -851,7 +886,7 @@ public class NastroikiFragment extends Fragment {
         AlertDialog alertDialog;
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute() {try{
             super.onPreExecute();
             AlertDialog.Builder progressDialog = new AlertDialog.Builder(context);
             final LayoutInflater li = LayoutInflater.from(context);
@@ -871,20 +906,20 @@ public class NastroikiFragment extends Fragment {
             alertDialog = progressDialog.create();
             Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialog.show();
-        }
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Void aVoid) {try{
             super.onPostExecute(aVoid);
             alertDialog.hide();
             Intent intent = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        }
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
 
 
         @Override
-        protected Void doInBackground(String[]... strings) {
+        protected Void doInBackground(String[]... strings) {try{
             editor.putInt("id_current_theme", Integer.parseInt(strings[0][0]));
             editor.apply();
 
@@ -917,7 +952,7 @@ public class NastroikiFragment extends Fragment {
             editorColor.putInt("custom_color_audio_player", Integer.parseInt(strings[0][26]));
 
             editorColor.apply();
-
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             return null;
         }
     }

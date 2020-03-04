@@ -95,6 +95,7 @@ class NewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull final ViewGroup container, final int position) {
         final LayoutInflater layoutInflater = LayoutInflater.from(context);
         final View view = layoutInflater.inflate(R.layout.fragment_item_pager, container, false);
+        try {
         constrFragmentViewPagerArrayList.get(position).setView(view);
         final ArrayList<ConstrRecyclerView> product = constrFragmentViewPagerArrayList.get(position).getArray();
         RecyclerView recyclerView = view.findViewById(R.id.Zvonki_Recycler);
@@ -114,7 +115,7 @@ class NewPagerAdapter extends PagerAdapter {
         adapter.setOnItemLongClickListener(new RecyclerAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(final int position) {
-
+                try{
                 final LayoutInflater li = LayoutInflater.from(context);
                 final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
                 final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
@@ -206,12 +207,12 @@ class NewPagerAdapter extends PagerAdapter {
                 Objects.requireNonNull(Deleted.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 Deleted.show();
 
-            }
+                }catch (Exception error){((MainActivity) context).errorStack(error);}}
         });
 
         adapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(final int position) {
+            public void onItemClick(final int position) {try{
                 final String textTime = product.get(position).getTextName();
                 String textBottom = product.get(position).getTextBottom();
 
@@ -403,14 +404,6 @@ class NewPagerAdapter extends PagerAdapter {
                                                     stringBuffer.append(temp_read).append(("\n"));
                                                     i = i + 1;
                                                 }
-//                                                if((Integer.parseInt(helpAmPMOne[0]) == Integer.parseInt(timeOneAM[0].substring(0,2)) && Integer.parseInt(helpAmPMOne[1]) == Integer.parseInt(timeOneAM[0].substring(3))) || (Integer.parseInt(helpAmPMTwo[0]) == Integer.parseInt(timeTwoAM[0].substring(0,2)) && Integer.parseInt(helpAmPMTwo[1]) == Integer.parseInt(timeTwoAM[0].substring(3)))){
-//                                                    if(is12Hour) {
-//                                                        if (helpAmPMOne[2].equals(timeOneAM[1]) && helpAmPMTwo[2].equals(timeTwoAM[1]))
-//                                                            stringBuffer.append(writeTimes).append(("\n"));
-//                                                    }else stringBuffer.append(writeTimes).append(("\n"));
-//
-//                                                }else
-//                                                    stringBuffer.append(temp_read).append(("\n"));
 
                                             }else i = i + 1;
                                             }
@@ -493,7 +486,7 @@ class NewPagerAdapter extends PagerAdapter {
                 Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
                 alertDialog.show();
-            }
+                }catch (Exception error){((MainActivity) context).errorStack(error);}}
         });
 
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add))));
@@ -503,7 +496,7 @@ class NewPagerAdapter extends PagerAdapter {
         floatingActionButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View view) {
-
+                try{
                 final LayoutInflater li = LayoutInflater.from(context);
                 final View promptsView = li.inflate(R.layout.alert_delete_dnewnik, null);
                 final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
@@ -611,13 +604,14 @@ class NewPagerAdapter extends PagerAdapter {
 
                 Objects.requireNonNull(Deleted.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 Deleted.show();
+                }catch (Exception error){((MainActivity) context).errorStack(error);}
                 return false;
             }
         });
         floatingActionButton.setOnClickListener(new View.OnClickListener()  {
                                       @Override
                                       public void onClick(final View view) {
-
+                                            try{
                                           final LayoutInflater li = LayoutInflater.from(context);
                                           View promptsView = li.inflate(R.layout.prompt , null);
                                           final AlertDialog.Builder newzvonok = new AlertDialog.Builder(context);
@@ -868,12 +862,14 @@ class NewPagerAdapter extends PagerAdapter {
                                           Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                                           alertDialog.show();
 
-                                     }
+                                            }catch (Exception error){((MainActivity) context).errorStack(error);} }
                                   }
         );
 
         container.addView(view,0);
+        }catch (Exception error){((MainActivity) context).errorStack(error);}
         return view;
+
     }
 
     private void TextViewVisible(View view) {
@@ -892,17 +888,22 @@ class NewPagerAdapter extends PagerAdapter {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
+            try{
             constrFragmentViewPager.getRecyclerAdapter().notifyItemRemoved(values[0]);
+            }catch (Exception error){((MainActivity) context).errorStack(error);}
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            try{
             TextViewVisible(constrFragmentViewPager.getView());
+            }catch (Exception error){((MainActivity) context).errorStack(error);}
         }
 
         @Override
         protected Void doInBackground(ConstrFragmentViewPager... voids) {
+            try{
             constrFragmentViewPager = voids[0];
             for (int l = constrFragmentViewPager.getArray().size() - 1; l >= 0; l--){
                 constrFragmentViewPager.getArray().remove(l);
@@ -911,6 +912,7 @@ class NewPagerAdapter extends PagerAdapter {
                     Thread.sleep(100);
                 } catch (Exception e) {}
             }
+            }catch (Exception error){((MainActivity) context).errorStack(error);}
             return null;
         }
     }

@@ -45,6 +45,7 @@ public class ZnonkiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        try{
         view =  inflater.inflate(R.layout.fragment_znonki, container,false);
         settings = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
@@ -54,9 +55,9 @@ public class ZnonkiFragment extends Fragment {
         toolbar.setNavigationIcon(iconNavigation);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {try{
                 ((MainActivity) Objects.requireNonNull(getActivity())).openDrawer();
-            }
+            }catch (Exception error){((MainActivity) context).errorStack(error);} }
         });
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
         toolbar.setBackgroundColor(Current_Theme.getInt("custom_toolbar", ContextCompat.getColor(context, R.color.custom_toolbar)));
@@ -71,6 +72,7 @@ public class ZnonkiFragment extends Fragment {
 
            @Override
            public void onPageSelected(int position) {
+               try{
                boolean OnOff = true;
                SharedPreferences.Editor editor = settings.edit();
             switch (position){
@@ -116,7 +118,7 @@ public class ZnonkiFragment extends Fragment {
                 Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
                 Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
                 imageButton.setImageDrawable(drawable);
-           }}
+           }}catch (Exception error){((MainActivity) context).errorStack(error);}}
 
            @Override
            public void onPageScrollStateChanged(int state) {
@@ -166,10 +168,13 @@ public class ZnonkiFragment extends Fragment {
         editor.apply();
 
         addListenerOnButton(view);
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
+
         return view;
     }
 
     public void DeleteAll(){
+        try {
         pagerAdapter = new NewPagerAdapter(GenerateData(), context, (FloatingActionButton) view.findViewById(R.id.floatingActionButton));
         viewPager.setAdapter(pagerAdapter);
 
@@ -194,6 +199,8 @@ public class ZnonkiFragment extends Fragment {
                 viewPager.setCurrentItem(0);
                 break;
         }
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
+
     }
 
     private List<ConstrFragmentViewPager> GenerateData() {
@@ -253,6 +260,12 @@ public class ZnonkiFragment extends Fragment {
         super.onAttach(activity);
         this.context = activity;
     }
+
+    public void notifySaturday(){
+        pagerAdapter = new NewPagerAdapter(GenerateData(), context, (FloatingActionButton) view.findViewById(R.id.floatingActionButton));
+        viewPager.setAdapter(pagerAdapter);
+    }
+
     private void addListenerOnButton(final View viewOne){
         OnOff = viewOne.findViewById(R.id.onOff);
         url = settings.getString("Day","Monday.txt");
@@ -275,6 +288,7 @@ public class ZnonkiFragment extends Fragment {
         OnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try{
                 url = settings.getString("Day","Monday.txt");
                 String[] temp = url.split(".txt");
                         if (settings.getBoolean(temp[0], true)) {
@@ -292,7 +306,7 @@ public class ZnonkiFragment extends Fragment {
                             editor.putBoolean(temp[0],true);
                             editor.apply();
                         }
-            }
+                }catch (Exception error){((MainActivity) context).errorStack(error);}}
         });
 
     }

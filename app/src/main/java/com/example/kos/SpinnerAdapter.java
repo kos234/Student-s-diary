@@ -37,11 +37,10 @@ class SpinnerAdapter extends ArrayAdapter<String> {
     }
 
     private View viewGenerate(int position, View convertView, ViewGroup parent){
+        try{
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_list, parent,false);
         }
-
-
         String string = getItem(position);
 
         if(string != null){
@@ -53,6 +52,7 @@ class SpinnerAdapter extends ArrayAdapter<String> {
             else
                 Text.setBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(getContext(), R.color.custom_card)));
         }
+        }catch (Exception error){((MainActivity) getContext()).errorStack(error);}
 
         return convertView;
     }

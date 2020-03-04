@@ -113,6 +113,9 @@
     <string name="errorMicro">Microphone is occupied by another program</string>
     <string name="fragment_default">Default fragment</string>
     <string name="fragment_default_off">Disabled</string>
+    <string name="error_not">An unexpected error occurred during execution, the error was saved</string>
+    <string name="errors">Errors</string>
+    <string name="errors_null">There was no mistake yet!</string>
 
     <string name="custom_color_name">Theme name</string>
     <string name="custom_color_icon">Сolor of theme icon</string>

@@ -45,6 +45,7 @@ public class PagerAdapterInCard extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.item_card_view,container,false);
+        try {
         TextView Predmet,Kab,Dz,NameDay, Ocenka;
         String help;
         CardView cardView = view.findViewById(R.id.card_table);
@@ -107,6 +108,8 @@ public class PagerAdapterInCard extends PagerAdapter {
         tempTab.setBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
         tempTab.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
         container.addView(view,0);
+        }catch (Exception error){((MainActivity) context).errorStack(error);}
+
         return view;
     }
 

@@ -108,6 +108,7 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerThemeAdapter.RecyclerViewHolder holder, int position) {
+        try {
         ConstrThemeRecycler constrRecyclerView = constrRecyclerThemeViewArrayList.get(position);
         holder.cardView.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
         holder.textViewName.setText(constrRecyclerView.getName());
@@ -120,6 +121,9 @@ public class RecyclerThemeAdapter extends RecyclerView.Adapter<RecyclerThemeAdap
         if(holder.switchTheme.getId() == settings.getInt("id_current_theme", R.id.switchWhite)){
             holder.switchTheme.setChecked(true);
         }
+
+        }catch (Exception error){((MainActivity) context).errorStack(error);}
+
     }
 
 

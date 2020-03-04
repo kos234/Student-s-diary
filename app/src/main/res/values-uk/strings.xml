@@ -113,6 +113,9 @@
     <string name="errorMicro">Микрофон занят другой программой</string>
     <string name="fragment_default">Фрагмент по умолчанию</string>
     <string name="fragment_default_off">Отключено</string>
+    <string name="error_not">В ходе выполнения возникла непредвиденная ошибка, ошибка была сохранена</string>
+    <string name="errors">Ошибки</string>
+    <string name="errors_null">Ещё не было ни одной ошибки!</string>
 
     <string name="custom_color_name">Название темы</string>
     <string name="custom_color_icon">Цвет иконки темы</string>

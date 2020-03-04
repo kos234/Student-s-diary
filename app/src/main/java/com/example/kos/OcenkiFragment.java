@@ -59,6 +59,7 @@ public class OcenkiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflaterFrag, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflaterFrag.inflate(R.layout.fragment_ocenki, container, false);
+        try {
         inflater = LayoutInflater.from(context);
         settings = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", MODE_PRIVATE);
         Confirmed = getActivity().getSharedPreferences("Confirmed", MODE_PRIVATE);
@@ -71,8 +72,9 @@ public class OcenkiFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view.getId() != R.id.Ocenki)
+                try{
                     ((MainActivity) Objects.requireNonNull(getActivity())).openDrawer();
+                }catch (Exception error){((MainActivity) context).errorStack(error);}
             }
         });
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
@@ -83,6 +85,7 @@ public class OcenkiFragment extends Fragment {
         textViewDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try{
                 final LayoutInflater li = LayoutInflater.from(getActivity());
                 final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
 
@@ -138,7 +141,7 @@ public class OcenkiFragment extends Fragment {
                 alertDialog.show();
 
 
-            }
+                }catch (Exception error){((MainActivity) context).errorStack(error);}}
         });
         if(!settings.getBoolean("FirstStartOcenki", true))
             new StartAsyncTask().execute();
@@ -148,17 +151,23 @@ public class OcenkiFragment extends Fragment {
         imageButtonLeft.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    try{
                     new LeftAsyncTask().execute();
+                    }catch (Exception error){((MainActivity) context).errorStack(error);}
                 }
             });
         ImageButton imageButtonRight = view.findViewById(R.id.imageButtonRight);
         imageButtonRight.setColorFilter(Current_Theme.getInt("custom_button_arrow", ContextCompat.getColor(context, R.color.custom_button_arrow)), PorterDuff.Mode.SRC_ATOP);
         imageButtonRight.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {try{
                 new RightAsyncTask().execute();
+            }catch (Exception error){((MainActivity) context).errorStack(error);}
             }
         });
+
+        }catch (Exception error){((MainActivity) context).errorStack(error);}
+
         return view;
     }
     @Override
@@ -198,24 +207,25 @@ public class OcenkiFragment extends Fragment {
             calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                 @Override
                 public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
+                    try{
                     editor.putInt("mesStartOcenki",i1);
                     editor.apply();
-                }
+                    }catch (Exception error){((MainActivity) context).errorStack(error);}}
             });
 
             TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
             ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
             ButtonCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view) {try{
                     alertDialog.hide();
-                }
+                }catch (Exception error){((MainActivity) context).errorStack(error);}}
             });
 
             TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
             ButtonSave.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view) {try{
                     editor.putBoolean("FirstStartOcenki",false);
                     editor.apply();
                     new StartAsyncTask().execute();
@@ -256,7 +266,7 @@ public class OcenkiFragment extends Fragment {
 
                     Objects.requireNonNull(alertDialogWarning.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                     alertDialogWarning.show();
-                }
+                }catch (Exception error){((MainActivity) context).errorStack(error);}}
             });
             ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
 
@@ -380,7 +390,7 @@ public class OcenkiFragment extends Fragment {
         final TableLayout tableLayout = new TableLayout(context);
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute() {try{
             super.onPreExecute();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -389,26 +399,26 @@ public class OcenkiFragment extends Fragment {
             progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
 
             linearLayout.addView(progressBar, layoutParams);
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);} }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Void aVoid) {try{
             super.onPostExecute(aVoid);
             linearLayout.removeAllViews();
             tableLayout.setBackgroundColor(Color.DKGRAY);
             linearLayout.addView(tableLayout);
             textViewDate.setText(url);
             new CheakWriteInStolb().execute(new ConstrCheak(TabArray,tableLayout));
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected void onProgressUpdate(TableRow... values) {
+        protected void onProgressUpdate(TableRow... values) {try{
             super.onProgressUpdate(values);
             tableLayout.addView(values[0]);
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);} }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {try{
             publishProgress(CreateStaticBar(R.layout.bar_ocenki));
                 url = settings.getInt("endUrl",2020) + " - " + (settings.getInt("endUrl",2020) + 1);
                 editor.putInt("endUrl", (settings.getInt("endUrl",2020) + 1));
@@ -525,7 +535,7 @@ public class OcenkiFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            return null;
+        }catch (Exception error){((MainActivity) context).errorStack(error);} return null;
         }
 
 
@@ -536,7 +546,7 @@ public class OcenkiFragment extends Fragment {
         final TableLayout tableLayout = new TableLayout(context);
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute() {try{
             super.onPreExecute();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -545,26 +555,26 @@ public class OcenkiFragment extends Fragment {
             progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
 
             linearLayout.addView(progressBar, layoutParams);
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Void aVoid) {try{
             super.onPostExecute(aVoid);
             linearLayout.removeAllViews();
             tableLayout.setBackgroundColor(Color.DKGRAY);
             linearLayout.addView(tableLayout);
             textViewDate.setText(url);
             new CheakWriteInStolb().execute(new ConstrCheak(TabArray,tableLayout));
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected void onProgressUpdate(TableRow... values) {
+        protected void onProgressUpdate(TableRow... values) {try{
             super.onProgressUpdate(values);
             tableLayout.addView(values[0]);
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {try{
             publishProgress(CreateStaticBar(R.layout.bar_ocenki));
             url = (settings.getInt("endUrl",2020) - 2) + " - " + (settings.getInt("endUrl",2020) - 1);
             editor.putInt("endUrl", (settings.getInt("endUrl",2020) - 1));
@@ -681,7 +691,7 @@ public class OcenkiFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            return null;
+        }catch (Exception error){((MainActivity) context).errorStack(error);}return null;
         }
 
 
@@ -693,7 +703,7 @@ public class OcenkiFragment extends Fragment {
 
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute() {try{
             super.onPreExecute();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -702,25 +712,25 @@ public class OcenkiFragment extends Fragment {
             progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
 
             linearLayout.addView(progressBar, layoutParams);
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Void aVoid) {try{
             super.onPostExecute(aVoid);
             linearLayout.removeAllViews();
             tableLayout.setBackgroundColor(Color.DKGRAY);
             linearLayout.addView(tableLayout);
             textViewDate.setText(url);
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected void onProgressUpdate(TableRow... values) {
+        protected void onProgressUpdate(TableRow... values) {try{
             super.onProgressUpdate(values);
             tableLayout.addView(values[0]);
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {try{
             publishProgress(CreateStaticBar(R.layout.bar_ocenki));
             ArrayList predmeti = new ArrayList();
             String[] day = getResources().getStringArray(R.array.DayTxt);
@@ -786,7 +796,7 @@ public class OcenkiFragment extends Fragment {
             } catch (IOException a) {
                 a.printStackTrace();
             }
-            return null;
+        }catch (Exception error){((MainActivity) context).errorStack(error);} return null;
         }
     }
     class CheakWriteInStolb extends AsyncTask<ConstrCheak,CheakConvenorResult,Void> {
@@ -794,6 +804,7 @@ public class OcenkiFragment extends Fragment {
         @Override
         protected void onProgressUpdate(CheakConvenorResult... values) {
             super.onProgressUpdate(values);
+            try{
             int FrameId;
 
             switch (values[0].getStolbID()) {
@@ -826,10 +837,10 @@ public class OcenkiFragment extends Fragment {
             FrameLayout frameLayout;
             frameLayout = values[0].getTableRow().findViewById(FrameId);
             frameLayout.setBackgroundColor(Color.RED);
-        }
+            }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected Void doInBackground(ConstrCheak... value) {
+        protected Void doInBackground(ConstrCheak... value) {try{
             for (int i = 1; i < 8; i++) {
                 for (int j = 0; j < value[0].getArrayList().size(); j++)
                     try {
@@ -851,7 +862,7 @@ public class OcenkiFragment extends Fragment {
                         publishProgress(new CheakConvenorResult(tableRow,i));
                     }
             }
-
+        }catch (Exception error){((MainActivity) context).errorStack(error);}
             return null;
         }
     }
@@ -861,7 +872,7 @@ public class OcenkiFragment extends Fragment {
         final TableLayout tableLayout = new TableLayout(context);
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute() {try{
             super.onPreExecute();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -870,26 +881,26 @@ public class OcenkiFragment extends Fragment {
             progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
 
             linearLayout.addView(progressBar, layoutParams);
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Void aVoid) {try{
             super.onPostExecute(aVoid);
             linearLayout.removeAllViews();
             tableLayout.setBackgroundColor(Color.DKGRAY);
             linearLayout.addView(tableLayout);
             textViewDate.setText(url);
             new CheakWriteInStolb().execute(new ConstrCheak(TabArray, tableLayout));
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected void onProgressUpdate(TableRow... values) {
+        protected void onProgressUpdate(TableRow... values) {try{
             super.onProgressUpdate(values);
             tableLayout.addView(values[0]);
-        }
+        }catch (Exception error){((MainActivity) context).errorStack(error);}}
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {try{
             publishProgress(CreateStaticBar(R.layout.bar_ocenki));
             Date date = new Date();
             if(settings.getInt("mesStartOcenki",8) <= date.getMonth()) {
@@ -1012,7 +1023,7 @@ public class OcenkiFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+        }catch (Exception error){((MainActivity) context).errorStack(error);}
             return null;
         }
     }

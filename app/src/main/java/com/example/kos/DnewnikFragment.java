@@ -55,6 +55,7 @@ public class DnewnikFragment extends Fragment {
     private SharedPreferences Current_Theme;
     private String nameMes;
     private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
     private View view;
 
 
@@ -62,10 +63,12 @@ public class DnewnikFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
+        try {
         view = inflater.inflate(R.layout.fragment_dnewnik, container, false);
         linearLayout = view.findViewById(R.id.LinerTask);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
         settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
+        editor = settings.edit();
         new StartAsyncTask().execute();
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar3);
         Drawable menuToolbar = getResources().getDrawable(R.drawable.ic_menu_24px);
@@ -74,7 +77,9 @@ public class DnewnikFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try{
                 ((MainActivity) Objects.requireNonNull(getActivity())).openDrawer();
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             }
         });
         toolbar.setTitleTextColor(Current_Theme.getInt("custom_toolbar_text", ContextCompat.getColor(context, R.color.custom_toolbar_text)));
@@ -86,7 +91,7 @@ public class DnewnikFragment extends Fragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                try{
                 final LayoutInflater li = LayoutInflater.from(getActivity());
                 final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
                 final AlertDialog.Builder deleted = new AlertDialog.Builder(getActivity());
@@ -138,9 +143,10 @@ public class DnewnikFragment extends Fragment {
 
                 Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
-            }
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
         });
 
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         return view;
     }
 
@@ -153,13 +159,17 @@ public class DnewnikFragment extends Fragment {
         imageButtonOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try{
                 new LeftAsyncTask().execute();
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             }
         });
         imageButtonTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try{
                 new RightAsyncTask().execute();
+                }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             }
         });
     }
@@ -176,22 +186,23 @@ public class DnewnikFragment extends Fragment {
     }
 
     class ClearAllAsyncTask extends AsyncTask<Void,String[],Void>{
-        final SharedPreferences.Editor editor = settings.edit();
 
         @Override
         protected void onPreExecute() {
+            try{
             super.onPreExecute();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
             progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
-
             linearLayout.addView(progressBar, layoutParams);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            try{
             super.onPostExecute(aVoid);
             pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -210,8 +221,10 @@ public class DnewnikFragment extends Fragment {
 
                 @Override
                 public void onPageSelected(int position) {
+                    try{
                     editor.putInt("Card",position);
                     editor.apply();
+                    }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
                 }
 
                 @Override
@@ -220,10 +233,12 @@ public class DnewnikFragment extends Fragment {
                 }
             });
             linearLayout.addView(viewPager,layoutParams);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+            try{
 helperDnewniks.clear();
             for (int i = 0; i < 6; i++){
                 if(i + 1 == 6 && !settings.getBoolean("SaturdaySettings",true))
@@ -319,26 +334,29 @@ helperDnewniks.clear();
 
 
             }
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             return null;
         }
     }
 
     class LeftAsyncTask extends AsyncTask<Void,String[],Void>{
-        final SharedPreferences.Editor editor = settings.edit();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            try {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
             progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
             linearLayout.addView(progressBar, layoutParams);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            try{
             pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -372,13 +390,13 @@ helperDnewniks.clear();
             if(startMes < 10) textUrl[1] = "0" + startMes; else textUrl[1] = Integer.toString(startMes);
             if(endNedeli < 10) textUrl[2] = "0" + endNedeli; else textUrl[2] = Integer.toString(endNedeli);
             if(endMes < 10) textUrl[3] = "0" + endMes; else textUrl[3] = Integer.toString(endMes);
-
-
                 dateNedel.setText(textUrl[0] + "." + textUrl[1] + " - " + textUrl[2] + "." + textUrl[3]);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+            try{
             startNedeli = settings.getInt("StartNedeli",1);
             nameMes = settings.getString("StartMes","Jan");
             startMes = 0;
@@ -638,15 +656,22 @@ helperDnewniks.clear();
                         nameDay = context.getString(R.string.monday);
                         break;
                 }
+
+                File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                if (!mFolder.exists()) {
+                    mFolder.mkdir();
+                }
+                if (!FileTxt.exists()) {
+                    try {
+                        FileTxt.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
                 try {
-                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
-                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
-                        if (!mFolder.exists()) {
-                            mFolder.mkdir();
-                        }
-                        if (!FileTxt.exists()) {
-                            FileTxt.createNewFile();
-                        }
 
                         FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
@@ -730,14 +755,6 @@ helperDnewniks.clear();
                         j.printStackTrace();
                     }
                     try {
-                        File mFolder = new File(context.getFilesDir() + "/dnewnik");
-                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
-                        if (!mFolder.exists()) {
-                            mFolder.mkdir();
-                        }
-                        if (!FileTxt.exists()) {
-                            FileTxt.createNewFile();
-                        }
 
                         FileOutputStream write =  new FileOutputStream(FileTxt);
                         String temp_write = stringBuffer.toString();
@@ -755,28 +772,29 @@ helperDnewniks.clear();
                     e.printStackTrace();
                 }
 
-            }
+            }}catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             return null;
         }
     }
 
     class RightAsyncTask extends AsyncTask<Void,String[],Void>{
-        final SharedPreferences.Editor editor = settings.edit();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            try{
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
             progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
             linearLayout.addView(progressBar, layoutParams);
-
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            try{
             pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -810,13 +828,13 @@ helperDnewniks.clear();
             if(startMes < 10) textUrl[1] = "0" + startMes; else textUrl[1] = Integer.toString(startMes);
             if(endNedeli < 10) textUrl[2] = "0" + endNedeli; else textUrl[2] = Integer.toString(endNedeli);
             if(endMes < 10) textUrl[3] = "0" + endMes; else textUrl[3] = Integer.toString(endMes);
-
-
                 dateNedel.setText(textUrl[0] + "." + textUrl[1] + " - " + textUrl[2] + "." + textUrl[3]);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+            try{
             startNedeli = settings.getInt("StartNedeli",1);
             nameMes = settings.getString("StartMes","Jan");
             startMes = 0;
@@ -1076,16 +1094,19 @@ helperDnewniks.clear();
                         nameDay = context.getString(R.string.monday);
                         break;
                 }
+                File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                if (!mFolder.exists()) {
+                    mFolder.mkdir();
+                }
+                if (!FileTxt.exists()) {
+                    try {
+                        FileTxt.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 try {
-                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
-                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
-                        if (!mFolder.exists()) {
-                            mFolder.mkdir();
-                        }
-                        if (!FileTxt.exists()) {
-                            FileTxt.createNewFile();
-                        }
-
                         FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
@@ -1169,15 +1190,6 @@ helperDnewniks.clear();
                         j.printStackTrace();
                     }
                     try {
-                        File mFolder = new File(context.getFilesDir() + "/dnewnik");
-                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
-                        if (!mFolder.exists()) {
-                            mFolder.mkdir();
-                        }
-                        if (!FileTxt.exists()) {
-                            FileTxt.createNewFile();
-                        }
-
                         FileOutputStream write =  new FileOutputStream(FileTxt);
                         String temp_write = stringBuffer.toString();
 
@@ -1196,29 +1208,29 @@ helperDnewniks.clear();
 
             }
 
-
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             return null;
         }
     }
     class ClearOcenkiAsyncTask extends AsyncTask<Void,String[],Void>{
-        final SharedPreferences.Editor editor = settings.edit();
 
         @Override
         protected void onPreExecute() {
+            try{
             super.onPreExecute();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
             progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
-
             linearLayout.addView(progressBar, layoutParams);
-
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            try{
             pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -1236,9 +1248,10 @@ helperDnewniks.clear();
 
                 @Override
                 public void onPageSelected(int position) {
-
+                    try{
                     editor.putInt("Card",position);
                     editor.apply();
+                    }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
                 }
 
                 @Override
@@ -1247,10 +1260,12 @@ helperDnewniks.clear();
                 }
             });
             linearLayout.addView(viewPager,layoutParams);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+            try{
             helperDnewniks.clear();
             for (int i = 0; i < 6; i++){
                 if(i + 1 == 6 && !settings.getBoolean("SaturdaySettings",true))
@@ -1283,16 +1298,20 @@ helperDnewniks.clear();
                         break;
                 }
                 StringBuilder stringBuffer = new StringBuilder();
-                try {
-                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
-                    File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
-                    if (!mFolder.exists()) {
-                        mFolder.mkdir();
-                    }
-                    if (!FileTxt.exists()) {
+                File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                if (!mFolder.exists()) {
+                    mFolder.mkdir();
+                }
+                if (!FileTxt.exists()) {
+                    try {
                         FileTxt.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+                }
 
+                try {
                     FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
@@ -1342,15 +1361,6 @@ helperDnewniks.clear();
                 }
 
                 try {
-                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
-                    File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
-                    if (!mFolder.exists()) {
-                        mFolder.mkdir();
-                    }
-                    if (!FileTxt.exists()) {
-                        FileTxt.createNewFile();
-                    }
-
                     FileOutputStream write =  new FileOutputStream(FileTxt);
                     String temp_write = stringBuffer.toString();
 
@@ -1362,29 +1372,30 @@ helperDnewniks.clear();
                     a.printStackTrace();
                 }
             }
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             return null;
         }
     }
 
     class ClearDzAsyncTask extends AsyncTask<Void,String[],Void>{
-        final SharedPreferences.Editor editor = settings.edit();
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            try{
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
             ProgressBar progressBar = new ProgressBar(context);
             progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
-
             linearLayout.addView(progressBar, layoutParams);
-
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            try{
             pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -1402,9 +1413,10 @@ helperDnewniks.clear();
 
                 @Override
                 public void onPageSelected(int position) {
-
+                    try{
                     editor.putInt("Card",position);
                     editor.apply();
+                    }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
                 }
 
                 @Override
@@ -1413,10 +1425,12 @@ helperDnewniks.clear();
                 }
             });
             linearLayout.addView(viewPager,layoutParams);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+            try{
             helperDnewniks.clear();
             for (int i = 0; i < 6; i++){
                 if(i + 1 == 6 && !settings.getBoolean("SaturdaySettings",true))
@@ -1449,16 +1463,19 @@ helperDnewniks.clear();
                         break;
                 }
                 StringBuilder stringBuffer = new StringBuilder();
+                File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                if (!mFolder.exists()) {
+                    mFolder.mkdir();
+                }
+                if (!FileTxt.exists()) {
+                    try {
+                        FileTxt.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 try {
-                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
-                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
-                        if (!mFolder.exists()) {
-                            mFolder.mkdir();
-                        }
-                        if (!FileTxt.exists()) {
-                            FileTxt.createNewFile();
-                        }
-
                         FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
@@ -1508,15 +1525,6 @@ helperDnewniks.clear();
                 }
 
                 try {
-                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
-                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
-                        if (!mFolder.exists()) {
-                            mFolder.mkdir();
-                        }
-                        if (!FileTxt.exists()) {
-                            FileTxt.createNewFile();
-                        }
-
                         FileOutputStream write =  new FileOutputStream(FileTxt);
                     String temp_write = stringBuffer.toString();
 
@@ -1527,28 +1535,29 @@ helperDnewniks.clear();
                 } catch (IOException a) {
                     a.printStackTrace();
                 }
-            }
+            }}catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             return null;
         }
     }
 
     class StartAsyncTask extends AsyncTask<Void,String[],Void> {
-        final SharedPreferences.Editor editor = settings.edit();
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            try{
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
             ProgressBar progressBar = new ProgressBar(context);
             progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
-
             linearLayout.addView(progressBar, layoutParams);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            try{
            pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
@@ -1566,8 +1575,10 @@ helperDnewniks.clear();
 
                 @Override
                 public void onPageSelected(int position) {
+                    try{
                     editor.putInt("Card",position);
                     editor.apply();
+                    }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
                 }
 
                 @Override
@@ -1603,13 +1614,13 @@ helperDnewniks.clear();
             if(startMes < 10) textUrl[1] = "0" + startMes; else textUrl[1] = Integer.toString(startMes);
             if(endNedeli < 10) textUrl[2] = "0" + endNedeli; else textUrl[2] = Integer.toString(endNedeli);
             if(endMes < 10) textUrl[3] = "0" + endMes; else textUrl[3] = Integer.toString(endMes);
-
-
                 dateNedel.setText(textUrl[0] + "." + textUrl[1] + " - " + textUrl[2] + "." + textUrl[3]);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+            try{
             Date date = new Date();
             startNedeli = Integer.parseInt(date.toString().substring(8,10));
             nameMes = date.toString().substring(4,7);
@@ -2142,16 +2153,21 @@ helperDnewniks.clear();
                         nameDay = context.getString(R.string.monday);
                         break;
                 }
-                try {
-                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
-                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
-                        if (!mFolder.exists()) {
-                            mFolder.mkdir();
-                        }
-                        if (!FileTxt.exists()) {
-                            FileTxt.createNewFile();
-                        }
 
+                File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                if (!mFolder.exists()) {
+                    mFolder.mkdir();
+                }
+                if (!FileTxt.exists()) {
+                    try {
+                        FileTxt.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                try {
                         FileInputStream read =  new  FileInputStream(FileTxt);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
@@ -2248,15 +2264,6 @@ helperDnewniks.clear();
                         j.printStackTrace();
                     }
                     try {
-                        File mFolder = new File(context.getFilesDir() + "/dnewnik");
-                        File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
-                        if (!mFolder.exists()) {
-                            mFolder.mkdir();
-                        }
-                        if (!FileTxt.exists()) {
-                            FileTxt.createNewFile();
-                        }
-
                         FileOutputStream write =  new FileOutputStream(FileTxt);
                         String temp_write = stringBuffer.toString();
 
@@ -2274,16 +2281,396 @@ helperDnewniks.clear();
                 }catch (NullPointerException wq){
                 }
 
-            }
+            }}catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             return null;
         }
 
 
 
     }
+    public void notifySaturday(){
+        new Saturday().execute();
+    }
+
+    class Saturday extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.gravity = Gravity.CENTER;
+                linearLayout.removeAllViews();
+                ProgressBar progressBar = new ProgressBar(context);
+                progressBar.getIndeterminateDrawable().setColorFilter(Current_Theme.getInt("custom_progress", ContextCompat.getColor(context, R.color.custom_progress)), PorterDuff.Mode.SRC_ATOP);
+                linearLayout.addView(progressBar, layoutParams);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            try{
+                pagerAdapterInCard = new PagerAdapterInCard(helperDnewniks, context);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                layoutParams.gravity = Gravity.CENTER;
+                linearLayout.removeAllViews();
+                viewPager = new ViewPager(context);
+                viewPager.setAdapter(pagerAdapterInCard);
+                viewPager.setClipToPadding(false);
+                viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
+                viewPager.setPageMargin(60);
+                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        editor.putInt("Card",position);
+                        editor.apply();
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
+                linearLayout.addView(viewPager,layoutParams);
+                dateNedel = view.findViewById(R.id.textViewDnew);
+                String[] textUrl = new String[4];
+                if(startNedeli < 10) textUrl[0] = "0" + startNedeli; else textUrl[0] = Integer.toString(startNedeli);
+                if(startMes < 10) textUrl[1] = "0" + startMes; else textUrl[1] = Integer.toString(startMes);
+                if(endNedeli < 10) textUrl[2] = "0" + endNedeli; else textUrl[2] = Integer.toString(endNedeli);
+                if(endMes < 10) textUrl[3] = "0" + endMes; else textUrl[3] = Integer.toString(endMes);
+                dateNedel.setText(textUrl[0] + "." + textUrl[1] + " - " + textUrl[2] + "." + textUrl[3]);
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
+        }
+
+        @Override
+        protected Void doInBackground(Void... strings) {
+            try{
+                startNedeli = settings.getInt("StartNedeli",1);
+                nameMes = settings.getString("StartMes","Jan");
+                startMes = 0;
+                dayInMes = 0;
+                endMes = 0;
+                endNedeli = 0;
+                helperDnewniks.clear();
+                switch (nameMes) {
+                    case "Jan":
+                        startMes = 1;
+                        endMes = 2;
+                        dayInMes = new Const().Jan;
+
+                        if (startNedeli - 7 <= 0)
+                            editor.putInt("Year", settings.getInt("Year", 119) + 1);
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes)
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+
+                    case "Feb":
+                        startMes = 2;
+                        endMes = 3;
+
+                        int year = settings.getInt("Year", 119);
+                        if ((year + 1900) % 4 == 0 && (year + 1900 % 100 != 0) || (year + 1900 % 400 == 0))
+                            dayInMes = new Const().FebVesok;
+                        else
+                            dayInMes = new Const().Feb;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+
+                    case "Mar":
+                        startMes = 3;
+                        endMes = 4;
+                        dayInMes = new Const().Mar;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+
+                    case "Apr":
+                        startMes = 4;
+                        endMes = 5;
+                        dayInMes = new Const().Apr;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+
+                    case "May":
+                        startMes = 5;
+                        endMes = 6;
+                        dayInMes = new Const().May;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+
+                    case "Jun":
+                        startMes = 6;
+                        endMes = 7;
+                        dayInMes = new Const().Jun;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+
+                    case "Jul":
+                        startMes = 7;
+                        endMes = 8;
+                        dayInMes = new Const().Jul;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+
+                    case "Aug":
+                        startMes = 8;
+                        endMes = 9;
+                        dayInMes = new Const().Aug;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+                    case "Sep":
+                        startMes = 9;
+                        endMes = 10;
+                        dayInMes = new Const().Sep;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+
+                    case "Oct":
+                        startMes = 10;
+                        endMes = 11;
+                        dayInMes = new Const().Oct;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+
+                    case "Nov":
+                        startMes = 11;
+                        endMes = 12;
+                        dayInMes = new Const().Nov;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+                    case "Dec":
+                        startMes = 12;
+                        endMes = 1;
+                        dayInMes = new Const().Dec;
+
+                        endNedeli = startNedeli + 6;
+                        if (endNedeli > dayInMes )
+                            endNedeli = endNedeli - dayInMes;
+                        else
+                            endMes = startMes;
+                        break;
+                }
+
+                editor.putInt("StartNedeli",startNedeli);
+                editor.putInt("IntMes",startMes);
+                editor.apply();
+                for (int i = 0; i < 6; i++){
+                    if(i + 1 == 6 && !settings.getBoolean("SaturdaySettings",true))
+                        continue;
+
+                    String url = (startNedeli + i) + "." + startMes + "." + settings.getInt("Year",119);
+
+
+                    String nameDay;
+                    String ulrTwo;
+
+                    switch (i){
+                        case 1:
+                            ulrTwo = "Tuesday.txt";
+                            nameDay = context.getString(R.string.tuesday);
+                            break;
+                        case 2:
+                            ulrTwo = "Wednesday.txt";
+                            nameDay = context.getString(R.string.wednesday);
+                            break;
+                        case 3:
+                            ulrTwo = "Thursday.txt";
+                            nameDay = context.getString(R.string.thursday);
+                            break;
+                        case 4:
+                            ulrTwo = "Friday.txt";
+                            nameDay = context.getString(R.string.friday);
+                            break;
+                        case 5:
+                            ulrTwo = "Saturday.txt";
+                            nameDay = context.getString(R.string.saturday);
+                            break;
+
+                        default:
+                            ulrTwo = "Monday.txt";
+                            nameDay = context.getString(R.string.monday);
+                            break;
+                    }
+                    File mFolder = new File(context.getFilesDir() + "/dnewnik");
+                    File FileTxt = new File(mFolder.getAbsolutePath() + "/"+ url + ".txt");
+                    if (!mFolder.exists()) {
+                        mFolder.mkdir();
+                    }
+                    if (!FileTxt.exists()) {
+                        try {
+                            FileTxt.createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    try {
+                        FileInputStream read =  new  FileInputStream(FileTxt);
+                        InputStreamReader reader = new InputStreamReader(read);
+                        BufferedReader bufferedReader = new BufferedReader(reader);
+
+                        String temp_read;
+                        StringBuilder namePred = new StringBuilder();
+                        StringBuilder kab = new StringBuilder();
+                        StringBuilder dz = new StringBuilder();
+                        StringBuilder ocenka = new StringBuilder();
+                        String[] help, helpKab;
+                        String delimeter = "=";
+                        if((temp_read = bufferedReader.readLine()) == null){
+                            throw new FileNotFoundException();
+                        }else{
+                            help = temp_read.split(delimeter);
+                            helpKab = help[0].split(",");
+                            namePred = new StringBuilder(helpKab[0] + "=");
+                            kab = new StringBuilder(helpKab[1].substring(1) + "=");
+                            if(2 <= help.length)
+                                dz = new StringBuilder(help[1] + "=");
+                            else
+                                dz = new StringBuilder(" =");
+
+                            if (3 <= help.length)
+                                ocenka.append(help[2]).append("=");
+                            else
+                                ocenka.append(" =");
+                        }
+                        while ((temp_read = bufferedReader.readLine()) != null) {
+                            help = temp_read.split(delimeter);
+
+                            helpKab = help[0].split(",");
+
+
+                            namePred.append(helpKab[0]).append("=");
+                            kab.append(helpKab[1].substring(1)).append("=");
+                            if (2 <= help.length)
+                                dz.append(help[1]).append("=");
+                            else
+                                dz.append(" =");
+
+                            if (3 <= help.length)
+                                ocenka.append(help[2]).append("=");
+                            else
+                                ocenka.append(" =");
+                        }
+                        helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(), dz.toString(), ocenka.toString()));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+
+                        StringBuilder stringBuffer = new StringBuilder();
+
+                        try {
+                            FileInputStream read =  context.openFileInput(ulrTwo);
+                            InputStreamReader reader = new InputStreamReader(read);
+                            BufferedReader bufferedReader = new BufferedReader(reader);
+
+                            String temp_read;
+                            StringBuilder namePred = new StringBuilder();
+                            StringBuilder kab= new StringBuilder();
+                            StringBuilder dz= new StringBuilder();
+                            StringBuilder ocenka = new StringBuilder();
+                            String[] help, helpKab;
+                            String delimeter = "=";
+                            while ((temp_read = bufferedReader.readLine()) != null) {
+                                help = temp_read.split(delimeter);
+                                stringBuffer.append(help[1]).append("= =").append("=\n");
+                                helpKab = help[1].split(",");
+
+
+                                namePred.append(helpKab[0]).append("=");
+                                kab.append(helpKab[1].substring(1)).append("=");
+                                dz.append(" =");
+                                ocenka.append(" =");
+                            }
+                            helperDnewniks.add(new helperDnewnik(nameDay, namePred.toString(), kab.toString(), dz.toString(), ocenka.toString()));
+                        } catch (FileNotFoundException q) {
+                            q.printStackTrace();
+                            helperDnewniks.add(new helperDnewnik(nameDay,getString(R.string.nullTimetablesName), getString(R.string.nullTimetablesKab), getString(R.string.nullTimetablesDz), ""));
+                        } catch (IOException j) {
+                            j.printStackTrace();
+                        }
+                        try {
+                            FileOutputStream write =  new FileOutputStream(FileTxt);
+                            String temp_write = stringBuffer.toString();
+
+                            write.write(temp_write.getBytes());
+                            write.close();
+                        } catch (FileNotFoundException p) {
+                            p.printStackTrace();
+                        } catch (IOException a) {
+                            a.printStackTrace();
+                        }
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
+            return null;
+        }
+    }
 
     public void notifyTab(){
+        try{
         viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
+        }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
     }
 
 }

@@ -65,6 +65,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
       itemView.setOnLongClickListener(new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View view) {
+
           if(longClickListener != null){
             int position = getAdapterPosition();
             if(position != RecyclerView.NO_POSITION){longClickListener.onItemLongClick(position);}
@@ -84,16 +85,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
   @Override
   public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+    try {
     ConstrRecyclerView constrRecyclerView = constrRecyclerViewArrayList.get(position);
     holder.textViewName.setText(constrRecyclerView.getTextName());
     holder.textViewName.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
     holder.textViewBottom.setText(constrRecyclerView.getTextBottom());
     holder.textViewBottom.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
     holder.cardView.setCardBackgroundColor(Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)));
+    }catch (Exception error){((MainActivity) context).errorStack(error);}
+
   }
 
 
   public void onMove(int firstPos, int secondPos) {
+    try {
     int fixPos = secondPos-1;
     if(secondPos == 0)
       fixPos = 0;
@@ -105,6 +110,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
       notifyItemMoved(firstPos, fixPos);
       notifyItemChanged(fixPos );}
     else notifyDataSetChanged();
+
+    }catch (Exception error){((MainActivity) context).errorStack(error);}
+
   }
 
   @Override
