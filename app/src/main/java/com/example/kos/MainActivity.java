@@ -1225,7 +1225,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText editText = promptsView.findViewById(R.id.textEdit);
         final EditText editOcenka = promptsView.findViewById(R.id.textOcenka);
         if(2 <= finalHelp.length) {
-            String[] temp3 = finalHelp[1].split("@");
+            String[] temp3 = finalHelp[1].split("~");
             StringBuilder tempik = new StringBuilder();
             if (temp3.length == 1)
                 editText.setText(temp3[0]);
@@ -1308,7 +1308,7 @@ public class MainActivity extends AppCompatActivity {
                         if (j == finalI) {
                             String[] reject = tempTextEdit.split("\n");
                             String DzWrite = "";
-                            for (String s : reject) DzWrite = DzWrite + s + "@";
+                            for (String s : reject) DzWrite = DzWrite + s + "~";
                             EndstringBuffer.append(finalHelp1[0]).append("=").append(DzWrite).append("=").append(tempOcenka).append("\n");
                         } else
                             EndstringBuffer.append(tempbuffer[j - 1]).append("\n");

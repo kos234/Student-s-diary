@@ -689,12 +689,23 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        namePred = new StringBuilder(helpKab[0] + "=");
-                        kab = new StringBuilder(helpKab[1].substring(1) + "=");
-                        if(2 <= help.length)
-                            dz = new StringBuilder(help[1] + "=");
-                        else
-                            dz = new StringBuilder(" =");
+                        namePred.append(helpKab[0] + "=");
+                        kab.append(helpKab[1].substring(1)).append("=");
+
+                        if (2 <= help.length) {
+                            String[] temp3 = help[1].split("~");
+                            if (temp3.length == 1)
+                                dz.append(help[1]).append("=");
+                            else {
+                                for (int n = 0; n < temp3.length; n++) {
+                                    if (n + 1 == temp3.length)
+                                        dz.append(temp3[n]);
+                                    else
+                                        dz.append(temp3[n]).append("\n");
+                                }
+                            }
+                        }else
+                            dz.append(" =");
                         if (3 <= help.length)
                             ocenka.append(help[2]).append("=");
                         else
@@ -708,9 +719,19 @@ helperDnewniks.clear();
 
                         namePred.append(helpKab[0]).append("=");
                         kab.append(helpKab[1].substring(1)).append("=");
-                        if (2 <= help.length)
-                            dz.append(help[1]).append("=");
-                        else
+                        if (2 <= help.length) {
+                            String[] temp3 = help[1].split("~");
+                            if (temp3.length == 1)
+                                dz.append(help[1]).append("=");
+                            else {
+                                for (int n = 0; n < temp3.length; n++) {
+                                    if (n + 1 == temp3.length)
+                                        dz.append(temp3[n]);
+                                    else
+                                        dz.append(temp3[n]).append("\n");
+                                }
+                            }
+                        }else
                             dz.append(" =");
                         if (3 <= help.length)
                             ocenka.append(help[2]).append("=");
@@ -1123,12 +1144,23 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        namePred = new StringBuilder(helpKab[0] + "=");
-                        kab = new StringBuilder(helpKab[1].substring(1) + "=");
-                    if(2 <= help.length)
-                        dz = new StringBuilder(help[1] + "=");
-                    else
-                        dz = new StringBuilder(" =");
+                        namePred.append(helpKab[0]).append("=");
+                        kab.append(helpKab[1].substring(1)).append("=");
+
+                        if (2 <= help.length) {
+                            String[] temp3 = help[1].split("~");
+                            if (temp3.length == 1)
+                                dz.append(help[1]).append("=");
+                            else {
+                                for (int n = 0; n < temp3.length; n++) {
+                                    if (n + 1 == temp3.length)
+                                        dz.append(temp3[n]);
+                                    else
+                                        dz.append(temp3[n]).append("\n");
+                                }
+                            }
+                        }else
+                        dz.append(" =");
 
                         if (3 <= help.length)
                             ocenka.append(help[2]).append("=");
@@ -1143,9 +1175,19 @@ helperDnewniks.clear();
 
                         namePred.append(helpKab[0]).append("=");
                         kab.append(helpKab[1].substring(1)).append("=");
-                        if (2 <= help.length)
-                        dz.append(help[1]).append("=");
-                        else
+                        if (2 <= help.length) {
+                            String[] temp3 = help[1].split("~");
+                            if (temp3.length == 1)
+                                dz.append(help[1]).append("=");
+                            else {
+                                for (int n = 0; n < temp3.length; n++) {
+                                    if (n + 1 == temp3.length)
+                                        dz.append(temp3[n]);
+                                    else
+                                        dz.append(temp3[n]).append("\n");
+                                }
+                            }
+                        }else
                             dz.append(" =");
 
                         if (3 <= help.length)
@@ -1327,11 +1369,21 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        namePred = new StringBuilder(helpKab[0] + "=");
-                        kab = new StringBuilder(helpKab[1].substring(1) + "=");
-                        if(2 <= help.length)
-                            dz.append(help[1]).append("=");
-                        else
+                        namePred.append(helpKab[0]).append("=");
+                        kab.append(helpKab[1].substring(1)).append("=");
+                        if (2 <= help.length) {
+                            String[] temp3 = help[1].split("~");
+                            if (temp3.length == 1)
+                                dz.append(help[1]).append("=");
+                            else {
+                                for (int n = 0; n < temp3.length; n++) {
+                                    if (n + 1 == temp3.length)
+                                        dz.append(temp3[n]);
+                                    else
+                                        dz.append(temp3[n]).append("\n");
+                                }
+                            }
+                        }else
                             dz.append(" =");
                         ocenka.append(" =");
                         stringBuffer.append(help[0]).append("=").append(help[1]).append("=\n");
@@ -1344,9 +1396,19 @@ helperDnewniks.clear();
 
                         namePred.append(helpKab[0]).append("=");
                         kab.append(helpKab[1].substring(1)).append("=");
-                        if(2 <= help.length)
-                            dz.append(help[1]).append("=");
-                        else
+                        if (2 <= help.length) {
+                            String[] temp3 = help[1].split("~");
+                            if (temp3.length == 1)
+                                dz.append(help[1]).append("=");
+                            else {
+                                for (int n = 0; n < temp3.length; n++) {
+                                    if (n + 1 == temp3.length)
+                                        dz.append(temp3[n]);
+                                    else
+                                        dz.append(temp3[n]).append("\n");
+                                }
+                            }
+                        }else
                             dz.append(" =");
                         ocenka.append(" =");
                         stringBuffer.append(help[0]).append("=").append(help[1]).append("=\n");
@@ -1491,8 +1553,8 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        namePred = new StringBuilder(helpKab[0] + "=");
-                        kab = new StringBuilder(helpKab[1].substring(1) + "=");
+                        namePred.append(helpKab[0]).append("=");
+                        kab.append(helpKab[1].substring(1)).append("=");
                         dz.append(" =");
                         if (3 <= help.length)
                             ocenka.append(help[2]).append("=");
@@ -2184,12 +2246,23 @@ helperDnewniks.clear();
                     }else{
                         help = temp_read.split(delimeter);
                         helpKab = help[0].split(",");
-                        namePred = new StringBuilder(helpKab[0] + "=");
-                        kab = new StringBuilder(helpKab[1].substring(1) + "=");
-                        if(2 <= help.length)
-                            dz = new StringBuilder(help[1] + "=");
-                        else
-                            dz = new StringBuilder(" =");
+                        namePred.append(helpKab[0]).append("=");
+                        kab.append(helpKab[1].substring(1)).append("=");
+
+                        if(2 <= help.length) {
+                            String[] temp3 = help[1].split("~");
+                            if (temp3.length == 1)
+                                dz.append(help[1]).append("=");
+                            else {
+                                for (int n = 0; n < temp3.length; n++) {
+                                    if (n + 1 == temp3.length)
+                                        dz.append(temp3[n]);
+                                    else
+                                        dz.append(temp3[n]).append("\n");
+                                }
+                            }
+                        }else
+                            dz.append(" =");
                         if (3 <= help.length)
                             ocenka.append(help[2]).append("=");
                         else
@@ -2200,12 +2273,21 @@ helperDnewniks.clear();
 
                         helpKab = help[0].split(",");
 
-
                         namePred.append(helpKab[0]).append("=");
                         kab.append(helpKab[1].substring(1)).append("=");
-                        if (2 <= help.length)
-                            dz.append(help[1]).append("=");
-                        else
+                        if (2 <= help.length) {
+                            String[] temp3 = help[1].split("~");
+                            if (temp3.length == 1)
+                                dz.append(help[1]).append("=");
+                            else {
+                                for (int n = 0; n < temp3.length; n++) {
+                                    if (n + 1 == temp3.length)
+                                        dz.append(temp3[n]);
+                                    else
+                                        dz.append(temp3[n]).append("\n");
+                                }
+                            }
+                        }else
                             dz.append(" =");
 
                         if (3 <= help.length)
@@ -2577,12 +2659,22 @@ helperDnewniks.clear();
                         }else{
                             help = temp_read.split(delimeter);
                             helpKab = help[0].split(",");
-                            namePred = new StringBuilder(helpKab[0] + "=");
-                            kab = new StringBuilder(helpKab[1].substring(1) + "=");
-                            if(2 <= help.length)
-                                dz = new StringBuilder(help[1] + "=");
-                            else
-                                dz = new StringBuilder(" =");
+                            namePred.append(helpKab[0]).append("=");
+                            kab.append(helpKab[1].substring(1)).append("=");
+                            if (2 <= help.length) {
+                                String[] temp3 = help[1].split("~");
+                                if (temp3.length == 1)
+                                    dz.append(help[1]).append("=");
+                                else {
+                                    for (int n = 0; n < temp3.length; n++) {
+                                        if (n + 1 == temp3.length)
+                                            dz.append(temp3[n]);
+                                        else
+                                            dz.append(temp3[n]).append("\n");
+                                    }
+                                }
+                            }else
+                                dz.append(" =");
 
                             if (3 <= help.length)
                                 ocenka.append(help[2]).append("=");
@@ -2597,9 +2689,19 @@ helperDnewniks.clear();
 
                             namePred.append(helpKab[0]).append("=");
                             kab.append(helpKab[1].substring(1)).append("=");
-                            if (2 <= help.length)
-                                dz.append(help[1]).append("=");
-                            else
+                            if (2 <= help.length) {
+                                String[] temp3 = help[1].split("~");
+                                if (temp3.length == 1)
+                                    dz.append(help[1]).append("=");
+                                else {
+                                    for (int n = 0; n < temp3.length; n++) {
+                                        if (n + 1 == temp3.length)
+                                            dz.append(temp3[n]);
+                                        else
+                                            dz.append(temp3[n]).append("\n");
+                                    }
+                                }
+                            }else
                                 dz.append(" =");
 
                             if (3 <= help.length)
