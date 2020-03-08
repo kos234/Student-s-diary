@@ -106,7 +106,7 @@ public class DnewnikFragment extends Fragment {
                 promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
 
                 TextView ButtonClearAll = promptsView.findViewById(R.id.button_three_alert);
-                ButtonClearAll.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonClearAll.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonClearAll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -129,7 +129,7 @@ public class DnewnikFragment extends Fragment {
                         alertDialog.hide();
                     }
                 });
-                ButtonClearHomework.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonClearHomework.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
 
                 TextView ButtonClearOcenki = promptsView.findViewById(R.id.button_one_alert);
                 ButtonClearOcenki.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +139,7 @@ public class DnewnikFragment extends Fragment {
                         alertDialog.hide();
                     }
                 });
-                ButtonClearOcenki.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonClearOcenki.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
 
                 Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
@@ -213,6 +213,8 @@ public class DnewnikFragment extends Fragment {
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
             viewPager.setPageMargin(60);
+            editor.putInt("Card",0);
+            editor.apply();
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -366,6 +368,8 @@ helperDnewniks.clear();
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
             viewPager.setPageMargin(60);
+            editor.putInt("Card",0);
+            editor.apply();
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -695,7 +699,7 @@ helperDnewniks.clear();
                         if (2 <= help.length) {
                             String[] temp3 = help[1].split("~");
                             if (temp3.length == 1)
-                                dz.append(help[1]).append("=");
+                                dz.append(temp3[0]).append("=");
                             else {
                                 for (int n = 0; n < temp3.length; n++) {
                                     if (n + 1 == temp3.length)
@@ -722,7 +726,7 @@ helperDnewniks.clear();
                         if (2 <= help.length) {
                             String[] temp3 = help[1].split("~");
                             if (temp3.length == 1)
-                                dz.append(help[1]).append("=");
+                                dz.append(temp3[0]).append("=");
                             else {
                                 for (int n = 0; n < temp3.length; n++) {
                                     if (n + 1 == temp3.length)
@@ -825,6 +829,8 @@ helperDnewniks.clear();
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
             viewPager.setPageMargin(60);
+            editor.putInt("Card",0);
+            editor.apply();
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -1150,7 +1156,7 @@ helperDnewniks.clear();
                         if (2 <= help.length) {
                             String[] temp3 = help[1].split("~");
                             if (temp3.length == 1)
-                                dz.append(help[1]).append("=");
+                                dz.append(temp3[0]).append("=");
                             else {
                                 for (int n = 0; n < temp3.length; n++) {
                                     if (n + 1 == temp3.length)
@@ -1178,7 +1184,7 @@ helperDnewniks.clear();
                         if (2 <= help.length) {
                             String[] temp3 = help[1].split("~");
                             if (temp3.length == 1)
-                                dz.append(help[1]).append("=");
+                                dz.append(temp3[0]).append("=");
                             else {
                                 for (int n = 0; n < temp3.length; n++) {
                                     if (n + 1 == temp3.length)
@@ -1282,6 +1288,8 @@ helperDnewniks.clear();
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
             viewPager.setPageMargin(60);
+            editor.putInt("Card",0);
+            editor.apply();
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -1374,7 +1382,7 @@ helperDnewniks.clear();
                         if (2 <= help.length) {
                             String[] temp3 = help[1].split("~");
                             if (temp3.length == 1)
-                                dz.append(help[1]).append("=");
+                                dz.append(temp3[0]).append("=");
                             else {
                                 for (int n = 0; n < temp3.length; n++) {
                                     if (n + 1 == temp3.length)
@@ -1399,7 +1407,7 @@ helperDnewniks.clear();
                         if (2 <= help.length) {
                             String[] temp3 = help[1].split("~");
                             if (temp3.length == 1)
-                                dz.append(help[1]).append("=");
+                                dz.append(temp3[0]).append("=");
                             else {
                                 for (int n = 0; n < temp3.length; n++) {
                                     if (n + 1 == temp3.length)
@@ -1467,6 +1475,8 @@ helperDnewniks.clear();
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
             viewPager.setPageMargin(60);
+            editor.putInt("Card",0);
+            editor.apply();
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -1624,7 +1634,9 @@ helperDnewniks.clear();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
             linearLayout.removeAllViews();
-             viewPager = new ViewPager(context);
+            editor.putInt("Card",0);
+            editor.apply();
+            viewPager = new ViewPager(context);
             viewPager.setAdapter(pagerAdapterInCard);
             viewPager.setClipToPadding(false);
             viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
@@ -2252,7 +2264,7 @@ helperDnewniks.clear();
                         if(2 <= help.length) {
                             String[] temp3 = help[1].split("~");
                             if (temp3.length == 1)
-                                dz.append(help[1]).append("=");
+                                dz.append(temp3[0]).append("=");
                             else {
                                 for (int n = 0; n < temp3.length; n++) {
                                     if (n + 1 == temp3.length)
@@ -2278,7 +2290,7 @@ helperDnewniks.clear();
                         if (2 <= help.length) {
                             String[] temp3 = help[1].split("~");
                             if (temp3.length == 1)
-                                dz.append(help[1]).append("=");
+                                dz.append(temp3[0]).append("=");
                             else {
                                 for (int n = 0; n < temp3.length; n++) {
                                     if (n + 1 == temp3.length)
@@ -2401,6 +2413,8 @@ helperDnewniks.clear();
                 viewPager.setClipToPadding(false);
                 viewPager.setPadding(settings.getInt("dpSizeSettings",120), 0, settings.getInt("dpSizeSettings",120), 0);
                 viewPager.setPageMargin(60);
+                editor.putInt("Card",0);
+                editor.apply();
                 viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -2664,7 +2678,7 @@ helperDnewniks.clear();
                             if (2 <= help.length) {
                                 String[] temp3 = help[1].split("~");
                                 if (temp3.length == 1)
-                                    dz.append(help[1]).append("=");
+                                    dz.append(temp3[0]).append("=");
                                 else {
                                     for (int n = 0; n < temp3.length; n++) {
                                         if (n + 1 == temp3.length)
@@ -2692,7 +2706,7 @@ helperDnewniks.clear();
                             if (2 <= help.length) {
                                 String[] temp3 = help[1].split("~");
                                 if (temp3.length == 1)
-                                    dz.append(help[1]).append("=");
+                                    dz.append(temp3[0]).append("=");
                                 else {
                                     for (int n = 0; n < temp3.length; n++) {
                                         if (n + 1 == temp3.length)
@@ -2767,6 +2781,10 @@ helperDnewniks.clear();
             }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
             return null;
         }
+    }
+
+    public void notifyclear(){
+        new StartAsyncTask().execute();
     }
 
     public void notifyTab(){

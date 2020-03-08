@@ -42,6 +42,7 @@ import android.widget.TextView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -64,11 +65,12 @@ public class NastroikiFragment extends Fragment {
     private final ArrayList<ConstrThemeRecycler> constrRecyclerViewArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecyclerThemeAdapter adapter;
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_nastroiki, container, false);
+        view = inflater.inflate(R.layout.fragment_nastroiki, container, false);
         try{
         settings = context.getSharedPreferences("Settings", MODE_PRIVATE);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
@@ -94,7 +96,7 @@ public class NastroikiFragment extends Fragment {
 
         //Visual
 
-        final int cardColor = Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)), textLightcolor = Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), borderColor = Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)), borderThemeColor = Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme));
+        final int cardColor = Current_Theme.getInt("custom_card", ContextCompat.getColor(context, R.color.custom_card)), textLightcolor = Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), textDarkcolor = Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)), borderColor = Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)), borderThemeColor = Current_Theme.getInt("custom_border_theme", ContextCompat.getColor(context, R.color.custom_border_theme));
         linearLayoutBottom.findViewById(R.id.field_create_fragment).setBackgroundColor(cardColor);
         CardView cardVisual = view.findViewById(R.id.card_students);
         cardVisual.setCardBackgroundColor(cardColor);
@@ -114,29 +116,31 @@ public class NastroikiFragment extends Fragment {
         cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = view.findViewById(R.id.card_create_theme_nastroiki);
         cardVisual.setCardBackgroundColor(cardColor);
+        cardVisual = view.findViewById(R.id.card_clear);
+        cardVisual.setCardBackgroundColor(cardColor);
         cardVisual = linearLayoutBottom.findViewById(R.id.save_theme);
         cardVisual.setCardBackgroundColor(cardColor);
 
         TextView textVisual = view.findViewById(R.id.title_students);
-        textVisual.setTextColor(textLightcolor);
+        textVisual.setTextColor(textDarkcolor);
         textVisual = view.findViewById(R.id.bottom_title_students);
         textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.title_timetables);
-        textVisual.setTextColor(textLightcolor);
+        textVisual.setTextColor(textDarkcolor);
         textVisual = view.findViewById(R.id.bottom_title_timetables_not);
         textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_timetables_saturday);
         textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.title_grades);
-        textVisual.setTextColor(textLightcolor);
+        textVisual.setTextColor(textDarkcolor);
         textVisual = view.findViewById(R.id.bottom_title_grades);
         textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.title_settings);
-        textVisual.setTextColor(textLightcolor);
+        textVisual.setTextColor(textDarkcolor);
         textVisual = view.findViewById(R.id.bottom_title_settings);
         textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.title_general_setting);
-        textVisual.setTextColor(textLightcolor);
+        textVisual.setTextColor(textDarkcolor);
         textVisual = view.findViewById(R.id.bottom_title_general_setting_what);
         textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_general_setting_anim);
@@ -148,16 +152,22 @@ public class NastroikiFragment extends Fragment {
         textVisual = view.findViewById(R.id.bottom_title_white_theme);
         textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.title_themes);
-        textVisual.setTextColor(textLightcolor);
+        textVisual.setTextColor(textDarkcolor);
         textVisual = view.findViewById(R.id.bottom_title_dark_theme);
         textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.Card_create);
-        textVisual.setTextColor(textLightcolor);
+        textVisual.setTextColor(textDarkcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.title_save_theme);
-        textVisual.setTextColor(textLightcolor);
+        textVisual.setTextColor(textDarkcolor);
+        textVisual = view.findViewById(R.id.title_clear);
+        textVisual.setTextColor(textDarkcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_name);
         textVisual.setTextColor(textLightcolor);
         textVisual = view.findViewById(R.id.bottom_title_general_setting_fragment_default);
+        textVisual.setTextColor(textLightcolor);
+        textVisual = view.findViewById(R.id.text_day_ocenki);
+        textVisual.setTextColor(textLightcolor);
+        textVisual = view.findViewById(R.id.edit_day_ocenki);
         textVisual.setTextColor(textLightcolor);
 
 
@@ -189,6 +199,8 @@ public class NastroikiFragment extends Fragment {
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_add);
         textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_add_plus);
+        textVisual.setTextColor(textLightcolor);
+        textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_button_act);
         textVisual.setTextColor(textLightcolor);
         textVisual = linearLayoutBottom.findViewById(R.id.bottom_title_theme_arrow);
         textVisual.setTextColor(textLightcolor);
@@ -224,6 +236,18 @@ public class NastroikiFragment extends Fragment {
         viewBorderVisual.setBackgroundColor(borderColor);
         viewBorderVisual = view.findViewById(R.id.border_five);
         viewBorderVisual.setBackgroundColor(borderColor);
+        viewBorderVisual = view.findViewById(R.id.border_six);
+        viewBorderVisual.setBackgroundColor(borderColor);
+        viewBorderVisual = view.findViewById(R.id.border_seven);
+        viewBorderVisual.setBackgroundColor(borderColor);
+        viewBorderVisual = view.findViewById(R.id.border_eight);
+        viewBorderVisual.setBackgroundColor(borderColor);
+        viewBorderVisual = view.findViewById(R.id.border_nine);
+        viewBorderVisual.setBackgroundColor(borderColor);
+        viewBorderVisual = view.findViewById(R.id.border_ten);
+        viewBorderVisual.setBackgroundColor(borderColor);
+        viewBorderVisual = view.findViewById(R.id.border_eleven);
+        viewBorderVisual.setBackgroundColor(borderColor);
 
         FrameLayout borderTheme = view.findViewById(R.id.border_white_theme);
         borderTheme.setBackgroundColor(borderThemeColor);
@@ -255,6 +279,8 @@ public class NastroikiFragment extends Fragment {
         borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_add_plus);
         borderTheme.setBackgroundColor(borderThemeColor);
+        borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_button_act);
+        borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_arrow);
         borderTheme.setBackgroundColor(borderThemeColor);
         borderTheme = linearLayoutBottom.findViewById(R.id.border_theme_progress);
@@ -284,6 +310,24 @@ public class NastroikiFragment extends Fragment {
         editVisual.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
         editVisual.setTextColor(textLightcolor);
 
+        TextView clearDateDnew = view.findViewById(R.id.bottom_title_dnew);
+        clearDateDnew.setTextColor(textLightcolor);
+
+            TextView clearDateZvon = view.findViewById(R.id.bottom_title_zvon);
+            clearDateZvon.setTextColor(textLightcolor);
+
+            TextView clearDateYchit = view.findViewById(R.id.bottom_title_ychit);
+            clearDateYchit.setTextColor(textLightcolor);
+
+            TextView clearDateOcenki = view.findViewById(R.id.bottom_title_ocenki);
+            clearDateOcenki.setTextColor(textLightcolor);
+
+            TextView clearDateSpravka = view.findViewById(R.id.bottom_title_spravka);
+            clearDateSpravka.setTextColor(textLightcolor);
+
+            TextView clearDateNastroiki = view.findViewById(R.id.bottom_title_nastroiki);
+            clearDateNastroiki.setTextColor(textLightcolor);
+
         final EditText editText = view.findViewById(R.id.EditDpDnew);
         MainActivity.setCursorPointerColor(editText,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
         MainActivity.setCursorColor(editText,Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
@@ -306,8 +350,8 @@ public class NastroikiFragment extends Fragment {
                         editText.clearFocus();
                         editText.setHint(editText.getText());
                         editText.setText(null);
-                        List<Fragment> getDnewnikFragment = ((MainActivity) getActivity()).getDnewnikFragment();
-                        DnewnikFragment dnewnikFragment = (DnewnikFragment) getDnewnikFragment.get(0);
+
+                        DnewnikFragment dnewnikFragment = (DnewnikFragment) ((MainActivity) getActivity()).getFragment.get(0);
                         dnewnikFragment.notifyTab();
                     }
                 }
@@ -372,6 +416,7 @@ public class NastroikiFragment extends Fragment {
         setSwitchColor(switchWhiteTheme, context);
         if(settings.getInt("id_current_theme", R.id.switchWhite) == R.id.switchWhite)
             switchWhiteTheme.setChecked(true);
+
         switchWhiteTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -394,6 +439,7 @@ public class NastroikiFragment extends Fragment {
                             Integer.toString(ContextCompat.getColor(context, R.color.custom_bottomBorder)),
                             Integer.toString(ContextCompat.getColor(context, R.color.custom_button_add)),
                             Integer.toString(ContextCompat.getColor(context, R.color.custom_button_add_plus)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.custom_button_act)),
                             Integer.toString(ContextCompat.getColor(context, R.color.custom_button_arrow)),
                             Integer.toString(ContextCompat.getColor(context, R.color.custom_progress)),
                             Integer.toString(ContextCompat.getColor(context, R.color.custom_not_confirmed)),
@@ -412,13 +458,14 @@ public class NastroikiFragment extends Fragment {
 
         final Switch switchBlackTheme = view.findViewById(R.id.switchDark);
         setSwitchColor(switchBlackTheme, context);
-        if(settings.getInt("id_current_theme", R.id.switchDark) == R.id.switchDark)
+        if(settings.getInt("id_current_theme", R.id.switchWhite) == R.id.switchDark)
             switchBlackTheme.setChecked(true);
+
         switchBlackTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 try{
-                if(settings.getInt("id_current_theme", R.id.switchDark) == R.id.switchDark)
+                if(settings.getInt("id_current_theme", R.id.switchWhite) == R.id.switchDark)
                     switchBlackTheme.setChecked(true);
                 else
                     new ChangeTheme().execute(new String[]{Integer.toString(R.id.switchDark), null,
@@ -436,6 +483,7 @@ public class NastroikiFragment extends Fragment {
                             Integer.toString(ContextCompat.getColor(context, R.color.black_bottomBorder)),
                             Integer.toString(ContextCompat.getColor(context, R.color.black_button_add)),
                             Integer.toString(ContextCompat.getColor(context, R.color.black_button_add_plus)),
+                            Integer.toString(ContextCompat.getColor(context, R.color.black_button_act)),
                             Integer.toString(ContextCompat.getColor(context, R.color.black_button_arrow)),
                             Integer.toString(ContextCompat.getColor(context, R.color.black_progress)),
                             Integer.toString(ContextCompat.getColor(context, R.color.black_not_confirmed)),
@@ -474,7 +522,7 @@ public class NastroikiFragment extends Fragment {
                 editor.putBoolean("SaturdaySettings", b);
                 editor.apply();
 
-                    List<Fragment> getDnewnikFragment = ((MainActivity) getActivity()).getDnewnikFragment();
+                    List<Fragment> getDnewnikFragment = ((MainActivity) getActivity()).getFragment;
                     DnewnikFragment dnewnikFragment = (DnewnikFragment) getDnewnikFragment.get(0);
                     dnewnikFragment.notifySaturday();
 
@@ -482,6 +530,17 @@ public class NastroikiFragment extends Fragment {
                     znonkiFragment.notifySaturday();
 
                 }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
+            }
+        });
+
+        TextView textViewEditDay = view.findViewById(R.id.edit_day_ocenki);
+        textViewEditDay.setText(context.getResources().getStringArray(R.array.Mes)[settings.getInt("mesStartOcenki",12)]);
+        textViewEditDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                OcenkiFragment ocenkiFragment = (OcenkiFragment) ((MainActivity) getActivity()).getFragment.get(3);
+                ocenkiFragment.cheakStart(true);
             }
         });
 
@@ -670,7 +729,7 @@ public class NastroikiFragment extends Fragment {
                     textBottomTitle.setText(context.getString(R.string.deleteTheme) + " \"" + constrRecyclerViewArrayList.get(position).getName() + "\" ?");
 
                     TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-                    ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                     ButtonCancel.setText(getString(R.string.cancel));
                     ButtonCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -678,7 +737,7 @@ public class NastroikiFragment extends Fragment {
                             alertDialog.hide();
                         }
                     });
-
+                    promptsView.findViewById(R.id.button_three_alert).setVisibility(View.GONE);
                     TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
                     ButtonSave.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -709,7 +768,7 @@ public class NastroikiFragment extends Fragment {
                             }
 
                             try {
-                                FileOutputStream write = Objects.requireNonNull(getActivity()).openFileOutput("Themes.txt", getActivity().MODE_PRIVATE);
+                                FileOutputStream write = Objects.requireNonNull(getActivity()).openFileOutput("Themes.txt", context.MODE_PRIVATE);
                                 String temp_write = stringBuffer.toString();
 
                                 write.write(temp_write.getBytes());
@@ -736,6 +795,7 @@ public class NastroikiFragment extends Fragment {
                                         Integer.toString(ContextCompat.getColor(context, R.color.custom_bottomBorder)),
                                         Integer.toString(ContextCompat.getColor(context, R.color.custom_button_add)),
                                         Integer.toString(ContextCompat.getColor(context, R.color.custom_button_add_plus)),
+                                        Integer.toString(ContextCompat.getColor(context, R.color.custom_button_act)),
                                         Integer.toString(ContextCompat.getColor(context, R.color.custom_button_arrow)),
                                         Integer.toString(ContextCompat.getColor(context, R.color.custom_progress)),
                                         Integer.toString(ContextCompat.getColor(context, R.color.custom_not_confirmed)),
@@ -759,7 +819,7 @@ public class NastroikiFragment extends Fragment {
 
                         }
                     });
-                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                     ButtonSave.setText(getString(R.string.yes));
 
                     Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -806,6 +866,11 @@ public class NastroikiFragment extends Fragment {
             thumbStates.addState(new int[]{}, new ColorDrawable(Current_Theme.getInt("custom_switch_off", ContextCompat.getColor(context, R.color.custom_switch_off)))); // this one has to come last
             switchColor.setThumbDrawable(thumbStates);
         }
+    }
+
+    public void notifyTextDay(int id){
+        TextView textView = view.findViewById(R.id.edit_day_ocenki);
+        textView.setText(context.getResources().getStringArray(R.array.Mes)[id]);
     }
 
     class EditTheme extends AsyncTask<String[],String[],Void>{
@@ -861,17 +926,18 @@ public class NastroikiFragment extends Fragment {
             linearLayoutBottom.findViewById(R.id.custom_bottomBorder).setBackgroundColor(Integer.parseInt(strings[0][13]));
             linearLayoutBottom.findViewById(R.id.custom_button_add).setBackgroundColor(Integer.parseInt(strings[0][14]));
             linearLayoutBottom.findViewById(R.id.custom_button_add_plus).setBackgroundColor(Integer.parseInt(strings[0][15]));
-            linearLayoutBottom.findViewById(R.id.custom_button_arrow).setBackgroundColor(Integer.parseInt(strings[0][16]));
-            linearLayoutBottom.findViewById(R.id.custom_progress).setBackgroundColor(Integer.parseInt(strings[0][17]));
-            linearLayoutBottom.findViewById(R.id.custom_not_confirmed).setBackgroundColor(Integer.parseInt(strings[0][18]));
-            linearLayoutBottom.findViewById(R.id.custom_Table_column).setBackgroundColor(Integer.parseInt(strings[0][19]));
-            linearLayoutBottom.findViewById(R.id.custom_notification_on).setBackgroundColor(Integer.parseInt(strings[0][20]));
-            linearLayoutBottom.findViewById(R.id.custom_notification_off).setBackgroundColor(Integer.parseInt(strings[0][21]));
-            linearLayoutBottom.findViewById(R.id.custom_switch_on).setBackgroundColor(Integer.parseInt(strings[0][22]));
-            linearLayoutBottom.findViewById(R.id.custom_switch_off).setBackgroundColor(Integer.parseInt(strings[0][23]));
-            linearLayoutBottom.findViewById(R.id.custom_color_block_choose_background).setBackgroundColor(Integer.parseInt(strings[0][24]));
-            linearLayoutBottom.findViewById(R.id.custom_color_block_choose_border).setBackgroundColor(Integer.parseInt(strings[0][25]));
-            linearLayoutBottom.findViewById(R.id.custom_color_audio_player).setBackgroundColor(Integer.parseInt(strings[0][26]));
+            linearLayoutBottom.findViewById(R.id.custom_button_act).setBackgroundColor(Integer.parseInt(strings[0][16]));
+            linearLayoutBottom.findViewById(R.id.custom_button_arrow).setBackgroundColor(Integer.parseInt(strings[0][17]));
+            linearLayoutBottom.findViewById(R.id.custom_progress).setBackgroundColor(Integer.parseInt(strings[0][18]));
+            linearLayoutBottom.findViewById(R.id.custom_not_confirmed).setBackgroundColor(Integer.parseInt(strings[0][19]));
+            linearLayoutBottom.findViewById(R.id.custom_Table_column).setBackgroundColor(Integer.parseInt(strings[0][20]));
+            linearLayoutBottom.findViewById(R.id.custom_notification_on).setBackgroundColor(Integer.parseInt(strings[0][21]));
+            linearLayoutBottom.findViewById(R.id.custom_notification_off).setBackgroundColor(Integer.parseInt(strings[0][22]));
+            linearLayoutBottom.findViewById(R.id.custom_switch_on).setBackgroundColor(Integer.parseInt(strings[0][23]));
+            linearLayoutBottom.findViewById(R.id.custom_switch_off).setBackgroundColor(Integer.parseInt(strings[0][24]));
+            linearLayoutBottom.findViewById(R.id.custom_color_block_choose_background).setBackgroundColor(Integer.parseInt(strings[0][25]));
+            linearLayoutBottom.findViewById(R.id.custom_color_block_choose_border).setBackgroundColor(Integer.parseInt(strings[0][26]));
+            linearLayoutBottom.findViewById(R.id.custom_color_audio_player).setBackgroundColor(Integer.parseInt(strings[0][27]));
         }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}}
 
         @Override
@@ -939,17 +1005,18 @@ public class NastroikiFragment extends Fragment {
             editorColor.putInt("custom_bottomBorder", Integer.parseInt(strings[0][13]));
             editorColor.putInt("custom_button_add", Integer.parseInt(strings[0][14]));
             editorColor.putInt("custom_button_add_plus", Integer.parseInt(strings[0][15]));
-            editorColor.putInt("custom_button_arrow", Integer.parseInt(strings[0][16]));
-            editorColor.putInt("custom_progress", Integer.parseInt(strings[0][17]));
-            editorColor.putInt("custom_not_confirmed", Integer.parseInt(strings[0][18]));
-            editorColor.putInt("custom_Table_column", Integer.parseInt(strings[0][19]));
-            editorColor.putInt("custom_notification_on", Integer.parseInt(strings[0][20]));
-            editorColor.putInt("custom_notification_off", Integer.parseInt(strings[0][21]));
-            editorColor.putInt("custom_switch_on", Integer.parseInt(strings[0][22]));
-            editorColor.putInt("custom_switch_off", Integer.parseInt(strings[0][23]));
-            editorColor.putInt("custom_color_block_choose_background", Integer.parseInt(strings[0][24]));
-            editorColor.putInt("custom_color_block_choose_border", Integer.parseInt(strings[0][25]));
-            editorColor.putInt("custom_color_audio_player", Integer.parseInt(strings[0][26]));
+            editorColor.putInt("custom_button_act", Integer.parseInt(strings[0][16]));
+            editorColor.putInt("custom_button_arrow", Integer.parseInt(strings[0][17]));
+            editorColor.putInt("custom_progress", Integer.parseInt(strings[0][18]));
+            editorColor.putInt("custom_not_confirmed", Integer.parseInt(strings[0][19]));
+            editorColor.putInt("custom_Table_column", Integer.parseInt(strings[0][20]));
+            editorColor.putInt("custom_notification_on", Integer.parseInt(strings[0][21]));
+            editorColor.putInt("custom_notification_off", Integer.parseInt(strings[0][22]));
+            editorColor.putInt("custom_switch_on", Integer.parseInt(strings[0][23]));
+            editorColor.putInt("custom_switch_off", Integer.parseInt(strings[0][24]));
+            editorColor.putInt("custom_color_block_choose_background", Integer.parseInt(strings[0][25]));
+            editorColor.putInt("custom_color_block_choose_border", Integer.parseInt(strings[0][26]));
+            editorColor.putInt("custom_color_audio_player", Integer.parseInt(strings[0][27]));
 
             editorColor.apply();
         }catch (Exception error){((MainActivity) getActivity()).errorStack(error);}
@@ -992,6 +1059,63 @@ public class NastroikiFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+    }
+
+    public void notifySettings(){
+        adapter = null;
+        recyclerView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        Switch switchclear = view.findViewById(R.id.switchNotify);
+        switchclear.setChecked(true);
+        switchclear = view.findViewById(R.id.switchWhat);
+        switchclear.setChecked(false);
+        switchclear = view.findViewById(R.id.switchPoved);
+        switchclear.setChecked(true);
+        switchclear = view.findViewById(R.id.switchBorder_alert);
+        switchclear.setChecked(false);
+        switchclear = view.findViewById(R.id.switchSaturday);
+        switchclear.setChecked(true);
+        switchclear = view.findViewById(R.id.switchAnim);
+        switchclear.setChecked(true);
+        switchclear = view.findViewById(R.id.switchWhite);
+        if(settings.getInt("id_current_theme", R.id.switchWhite) == R.id.switchWhite)
+            switchclear.setChecked(true);
+        switchclear = view.findViewById(R.id.switchDark);
+        if(settings.getInt("id_current_theme", R.id.switchWhite) == R.id.switchDark)
+            switchclear.setChecked(true);
+
+
+        if(R.id.switchWhite != settings.getInt("id_current_theme", R.id.switchWhite) && R.id.switchDark != settings.getInt("id_current_theme", R.id.switchWhite))
+            new ChangeTheme().execute(new String[]{Integer.toString(R.id.switchWhite), null,
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_icon)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_border_theme)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_background)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_toolbar)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_toolbar_text)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_notification_bar)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_text_light)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_text_dark)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_text_hint)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_cursor)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_card)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_bottomBorder)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_button_add)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_button_add_plus)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_button_act)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_button_arrow)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_progress)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_not_confirmed)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_Table_column)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_notification_on)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_notification_off)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_switch_on)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_switch_off)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_color_block_choose_background)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_color_block_choose_border)),
+                    Integer.toString(ContextCompat.getColor(context, R.color.custom_color_audio_player)),
+            });
+        editor.remove("id_current_theme");
+        editor.apply();
     }
 
 }

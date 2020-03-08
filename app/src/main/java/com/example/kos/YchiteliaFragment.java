@@ -43,19 +43,8 @@ public class YchiteliaFragment extends Fragment {
     private final ArrayList<ConstrRecyclerView> constrRecyclerViewArrayList = new ArrayList<>();
     private RecyclerAdapter adapter;
     private SharedPreferences Current_Theme;
-
-
     private View viewFragment;
     private SharedPreferences settings;
-
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && (getActivity()!=null)) {
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("Fragment","Ychitelia" );
-            editor.apply();
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,7 +102,7 @@ public class YchiteliaFragment extends Fragment {
                     textBottomTitle.setText(context.getString(R.string.deleteTeacher));
 
                     TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-                    ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                     ButtonCancel.setText(getString(R.string.cancel));
                     ButtonCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -121,7 +110,7 @@ public class YchiteliaFragment extends Fragment {
                             alertDialog.hide();
                         }
                     });
-
+                    promptsView.findViewById(R.id.button_three_alert).setVisibility(View.GONE);
                     TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
                     ButtonSave.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -151,7 +140,7 @@ public class YchiteliaFragment extends Fragment {
 
 
                             try {
-                                FileOutputStream write = getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
+                                FileOutputStream write = context.openFileOutput("Ychitelia.txt", context.MODE_PRIVATE);
 
                                 write.write(stringBuffer.toString().getBytes());
                                 write.close();
@@ -172,7 +161,7 @@ public class YchiteliaFragment extends Fragment {
                             alertDialog.hide();
                         }
                     });
-                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                     ButtonSave.setText(getString(R.string.yes));
 
                     Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -209,7 +198,7 @@ public class YchiteliaFragment extends Fragment {
 
 
                     TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-                    ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                     ButtonCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -248,7 +237,7 @@ public class YchiteliaFragment extends Fragment {
                                         while ((temp_read = bufferedReader.readLine()) != null) {
                                             if (!temp_read.equals(textName + "=" + textBottom)) {
                                                 if (temp_read.equals(NamePred + "=" + PredPred))
-                                                    throw new Povtor("KRIA");
+                                                    throw new Povtor();
 
                                                 stringBuffer.append(temp_read).append("\n");
                                             } else
@@ -267,7 +256,7 @@ public class YchiteliaFragment extends Fragment {
 
 
                                     try {
-                                        FileOutputStream write = getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
+                                        FileOutputStream write = context.openFileOutput("Ychitelia.txt", context.MODE_PRIVATE);
                                         String temp_write = stringBuffer.toString();
 
                                         write.write(temp_write.getBytes());
@@ -283,7 +272,7 @@ public class YchiteliaFragment extends Fragment {
                                     alertDialog.hide();
 
                                 } else {
-                                    Toast.makeText(getActivity(), context.getString(R.string.FieldsNot), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, context.getString(R.string.FieldsNot), Toast.LENGTH_LONG).show();
                                 }
 
                             } catch (Povtor povtor) {
@@ -291,7 +280,7 @@ public class YchiteliaFragment extends Fragment {
                             }
                         }
                     });
-                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                     Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                     alertDialog.show();
 
@@ -383,20 +372,22 @@ public class YchiteliaFragment extends Fragment {
                 textBottomTitle.setText(context.getString(R.string.deleteAllTeachers));
 
                 TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonCancel.setText(getString(R.string.cancel));
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Deleted.hide();
                     }
                 });
-
+                    promptsView.findViewById(R.id.button_three_alert).setVisibility(View.GONE);
                 TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
+                    ButtonSave.setText(getString(R.string.yes));
                 ButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         try {
-                            FileOutputStream write =  Objects.requireNonNull(getActivity()).openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
+                            FileOutputStream write =  Objects.requireNonNull(getActivity()).openFileOutput("Ychitelia.txt", context.MODE_PRIVATE);
                             String temp_write ="";
 
                             write.write(temp_write.getBytes());
@@ -416,7 +407,7 @@ public class YchiteliaFragment extends Fragment {
 
                     }
                 });
-                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
 
                 Objects.requireNonNull(Deleted.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 Deleted.show();
@@ -461,7 +452,7 @@ public class YchiteliaFragment extends Fragment {
                 textBottomYrok.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
 
                 TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonCancel.setText(getString(R.string.cancel));
                 ButtonCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -494,7 +485,7 @@ public class YchiteliaFragment extends Fragment {
                                     String temp_read;
                                     while ((temp_read = bufferedReader.readLine()) != null) {
                                         if (temp_read.equals(NamePred + "=" + PredPred))
-                                            throw new Povtor("KRIA");
+                                            throw new Povtor();
                                         else
                                             stringBuffer.append(temp_read).append(("\n"));
                                     }
@@ -505,7 +496,7 @@ public class YchiteliaFragment extends Fragment {
                                 }
 
                                 try {
-                                    FileOutputStream write = getActivity().openFileOutput("Ychitelia.txt", getActivity().MODE_PRIVATE);
+                                    FileOutputStream write = context.openFileOutput("Ychitelia.txt", context.MODE_PRIVATE);
                                     String temp_write = stringBuffer.toString() + NamePred + "=" + PredPred;
 
                                     write.write(temp_write.getBytes());
@@ -522,10 +513,11 @@ public class YchiteliaFragment extends Fragment {
                                 else
                                     adapter.notifyDataSetChanged();
 
-                                TextViewVisible();
+                                TextView textView = viewFragment.findViewById(R.id.nullYchit);
+                                textView.setVisibility(View.INVISIBLE);
 
                             } else {
-                                Toast.makeText(getActivity(), context.getString(R.string.FieldsNot), Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, context.getString(R.string.FieldsNot), Toast.LENGTH_LONG).show();
                             }
                             alertDialog.hide();
                         }  catch (Povtor povtor) {
@@ -533,13 +525,18 @@ public class YchiteliaFragment extends Fragment {
                         }
                     }
                 });
-                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonSave.setText(getString(R.string.save));
 
                 Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 alertDialog.show();
                 }catch (Exception error){((MainActivity) context).errorStack(error);} }
         });
+    }
+
+    public void notifyDeleted(){
+        adapter.clearAll();
+        TextViewVisible();
     }
 
     class AnimationDel extends AsyncTask<Void,Integer,Void>{

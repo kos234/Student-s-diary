@@ -9,7 +9,7 @@ Student's diary
 
 #### On development stage: release in playmarket, adding the ability to select the number of quarters
 
-#### The current version can be found at this link: https://drive.google.com/file/d/1uJciRfezcZbuIXvSxHhZlWmzy33kbrKF/view?usp=sharing
+#### The current version can be found at this link: https://drive.google.com/file/d/1yPHtmvm_pw-Vr53Qc8hNWVxy_W1490M5/view?usp=sharing
 
 
 Дневник
@@ -21,7 +21,7 @@ Student's diary
 
 #### В разработке: Релиз в PlayMarket, добавить возможность указать количество четвертей
 
-#### Приложение можно скачать по этой ссылке: https://drive.google.com/file/d/1uJciRfezcZbuIXvSxHhZlWmzy33kbrKF/view?usp=sharing
+#### Приложение можно скачать по этой ссылке: https://drive.google.com/file/d/1yPHtmvm_pw-Vr53Qc8hNWVxy_W1490M5/view?usp=sharing
 
 Документация
 =====================
@@ -47,7 +47,7 @@ Student's diary
 #### 4) Выбор место проведения, для школьников – кабинет, для студентов – аудитория
 #### 5) Номер кабинета, аудитории
 #### Если все поля были пусты (то есть вы ничего не вводили) запишутся данные по умолчанию, которые вы могли видеть в скрытом режиме
-![screenshot of timetables_add](https://psv4.userapi.com/c856236/u388061716/docs/d4/08e0d939f228/2020-02-17_18-32-33.png?extra=0MrtH9C8ptKvnEONP-L1b4peerCJlC2hGlUFlbK9uneyruO4Yk4TbcryWhXACleKAEJ6i99BOVfcOXobkVIVUvY3MiHtnsmEXFSbY7_j8ftGvuRM1qyLUIv6lQh71W-ur7qEZw8pZt9juCn0GZP1O24v)
+![screenshot of timetables_add](https://i.ibb.co/br1Hnk6/2020-02-17-18-32-33.png)
 
 ### **Функционал с программной точки зрения:**
 #### При добавлении новых записей записывает в файлах `Monday.txt`, `Tuesday.txt` и так далее, информацию по шаблону: `ЧАС:МИНУТА:AM-ЧАС:МИНУТА:AM=НАЗВАНИЕ ПРЕДМЕТА, КАБИНЕТ/АУДИТОРИЯ НОМЕР /n`, если используется 24 часовой формат: `ЧАС:МИНУТА-ЧАС:МИНУТА=НАЗВАНИЕ ПРЕДМЕТА, КАБИНЕТ/АУДИТОРИЯ НОМЕР /n`. Сами файлы находятся в корневом каталоге приложения
@@ -64,13 +64,13 @@ Student's diary
 #### 3) Кнопка открывающая прошлую неделю, если она ещё не была создана, то она сгенерируется
 #### 4) Кнопка открывающая следующую неделю, если она ещё не была создана, то она сгенерируется
 #### 5) Таблица дней недели, клик по строке с нужным вам уроком откроет меню редактирования(Изменение названия предмета невозможно! Это делается через блок “Расписание”)
-![screenshot of diary](https://psv4.userapi.com/c856320/u388061716/docs/d12/be639c8f934f/2020-02-17_18-51-58.png?extra=-aU1OxdcKJR_yAqLP1dFI9H_vL0UOhyTDJzyu0sPyd1qG6K0NsZrgucvspdlmsMkMzbdEUtdn9EMza8KoqTZpfMgSYFmCWtDZbFQjoDzKGJngLuwC6QQzyhZmuhdwaqtZrHqGCM8sQAWQayD-YAxS_tN)
+![screenshot of diary](https://i.ibb.co/Fn4L7w0/2020-02-17-18-51-58.png)
 
 ### **Функционал экрана редактирования:**
 #### 1) Название предмета, Не редактируется!
 #### 2) Добавление домашнего задания
 #### 3) Оценка за урок(если получили конечно)
-![screenshot of homework and gradess_add](https://psv4.userapi.com/c856532/u388061716/docs/d12/0f6238f111db/2020-02-17_19-02-11.png?extra=yG0AlQ9rI0OJSi9F1CNqxAHlesgkuOQuMNMxvQeLSyCsOykexQJjU2MksYR1yyjtflp8Q5cVJrKVbCg89DEDzVtbVaRqrRKQbAeyvA7add_fACfQMg3UOQU8CDcYWKJEMS99BK2yCYKCri_xqtoeKIPc)
+![screenshot of homework and gradess_add](https://i.ibb.co/gVsKmNP/2020-02-17-19-02-11.png)
 
 ### **Функционал с программной точки зрения:**
 #### При старте генерируется неделя и записывается в 6 файлов с названием типа: `ДЕНЬ.МЕСЯЦ.СКОЛЬКО ЛЕТ ПРОШЛО ПОСЛЕ 1900`(17.2.120), эти файлы находятся в папке `Dnewnik`, она в свою очередь в корневом каталоге приложения. При генерации читаются файлы `Monday.txt`, `Tuesday.txt` и так далее, из них берется информация после знака равно, то есть: `НАЗВАНИЕ ПРЕДМЕТА, КАБИНЕТ/АУДИТОРИЯ НОМЕР`. Если файлы были не найдены или пусты неделя не генерируется, но в блоки дней выводится подсказка о добавлении расписания через блок “Расписание”. Неделя записывается по шаблону: `НАЗВАНИЕ ПРЕДМЕТА, КАБИНЕТ/АУДИТОРИЯ НОМЕР=ДОМАШНЕЕ ЗАДАНИЕ@=ОЦЕНКА /n`.Символ `@` необходим для записи домашнего задания в несколько строк, каждый такой символ указывает на один перенос строки.
@@ -85,13 +85,13 @@ Student's diary
 #### 1) Кнопка открытия меню блоков
 #### 2) Блоки с информацией о учителе, содержит: имя учителя, преподавателя и предмет который он ведет; короткое нажатие откроет меню редактирование, долгое нажатие выведет окно удаление. Если нет записей, то на заднем фоне будет отображаться подсказка
 #### 3) Кнопка добавление нового учителя, короткое нажатие открывает меню добавление(оно же меню редактирования), долгое нажатие выведет окно о удаление списка учителей
-![screenshot of teachers](https://psv4.userapi.com/c856336/u388061716/docs/d18/965c40c74ee1/2020-02-17_19-23-08.png?extra=5btO4A9FrSSvz8GDoKi92GhKfVnuE4bHY7wiID-K56LFoga-fL2GxmAjNnElEy-3lGLWqF3rAQ2B8iI2uGddHJxHUbx0Bh46SSsGvl-M9EzLXie2pUP1bTJtJQmDj3aBNbGFGwZ4Frp_hEHDu4cI4P8M)
+![screenshot of teachers](https://i.ibb.co/WzmPqwc/2020-02-17-19-23-08.png)
 
 ### **Функционал экрана добавление, он же экран редактирования:**
 #### 1) Поле имени учителя, преподавателя
 #### 2) Поле названия предмета которое он преподаёт 
 #### Если все поля были пусты (то есть вы ничего не вводили) запишутся данные по умолчанию, которые вы могли видеть в скрытом режиме
-![screenshot of teachers_add](https://psv4.userapi.com/c848128/u388061716/docs/d1/4766bce487e7/2020-02-17_19-30-48.png?extra=frHLJd2GGEXl65JAMqYPTtLLbCaBXLVJprBipl9TN3vc5cpuqa073xiTNW3aoBN_PynHx18WuwVMDj2hiashsawRIHMg4C_eZy6XHsjRkRiivPFI1WbN_r_mlT5IgWWkRODyncvlWbDjPBIE8gQBHkGd)
+![screenshot of teachers_add](https://i.ibb.co/XSLnYM7/2020-02-17-19-30-48.png)
 
 ### **Функционал с программной точки зрения:**
 #### При нажатие на кнопку добавление, записываются данные в файл `Ychitelia.txt` по шаблону: `ИМЯ УЧИТЕЛЯ, ПРЕПОДАВАТЕЛЯ=НАЗВАНИЕ ПРЕДМЕТА /n` и добавляется новый блок в `RecyclerView`
@@ -101,6 +101,7 @@ Student's diary
 #### Блок, содержащий четвертные, годовые, экзаменационные и итоговые оценки
 #### В основе лежит таблица, в которой и отображаются все данные
 #### При первом запуске этого фрагмента выведется окно выбора начала учебного дня (Для других стран), эта дата будет использовать при генерации этого и последующих учебных годов. Значение по умолчанию берется как текущий день, это можно будет всегда изменить в настройках.
+![screenshot of gradess](https://i.ibb.co/BjZnkd1/2020-02-17-19-41-00.png)
 #### Также присутствует поле “Поведение”, которое можно отключить в настройках
 
 ### **Функционал родительского экрана:**
@@ -110,30 +111,30 @@ Student's diary
 #### 4) Кнопка открывающая следующий год, если он ещё не был создан, то он сгенерируется
 #### 5) Поле оценок, при клике на пустую ячейку открывается клавиатура добавления оценок, по нажатие на кнопку “окей” на клавиатуре, оценка сохраняется
 #### 6) Поле подтверждения, при клике на него открывается меню добавление подтверждения, если оно уже было добавлено, откроется один из способов подтверждения
-![screenshot of gradess](https://psv4.userapi.com/c856436/u388061716/docs/d18/a91e6fa1f54a/2020-02-17_19-42-08.png?extra=fVxvpJL-Kk_MF4PSR7h-yGa0CtgSD5QkYWd--M7myzP0ToCTON-5gNZOHPZLXtBDr_1NRZZbZdGNAZPsOmjoLFRSqewPRotoR28yYW8LhbDXQe37jlKhGiLwpeWeR3XREte6pLHZExVOMjuq0QBnoBAc)
+![screenshot of gradess](https://i.ibb.co/840PY7L/2020-02-17-19-42-08.png)
 
 ### **Функционал меню добавления:**
 #### 1) Кнопка записи голоса учителя для подтверждения оценок, по нажатие открывается меню записи
 #### 2) Кнопка открывающая камеру для подтверждения оценок, путём фотографии оценок или просто росписи учителя
-![screenshot of conf add](https://psv4.userapi.com/c856532/u388061716/docs/d8/54ebdf1f9857/2020-02-19_15-24-34.png?extra=OwRtrSpxsOPLzFuTGOJEeZw3PnWl61oKIrfh0CHyXpIwSD0D6iRIdVXF-Ye5SVY3LgWpVKg21GvGk_lfHj7neEU6Qq7hwpSNkgz_1SXNN1CtqL-5M1ZeD-C1TGjPAZCJWd6kxuwq1V0H4L2YEd774idP)
+![screenshot of conf add](https://i.ibb.co/LYRZmfX/2020-02-19-15-24-34.png)
 
 ### **Функционал меню записи:**
 #### 1) Кнопка начинающая запись, запись может длиться максимум 59 минут 59 секунд.При начатой записи она будет выполнять функцию паузы (Временно не поддерживается на устройствах ниже Android 7)
 #### 2) Кнопка завершающая запись голоса 
 #### 3) Поле показывающее сколько уже идет запись 
-![screenshot of timetables_add](https://psv4.userapi.com/c856428/u388061716/docs/d16/7afddeed6edc/2020-02-19_15-30-36_2.png?extra=vMDQpAN4GCO7_zeR7faSXhwgYcof0mBj2x2vGXpyEnDCRaf4me9J2qFYHk_QDQXT-K2xgKm6qx7h8yWNNDGbG0D82G-dWf6w-Xkw8svWEmd1VkG1LpRi-6W1flbdnRGlLHHi6ZUZVyTbhuMqUcE3WeWo)
+![screenshot of timetables_add](https://i.ibb.co/JvTmLL3/2020-02-19-15-30-36-2.png)
 
 ### **Функционал экрана подтверждения с помощью записи голоса:**
 #### 1) Полоса плеера, используется для показа сколько было воспроизведено и в качестве инструмента для перемотки
 #### 2) Поле показывающее текущую временную позицию
 #### 3) Поле показывающее длительность записи
 #### 4) Кнопка плей, пауза
-![screenshot of conf voice](https://psv4.userapi.com/c848128/u388061716/docs/d9/4ea26e92a05d/2020-02-19_17-52-53.png?extra=6IkenPFGSwQ8MxOr0T8jNWayVkHggKBKOtzzR2yj1cqIaWQq0Zx2_NypxEANdoyCtQs67fi8vFtv5qzJZEd2wM4W73-VDuJMgdp2hcXSwRnNkEPxUNUH0dwSuri_D7PrD0jSZQ7CW_au87UFe1MjDn-o)
+![screenshot of conf voice](https://i.ibb.co/sH14Cxf/2020-02-19-17-52-53.png)
 
 ### **Функционал экрана подтверждения с помощью фотографии:**
 #### 1) Сама фотография
 #### 2) Кнопка закрытия диалога
-![screenshot of conf photo](https://psv4.userapi.com/c856416/u388061716/docs/d12/4b21fb0c1801/2020-02-20_18-41-44.png?extra=qpTBcxmCvEycJ09SMS_i9WMZccyG2zF4-fJZpCaPystdoBRNY7RuGR0xyQYHHbIC1Z7yHQGqmrIuTo2cpSuuAVSIcTmc7XOAJuAVKW4X1VdMrbIEnW7oZh1kRaCJPaFxbsS3wI7uRMJQdQBQ2yVMNP9Z)
+![screenshot of conf photo](https://i.ibb.co/PxR3K1B/2020-02-20-18-41-44.png)
 
 ### **Функционал с программной точки зрения:**
 #### Читаются файлы: `Monday.txt`, `Tuesday.txt` и так далее, из них  берутся предметы, если предмет уже был записан то он пропускается. Получившийся список записывается в файл `ГОД НАЧАЛА ОБУЧЕНИЕ – ГОД КОНЦА ОБУЧЕНИЯ` в папке `Ocenki`, находящейся в директории приложения, по шаблону `НАЗВАНИЕ ПРЕДМЕТА=ОЦЕНКА ЗА 1 ЧЕТВЕРТЬ=ОЦЕНКА ЗА 2 ЧЕТВЕРТЬ=ОЦЕНКА ЗА 3 ЧЕТВЕРТЬ=ОЦЕНКА ЗА 4 ЧЕТВЕРТЬ=ГОДОВАЯ ОЦЕНКА=ЭКЗАМЕНАЦИОННАЯ ОЦЕНКА=ИТОГОВАЯ ОЦЕНКА /n`
@@ -150,7 +151,7 @@ Student's diary
 #### 5) Ссылка на ютуб канал [“Start android”](https://www.youtube.com/user/vitaxafication)
 #### 6) Ссылка на ютуб канал [“Devcolibri”](https://www.youtube.com/user/devcolibri)
 #### 7) Кнопка открытия меню ошибок
-![screenshot of help](https://psv4.userapi.com/c856536/u388061716/docs/d6/79b8b4448d3b/2020-02-27_22-06-52.png?extra=xi6nLfdEUe1he92FQ7xZKmBzpn6yw2ytI3dq0gYWt3lvuPMAXasDfqC55GrLsqBtXV0ibfvBZayZOFB0oaSz4aN0n65Pi4a0ZO7myb8w9Yd-OyddXb-uBB8qZGDx9wDHRfaLX3ooZQyhlNpOI35XzlWInU0)
+![screenshot of help](https://i.ibb.co/X4JfzJN/2020-02-27-22-06-52.png)
 
 ### **Функционал экрана меню ошибок:**
 #### 1) Кнопка переключения на предыдущую ошибку
@@ -158,7 +159,7 @@ Student's diary
 #### 3) Дата и время ошибки
 #### 4) Лог ошибки(Если вы не разбираетесь в java программировании можете даже не пытаться понять что там написано)
 ####Файлы ошибок расположены по пути /storage/emulated/0/Android/data/com.example.kos/files/errors в текстовом формате
-![screenshot of errors}(https://psv4.userapi.com/c856536/u388061716/docs/d10/a73497b51855/2020-02-27_22-12-43.png?extra=RRlBk_0l6opFphs6iQ3m6uV3hFDRF98doNVxPa7GmkrBNG3JsA5mPgLHVlWIjOEUr7XsyaLl6UC8NHNyEyc0kFNzPdl9Au96u6uytf5KXj18c06CHp1a1F6yf3n7A0CCfFPGxwmcgTlworg9zY0sEd12w0A)
+![screenshot of errors](https://i.ibb.co/xHWrT48/2020-02-27-22-12-43.png)
 
 ### **Функционал с программной части** – отсутствует, единственное что в нем есть, это поддержка своих тем, всё, что есть на экране, закреплено в макете, меню ошибок работает из главной активности
 
@@ -170,27 +171,35 @@ Student's diary
 #### 1) Настраивает расстояние между блоками дней в блоке “Дневник”(Пример - 1)
 #### 2) Включает или Выключает уведомления о конце, начале урока или перемены
 #### 3) Включает или выключает субботу в блоке “Расписание”
-#### 4) Включает или выключает поле “Поведение” в блоке “Оценки” (Внимание! Если учебный год уже был сгенерирован, то отключение этого параметра не уберет это поле из этого учебного года!)
-#### 5) Способ указания цвета в создании своей темы, по умолчанию возможен выбор (более подробно это описано в “Функционале экрана добавления тем”)
-#### 6) Включает или выключает анимации в приложении
-#### 7) Включает выключает обводку диалогов (Пример - 2)
-#### 8) Выбор фрагмента который будет включен при запуски приложения, по умолчанию запускается последний выбранный фрагмент
-#### 9) Ширина обводки диалогов
-#### 10) Включение уже установленной светлой цветовой темы, она используется как цветовая тема по умолчанию
-#### 11) Включение уже установленной темной цветовой темы
-#### 12) Поле с вашей темой (Их может быть сколько угодно), переключатель справа включает эту цветовую тему, короткое нажатие по этому блоку открывает меню редактирования, долгое нажатие открывает диалог удаления
-#### 13) Кнопка создания своей цветовой темы
-![screenshot of settings](https://psv4.userapi.com/c856428/u388061716/docs/d15/31bb26992334/2020-02-19_17-17-32.png?extra=_to9EsUooWpEEhYGHNgY4QzK76bWC0Pv9WamF-ANGovqefzEEcx2xhCk_h26i2k2cwEMmqvHQd59044obFuLuzjo0cCQ6YwcQtOed0KZ9o2ub7egT5HcY6vk7Ks6jtB1h3Cvipw7RFmRCLO_w_7aaXia)
-![screenshot of settings](https://psv4.userapi.com/c856536/u388061716/docs/d15/1e8dd22344d9/2020-02-19_17-21-40.png?extra=dNlro6LMECaBU8VORetUJL8HspZ1h5mw8C6SDIas7ncbjKBuvl4H88RNtFKcrTvDrgNOWxOslyGlsq8W6ut9ThJxh4g-ZGQivErAxg9qWZ4b-2hX7Cqp_wyy4GstT0RJemj0fPuOZDpLeOdntchjCZx_)
+#### 4) Изменение месяца начала обучения
+#### 5) Включает или выключает поле “Поведение” в блоке “Оценки” (Внимание! Если учебный год уже был сгенерирован, то отключение этого параметра не уберет это поле из этого учебного года!)
+#### 6) Способ указания цвета в создании своей темы, по умолчанию возможен выбор (более подробно это описано в “Функционале экрана добавления тем”)
+#### 7) Включает или выключает анимации в приложении
+#### 8) Включает выключает обводку диалогов (Пример - 2)
+#### 9) Выбор фрагмента который будет включен при запуски приложения, по умолчанию запускается последний выбранный фрагмент
+#### 10) Ширина обводки диалогов
+#### 11) Очистка данных в блоке "Дневник ученика"(Удаляются всё записи/недели дневника и настройки связанные с этим блоком)
+#### 12) Очистка данных в блоке "Распиание" (Удаляется всё расписание и настройки связанные с этим блоком, записи из блока "Дневник ученика" остаются без изменения)
+#### 13) Очистка данных в блоке "Учителя" (Удаляются всё записи о учителях)
+#### 14) Очистка данных в блоке "Оценки" (Удаляются всё записи о оценках и настройки связанные с этим блоком)
+#### 15) Очистка данных в блоке "Настройки" (Удаляются всё настройки и сгенерированные темы)
+#### 16) Очистка данных в блоке "Справка" (Удаляются всё отчеты о ошибках)
+#### 17) Включение уже установленной светлой цветовой темы, она используется как цветовая тема по умолчанию
+#### 18) Включение уже установленной темной цветовой темы
+#### 19) Поле с вашей темой (Их может быть сколько угодно), переключатель справа включает эту цветовую тему, короткое нажатие по этому блоку открывает меню редактирования, долгое нажатие открывает диалог удаления
+#### 20) Кнопка создания своей цветовой темы
+![screenshot of settings](https://i.ibb.co/XCrxM7s/2020-03-08-15-18-21.png)
+![screenshot of settings](https://i.ibb.co/yB5WBCr/2020-03-08-15-22-29.png)
+![screenshot of settings](https://i.ibb.co/T1QsXj3/2020-03-08-16-53-24.png)
 
 ### **Примеры:**
 #### 1)
-![screenshot of example one](https://psv4.userapi.com/c856536/u388061716/docs/d16/2f46eeee4366/2020-02-19_17-43-50.png?extra=id7Sfe9J2rTgmZNrOzOObZFsTbk02fSwHy4pFzUkfgLEMoUhVtCqQ_S_OKB89OfGdLiv1-g0TlbiX3UwVieGZxEYJa_BL4sXmzvv23c5hHHTYbivAv68B0lwzQshb_yzCJ_143DSL86-eZXUxf1bbfWR)
-![screenshot of example one](https://psv4.userapi.com/c856536/u388061716/docs/d8/8cc9cceddc73/2020-02-19_17-42-00.png?extra=76rvtxw4AzbKX8qNHDwbiDIePkiz5yXWjbyUcXuNyQesZ1vBDHH3hPtuEcBI9T5VjnusoXk0Bk7NlMV_Eha_a7ak_aLylo2CcE1gf2YZIb7rLoXNOcygximZL497AdWMz-4ChcFXAcRtA_5-mXwsTRyD)
+![screenshot of example one](https://i.ibb.co/9nVDHvB/2020-02-19-17-43-50.png)
+![screenshot of example one](https://i.ibb.co/G0hhsf9/2020-02-19-17-42-00.png)
 
 #### 2)
-![screenshot of example two](https://psv4.userapi.com/c856536/u388061716/docs/d9/0dc55b36aafa/2020-02-19_17-49-29.png?extra=zwDWBmJIprWbW04SUkEj-Ly39AdVLjJVfzhVL31zb-1xS1d36lBX4ml48QIQl0hwopleFAW1Uvs7d9MI897nouu9niCpaF0CEPPrTWnZwc3a5IjxvR_DoOzQ0pBB4oIL72_5lOJ7gG-9QJtFX_hdvQxf)
-![screenshot of example two](https://psv4.userapi.com/c856536/u388061716/docs/d9/a7864c0103ee/2020-02-19_17-48-28.png?extra=AGCp0Xanw20n1VBApgRkGVPBdYMvZCHr0HrRKtFVAPSjPLehHy4l76w8L4FSP7nk-Yqan5Gp2L-FmQNcoX-te8excVZb_KewH6lgl_ZRDkWATMHXxeJE68oh2haCx7ezj0AvacMhS6Ddi0gfXEnbmN2M)
+![screenshot of example two](https://i.ibb.co/98gW3Gh/2020-02-19-17-48-28.png)
+![screenshot of example two](https://i.ibb.co/dmm4WGy/2020-02-19-17-49-29.png)
 
 ### **Функционал экрана создания тем, он же экран редактирования:**
 #### 1) Кнопка сохранения цветовой темы
@@ -221,25 +230,25 @@ Student's diary
 #### 26) Цвет границы блока выборов и диалогов (Используется как цвет границы блоков выборов подтверждения и выбора способа указания цвета и диалогов)
 #### 27) Цвет аудио плеера (Используется только как цвет аудиоплеера)
 
-![screenshot of custom theme](https://psv4.userapi.com/c856536/u388061716/docs/d8/1d2817b1eae3/2020-02-19_17-58-46.png?extra=2j4Mb0KwdykYRI8PDhj1Y030_LR5rSo9PsAQReYAWctTFRiJStmZfzC3BGMR7N71YFpNsPDcwT6SQM_T3MNvsOWMS56Z7UwVdzrHO0Qh-EPWtohPGaSrFhZd-ojShoBlXkT-MSjWKbMT4qqtiTndwfHR)
-![screenshot of custom theme](https://psv4.userapi.com/c856536/u388061716/docs/d10/0951ebe2649d/2020-02-19_18-09-28.png?extra=9ZgrTO75FB6MX6Gls21arTxOxtBM3xFJGkWe3pFv_IYKHWlypQADGUfr-ssd0vl1oep5a9-KQSFoIxjV6cBF94cIkuGGhrpKMuRu-D5mXtmGefReLwiiT0AHqXPwZEEbi9fzz9_24Y4cbZFqr0c9qpQt)
-![screenshot of custom theme](https://psv4.userapi.com/c856536/u388061716/docs/d12/77daf4547bda/2020-02-19_18-24-40.png?extra=eZO29nXNCwcRruCZFrLAFpIKAb6mXd-ooguVy1sbBT7Q0mngsK4Ci9aL9EXQNGS-W4asoNSwN1wsrmxT-kXxAP_5GMqIeqX8o2CYF3v0W2yEWbft-xP5ItqvyEG5RAXls0qozcn0Rad_tJzwFhShSaFS)
+![screenshot of custom theme](https://i.ibb.co/K9DM285/2020-02-19-17-58-46.png)
+![screenshot of custom theme](https://i.ibb.co/4T9v7G4/2020-02-19-18-09-28.png)
+![screenshot of custom theme](https://i.ibb.co/YDdc4wR/2020-02-19-18-24-40.png)
 
 ### **При нажатие на блоки с 3 по 27 открывается блок выбора способа указания цвета, вот его функционал:**
 #### 1) Указать HEX-код 
 #### 2) Выбрать цвет самому
-![screenshot of choose color](https://psv4.userapi.com/c856528/u388061716/docs/d11/93880a959147/2020-02-19_18-37-17.png?extra=tNcatoWm3zrgWqYubd70HPXMcDHp0FQWuGakzsLdagBNSDeaDFw9IN_ak1H8ytdyDrS_5qdzA1_ajFMgbUcidgeXr7krS_6tu1Xly63CUJx0sJpY2dHOciaQk6Ti7sv978BDjnkTzZ2OuoiUC5h1z2HZ)
+![screenshot of choose color](https://i.ibb.co/mvPsKct/2020-02-19-18-37-17.png)
 
 #### Если была нажата 1 кнопка, откроется меню:
 #### 1) Поле для HEX-кода
-![screenshot of hex color](https://psv4.userapi.com/c856528/u388061716/docs/d17/f2d3a3c162bf/2020-02-19_18-37-56_2.png?extra=cAueX8e_vUet3mMY2U-1LVo0DANuHlOt75EbkTrjf7tIJ0oMstJ9SXRjWd1iCQIkiREI6t56xzkood4VxCeFybYq9rD5XwzrdLcZEq8PPoI-VMnXgN7q1q0e3anEaqJSc77HN8ryQD41tjnvsc9po0bj)
+![screenshot of hex color](https://i.ibb.co/f0KCdWy/2020-02-19-18-37-56-2.png)
 
 #### Если была нажата 2 кнопка, откроется меню:
 #### 1) Выбор спектра цвета
 #### 2) Выбор цвета из спектра
 #### 3) Предыдущий цвет
 #### 4) Итоговый цвет
-![screenshot of color](https://psv4.userapi.com/c856528/u388061716/docs/d12/941f8d83b57d/2020-02-19_18-39-21.png?extra=dpz2oLOiB47XNZP77jhvshqx9VqohZAvA5esk5nmDHAXx62cR5hIv9vV3O_q9Vh3nkCl1pg6jbItJz3vC4KS-F1IU1jpDy2iLPQUuOR2CRwlWPP9LKUav_RYJTO1GS4jmAnxJNzecT1ccVqYrPAtkRQH)
+![screenshot of color](https://i.ibb.co/2nWhCBb/2020-02-19-18-39-21.png)
 
 ### **Функционал с программной точки зрения:**
 #### Записывает настройки в `SharedPreferencess`(Массив данных с индексами) с названием `Settings`, при добавление цветовых тем, генерируется уникальный айди переключателя для блока с темами и идет запись цветовых значений в файл `Themes.txt` по шаблону `СГЕНЕРИРОВАННЫЙ АЙДИ ПЕРЕКЛЮЧАТЕЛЯ ДЛЯ БЛОКА =НАЗВАНИЕ ТЕМЫ=ПУНКТ 3= ПУНКТ 4 … ПУНКТ 27` и в `SharedPreferencess` файл с названием `Current_theme` записываются цветовые значения текущей темы для удобного получения значений из кода.

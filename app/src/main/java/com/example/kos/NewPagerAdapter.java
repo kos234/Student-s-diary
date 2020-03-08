@@ -138,14 +138,14 @@ class NewPagerAdapter extends PagerAdapter {
 
                 TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
                 ButtonCancel.setText(context.getString(R.string.cancel));
-                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Deleted.hide();
                     }
                 });
-
+                    promptsView.findViewById(R.id.button_three_alert).setVisibility(View.GONE);
                 TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
                 ButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -202,7 +202,7 @@ class NewPagerAdapter extends PagerAdapter {
 
                     }
                 });
-                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
 
                 Objects.requireNonNull(Deleted.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                 Deleted.show();
@@ -317,7 +317,7 @@ class NewPagerAdapter extends PagerAdapter {
                 final AlertDialog alertDialog = newzvonok.create();
 
                 TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -326,7 +326,7 @@ class NewPagerAdapter extends PagerAdapter {
                 });
 
                 TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
-                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -388,8 +388,8 @@ class NewPagerAdapter extends PagerAdapter {
                                                 if((Integer.parseInt(helpAmPMOne[0]) == TimeStartHour && Integer.parseInt(helpAmPMOne[1]) == TimeStartMin) && (Integer.parseInt(helpAmPMTwo[0]) == TimeEndHour && Integer.parseInt(helpAmPMTwo[1]) == TimeEndMin))
                                                     if(is12Hour) {
                                                         if (helpAmPMOne[2].equals(spinnerAmPmOne.getSelectedItem()) && helpAmPMTwo[2].equals(spinnerAmPmTwo.getSelectedItem()))
-                                                            throw new Povtor("KRIA");
-                                                    }else throw new Povtor("KRIA");
+                                                            throw new Povtor();
+                                                    }else throw new Povtor();
 
                                                 if((Integer.parseInt(helpAmPMOne[0]) > TimeStartHour || Integer.parseInt(helpAmPMOne[1]) > TimeStartMin) && !is12Hour && Zapic) {
                                                     stringBuffer.append(writeTimes).append(("\n")).append(temp_read).append(("\n"));
@@ -519,7 +519,7 @@ class NewPagerAdapter extends PagerAdapter {
 
                 TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
                 ButtonCancel.setText(context.getString(R.string.cancel));
-                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -546,7 +546,7 @@ class NewPagerAdapter extends PagerAdapter {
 
                     }
                 });
-                ButtonALl.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonALl.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonALl.setText(context.getString(R.string.deleteAllDayLesson));
 
                 TextView ButtonOne = promptsView.findViewById(R.id.button_two_alert);
@@ -599,7 +599,7 @@ class NewPagerAdapter extends PagerAdapter {
 
                     }
                 });
-                ButtonOne.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonOne.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonOne.setText(context.getString(R.string.deleteOneDayLesson));
 
                 Objects.requireNonNull(Deleted.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -666,7 +666,7 @@ class NewPagerAdapter extends PagerAdapter {
                                           }
 
                                           TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-                                          ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                                          ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                                           ButtonCancel.setOnClickListener(new View.OnClickListener() {
                                               @Override
                                               public void onClick(View view) {
@@ -675,7 +675,7 @@ class NewPagerAdapter extends PagerAdapter {
                                           });
 
                                           TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
-                                          ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                                          ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                                           ButtonSave.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -770,8 +770,8 @@ class NewPagerAdapter extends PagerAdapter {
                                                                         if((Integer.parseInt(helpAmPMOne[0]) == TimeStartHour && Integer.parseInt(helpAmPMOne[1]) == TimeStartMin) || (Integer.parseInt(helpAmPMTwo[0]) == TimeEndHour && Integer.parseInt(helpAmPMTwo[1]) == TimeEndMin))
                                                                             if(!DateFormat.is24HourFormat(context)) {
                                                                                 if (helpAmPMOne[2].equals(spinnerAmPmOne.getSelectedItem()) && helpAmPMTwo[2].equals(spinnerAmPmTwo.getSelectedItem()))
-                                                                                    throw new Povtor("KRIA");
-                                                                            }else throw new Povtor("KRIA");
+                                                                                    throw new Povtor();
+                                                                            }else throw new Povtor();
 
                                                                         if((Integer.parseInt(helpAmPMOne[0]) > TimeStartHour || Integer.parseInt(helpAmPMOne[1]) > TimeStartMin) && DateFormat.is24HourFormat(context) && Zapic) {
                                                                             stringBuffer.append(writeTimes).append(("\n")).append(temp_read).append(("\n"));

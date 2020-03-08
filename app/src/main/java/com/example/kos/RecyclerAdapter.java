@@ -115,6 +115,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
   }
 
+  public void clearAll(){
+    constrRecyclerViewArrayList.clear();
+    notifyDataSetChanged();
+  }
+
   @Override
   public int getItemCount() {
     return constrRecyclerViewArrayList.size();

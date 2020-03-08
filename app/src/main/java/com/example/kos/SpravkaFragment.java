@@ -24,7 +24,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 public class SpravkaFragment extends Fragment {
-
+    private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,9 +49,11 @@ public class SpravkaFragment extends Fragment {
         textViewObz.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(getContext(), R.color.custom_text_light)));
         textViewObz = view.findViewById(R.id.obz_four);
         textViewObz.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(getContext(), R.color.custom_text_light)));
+        textViewObz = view.findViewById(R.id.button_error_act);
+        textViewObz.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(getContext(), R.color.custom_button_act)));
 
         LinearLayout linearLayout = view.findViewById(R.id.LinerErrors);
-            BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+        bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
             linearLayout.findViewById(R.id.LinerErrors).setBackgroundColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(getContext(), R.color.custom_background)));
@@ -71,6 +73,10 @@ public class SpravkaFragment extends Fragment {
         }
 
         return view;
+    }
+
+    public void notifyClear(){
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
 }

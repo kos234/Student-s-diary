@@ -116,6 +116,11 @@
     <string name="error_not">An unexpected error occurred during execution, the error was saved</string>
     <string name="errors">Errors</string>
     <string name="errors_null">There was no mistake yet!</string>
+    <string name="ocenki_null">You have not selected the beginning of the quarter!</string>
+    <string name="edit_day_ocenki">Quarter Start Date</string>
+    <string name="edit_day_ocenki_null">Not Specified</string>
+    <string name="title_clear">Data cleaning</string>
+    <string name="title_clear_alert">Delete block data:</string>
 
     <string name="custom_color_name">Theme name</string>
     <string name="custom_color_icon">Сolor of theme icon</string>
@@ -132,6 +137,7 @@
     <string name="custom_color_bottomBorder">Сolor of bottom border</string>
     <string name="custom_color_button_add">Button add color</string>
     <string name="custom_color_button_add_plus">Button add plus color</string>
+    <string name="custom_color_button_act">Action button color</string>
     <string name="custom_color_button_arrow">Color of arrow and menu buttons</string>
     <string name="custom_color_progress">Color of loading icon</string>
     <string name="custom_color_not_confirmed">Not confirmed color</string>
@@ -169,5 +175,21 @@
         <item>Thursday.txt</item>
         <item>Friday.txt</item>
         <item>Saturday.txt</item>
+    </string-array>
+
+    <string-array name="Mes">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+        <item>Not Specified</item>
     </string-array>
 </resources>

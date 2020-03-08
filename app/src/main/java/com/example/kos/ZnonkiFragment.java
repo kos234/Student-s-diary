@@ -47,7 +47,7 @@ public class ZnonkiFragment extends Fragment {
                              Bundle savedInstanceState) {
         try{
         view =  inflater.inflate(R.layout.fragment_znonki, container,false);
-        settings = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", getActivity().MODE_PRIVATE);
+        settings = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", context.MODE_PRIVATE);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
         final androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
         Drawable iconNavigation = ContextCompat.getDrawable(context, R.drawable.ic_menu_24px);
@@ -272,18 +272,12 @@ public class ZnonkiFragment extends Fragment {
         String[] temp = url.split(".txt");
         if (settings.getBoolean(temp[0], true)) {
             Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
-            Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
-            OnOff.setImageDrawable(drawable);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean(temp[0], false);
-            editor.apply();
-        }else {
-            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
             Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
             OnOff.setImageDrawable(drawable);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean(temp[0],true);
-            editor.apply();
+        }else {
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
+            Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_off", ContextCompat.getColor(context, R.color.custom_notification_off)), PorterDuff.Mode.SRC_ATOP);
+            OnOff.setImageDrawable(drawable);
         }
         OnOff.setOnClickListener(new View.OnClickListener() {
             @Override

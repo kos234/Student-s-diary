@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -62,7 +63,7 @@ public class OcenkiFragment extends Fragment {
         try {
         inflater = LayoutInflater.from(context);
         settings = Objects.requireNonNull(getActivity()).getSharedPreferences("Settings", MODE_PRIVATE);
-        Confirmed = getActivity().getSharedPreferences("Confirmed", MODE_PRIVATE);
+        Confirmed = context.getSharedPreferences("Confirmed", MODE_PRIVATE);
         Current_Theme = context.getSharedPreferences("Current_Theme", MODE_PRIVATE);
         editor = settings.edit();
         androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar5);
@@ -107,7 +108,7 @@ public class OcenkiFragment extends Fragment {
                 textBottomTitle.setText(context.getString(R.string.ReplaceOcenki));
 
                 TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonCancel.setText(getString(R.string.cancel));
                 ButtonCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -115,6 +116,8 @@ public class OcenkiFragment extends Fragment {
                         alertDialog.hide();
                     }
                 });
+
+                promptsView.findViewById(R.id.button_three_alert).setVisibility(View.GONE);
 
                 TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
                 ButtonSave.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +128,7 @@ public class OcenkiFragment extends Fragment {
                             String[] ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
                             for (String s : ConfirmationValue)
                                 if (!s.equals(getString(R.string.Not_Confirmed)))
-                                    throw new Povtor("KRIA");
+                                    throw new Povtor();
                             new ClearAsyncTask().execute();
                         }catch (Povtor povtor){
                             Toast.makeText(context,getString(R.string.you_have_already_confirmed_grades),Toast.LENGTH_LONG).show();
@@ -134,7 +137,7 @@ public class OcenkiFragment extends Fragment {
                         alertDialog.hide();
                     }
                 });
-                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonSave.setText(getString(R.string.yes));
 
                 Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -181,8 +184,8 @@ public class OcenkiFragment extends Fragment {
         this.context = context;
     }
 
-    public void cheakStart (){
-        if(settings.getBoolean("FirstStartOcenki", true)){
+    public void cheakStart (boolean type){
+        if(settings.getBoolean("FirstStartOcenki", true) || type){
 
             final LayoutInflater li = LayoutInflater.from(getActivity());
             final View promptsView = li.inflate(R.layout.mes_ocenki , null);
@@ -203,18 +206,21 @@ public class OcenkiFragment extends Fragment {
             textTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
 
             CalendarView calendarView = promptsView.findViewById(R.id.calendar_view);
-            calendarView.setWeekNumberColor(Color.BLUE);
+            calendarView.setDate(new Date(new Date().getYear(), settings.getInt("mesStartOcenki",8), 1).getTime());
             calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                 @Override
                 public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
                     try{
-                    editor.putInt("mesStartOcenki",i1);
-                    editor.apply();
+                        editor.putInt("mesStartOcenki",i1);
+                        editor.apply();
+
+                        NastroikiFragment nastroikiFragment = (NastroikiFragment) ((MainActivity) getActivity()).getFragment.get(4);
+                        nastroikiFragment.notifyTextDay(i1);
                     }catch (Exception error){((MainActivity) context).errorStack(error);}}
             });
 
             TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-            ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+            ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
             ButtonCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {try{
@@ -251,7 +257,8 @@ public class OcenkiFragment extends Fragment {
                     textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
                     textBottomTitle.setText(context.getString(R.string.warningOcenki));
 
-                    promptsViewWarning.findViewById(R.id.button_one_alert).setVisibility(View.INVISIBLE);
+                    promptsViewWarning.findViewById(R.id.button_one_alert).setVisibility(View.GONE);
+                    promptsViewWarning.findViewById(R.id.button_three_alert).setVisibility(View.GONE);
 
 
                     TextView ButtonSave = promptsViewWarning.findViewById(R.id.button_two_alert);
@@ -261,14 +268,14 @@ public class OcenkiFragment extends Fragment {
                             alertDialogWarning.hide();
                         }
                     });
-                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                     ButtonSave.setText(getString(R.string.Ok));
 
                     Objects.requireNonNull(alertDialogWarning.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                     alertDialogWarning.show();
                 }catch (Exception error){((MainActivity) context).errorStack(error);}}
             });
-            ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+            ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
 
             Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialog.show();
@@ -473,7 +480,7 @@ public class OcenkiFragment extends Fragment {
                 for (String s : day) {
 
                     try {
-                        FileInputStream read = getActivity().openFileInput(s);
+                        FileInputStream read = context.openFileInput(s);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -629,7 +636,7 @@ public class OcenkiFragment extends Fragment {
                 for (String s : day) {
 
                     try {
-                        FileInputStream read = getActivity().openFileInput(s);
+                        FileInputStream read = context.openFileInput(s);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -739,7 +746,7 @@ public class OcenkiFragment extends Fragment {
             for (String s : day) {
 
                 try {
-                    FileInputStream read = getActivity().openFileInput(s);
+                    FileInputStream read = context.openFileInput(s);
                     InputStreamReader reader = new InputStreamReader(read);
                     BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -847,7 +854,7 @@ public class OcenkiFragment extends Fragment {
                         String[] helpCheak = value[0].getArrayList().get(j),
                                 ConfirmationValue = Confirmed.getString((settings.getInt("endUrl",2020) - 1) + " - " + settings.getInt("endUrl",2020),getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed) + "=" + getString(R.string.Not_Confirmed)).split("=");
                         if (!helpCheak[i].equals(" ") && ConfirmationValue[i-1].equals(getString(R.string.Not_Confirmed)))
-                            throw new Povtor("KRIA");
+                            throw new Povtor();
                     } catch (Povtor povtor) {
                         TableRow tableRow;
 
@@ -962,7 +969,7 @@ public class OcenkiFragment extends Fragment {
                 for (String s : day) {
 
                     try {
-                        FileInputStream read = getActivity().openFileInput(s);
+                        FileInputStream read = context.openFileInput(s);
                         InputStreamReader reader = new InputStreamReader(read);
                         BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -1026,5 +1033,9 @@ public class OcenkiFragment extends Fragment {
         }catch (Exception error){((MainActivity) context).errorStack(error);}
             return null;
         }
+    }
+
+    public void notifyClear(){
+        linearLayout.removeAllViews();
     }
 }

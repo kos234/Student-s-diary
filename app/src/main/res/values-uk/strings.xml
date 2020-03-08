@@ -116,6 +116,11 @@
     <string name="error_not">В ходе выполнения возникла непредвиденная ошибка, ошибка была сохранена</string>
     <string name="errors">Ошибки</string>
     <string name="errors_null">Ещё не было ни одной ошибки!</string>
+    <string name="ocenki_null">Вы не выбрали начало четверти!</string>
+    <string name="edit_day_ocenki">Дата начала четверти</string>
+    <string name="edit_day_ocenki_null">Не указана</string>
+    <string name="title_clear">Очистка данных</string>
+    <string name="title_clear_alert">Удалить данные блока: </string>
 
     <string name="custom_color_name">Название темы</string>
     <string name="custom_color_icon">Цвет иконки темы</string>
@@ -132,6 +137,7 @@
     <string name="custom_color_bottomBorder">Цвет нижней границы</string>
     <string name="custom_color_button_add">Цвет кнопки добавления</string>
     <string name="custom_color_button_add_plus">Цвет плюса кнопки добавления</string>
+    <string name="custom_color_button_act">Цвет кнопки действия</string>
     <string name="custom_color_button_arrow">Цвет стрелок и кнопок в меню</string>
     <string name="custom_color_progress">Цвет иконки загрузки</string>
     <string name="custom_color_not_confirmed">Цвет не подтверждения</string>
@@ -170,5 +176,21 @@
         <item>Thursday.txt</item>
         <item>Friday.txt</item>
         <item>Saturday.txt</item>
+    </string-array>
+
+    <string-array name="Mes">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+        <item>Не указана</item>
     </string-array>
 </resources>

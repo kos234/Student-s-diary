@@ -218,7 +218,49 @@
                     <LinearLayout
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        >
+                        <TextView
+                            android:id="@+id/text_day_ocenki"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/edit_day_ocenki"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:textSize="19sp"
+                            android:id="@+id/edit_day_ocenki"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="@string/edit_day_ocenki_null"
+                            android:layout_weight="1"
+                            />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/border_six"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        android:layout_marginTop="10dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="1dp"
                         android:layout_weight="1"
@@ -531,6 +573,183 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_clear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title_clear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/title_clear"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+
+                        <TextView
+                            android:onClick="ClickClear"
+                            android:layout_margin="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="1dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:id="@+id/bottom_title_dnew"
+                            android:layout_gravity="start"
+                            android:text="@string/app_name"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            />
+
+
+                    <View
+                        android:id="@+id/border_seven"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        android:layout_marginTop="10dp"
+                        />
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_zvon"
+                        android:layout_gravity="start"
+                        android:text="@string/timetables"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <View
+                        android:id="@+id/border_eight"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        android:layout_marginTop="10dp"
+                        />
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_ychit"
+                        android:layout_gravity="start"
+                        android:text="@string/teachers"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <View
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/border_nine"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        android:layout_marginTop="10dp"
+                        />
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_ocenki"
+                        android:layout_gravity="start"
+                        android:text="@string/grades"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <View
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/border_ten"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#7b7b7b"
+                    android:layout_marginTop="10dp"
+                    />
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_nastroiki"
+                        android:layout_gravity="start"
+                        android:text="@string/settings"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <View
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/border_eleven"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        android:layout_marginTop="10dp"
+                        />
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_spravka"
+                        android:layout_gravity="start"
+                        android:text="@string/help"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/card_themes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -616,6 +835,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp">
 
@@ -675,7 +895,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginEnd="5dp">
 

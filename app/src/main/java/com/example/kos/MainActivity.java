@@ -76,6 +76,8 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -216,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
+                        try{
                         navigationView.getMenu().getItem(settings.getInt("Fragment", 0)).setChecked(false);
                             fragmentManager.beginTransaction().hide(fragmentManager.getFragments().get(settings.getInt("Fragment", 0))).commit();
 
@@ -224,29 +226,29 @@ public class MainActivity extends AppCompatActivity {
                             switch (menuItem.getItemId()){
                                 case R.id.Ychetel:
                                     IdShowFragment = 2;
-                                    editor.putString("Fragment","Ychitelia" );
+                                    editor.putInt("Fragment",2);
                                     break;
                                 case R.id.Zvonki:
                                         IdShowFragment = 1;
-                                    editor.putString("Fragment","Znonki" );
+                                    editor.putInt("Fragment",1);
                                     break;
                                 case R.id.Ocenki:
                                     OcenkiFragment ocenkiFragment = (OcenkiFragment) getFragment.get(3);
-                                    ocenkiFragment.cheakStart();
+                                    ocenkiFragment.cheakStart(false);
                                         IdShowFragment = 3;
-                                    editor.putString("Fragment","Ocenki" );
+                                    editor.putInt("Fragment",3);
                                     break;
                                 case R.id.Nastroiki:
                                         IdShowFragment = 4;
-                                    editor.putString("Fragment","Nastroiki" );
+                                    editor.putInt("Fragment",4);
                                     break;
                                 case R.id.Spravka:
                                         IdShowFragment = 5;
-                                    editor.putString("Fragment","Spravka" );
+                                    editor.putInt("Fragment",5);
                                     break;
                                 default:
                                         IdShowFragment = 0;
-                                    editor.putString("Fragment","Dnewnik" );
+                                    editor.putInt("Fragment",0);
                                     break;
                             }
 
@@ -256,8 +258,9 @@ public class MainActivity extends AppCompatActivity {
                             drawerLayout.closeDrawer(Gravity.START);
                             editor.apply();
 
+                        }catch (Exception error){errorStack(error);}
                         return false;
-                    }
+                        }
                 });
             }else if (values[0].getId() == 4){
                 navigationView.getMenu().getItem(values[0].getVisibly()).setChecked(true);
@@ -313,37 +316,37 @@ public class MainActivity extends AppCompatActivity {
                 switch (s) {
                     case 2:
                         fragmentClass = YchiteliaFragment.class;
-                        if ((settings.getString("Fragment", "Dnewnik").equals("Ychitelia") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.teachers))){
+                        if ((settings.getInt("Fragment", 0) == 2 && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.teachers))){
                             Invisibly = false;
                             editor.putInt("Fragment", 2);
                         } break;
                     case 1:
                         fragmentClass = ZnonkiFragment.class;
-                        if((settings.getString("Fragment", "Dnewnik").equals("Znonki") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.timetables))){
+                        if((settings.getInt("Fragment", 0) == 1 && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.timetables))){
                             Invisibly = false;
                             editor.putInt("Fragment", 1);
                         }break;
                     case 3:
                         fragmentClass = OcenkiFragment.class;
-                        if((settings.getString("Fragment", "Dnewnik").equals("Ocenki") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.grades))){
+                        if((settings.getInt("Fragment", 0) == 3 && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.grades))){
                             Invisibly = false;
                             editor.putInt("Fragment", 3);
                         }break;
                     case 4:
                         fragmentClass = NastroikiFragment.class;
-                        if((settings.getString("Fragment", "Dnewnik").equals("Nastroiki") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.settings))) {
+                        if((settings.getInt("Fragment", 0) == 4 && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.settings))) {
                             Invisibly = false;
                             editor.putInt("Fragment", 4);
                         }break;
                     case 5:
                         fragmentClass = SpravkaFragment.class;
-                        if((settings.getString("Fragment", "Dnewnik").equals("Spravka") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.help))) {
+                        if((settings.getInt("Fragment", 0) == 5 && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.help))) {
                             Invisibly = false;
                             editor.putInt("Fragment", 5);
                         }break;
                     default:
                         fragmentClass = DnewnikFragment.class;
-                        if((settings.getString("Fragment", "Dnewnik").equals("Dnewnik") && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.app_name))) {
+                        if((settings.getInt("Fragment", 0) == 0 && settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.fragment_default_off))) || settings.getString("dafauilt_fragment", getString(R.string.fragment_default_off)).equals(getString(R.string.app_name))) {
                             Invisibly = false;
                             editor.putInt("Fragment", 0);
                         } break;
@@ -367,9 +370,6 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-
-    public List<Fragment> getDnewnikFragment(){return getFragment;}
-
 
     public void openDrawer() {
         try{
@@ -549,12 +549,189 @@ public class MainActivity extends AppCompatActivity {
             write.write(temp_write.getBytes());
             write.close();
 
+            error.printStackTrace();
             Toast.makeText(context, getString(R.string.error_not), Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException p) {
             p.printStackTrace();
         } catch (IOException a) {
             a.printStackTrace();
         } catch (Exception e){}
+    }
+
+    public void ClickClear(View view){
+        try {
+            final int id;
+            final String[] names = new String[]{getString(R.string.app_name), getString(R.string.timetables), getString(R.string.teachers), getString(R.string.grades), getString(R.string.settings), getString(R.string.help)};
+            switch (view.getId()) {
+                case R.id.bottom_title_zvon:
+                    id = 1;
+                    break;
+                case R.id.bottom_title_ychit:
+                    id = 2;
+                    break;
+                case R.id.bottom_title_ocenki:
+                    id = 3;
+                    break;
+                case R.id.bottom_title_nastroiki:
+                    id = 4;
+                    break;
+                case R.id.bottom_title_spravka:
+                    id = 5;
+                    break;
+                default:
+                    id = 0;
+                    break;
+            }
+
+            TextView clearDate = (TextView) view;
+            clearDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try{
+                        final LayoutInflater li = LayoutInflater.from(context);
+                        final View promptsView = li.inflate(R.layout.alert_delete_dnewnik , null);
+                        final AlertDialog.Builder Delete = new AlertDialog.Builder(context);
+                        Delete.setView(promptsView);
+                        GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context,R.drawable.corners_alert);
+                        Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
+                        if(settings.getBoolean("BorderAlertSettings",false))
+                            alertbackground.setStroke(settings.getInt("dpBorderSettings",4), Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
+                        promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
+
+                        final AlertDialog Deleted = Delete.create();
+
+                        TextView textTitle = promptsView.findViewById(R.id.title_alert);
+                        textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
+                        textTitle.setText(context.getString(R.string.deleting));
+
+                        TextView textBottomTitle = promptsView.findViewById(R.id.title_bottom_alert);
+                        textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
+                        textBottomTitle.setText(context.getString(R.string.title_clear_alert) + " " + names[id]);
+
+                        TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
+                        ButtonCancel.setText(getString(R.string.cancel));
+                        ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
+                        ButtonCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Deleted.hide();
+                            }
+                        });
+                        promptsView.findViewById(R.id.button_three_alert).setVisibility(View.GONE);
+                        TextView ButtonSave = promptsView.findViewById(R.id.button_two_alert);
+                        ButtonSave.setText(getString(R.string.yes));
+                        ButtonSave.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                try{
+                                    switch (id){
+                                        case 0:
+                                            File fileDnew = new File(context.getFilesDir() + "/" + "dnewnik");
+                                            FileUtils.deleteDirectory(fileDnew);
+
+                                            editor.remove("Card");
+                                            editor.remove("StartMes");
+                                            editor.remove("StartNedeli");
+                                            editor.remove("Year");
+                                            editor.remove("IntMes");
+                                            editor.remove("dpSizeSettings");
+                                            editor.apply();
+
+                                            DnewnikFragment dnewnikFragment = (DnewnikFragment) getFragment.get(id);
+                                            dnewnikFragment.notifyclear();
+                                            break;
+                                        case 1:
+                                            String[] day = context.getResources().getStringArray(R.array.DayTxt);
+                                            for (String s : day) {
+
+                                                File fileZvon = new File(context.getFilesDir() + "/" + s);
+                                                if (fileZvon.exists()) {
+                                                    fileZvon.delete();
+                                                }
+                                            }
+                                            editor.remove("SaturdaySettings");
+                                            editor.remove("notifySettings");
+                                            editor.remove("Monday");
+                                            editor.remove("Tuesday");
+                                            editor.remove("Wednesday");
+                                            editor.remove("Thursday");
+                                            editor.remove("Friday");
+                                            editor.remove("Saturday");
+                                            editor.apply();
+                                            ZnonkiFragment znonkiFragment = (ZnonkiFragment) getFragment.get(id);
+                                            znonkiFragment.DeleteAll();
+                                            break;
+                                        case 2:
+                                            File fileYchit = new File(context.getFilesDir() + "/" + "Ychitelia.txt");
+                                            if (fileYchit.exists()) {
+                                                fileYchit.delete();
+                                            }
+
+                                            YchiteliaFragment ychiteliaFragment = (YchiteliaFragment) getFragment.get(id);
+                                            ychiteliaFragment.notifyDeleted();
+                                            break;
+                                        case 3:
+                                            File fileOcenki = new File(context.getFilesDir() + "/" + "ocenki");
+                                            FileUtils.deleteDirectory(fileOcenki);
+
+                                            fileOcenki = new File(context.getExternalFilesDir(null) + "/confirmation");
+                                            FileUtils.deleteDirectory(fileOcenki);
+
+                                            Confirmed.edit().clear().apply();
+
+                                            editor.remove("mesStartOcenki");
+                                            editor.remove("FirstStartOcenki");
+                                            editor.remove("endUrl");
+                                            editor.remove("PredmetiSize");
+                                            editor.remove("PovedSettings");
+                                            editor.apply();
+
+                                            OcenkiFragment ocenkiFragment = (OcenkiFragment) getFragment.get(id);
+                                            ocenkiFragment.notifyClear();
+                                            break;
+                                        case 4:
+                                            File outFile = new File(context.getFilesDir() + "/" + "Themes.txt");
+                                            if (outFile.exists()) {
+                                                outFile.delete();
+                                            }
+
+                                            editor.remove("dpSizeSettings");
+                                            editor.remove("notifySettings");
+                                            editor.remove("whatSettings");
+                                            editor.remove("PovedSettings");
+                                            editor.remove("AnimationSettings");
+                                            editor.remove("BorderAlertSettings");
+                                            editor.remove("SaturdaySettings");
+                                            editor.remove("dpBorderSettings");
+                                            editor.remove("dafauilt_choose_color");
+                                            editor.remove("dafauilt_fragment");
+                                            editor.apply();
+
+                                            NastroikiFragment nastroikiFragment = (NastroikiFragment) getFragment.get(id);
+                                            nastroikiFragment.notifySettings();
+                                            break;
+                                        default:
+                                            File fileSpravka = new File(context.getExternalFilesDir(null) + "/errors");
+                                            FileUtils.deleteDirectory(fileSpravka);
+
+                                            SpravkaFragment spravkaFragment = (SpravkaFragment) getFragment.get(id);
+                                            spravkaFragment.notifyClear();
+                                            break;
+                                    }
+
+                                    Deleted.hide();
+                                }catch (Exception error){((MainActivity) context).errorStack(error);}
+                            }
+                        });
+                        ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
+
+                        Objects.requireNonNull(Deleted.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                        Deleted.show();
+                    }catch (Exception error){((MainActivity) context).errorStack(error);}
+                }
+            });
+
+        }catch (Exception error){errorStack(error);}
     }
 
     class ReplaceColorStolb extends AsyncTask<Void,TableRow,Void>{
@@ -740,7 +917,7 @@ public class MainActivity extends AppCompatActivity {
                         alertDialogConfirmation = ConfirmationAlert.create();
 
                         TextView button = viewConfirm.findViewById(R.id.button_one_conf);
-                        button.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                        button.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -872,7 +1049,7 @@ public class MainActivity extends AppCompatActivity {
                         alertDialogConfirmation = ConfirmationAlert.create();
 
                         TextView button = viewConfirm.findViewById(R.id.button_one_conf);
-                        button.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                        button.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -972,7 +1149,7 @@ public class MainActivity extends AppCompatActivity {
             time.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
             time.setText("00:00");
             final TextView buttonStart = linearLayout.findViewById(R.id.button_one_alert);
-            buttonStart.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+            buttonStart.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 buttonStart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -1020,7 +1197,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
             TextView buttonEnd = linearLayout.findViewById(R.id.button_two_alert);
-            buttonEnd.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+            buttonEnd.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 buttonEnd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -1240,7 +1417,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(finalHelp[0] == null)
-            throw new Povtor("KRIA");
+            throw new Povtor();
         else {
             helpKab = finalHelp[0].split(",");
             textView.setText(helpKab[0]);
@@ -1277,7 +1454,7 @@ public class MainActivity extends AppCompatActivity {
             textBottom.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
 
             TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-            ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+            ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
             ButtonCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1335,7 +1512,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-            ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+            ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
 
             Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             alertDialog.show();
@@ -1692,7 +1869,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     try {
                         int i = (int) textViewDate.getTag() + 1;
-                    if(list.length > i) {
+                    if(list.length > i && (int) textViewDate.getTag() >= 0) {
                         textViewDate.setText(list[i].getName());
                         StringBuilder text = new StringBuilder();
                         try {
@@ -1719,7 +1896,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     try {
                         int i = (int) textViewDate.getTag() - 1;
-                        if(i >= 0) {
+                        if(i >= 0 && (int) textViewDate.getTag() >= 0) {
                             textViewDate.setText(list[i].getName());
                             StringBuilder text = new StringBuilder();
                             try {
@@ -1741,6 +1918,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }else{
             textViewDate.setText("null");
+            textViewDate.setTag(-1);
             textError.setText(getString(R.string.errors_null));
         }
     }catch (Exception error){errorStack(error);}
@@ -1764,17 +1942,18 @@ public class MainActivity extends AppCompatActivity {
         colors.put(R.id.custom_bottomBorder, Integer.valueOf(colorsTheme[13]));
         colors.put(R.id.custom_button_add, Integer.valueOf(colorsTheme[14]));
         colors.put(R.id.custom_button_add_plus, Integer.valueOf(colorsTheme[15]));
-        colors.put(R.id.custom_button_arrow, Integer.valueOf(colorsTheme[16]));
-        colors.put(R.id.custom_progress, Integer.valueOf(colorsTheme[17]));
-        colors.put(R.id.custom_not_confirmed, Integer.valueOf(colorsTheme[18]));
-        colors.put(R.id.custom_Table_column, Integer.valueOf(colorsTheme[19]));
-        colors.put(R.id.custom_notification_on, Integer.valueOf(colorsTheme[20]));
-        colors.put(R.id.custom_notification_off, Integer.valueOf(colorsTheme[21]));
-        colors.put(R.id.custom_switch_on, Integer.valueOf(colorsTheme[22]));
-        colors.put(R.id.custom_switch_off, Integer.valueOf(colorsTheme[23]));
-        colors.put(R.id.custom_color_block_choose_background, Integer.valueOf(colorsTheme[24]));
-        colors.put(R.id.custom_color_block_choose_border, Integer.valueOf(colorsTheme[25]));
-        colors.put(R.id.custom_color_audio_player, Integer.valueOf(colorsTheme[26]));
+        colors.put(R.id.custom_button_act, Integer.valueOf(colorsTheme[16]));
+        colors.put(R.id.custom_button_arrow, Integer.valueOf(colorsTheme[17]));
+        colors.put(R.id.custom_progress, Integer.valueOf(colorsTheme[18]));
+        colors.put(R.id.custom_not_confirmed, Integer.valueOf(colorsTheme[19]));
+        colors.put(R.id.custom_Table_column, Integer.valueOf(colorsTheme[20]));
+        colors.put(R.id.custom_notification_on, Integer.valueOf(colorsTheme[21]));
+        colors.put(R.id.custom_notification_off, Integer.valueOf(colorsTheme[22]));
+        colors.put(R.id.custom_switch_on, Integer.valueOf(colorsTheme[23]));
+        colors.put(R.id.custom_switch_off, Integer.valueOf(colorsTheme[24]));
+        colors.put(R.id.custom_color_block_choose_background, Integer.valueOf(colorsTheme[25]));
+        colors.put(R.id.custom_color_block_choose_border, Integer.valueOf(colorsTheme[26]));
+        colors.put(R.id.custom_color_audio_player, Integer.valueOf(colorsTheme[27]));
             }
         }).start();
         ClickSaveThemeType = false;
@@ -1805,6 +1984,7 @@ public class MainActivity extends AppCompatActivity {
                         colors.put(R.id.custom_bottomBorder, ContextCompat.getColor(context, R.color.black_bottomBorder));
                         colors.put(R.id.custom_button_add, ContextCompat.getColor(context, R.color.black_button_add));
                         colors.put(R.id.custom_button_add_plus, ContextCompat.getColor(context, R.color.black_button_add_plus));
+                        colors.put(R.id.custom_button_act, ContextCompat.getColor(context, R.color.black_button_act));
                         colors.put(R.id.custom_button_arrow, ContextCompat.getColor(context, R.color.black_button_arrow));
                         colors.put(R.id.custom_progress, ContextCompat.getColor(context, R.color.black_progress));
                         colors.put(R.id.custom_not_confirmed, ContextCompat.getColor(context, R.color.black_not_confirmed));
@@ -1819,7 +1999,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }).start();
                 TextView textView = linearLayout.findViewById(R.id.custom_name);
-                textView.setText(getString(R.string.custom_color_text_dark));
+                textView.setText(getString(R.string.DarkTheme));
                 linearLayout.findViewById(R.id.custom_icon).setBackgroundColor(ContextCompat.getColor(context,R.color.black_icon));
                 linearLayout.findViewById(R.id.custom_border_theme).setBackgroundColor(ContextCompat.getColor(context,R.color.black_border_theme));
                 linearLayout.findViewById(R.id.custom_background).setBackgroundColor(ContextCompat.getColor(context,R.color.black_background));
@@ -1834,6 +2014,7 @@ public class MainActivity extends AppCompatActivity {
                 linearLayout.findViewById(R.id.custom_bottomBorder).setBackgroundColor(ContextCompat.getColor(context,R.color.black_bottomBorder));
                 linearLayout.findViewById(R.id.custom_button_add).setBackgroundColor(ContextCompat.getColor(context,R.color.black_button_add));
                 linearLayout.findViewById(R.id.custom_button_add_plus).setBackgroundColor(ContextCompat.getColor(context,R.color.black_button_add_plus));
+                linearLayout.findViewById(R.id.custom_button_act).setBackgroundColor(ContextCompat.getColor(context,R.color.black_button_act));
                 linearLayout.findViewById(R.id.custom_button_arrow).setBackgroundColor(ContextCompat.getColor(context,R.color.black_button_arrow));
                 linearLayout.findViewById(R.id.custom_progress).setBackgroundColor(ContextCompat.getColor(context,R.color.black_progress));
                 linearLayout.findViewById(R.id.custom_not_confirmed).setBackgroundColor(ContextCompat.getColor(context,R.color.black_not_confirmed));
@@ -1862,6 +2043,7 @@ public class MainActivity extends AppCompatActivity {
                         colors.put(R.id.custom_bottomBorder, ContextCompat.getColor(context, R.color.custom_bottomBorder));
                         colors.put(R.id.custom_button_add, ContextCompat.getColor(context, R.color.custom_button_add));
                         colors.put(R.id.custom_button_add_plus, ContextCompat.getColor(context, R.color.custom_button_add_plus));
+                        colors.put(R.id.custom_button_act, ContextCompat.getColor(context, R.color.custom_button_act));
                         colors.put(R.id.custom_button_arrow, ContextCompat.getColor(context, R.color.custom_button_arrow));
                         colors.put(R.id.custom_progress, ContextCompat.getColor(context, R.color.custom_progress));
                         colors.put(R.id.custom_not_confirmed, ContextCompat.getColor(context, R.color.custom_not_confirmed));
@@ -1943,7 +2125,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 TextView ButtonCancel = linearLayout.findViewById(R.id.cancel_type_color);
-                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -1954,7 +2136,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 TextView ButtonSave = linearLayout.findViewById(R.id.save_type_color);
-                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                 ButtonSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -2015,7 +2197,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     TextView ButtonCancel = linearLayout.findViewById(R.id.cancel_type_color);
-                    ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                     ButtonCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -2024,7 +2206,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     TextView ButtonSave = linearLayout.findViewById(R.id.save_type_color);
-                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_add", ContextCompat.getColor(context, R.color.custom_button_add)));
+                    ButtonSave.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
                     ButtonSave.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -2228,7 +2410,7 @@ public class MainActivity extends AppCompatActivity {
                 int wtite_num = 0;
                 while ((temp_read = bufferedReader.readLine()) != null) {
                     if(!ClickSaveThemeType && (positionTheme == wtite_num)) {
-                        stringBuffer.append(temp_read.split("=")[0]).append("=").append(TempNameTheme).append("=").append(hashMaps[0].get(R.id.custom_icon)).append("=").append(hashMaps[0].get(R.id.custom_border_theme)).append("=").append(hashMaps[0].get(R.id.custom_background)).append("=").append(hashMaps[0].get(R.id.custom_toolbar)).append("=").append(hashMaps[0].get(R.id.custom_toolbar_text)).append("=").append(hashMaps[0].get(R.id.custom_notification_bar)).append("=").append(hashMaps[0].get(R.id.custom_text_light)).append("=").append(hashMaps[0].get(R.id.custom_text_dark)).append("=").append(hashMaps[0].get(R.id.custom_text_hint)).append("=").append(hashMaps[0].get(R.id.custom_cursor)).append("=").append(hashMaps[0].get(R.id.custom_card)).append("=").append(hashMaps[0].get(R.id.custom_bottomBorder)).append("=").append(hashMaps[0].get(R.id.custom_button_add)).append("=").append(hashMaps[0].get(R.id.custom_button_add_plus)).append("=").append(hashMaps[0].get(R.id.custom_button_arrow)).append("=").append(hashMaps[0].get(R.id.custom_progress)).append("=").append(hashMaps[0].get(R.id.custom_not_confirmed)).append("=").append(hashMaps[0].get(R.id.custom_Table_column)).append("=").append(hashMaps[0].get(R.id.custom_notification_on)).append("=").append(hashMaps[0].get(R.id.custom_notification_off)).append("=").append(hashMaps[0].get(R.id.custom_switch_on)).append("=").append(hashMaps[0].get(R.id.custom_switch_off)).append("=").append(hashMaps[0].get(R.id.custom_color_block_choose_background)).append("=").append(hashMaps[0].get(R.id.custom_color_block_choose_border)).append("=").append(hashMaps[0].get(R.id.custom_color_audio_player)).append("\n");
+                        stringBuffer.append(temp_read.split("=")[0]).append("=").append(TempNameTheme).append("=").append(hashMaps[0].get(R.id.custom_icon)).append("=").append(hashMaps[0].get(R.id.custom_border_theme)).append("=").append(hashMaps[0].get(R.id.custom_background)).append("=").append(hashMaps[0].get(R.id.custom_toolbar)).append("=").append(hashMaps[0].get(R.id.custom_toolbar_text)).append("=").append(hashMaps[0].get(R.id.custom_notification_bar)).append("=").append(hashMaps[0].get(R.id.custom_text_light)).append("=").append(hashMaps[0].get(R.id.custom_text_dark)).append("=").append(hashMaps[0].get(R.id.custom_text_hint)).append("=").append(hashMaps[0].get(R.id.custom_cursor)).append("=").append(hashMaps[0].get(R.id.custom_card)).append("=").append(hashMaps[0].get(R.id.custom_bottomBorder)).append("=").append(hashMaps[0].get(R.id.custom_button_add)).append("=").append(hashMaps[0].get(R.id.custom_button_add_plus)).append("=").append(hashMaps[0].get(R.id.custom_button_act)).append("=").append(hashMaps[0].get(R.id.custom_button_arrow)).append("=").append(hashMaps[0].get(R.id.custom_progress)).append("=").append(hashMaps[0].get(R.id.custom_not_confirmed)).append("=").append(hashMaps[0].get(R.id.custom_Table_column)).append("=").append(hashMaps[0].get(R.id.custom_notification_on)).append("=").append(hashMaps[0].get(R.id.custom_notification_off)).append("=").append(hashMaps[0].get(R.id.custom_switch_on)).append("=").append(hashMaps[0].get(R.id.custom_switch_off)).append("=").append(hashMaps[0].get(R.id.custom_color_block_choose_background)).append("=").append(hashMaps[0].get(R.id.custom_color_block_choose_border)).append("=").append(hashMaps[0].get(R.id.custom_color_audio_player)).append("\n");
 
                         id_theme = Integer.parseInt(temp_read.split("=")[0]);
                     }else
@@ -2275,6 +2457,7 @@ public class MainActivity extends AppCompatActivity {
                             hashMaps[0].get(R.id.custom_bottomBorder) + "=" +
                             hashMaps[0].get(R.id.custom_button_add) + "=" +
                             hashMaps[0].get(R.id.custom_button_add_plus) + "=" +
+                            hashMaps[0].get(R.id.custom_button_act) + "=" +
                             hashMaps[0].get(R.id.custom_button_arrow) + "=" +
                             hashMaps[0].get(R.id.custom_progress) + "=" +
                             hashMaps[0].get(R.id.custom_not_confirmed) + "=" +
@@ -2316,6 +2499,7 @@ public class MainActivity extends AppCompatActivity {
                 editorColor.putInt("custom_bottomBorder", hashMaps[0].get(R.id.custom_bottomBorder));
                 editorColor.putInt("custom_button_add", hashMaps[0].get(R.id.custom_button_add));
                 editorColor.putInt("custom_button_add_plus", hashMaps[0].get(R.id.custom_button_add_plus));
+                editorColor.putInt("custom_button_act", hashMaps[0].get(R.id.custom_button_act));
                 editorColor.putInt("custom_button_arrow", hashMaps[0].get(R.id.custom_button_arrow));
                 editorColor.putInt("custom_progress", hashMaps[0].get(R.id.custom_progress));
                 editorColor.putInt("custom_not_confirmed", hashMaps[0].get(R.id.custom_not_confirmed));
