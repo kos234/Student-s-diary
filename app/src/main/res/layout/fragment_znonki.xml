@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ZnonkiFragment">
+    android:id="@+id/add_frag"
+    tools:context=".fragments.FragmentBells">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.tabs.TabLayout
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tabLayout4"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:title="@string/timetables"
-        app:titleTextColor="#FFFFFF" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:isScrollContainer="true"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorHeight="6dp"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="#E6E6FA">
+
+    </com.google.android.material.tabs.TabLayout>
+
+   <androidx.viewpager.widget.ViewPager
+       android:layout_below="@+id/tabLayout4"
+       android:fadeScrollbars="false"
+        android:id="@+id/rager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbarThumbVertical="@null" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,37 +45,4 @@
         app:maxImageSize="50dp"
         android:src="@drawable/ic_add_24px" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:isScrollContainer="true"
-        app:tabIndicatorColor="@android:color/white"
-        app:tabIndicatorHeight="6dp"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@android:color/white"
-        app:tabTextColor="#E6E6FA">
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <ImageButton
-        android:id="@+id/onOff"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="end"
-        android:scaleType="fitStart"
-        android:layout_margin="13dp"
-        android:background="@null"
-        android:src="@drawable/ic_power_settings_new_24px" />
-
-   <androidx.viewpager.widget.ViewPager
-        android:id="@+id/rager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="105dp"
-
-        android:scrollbarThumbVertical="@null" />
-
-</FrameLayout>
+</RelativeLayout>

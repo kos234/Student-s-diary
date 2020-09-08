@@ -1,88 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:padding="0dp"
-    android:layout_height="match_parent"
-    tools:context=".OcenkiFragment">
+    android:layout_height="wrap_content"
+    tools:context=".fragments.FragmentGrades"
+    android:layout_width="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar5"
+    <ImageButton
+        android:layout_alignTop="@+id/textViewOcen"
+        android:layout_alignBottom="@+id/textViewOcen"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imageButtonLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:src="@drawable/ic_keyboard_arrow_left_24px"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:layout_toStartOf="@id/imageButtonRight"
+        android:layout_toEndOf="@+id/imageButtonLeft"
+        android:id="@+id/textViewOcen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:title="@string/grades"
-        app:titleTextColor="@android:color/white" />
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
 
-    <LinearLayout
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+    <ImageButton
+        android:layout_alignTop="@+id/textViewOcen"
+        android:layout_alignBottom="@+id/textViewOcen"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/imageButtonRight"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:scaleType="fitStart"
+        android:src="@drawable/ic_keyboard_arrow_right_24px"
+        tools:ignore="ContentDescription" />
 
-        <ImageButton
-            android:id="@+id/imageButtonLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:background="@null"
-            android:scaleType="fitEnd"
-            android:src="@drawable/ic_keyboard_arrow_left_24px" />
-
-        <TextView
-
-            android:id="@+id/textViewOcen"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:textSize="24sp" />
-
-        <ImageButton
-            android:id="@+id/imageButtonRight"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-
-            android:layout_weight="1"
-            android:background="@null"
-            android:scaleType="fitStart"
-            android:src="@drawable/ic_keyboard_arrow_right_24px" />
-
-
-
-    </LinearLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <TextView
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:id="@+id/nullGrades"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:scrollbars="none"
-        >
+        android:text="@string/nullGrades"/>
 
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:scrollbars="none"
-            >
-
-            <LinearLayout
-                android:id="@+id/LinerOcenki_Item"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center">
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
-    </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+</RelativeLayout>

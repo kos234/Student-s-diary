@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-    android:onClick="ClicksRow"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="1dp"
-    android:layout_weight="1"
+    android:paddingBottom="1dp"
     android:gravity="center"
+    android:id="@+id/tableRow"
     >
     <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginEnd="1dp"
@@ -18,12 +18,11 @@
 
         <TextView
             android:padding="5dp"
-            android:id="@+id/textView1_1_dnev"
+            android:id="@+id/textView_name_dnev"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="TextView"
-            android:layout_marginBottom="1dp"
             android:background="@android:color/white"
             android:textColor="@android:color/black"
             android:textSize="20sp"
@@ -31,41 +30,37 @@
             />
 
         <TextView
+            android:layout_marginTop="1dp"
             android:padding="5dp"
-            android:id="@+id/textView1_2_dnev"
+            android:id="@+id/textView_kab_dnev"
             android:background="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="TextView"
             android:textSize="17sp"
             />
     </LinearLayout>
 
         <TextView
-            android:layout_marginEnd="1dp"
-            android:layout_weight="1"
-            android:id="@+id/textView1_3_dnev"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:background="@android:color/white"
             android:gravity="center"
             android:padding="5dp"
-            android:text="TextView121"
-            android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:id="@+id/textView1_4_dnev"
-                android:gravity="center"
-                android:text="@string/grades"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:padding="5dp"
-                />
+            android:id="@+id/textView_dnev_dz"
+            android:textSize="20sp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"/>
 
 
-</TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:id="@+id/textView_dnev_ocenka"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+
+
+</LinearLayout>

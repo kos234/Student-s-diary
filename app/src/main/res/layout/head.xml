@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_height="160dp"
     android:gravity="center_vertical|top"
     android:background="@drawable/head"
     android:padding="15dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
     <ImageView
+        android:layout_alignTop="@+id/text_header"
+        android:layout_alignBottom="@+id/bottom_text_header"
+        android:id="@+id/line"
         android:src="@color/custom_toolbar_text"
         android:layout_width="2dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:ignore="ContentDescription" />
 
-   <LinearLayout
-       android:layout_marginStart="3dp"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:orientation="vertical">
     <TextView
+        android:id="@+id/text_header"
+        android:layout_alignStart="@+id/line"
+        android:layout_marginStart="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
@@ -32,12 +30,14 @@
         android:padding="0dp"/>
 
     <TextView
+        android:id="@+id/bottom_text_header"
+        android:layout_below="@+id/text_header"
+        android:layout_alignStart="@+id/line"
+        android:layout_marginStart="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="made by Kos"
         android:padding="0dp"
         android:textColor="@color/custom_toolbar_text"
       />
-   </LinearLayout>
-    </LinearLayout>
-</FrameLayout>
+</RelativeLayout>

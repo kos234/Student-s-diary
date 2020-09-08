@@ -1,232 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<RelativeLayout
+    android:id="@+id/LinerZvon_item"
+    android:background="@drawable/corners_alert"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:id="@+id/LinerZvon_item"
-    android:scrollbars="none"
-    android:background="@drawable/corners_alert"
     android:layout_height="match_parent">
-<LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
 
-   >
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:background="#00AF7F7F"
-        android:text="@string/newLesson"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        />
-
-    <org.apmem.tools.layouts.FlowLayout
-        android:id="@+id/field_times_add_one"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:orientation="horizontal">
+    <RelativeLayout
+        android:id="@+id/nested_add"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:background="#00AF7F7F"
+            android:text="@string/newLesson"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_below="@+id/textView2"
+            android:layout_toStartOf="@+id/timeStart"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
             android:layout_gravity="center"
             android:id="@+id/text_time_start"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00AF7F7F"
             android:text="@string/lessonStartTime"
-            android:textSize="19sp" />
+            android:textSize="19sp"/>
 
-        <EditText
+        <TextView
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/text_time_start"
+            android:layout_alignBottom="@+id/text_time_start"
+            android:layout_marginEnd="20dp"
             android:layout_gravity="center"
             android:id="@+id/timeStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:background="@null"
-            android:hint="08:00"
-            android:inputType="time"
+            android:text="8:00"
             android:textAlignment="center"
-            android:textSize="19sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="">
-
-            <requestFocus />
-        </EditText>
-    </org.apmem.tools.layouts.FlowLayout>
-
-    <org.apmem.tools.layouts.FlowLayout
-        android:id="@+id/field_times_add_two"
-        android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="20dp"
-    android:layout_marginTop="30dp"
-    android:layout_marginEnd="20dp">
-
-    <TextView
-        android:layout_gravity="center"
-        android:id="@+id/text_time_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lessonEndTime"
-        android:textAlignment="center"
-        android:textSize="19sp"
-        />
-
-    <EditText
-        android:layout_gravity="center"
-        android:background="@null"
-        android:id="@+id/timeEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:textSize="19sp"
-        android:hint="08:40"
-        android:inputType="time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:autofillHints="">
-
-        <requestFocus />
-    </EditText>
-    </org.apmem.tools.layouts.FlowLayout>
-
-
-    <org.apmem.tools.layouts.FlowLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp">
+            android:textSize="19sp" />
 
         <TextView
-            android:id="@+id/text_pred_name"
+            android:layout_below="@+id/timeStart"
+            android:layout_toStartOf="@+id/timeEnd"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center"
+            android:id="@+id/text_time_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lessonEndTime"
+            android:textSize="19sp"/>
+
+        <TextView
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/text_time_end"
+            android:layout_alignBottom="@+id/text_time_end"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="center"
+            android:id="@+id/timeEnd"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textSize="19sp"
+            android:text="8:40" />
+
+        <TextView
+            android:layout_below="@+id/timeEnd"
+            android:layout_toStartOf="@+id/nameYrok"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:id="@+id/text_pred_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00AF7F7F"
             android:text="@string/lessonTitle"
-            android:textAlignment="center"
             android:textSize="19sp"
-
             />
 
         <EditText
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/text_pred_name"
+            android:layout_alignBottom="@+id/text_pred_name"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="center"
             android:layout_marginStart="5dp"
             android:background="@null"
             android:id="@+id/nameYrok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/lessonExample"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints="">
-
-            <requestFocus />
-        </EditText>
-
-    </org.apmem.tools.layouts.FlowLayout>
-
-    <org.apmem.tools.layouts.FlowLayout
-        android:layout_width="fill_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
-
+            android:autofillHints=""/>
 
         <TextView
+            android:layout_below="@+id/nameYrok"
+            android:layout_toStartOf="@+id/spinner"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
             android:layout_gravity="center"
             android:id="@+id/text_mesto"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/location"
-            android:textAlignment="center"
-            android:textSize="19sp" />
+            android:textSize="19sp"/>
 
         <Spinner
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/text_mesto"
+            android:layout_alignBottom="@+id/text_mesto"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="center"
             android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:backgroundTint="@android:color/darker_gray"
-            android:gravity="center"
+            android:gravity="end"
             android:spinnerMode="dropdown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-    </org.apmem.tools.layouts.FlowLayout>
 
-    <org.apmem.tools.layouts.FlowLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
+        <TextView
+            android:layout_below="@+id/spinner"
+            android:layout_toStartOf="@+id/numKab"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:id="@+id/text_num_kab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00AF7F7F"
+            android:textSize="19sp"
+            android:text="@string/classroomNumber"/>
+
+        <EditText
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/text_num_kab"
+            android:layout_alignBottom="@+id/text_num_kab"
+            android:layout_marginEnd="20dp"
+            android:id="@+id/numKab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:hint="5"
+            android:background="@null"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints=""
+            android:layout_gravity="center"/>
+
+    </RelativeLayout>
+
     <TextView
-        android:id="@+id/text_num_kab"
-        android:layout_width="wrap_content"
+        android:layout_below="@+id/nested_add"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/button_one_alert"
+        android:background="@null"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00AF7F7F"
+        android:textColor="@color/custom_button_add"
+        android:text="@string/cancel"
         android:textSize="19sp"
-        android:text="@string/classroomNumber"
-        android:textAlignment="center"
+        android:layout_toStartOf="@+id/viewBorder"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         />
 
-    <EditText
-        android:id="@+id/numKab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:hint="5"
-        android:background="@null"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:autofillHints="">
+    <View
+        android:layout_alignTop="@+id/button_one_alert"
+        android:layout_alignBottom="@+id/button_one_alert"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/viewBorder"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/nested_add"
+        android:layout_gravity="center"
+        android:background="@color/custom_bottomBorder" />
 
-        <requestFocus />
-    </EditText>
-    </org.apmem.tools.layouts.FlowLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
+    <TextView
+        android:layout_toEndOf="@+id/viewBorder"
+        android:layout_alignTop="@+id/button_one_alert"
+        android:layout_alignBottom="@+id/button_one_alert"
+        android:layout_below="@+id/nested_add"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:layout_gravity="end"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:gravity="center"
-            android:id="@+id/button_one_alert"
-            android:background="@null"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/custom_button_add"
-            android:text="@string/cancel"
-            android:textSize="19sp"
-            android:layout_marginEnd="15dp"
-            />
-
-        <TextView
-            android:gravity="center"
-            android:id="@+id/button_two_alert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:text="@string/save"
-            android:textColor="@color/custom_button_add"
-            android:textSize="19sp" />
-
-    </LinearLayout>
-</LinearLayout>
-</androidx.core.widget.NestedScrollView>
+        android:id="@+id/button_two_alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/save"
+        android:textColor="@color/custom_button_add"
+        android:textSize="19sp" />
+</RelativeLayout>

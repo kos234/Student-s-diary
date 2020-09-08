@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,109 +7,143 @@
     android:background="@drawable/corners_alert"
     >
 
-    <TextView
-        android:id="@+id/textView2"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_ych"
+        android:layout_centerHorizontal="true"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:background="#00AF7F7F"
-        android:text="@string/newTeacher"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-    <org.apmem.tools.layouts.FlowLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:orientation="horizontal"
-        android:layout_marginEnd="20dp">
-
-        <TextView
-            android:id="@+id/add_ychit_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00AF7F7F"
-            android:text="@string/fio"
-            android:textSize="19sp"
-            />
-
-    <EditText
-        android:id="@+id/NamePrepod"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:ems="10"
-        android:background="@null"
-        android:hint="@string/fioExample"
-        android:inputType="textCapSentences"
-        android:autofillHints="" />
-    </org.apmem.tools.layouts.FlowLayout>
-
-    <org.apmem.tools.layouts.FlowLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:orientation="horizontal"
-        android:layout_marginEnd="20dp">
-
-        <TextView
-            android:id="@+id/add_ychit_yrok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00AF7F7F"
-            android:text="@string/lessonTitle"
-            android:textSize="19sp"
-            />
-
-    <EditText
-        android:id="@+id/yrokPrepod"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:hint="@string/lessonExample"
-        android:background="@null"
-
-        android:inputType="textCapSentences"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:autofillHints="" />
-
-    </org.apmem.tools.layouts.FlowLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:layout_gravity="end"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:gravity="center"
-            android:id="@+id/button_one_alert"
-            android:background="@null"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/custom_button_add"
-            android:text="@string/cancel"
-            android:textSize="19sp"
-            android:layout_marginEnd="15dp"
-            />
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:gravity="center"
-            android:id="@+id/button_two_alert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:text="@string/save"
-            android:textColor="@color/custom_button_add"
-            android:textSize="19sp" />
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:background="#00AF7F7F"
+                android:text="@string/newTeacher"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+                <TextView
+                    android:layout_toStartOf="@+id/NamePrepod"
+                    android:layout_below="@+id/textView2"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/add_ychit_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00AF7F7F"
+                    android:text="@string/fio"
+                    android:textSize="19sp"
+                    />
 
-</LinearLayout>
+                <EditText
+                    android:layout_alignTop="@+id/add_ychit_name"
+                    android:layout_alignBottom="@+id/add_ychit_name"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/NamePrepod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:ems="10"
+                    android:background="@null"
+                    android:hint="@string/fioExample"
+                    android:inputType="textCapSentences"
+                    android:autofillHints="" />
+
+                <TextView
+                    android:layout_toStartOf="@+id/yrokPrepod"
+                    android:layout_below="@+id/NamePrepod"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/add_ychit_yrok"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00AF7F7F"
+                    android:text="@string/lessonTitle"
+                    android:textSize="19sp"
+                    />
+
+                <EditText
+                    android:layout_alignTop="@+id/add_ychit_yrok"
+                    android:layout_alignBottom="@+id/add_ychit_yrok"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/yrokPrepod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:hint="@string/lessonExample"
+                    android:background="@null"
+                    android:inputType="textCapSentences"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:autofillHints="" />
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:layout_below="@+id/nested_ych"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/button_one_alert"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/custom_button_add"
+        android:text="@string/cancel"
+        android:textSize="19sp"
+        android:layout_toStartOf="@+id/viewBorder"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        />
+
+    <View
+        android:layout_alignTop="@+id/button_one_alert"
+        android:layout_alignBottom="@+id/button_one_alert"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/viewBorder"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/nested_ych"
+        android:layout_gravity="center"
+        android:background="@color/custom_bottomBorder" />
+
+    <TextView
+        android:layout_toEndOf="@+id/viewBorder"
+        android:layout_alignTop="@+id/button_one_alert"
+        android:layout_alignBottom="@+id/button_one_alert"
+        android:layout_below="@+id/nested_ych"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/button_two_alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/save"
+        android:textColor="@color/custom_button_add"
+        android:textSize="19sp" />
+
+</RelativeLayout>

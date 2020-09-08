@@ -1,0 +1,1071 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    android:layout_width="match_parent"
+    android:id="@+id/rootScroll"
+    android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/card_students"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/title_students"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/app_name"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_below="@+id/title_students"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_students"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/DaySizeSetting"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_toStartOf="@+id/dpText"
+                        />
+
+                    <TextView
+                        android:layout_marginEnd="10dp"
+                        android:layout_alignTop="@+id/bottom_title_students"
+                        android:layout_alignBottom="@+id/bottom_title_students"
+                        android:layout_alignParentEnd="true"
+                        android:textSize="19sp"
+                        android:id="@+id/dpText"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="10dp"/>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@+id/card_students"
+                android:id="@+id/card_timetables"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/title_timetables"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/timetables"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/switchNotify"
+                        android:layout_below="@+id/title_timetables"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_timetables_not"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/NotifSettingsName"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_timetables_not"
+                        android:layout_alignBottom="@+id/bottom_title_timetables_not"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/switchNotify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" />
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/bottom_title_timetables_not"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/border_one"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/switchSaturday"
+                        android:layout_below="@+id/border_one"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_timetables_saturday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/saturday"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_timetables_saturday"
+                        android:layout_alignBottom="@+id/bottom_title_timetables_saturday"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/switchSaturday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@+id/card_timetables"
+                android:id="@+id/card_grades"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/title_grades"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/grades"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/mount_choose"
+                        android:layout_below="@+id/title_grades"
+                        android:layout_margin="10dp"
+                        android:id="@+id/text_day_ocenki"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/edit_mount_grades"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <Spinner
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/text_day_ocenki"
+                        android:layout_alignBottom="@+id/text_day_ocenki"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mount_choose"/>
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/text_day_ocenki"
+                        android:id="@+id/border_twelve"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/quarters_edit"
+                        android:layout_below="@+id/border_twelve"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_quarter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/number_quarters"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_quarter"
+                        android:layout_alignBottom="@+id/bottom_title_quarter"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="19sp"
+                        android:id="@+id/quarters_edit"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="4"/>
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/bottom_title_quarter"
+                        android:id="@+id/border_six"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/switchPoved"
+                        android:layout_below="@+id/border_six"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_grades"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/PovedSettings"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_grades"
+                        android:layout_alignBottom="@+id/bottom_title_grades"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/switchPoved"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        />
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/bottom_title_grades"
+                        android:id="@+id/border_fifteen"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/icgradesExamination"
+                        android:layout_below="@+id/border_fifteen"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_grades_Examination"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/icgradesExamination"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_grades_Examination"
+                        android:layout_alignBottom="@+id/bottom_grades_Examination"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/icgradesExamination"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        />
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/bottom_grades_Examination"
+                        android:id="@+id/border_fourteen"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/icgradesYear"
+                        android:layout_below="@+id/border_fourteen"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_grades_Year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/icgradesYear"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_grades_Year"
+                        android:layout_alignBottom="@+id/bottom_grades_Year"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/icgradesYear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        />
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/bottom_grades_Year"
+                        android:id="@+id/border_thirteen"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/icgradesEnd"
+                        android:layout_below="@+id/border_thirteen"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_grades_End"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/icgradesEnd"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_grades_End"
+                        android:layout_alignBottom="@+id/bottom_grades_End"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/icgradesEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@+id/card_grades"
+                android:id="@+id/card_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/title_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/settings"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/spinner_default"
+                        android:layout_below="@+id/title_settings"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/alrt_color_default_setting"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <Spinner
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_settings"
+                        android:layout_alignBottom="@+id/bottom_title_settings"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center"
+                        android:gravity="end"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/spinner_default"
+                        android:backgroundTint="@android:color/darker_gray"
+                        android:spinnerMode="dropdown"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@+id/card_settings"
+                android:id="@+id/card_general_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/title_general_setting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/General_setting"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/switchWhat"
+                        android:layout_below="@+id/title_general_setting"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_general_setting_what"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/WhatSettings"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_general_setting_what"
+                        android:layout_alignBottom="@+id/bottom_title_general_setting_what"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/switchWhat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        />
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/bottom_title_general_setting_what"
+                        android:id="@+id/border_two"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/switchAnim"
+                        android:layout_below="@+id/border_two"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_general_setting_anim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/AnimationSetting"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_general_setting_anim"
+                        android:layout_alignBottom="@+id/bottom_title_general_setting_anim"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/switchAnim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        />
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/bottom_title_general_setting_anim"
+                        android:id="@+id/border_seventeen"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/switchPadding"
+                        android:layout_below="@+id/border_seventeen"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_general_setting_padding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/remove_bottom_padding"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_general_setting_padding"
+                        android:layout_alignBottom="@+id/bottom_title_general_setting_padding"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/switchPadding"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        />
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/bottom_title_general_setting_padding"
+                        android:id="@+id/border_four"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/switchBorder_alert"
+                        android:layout_below="@+id/border_four"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_general_setting_dialog_stroke"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/alert_boreder_setting"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_general_setting_dialog_stroke"
+                        android:layout_alignBottom="@+id/bottom_title_general_setting_dialog_stroke"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/switchBorder_alert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        />
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/bottom_title_general_setting_dialog_stroke"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/border_three"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/spinner_fragment_default"
+                        android:layout_below="@+id/border_three"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_general_setting_fragment_default"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/fragment_default"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <Spinner
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_general_setting_fragment_default"
+                        android:layout_alignBottom="@+id/bottom_title_general_setting_fragment_default"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="end"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/spinner_fragment_default"
+                        android:backgroundTint="@android:color/darker_gray"
+                        android:spinnerMode="dropdown"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/bottom_title_general_setting_fragment_default"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/border_five"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:layout_toStartOf="@+id/dpBorder"
+                        android:layout_below="@+id/border_five"
+                        android:layout_margin="10dp"
+                        android:id="@+id/bottom_title_general_setting_width_stroke"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/width_stroke_setting"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+                    <TextView
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignTop="@+id/bottom_title_general_setting_width_stroke"
+                        android:layout_alignBottom="@+id/bottom_title_general_setting_width_stroke"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="19sp"
+                        android:id="@+id/dpBorder"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="10dp"/>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@+id/card_general_setting"
+                android:id="@+id/card_clear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title_clear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/title_clear"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_dnew"
+                        android:layout_gravity="start"
+                        android:text="@string/app_name"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+
+                    <View
+                        android:id="@+id/border_seven"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_zvon"
+                        android:layout_gravity="start"
+                        android:text="@string/timetables"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <View
+                        android:id="@+id/border_eight"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_ychit"
+                        android:layout_gravity="start"
+                        android:text="@string/teachers"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <View
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/border_nine"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_ocenki"
+                        android:layout_gravity="start"
+                        android:text="@string/grades"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <View
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/border_ten"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_nastroiki"
+                        android:layout_gravity="start"
+                        android:text="@string/settings"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <View
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/border_eleven"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:onClick="ClickClear"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        android:gravity="center"
+                        android:id="@+id/bottom_title_spravka"
+                        android:layout_gravity="start"
+                        android:text="@string/help"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@+id/card_clear"
+                android:id="@+id/card_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/data"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:onClick="ClickData"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        android:gravity="center"
+                        android:id="@+id/import_data"
+                        android:layout_gravity="start"
+                        android:text="@string/import_data"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+
+                    <View
+                        android:id="@+id/border_sixteen"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#7b7b7b"
+                        />
+
+                    <TextView
+                        android:onClick="ClickData"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        android:gravity="center"
+                        android:id="@+id/export_data"
+                        android:layout_gravity="start"
+                        android:text="@string/export_data"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@+id/card_data"
+                android:id="@+id/card_themes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                    <TextView
+                        android:id="@+id/title_themes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="center"
+                        android:text="@string/Themes"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@+id/card_themes"
+                android:id="@+id/card_white_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start|center"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <FrameLayout
+                        android:id="@+id/border_white_theme"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/background_dark">
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="@android:color/white"
+                            android:layout_margin="1dp"
+                            tools:ignore="ContentDescription" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/bottom_title_white_theme"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/WhiteTheme"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_gravity="center"
+                        android:id="@+id/switchWhite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@+id/card_white_theme"
+                android:id="@+id/card_dark_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start|center"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:background="@android:color/white">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="@android:color/background_dark"
+                            android:layout_margin="1dp"
+                            tools:ignore="ContentDescription" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/bottom_title_dark_theme"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/DarkTheme"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+
+                        />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_gravity="center"
+                        android:id="@+id/switchDark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_below="@+id/card_dark_theme"
+                android:fadeScrollbars="false"
+                android:overScrollMode="never"
+                android:id="@+id/themes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                >
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_below="@+id/themes"
+                android:id="@+id/card_create_theme_nastroiki"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:id="@+id/Card_create"
+                    android:onClick="ClickCreateCustomTheme"
+                    android:textColor="@android:color/background_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/themeAdd"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:background="@null" />
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>

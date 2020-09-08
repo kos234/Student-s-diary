@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/liner_conf_voice"
     android:gravity="center_horizontal">
 
     <TextView
+        android:layout_centerHorizontal="true"
         android:id="@+id/textView_conf_voice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,15 +20,11 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
         <TextView
+            android:layout_alignTop="@+id/TimeEndVoice"
+            android:layout_alignBottom="@+id/TimeEndVoice"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
             android:id="@+id/TimeCurrentVoice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,16 +34,21 @@
             android:textSize="19sp" />
 
         <SeekBar
+            android:layout_alignTop="@+id/TimeEndVoice"
+            android:layout_alignBottom="@+id/TimeEndVoice"
+            android:layout_toEndOf="@+id/TimeCurrentVoice"
+            android:layout_toStartOf="@+id/TimeEndVoice"
             android:id="@+id/voiceRecordPlayer"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:scrollbarSize="19dp"
-
             android:progressBackgroundTint="@android:color/darker_gray"
-
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/textView_conf_voice"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
             android:id="@+id/TimeEndVoice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,18 +57,22 @@
             android:text="01:00"
             android:textSize="19sp" />
 
-    </LinearLayout>
-
     <ImageButton
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/voiceRecordPlayer"
         android:id="@+id/playVoicePlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:background="@null"/>
+        android:background="@null"
+        tools:ignore="ContentDescription" />
 
 
     <TextView
+        android:layout_alignBottom="@+id/playVoicePlayer"
+        android:layout_alignParentEnd="true"
         android:layout_margin="20dp"
         android:gravity="center"
         android:layout_gravity="end"
@@ -72,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:text="@string/yes"
+        android:text="@string/Ok"
         android:textColor="@color/custom_button_add"
         android:textSize="19sp" />
-</LinearLayout>
+</RelativeLayout>

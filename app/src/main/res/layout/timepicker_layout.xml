@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/timePicker_liner"
+    android:orientation="vertical">
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_below="@+id/timePicker"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/button_one_alert"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/custom_button_add"
+        android:text="@string/cancel"
+        android:textSize="19sp"
+        android:layout_toStartOf="@+id/viewBorder"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        />
+
+    <View
+        android:layout_alignTop="@+id/button_one_alert"
+        android:layout_alignBottom="@+id/button_one_alert"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/viewBorder"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/timePicker"
+        android:layout_gravity="center"
+        android:background="@color/custom_bottomBorder" />
+
+    <TextView
+        android:layout_toEndOf="@+id/viewBorder"
+        android:layout_alignTop="@+id/button_one_alert"
+        android:layout_alignBottom="@+id/button_one_alert"
+        android:layout_below="@+id/timePicker"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/button_two_alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/save"
+        android:textColor="@color/custom_button_add"
+        android:textSize="19sp" />
+
+</RelativeLayout>

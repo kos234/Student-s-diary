@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/corners_alert"
     android:id="@+id/alert_delete"
     android:layout_gravity="center_horizontal">
 
     <TextView
+        android:layout_alignParentStart="true"
         android:gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +20,7 @@
         android:textSize="22sp" />
 
     <TextView
+        android:layout_below="@+id/title_alert"
         android:gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,45 +32,68 @@
         android:textSize="20sp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_below="@+id/title_bottom_alert"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:layout_gravity="end"
+        android:layout_gravity="center"
         android:layout_height="wrap_content">
 
         <TextView
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_gravity="center"
             android:gravity="center"
             android:id="@+id/button_one_alert"
             android:background="@null"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/custom_button_add"
             android:text="@string/buttonClearGrades"
             android:textSize="19sp"
-            android:layout_marginEnd="15dp"
             />
 
+        <View
+            android:id="@+id/viewBorderOne"
+            android:layout_gravity="center"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/custom_bottomBorder"/>
+
         <TextView
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_gravity="center"
             android:gravity="center"
             android:id="@+id/button_two_alert"
             android:background="@null"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/custom_button_add"
             android:text="@string/buttonClearHomeWork"
             android:textSize="19sp"
-            android:layout_marginEnd="15dp"
             />
+        <View
+            android:id="@+id/viewBorderTwo"
+            android:layout_gravity="center"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/custom_bottomBorder"/>
 
         <TextView
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:gravity="center"
             android:id="@+id/button_three_alert"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="@string/buttonClearAll"
             android:textColor="@color/custom_button_add"
             android:textSize="19sp" />
-
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

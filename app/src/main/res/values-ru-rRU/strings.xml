@@ -14,44 +14,40 @@
     <string name="save">Сохранить</string>
     <string name="lessonTitle">Название предмета</string>
     <string name="lessonExample">Русский язык</string>
-    <string name="homework">Домашнее задание:</string>
-    <string name="homeworkExample">№123</string>
     <string name="newTeacher">Новый учитель</string>
     <string name="fio">Фамилия Имя Отчество:</string>
     <string name="fioExample">Иванов Иван Иванович</string>
     <string name="teachers">Учителя</string>
     <string name="yes">Да</string>
-    <string name="deleteTeacher">Удалить преподавателя?</string>
     <string name="deleting">Очистка</string>
-    <string name="FieldsNot">Поля не должны быть пустыми!</string>
     <string name="deleteAllTeachers">Удалить всех преподавателей?</string>
     <string name="newLesson">Новый урок или пара</string>
+    <string name="FieldsNot">Поля не должны быть пустыми!</string>
     <string name="lessonStartTime">Время начала урока:</string>
     <string name="lessonEndTime">Время конца урока:</string>
     <string name="location">Место проведения:</string>
     <string name="classroomSchool">Кабинет</string>
     <string name="classroomUniversity">Аудитория</string>
-    <string name="classroomNumber">Номер кабинета:</string>
+    <string name="classroomNumber">Номер кабинета(аудитории):</string>
     <string name="deleteAllLesson">Очистить только:</string>
     <string name="deleteOneDayLesson">Текущий день</string>
     <string name="deleteAllDayLesson">Все дни</string>
     <string name="timeSpan">Временной промежуток не должен совпадать с предыдущем или начинаться позже, а заканчиваться раньше!</string>
     <string name="timeSpanStartEnd">Недопустимый промежуток! Время начала не может быть больше времени окончания и на оборот!</string>
-    <string name="deleteLesson">Удалить урок?</string>
     <string name="editLesson">Редактирование урока</string>
     <string name="editCouple">Редактирование пары</string>
     <string name="timetables">Расписание</string>
     <string name="obzOne">Данное приложение является проектом ученика 9 \'Б\' класса, МБОУ Гимназии №25 города Иркутска, Перфильева Константина Александровича за 9 класс</string>
-    <string name="obzTwo">Приложение имеет открытый исходный код на GitHub</string>
-    <string name="obzThree">Если вы хотите помочь с переводом на любой язык или нашли баг, опечатку, неверный перевод – обращайтесь на почту или Вконтакте автору</string>
-    <string name="obzFour">Хочу выразить огромную благодарность: Гоше Дударю, проектам \"Start Android\" и \"DevColibri\", а также людям со StackOverflow, которые помогали мне в отладке кода</string>
+    <string name="obzTwo">Проект имеет открытый исходный код на \"GitHub\"</string>
+    <string name="obzThree">Хотите помочь с переводом приложения? Вы можете сделать это на сайте \"Transifex\"</string>
+    <string name="obzFour">Нашли опечатку, ошибку перевода или программы, есть советы по развитию или предложение? Смело напишите об этом автору!</string>
+    <string name="obzSix">Переводчики:</string>
+    <string name="obzSeven">Русский и Английский язык - Константин Перфильев</string>
     <string name="help">Справка</string>
+    <string name="donate">Поддержать</string>
     <string name="grades">Оценки</string>
     <string name="warningOcenki">Редактирование оценок после подтверждения будет не возможно!</string>
-    <string name="OneQuarter">I Четверть</string>
-    <string name="TwoQuarter">II Четверть</string>
-    <string name="ThreeQuarter">III Четверть</string>
-    <string name="FourQuarter">IV Четверть</string>
+    <string name="Quarter">Четверть</string>
     <string name="gradesYear">Годовая</string>
     <string name="gradesExamination">Экзаменационная</string>
     <string name="gradesEnd">Итоговая</string>
@@ -63,7 +59,6 @@
     <string name="behavior">Поведение</string>
     <string name="Confirmed">Подтверждено</string>
     <string name="Not_Confirmed">Не Подтверждено</string>
-    <string name="Confirmation">Подтверждение</string>
     <string name="ConfirmationMicrophone">Голосовое подтверждение учителя</string>
     <string name="ConfirmationCamera">Фото росписи учителя</string>
     <string name="NotCameraPermission">Для этой функции необходим доступ к камере!</string>
@@ -105,22 +100,43 @@
     <string name="width_stroke_setting">Ширина обводки</string>
     <string name="alrt_color_default_setting">Выбор цвета по умолчанию</string>
     <string name="not_chosen">Не выбрано</string>
-    <string name="deleteTheme">Удалить</string>
     <string name="loading">Загрузка</string>
     <string name="you_have_already_confirmed_grades">Вы уже подтвердили оценки</string>
-    <string name="assessment_field">Оценка:</string>
-    <string name="ReplaceOcenki">Очистить учебный год?</string>
+    <string name="ReplaceOcenki">Очистить четверть?</string>
     <string name="errorMicro">Микрофон занят другой программой</string>
     <string name="fragment_default">Фрагмент по умолчанию</string>
     <string name="fragment_default_off">Отключено</string>
     <string name="error_not">В ходе выполнения возникла непредвиденная ошибка, ошибка была сохранена</string>
     <string name="errors">Ошибки</string>
     <string name="errors_null">Ещё не было ни одной ошибки!</string>
-    <string name="ocenki_null">Вы не выбрали начало четверти!</string>
-    <string name="edit_day_ocenki">Дата начала четверти</string>
-    <string name="edit_day_ocenki_null">Не указана</string>
+    <string name="edit_mount_grades">Дата начала четверти</string>
     <string name="title_clear">Очистка данных</string>
     <string name="title_clear_alert">Удалить данные блока: </string>
+    <string name="number_quarters">Колличество четрветей: </string>
+    <string name="number_quarters_warning">Не может быть 0 четвертей!</string>
+    <string name="nullGrades">Нажмите на этот текст, чтобы указать количество четвертей и месяц начала обучения</string>
+    <string name="errorGrades">Ошибка: не найдено подтверждение</string>
+    <string name="icgradesExamination">Экзаменационная оценка</string>
+    <string name="icgradesYear">Годовая оценка</string>
+    <string name="icgradesEnd">Итоговая оценка</string>
+    <string name="newTheme">Новая тема</string>
+    <string name="data">Данные</string>
+    <string name="import_data">Импортировать</string>
+    <string name="export_data">Экспортировать</string>
+    <string name="exportOk">Настройки успешно экспортированы!</string>
+    <string name="saving">Сохраниение</string>
+    <string name="applying">Применение</string>
+    <string name="faq">ЧаВо</string>
+    <string name="faqBackups">Куда сохраняются бэкапы?</string>
+    <string name="faqConfirmations">Куда сохраняются подтверждения?(Удалить их не выйдет)</string>
+    <string name="faqError">Куда сохраняются ошибки?</string>
+    <string name="warning_file">Вы должны выбрать архив!</string>
+    <string name="setWhiteThemeSettings">Вы установили светлую тему в настройках android, хотите применить её здесь?</string>
+    <string name="setDarkThemeSettings">Вы установили темную тему в настройках android, хотите применить её здесь?</string>
+    <string name="title_change_theme">Смена темы</string>
+    <string name="cancel_change_theme">Больше не показывать</string>
+    <string name="remove_bottom_padding">Убрать отступы от панели навигации</string>
+    <string name="faqNotify">Через время уведомления перестают обновляться?\n\nНажмите сюда, чтобы узнать как это исправить\n</string>
 
     <string name="custom_color_name">Название темы</string>
     <string name="custom_color_icon">Цвет иконки темы</string>
@@ -128,7 +144,6 @@
     <string name="custom_color_background">Цвет заднего фона</string>
     <string name="custom_color_toolbar">Цвет панели</string>
     <string name="custom_color_text_toolbar">Цвет текста панели</string>
-    <string name="custom_color_notification_bar">Цвет строки уведомления</string>
     <string name="custom_color_text_light">Светлый цвет текста</string>
     <string name="custom_color_text_dark">Темный цвет текста</string>
     <string name="custom_color_text_hint">Цвет текста подсказки</string>
@@ -139,6 +154,7 @@
     <string name="custom_color_button_add_plus">Цвет плюса кнопки добавления</string>
     <string name="custom_color_button_act">Цвет кнопки действия</string>
     <string name="custom_color_button_arrow">Цвет стрелок и кнопок в меню</string>
+    <string name="custom_color_selected_section">Цвет выбранного раздела</string>
     <string name="custom_color_progress">Цвет иконки загрузки</string>
     <string name="custom_color_not_confirmed">Цвет не подтверждения</string>
     <string name="custom_color_Table_column">Цвет колонок таблицы</string>
@@ -149,7 +165,6 @@
     <string name="custom_color_block_choose_background">Цвет фона блока выбора</string>
     <string name="custom_color_block_choose_border">Цвет границы блока выбора и диалогов</string>
     <string name="custom_color_audio_player">Цвет аудиоплеера</string>
-
 
     <!-- Расстановка правильных окончаний минут -->
     <string name="_0_Min">минут</string>
@@ -168,7 +183,6 @@
     <string name="_end_1_Hour">час</string>
     <string name="_end_2_4_Hour">часа</string>
 
-
     <string-array name="DayTxt">
         <item>Monday.txt</item>
         <item>Tuesday.txt</item>
@@ -178,7 +192,7 @@
         <item>Saturday.txt</item>
     </string-array>
 
-    <string-array name="Mes">
+    <string-array name="months">
         <item>Январь</item>
         <item>Февраль</item>
         <item>Март</item>
