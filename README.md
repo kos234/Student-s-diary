@@ -9,7 +9,7 @@ Student's diary
 
 #### On development stage: In development: Help section for lessons - everyone can add their own hint, rule to a specific lesson. Hints will be available to all users; Holiday themes
 
-#### The current version can be found at this link: https://drive.google.com/file/d/1yPHtmvm_pw-Vr53Qc8hNWVxy_W1490M5/view?usp=sharing
+#### The current version can be found at this link: https://drive.google.com/file/d/1HjrqWdr9Kjf-eWhk78VHj05ACVqt3Rn7/view?usp=sharing
 
 
 Дневник
@@ -21,7 +21,7 @@ Student's diary
 
 #### В разработке: Раздел помощи по предметам - каждый сможет добавить свою подсказку, правило к тому или иному предмету. Подсказки будут доступны всем пользователям приложения; Праздничные темы
 
-#### Приложение можно скачать по этой ссылке: https://drive.google.com/file/d/1yPHtmvm_pw-Vr53Qc8hNWVxy_W1490M5/view?usp=sharing
+#### Приложение можно скачать по этой ссылке: https://drive.google.com/file/d/1HjrqWdr9Kjf-eWhk78VHj05ACVqt3Rn7/view?usp=sharing
 
 Документация
 =====================

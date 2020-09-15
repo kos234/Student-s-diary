@@ -1511,7 +1511,7 @@ public class MainActivity extends AppCompatActivity {
                     adress = Uri.parse("https://vk.com/id388061716");
                     break;
                 case R.id.obz_twelve:
-                    adress = Uri.parse("https://github.com/kos234/Student-s-diary/notifications.md");
+                    adress = Uri.parse("https://github.com/kos234/Student-s-diary/blob/test/notifications.md");
                     break;
             }
             if (what == R.id.vk && settings.getBoolean("whatSettings", false)) {
