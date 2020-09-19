@@ -10,7 +10,7 @@
 <!--        android:layout_height="wrap_content"-->
 <!--        android:padding="10dp">-->
 
-    <com.example.kos.SquareImageView
+    <kos.progs.diary.SquareImageView
         android:layout_alignTop="@+id/textFile"
         android:layout_alignBottom="@+id/textFile"
         android:layout_alignParentStart="true"

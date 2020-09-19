@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.kos">
+    package="kos.progs.diary">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -21,10 +21,10 @@
         android:theme="@style/AppTheme"
         tools:targetApi="q">
 
-        <receiver android:name=".NotificationTime" />
+        <receiver android:name="kos.progs.diary.NotificationTime" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="kos.progs.diary.MainActivity"
             android:configChanges="uiMode"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.Launcher">
