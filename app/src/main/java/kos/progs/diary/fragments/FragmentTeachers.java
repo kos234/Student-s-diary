@@ -418,6 +418,7 @@ public class FragmentTeachers extends Fragment implements onBackPressed {
                         alertDialog.hide();
                         alertDialog = null;
                         currentWindow = new String[]{"null"};
+                        TextViewInvisible();
                     } else {
                         MainActivity.ToastMakeText(context, context.getString(R.string.FieldsNot));
                     }

@@ -45,6 +45,10 @@ public class AdapterSpinner extends ArrayAdapter<String> {
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_list, parent, false);
             }
+            if(position == 13) {
+                String s = "s";
+                System.out.println(s);
+            }
             String string = getItem(position);
 
             if (string != null) {

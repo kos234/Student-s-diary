@@ -108,14 +108,11 @@ public class FragmentGrades extends Fragment implements onBackPressed {
                 constructorGrades = b.getParcelableArrayList("list");
                 url = b.getString("url");
                 lesion = b.getStringArrayList("lesion");
-                if (constructorGrades.size() == 0)
+                if (constructorGrades.size() == 0 || currentWindow[0].equals("firstStart"))
                     onCheck(view);
 
                 adapterGrades = new AdapterGrades(constructorGrades, lesion, context, scrolls);
                 switch (currentWindow[0]) {
-                    case "firstStart":
-                        onTask(view);
-                        break;
                     case "delete":
                         onDelete();
                         break;
@@ -332,14 +329,8 @@ public class FragmentGrades extends Fragment implements onBackPressed {
             promptsView.findViewById(R.id.viewBorder).setBackgroundColor(Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)));
 
             final Spinner spinner = promptsView.findViewById(R.id.mount_choose);
-            List<String> choose = new ArrayList<>();
-            String[] temp = MainActivity.getResources.getStringArray(R.array.months);
-            for (int i = 0; i < temp.length; i++) {
-                if (i + 1 != temp.length)
-                    choose.add(temp[i]);
-            }
 
-            final AdapterSpinner adapterSpinner = new AdapterSpinner(context, choose, true);
+            final AdapterSpinner adapterSpinner = new AdapterSpinner(context, Arrays.asList(MainActivity.getResources.getStringArray(R.array.months)), true);
             spinner.setAdapter(adapterSpinner);
             spinner.getBackground().setColorFilter(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), PorterDuff.Mode.SRC_ATOP);
             spinner.setSelection(settings.getInt("mesStartOcenki", 8));
@@ -347,7 +338,12 @@ public class FragmentGrades extends Fragment implements onBackPressed {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     try {
-                        editor.putInt("mesStartOcenki", i);
+                        if(i == 0) {
+                            MainActivity.ToastMakeText(context, getString(R.string.notChooseMonth));
+                            editor.remove("mesStartOcenki");
+                        }else {
+                            editor.putInt("mesStartOcenki", i);
+                        }
                         editor.apply();
                     } catch (Exception error) {
                         ((MainActivity) context).errorStack(error);
@@ -376,19 +372,21 @@ public class FragmentGrades extends Fragment implements onBackPressed {
             ButtonSave.setOnClickListener(view -> {
                 try {
                     if (!editText.getText().toString().equals("0")) {
-                        new StartAsyncTask().execute();
-                        alertDialog.hide();
-                        alertDialog = null;
-                        textView.setVisibility(View.GONE);
-                        if (editText.getText().toString().equals("") || editText.getText().toString().equals(" "))
-                            editor.putInt("countChet", 4);
-                        else
-                            editor.putInt("countChet", Integer.parseInt(editText.getText().toString()));
-                        if (!settings.contains("mesStartOcenki"))
-                            editor.putInt("mesStartOcenki", 8);
-                        editor.apply();
+                        if(!settings.contains("mesStartOcenki")) {
+                            new StartAsyncTask().execute();
+                            alertDialog.hide();
+                            alertDialog = null;
+                            textView.setVisibility(View.GONE);
+                            if (editText.getText().toString().equals("") || editText.getText().toString().equals(" "))
+                                editor.putInt("countChet", 4);
+                            else
+                                editor.putInt("countChet", Integer.parseInt(editText.getText().toString()));
+                            if (!settings.contains("mesStartOcenki"))
+                                editor.putInt("mesStartOcenki", 8);
+                            editor.apply();
 
-                        onWarning();
+                            onWarning();
+                        }else MainActivity.ToastMakeText(context, getString(R.string.notChooseMonth));
                     } else
                         MainActivity.ToastMakeText(context, context.getString(R.string.number_quarters_warning));
 

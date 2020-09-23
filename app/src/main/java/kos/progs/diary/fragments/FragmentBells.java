@@ -57,7 +57,7 @@ public class FragmentBells extends Fragment implements onBackPressed {
     private ArrayList<ConstructorFragmentViewPager> list = new ArrayList<>();
     private FloatingActionButton floatingActionButton;
     private ImageButton imageButton;
-    public final ArrayList<AlertDialog> alertDialogs = new ArrayList<>();
+    public AlertDialog alertDialog, timePicker;
     private String[] day;
 
     @Override
@@ -137,15 +137,11 @@ public class FragmentBells extends Fragment implements onBackPressed {
     public void onPause() {
         super.onPause();
         try {
-            if (alertDialogs.size() == 1) {
-                if (alertDialogs.get(0) != null)
-                    alertDialogs.get(0).dismiss();
-            } else if (alertDialogs.size() == 2) {
-                if (alertDialogs.get(0) != null)
-                    alertDialogs.get(0).dismiss();
-                if (alertDialogs.get(1) != null)
-                    alertDialogs.get(1).dismiss();
-            }
+            if(alertDialog != null)
+                alertDialog.dismiss();
+            else if(timePicker != null)
+                timePicker.dismiss();
+
             Bundle bundle = ((MainActivity) context).getBundles.get(1);
             try {
                 bundle.putIntArray("scrolls", pagerAdapter.getScrolls());
@@ -196,8 +192,11 @@ public class FragmentBells extends Fragment implements onBackPressed {
     @Override
     public boolean onBackPressed() {
         try {
-            if (alertDialogs.size() != 0) {
-                alertDialogs.remove(alertDialogs.size() - 1);
+            if(alertDialog != null) {
+                alertDialog.hide();
+                return true;
+            }else if(timePicker != null){
+                timePicker.hide();
                 return true;
             } else
                 return false;

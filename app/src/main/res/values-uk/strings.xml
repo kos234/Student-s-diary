@@ -56,6 +56,7 @@
     <string name="Ok">Хорошо</string>
     <string name="Warning">Предупреждение</string>
     <string name="chooseMonth">Выберите месяц начала обучения:</string>
+    <string name="notChooseMonth">Вы не указали месяц начала обучения!</string>
     <string name="behavior">Поведение</string>
     <string name="Confirmed">Подтверждено</string>
     <string name="Not_Confirmed">Не Подтверждено</string>

@@ -42,6 +42,7 @@ public class FragmentHelp extends Fragment implements onBackPressed {
     private ScrollView scrollView;
     public String[] currentWindow = new String[]{"null"};
     private int scroll;
+    public TextView textError = null;
 
     @Override
     public void onPause() {
@@ -191,7 +192,6 @@ public class FragmentHelp extends Fragment implements onBackPressed {
             textView.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
             textView.setMovementMethod(new ScrollingMovementMethod());
             textView = linearLayout.findViewById(R.id.textViewDate);
-            textView.post(() -> bottomSheetBehavior.setPeekHeight(linearLayout.findViewById(R.id.textViewDate).getHeight() + 20 * MainActivity.dpSize));
             textView.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
             FrameLayout linearLayout_padding = linearLayout.findViewById(R.id.field_create_fragment);
             linearLayout_padding.setPadding(0, ((MainActivity) context).getStatusBarSize(), 0, 0);
@@ -216,7 +216,7 @@ public class FragmentHelp extends Fragment implements onBackPressed {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
             final TextView textViewDate = linearLayout.findViewById(R.id.textViewDate);
-            final TextView textError = linearLayout.findViewById(R.id.textError);
+            textError = linearLayout.findViewById(R.id.textError);
             DisplayMetrics display = MainActivity.getResources.getDisplayMetrics();
             textError.setHeight(display.heightPixels);
 
@@ -293,6 +293,7 @@ public class FragmentHelp extends Fragment implements onBackPressed {
                 textViewDate.setTag(-1);
                 textError.setText(getString(R.string.errors_null));
             }
+            textViewDate.post(() -> bottomSheetBehavior.setPeekHeight(textViewDate.getHeight() + 20 * MainActivity.dpSize));
         } catch (Exception error) {
             ((MainActivity) context).errorStack(error);
         }

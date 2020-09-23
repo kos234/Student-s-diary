@@ -19,7 +19,7 @@ public class ConstructorFragmentViewPager implements Parcelable {
 
     protected ConstructorFragmentViewPager(Parcel in) {
         url = in.readString();
-        products = (ArrayList<ConstructorRecyclerView>) in.readValue(ArrayList.class.getClassLoader());
+        products = (ArrayList<ConstructorRecyclerView>) in.readValue(ConstructorRecyclerView.class.getClassLoader());
     }
 
     public static final Creator<ConstructorFragmentViewPager> CREATOR = new Creator<ConstructorFragmentViewPager>() {

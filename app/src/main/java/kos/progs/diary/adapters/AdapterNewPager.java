@@ -276,7 +276,7 @@ public class AdapterNewPager extends PagerAdapter {
             spinner.setAdapter(adapterSpinner);
             spinner.getBackground().setColorFilter(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), PorterDuff.Mode.SRC_ATOP);
             newzvonok.setCancelable(true);
-            fragmentBells.alertDialogs.add(newzvonok.create());
+            fragmentBells.alertDialog = newzvonok.create();
             if (!DateFormat.is24HourFormat(context)) {
                 zvonokone.setText("8:00 AM");
                 zvonoktwo.setText("8:40 AM");
@@ -302,8 +302,8 @@ public class AdapterNewPager extends PagerAdapter {
             ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
             ButtonCancel.setOnClickListener(view -> {
                 try {
-                    fragmentBells.alertDialogs.get(0).hide();
-                    fragmentBells.alertDialogs.remove(0);
+                    fragmentBells.alertDialog.hide();
+                    fragmentBells.alertDialog = null;
                     fragmentBells.currentWindow = new String[]{"null"};
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);
@@ -416,8 +416,8 @@ public class AdapterNewPager extends PagerAdapter {
                             else
                                 Objects.requireNonNull(recyclerAdapters.get(positionTek)).notifyDataSetChanged();
 
-                            fragmentBells.alertDialogs.get(0).hide();
-                            fragmentBells.alertDialogs.remove(0);
+                            fragmentBells.alertDialog.hide();
+                            fragmentBells.alertDialog = null;
                             fragmentBells.currentWindow = new String[]{"null"};
 
                             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -472,11 +472,11 @@ public class AdapterNewPager extends PagerAdapter {
             }
             Yrok.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
             Kab.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
-            Objects.requireNonNull(fragmentBells.alertDialogs.get(0).getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            fragmentBells.alertDialogs.get(0).show();
-            fragmentBells.alertDialogs.get(0).setOnCancelListener(dialog -> {
+            Objects.requireNonNull(fragmentBells.alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            fragmentBells.alertDialog.show();
+            fragmentBells.alertDialog.setOnCancelListener(dialog -> {
                 try {
-                    fragmentBells.alertDialogs.remove(0);
+                    fragmentBells.alertDialog = null;
                     fragmentBells.currentWindow = new String[]{"null"};
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);
@@ -500,7 +500,7 @@ public class AdapterNewPager extends PagerAdapter {
                 alertbackground.setStroke(settings.getInt("dpBorderSettings", 4) * MainActivity.dpSize, Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
             promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
 
-            fragmentBells.alertDialogs.add(Delete.create());
+            fragmentBells.alertDialog = Delete.create();
 
             TextView textTitle = promptsView.findViewById(R.id.title_alert);
             textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
@@ -515,8 +515,8 @@ public class AdapterNewPager extends PagerAdapter {
             ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
             ButtonCancel.setOnClickListener(view -> {
                 try {
-                    fragmentBells.alertDialogs.get(0).hide();
-                    fragmentBells.alertDialogs.remove(0);
+                    fragmentBells.alertDialog.hide();
+                    fragmentBells.alertDialog = null;
                     fragmentBells.currentWindow = new String[]{"null"};
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);
@@ -536,8 +536,8 @@ public class AdapterNewPager extends PagerAdapter {
                     }
                     fragmentBells.new DeleteAll().execute();
 
-                    fragmentBells.alertDialogs.get(0).hide();
-                    fragmentBells.alertDialogs.remove(0);
+                    fragmentBells.alertDialog.hide();
+                    fragmentBells.alertDialog = null;
                     fragmentBells.currentWindow = new String[]{"null"};
                     AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -581,8 +581,8 @@ public class AdapterNewPager extends PagerAdapter {
                         Objects.requireNonNull(recyclerAdapters.get(positionTek)).notifyDataSetChanged();
                     }
 
-                    fragmentBells.alertDialogs.get(0).hide();
-                    fragmentBells.alertDialogs.remove(0);
+                    fragmentBells.alertDialog.hide();
+                    fragmentBells.alertDialog = null;
                     fragmentBells.currentWindow = new String[]{"null"};
                     AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -608,12 +608,12 @@ public class AdapterNewPager extends PagerAdapter {
             ButtonOne.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
             ButtonOne.setText(context.getString(R.string.deleteOneDayLesson));
 
-            Objects.requireNonNull(fragmentBells.alertDialogs.get(0).getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            fragmentBells.alertDialogs.get(0).show();
+            Objects.requireNonNull(fragmentBells.alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            fragmentBells.alertDialog.show();
             Delete.setOnCancelListener(dialog -> {
                 try {
                     fragmentBells.currentWindow = new String[]{"null"};
-                    fragmentBells.alertDialogs.remove(0);
+                    fragmentBells.alertDialog = null;
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);
                 }
@@ -694,15 +694,15 @@ public class AdapterNewPager extends PagerAdapter {
             spinner.setAdapter(adapterSpinner);
             spinner.getBackground().setColorFilter(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)), PorterDuff.Mode.SRC_ATOP);
             newzvonok.setCancelable(true);
-            fragmentBells.alertDialogs.add(newzvonok.create());
+            fragmentBells.alertDialog = newzvonok.create();
 
             promptsView.findViewById(R.id.viewBorder).setBackgroundColor(Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)));
 
             TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
             ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
             ButtonCancel.setOnClickListener(view -> {
-                fragmentBells.alertDialogs.get(0).hide();
-                fragmentBells.alertDialogs.remove(0);
+                fragmentBells.alertDialog.hide();
+                fragmentBells.alertDialog = null;
                 fragmentBells.currentWindow = new String[]{"null"};
             });
 
@@ -801,8 +801,8 @@ public class AdapterNewPager extends PagerAdapter {
                             product.get(pos).changeText(viewTimes[0], viewTimes[1]);
                             adapter.onMove(pos, NumString);
                             fragmentBells.currentWindow = new String[]{"null"};
-                            fragmentBells.alertDialogs.get(0).hide();
-                            fragmentBells.alertDialogs.remove(0);
+                            fragmentBells.alertDialog.hide();
+                            fragmentBells.alertDialog = null;
 
                         } catch (SQLException povtor) {
                             MainActivity.ToastMakeText(context, context.getString(R.string.timeSpan));
@@ -838,12 +838,12 @@ public class AdapterNewPager extends PagerAdapter {
             }
             Yrok.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
             Kab.setHintTextColor(Current_Theme.getInt("custom_text_hint", ContextCompat.getColor(context, R.color.custom_text_hint)));
-            Objects.requireNonNull(fragmentBells.alertDialogs.get(0).getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            fragmentBells.alertDialogs.get(0).show();
-            fragmentBells.alertDialogs.get(0).setOnCancelListener(dialog -> {
+            Objects.requireNonNull(fragmentBells.alertDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            fragmentBells.alertDialog.show();
+            fragmentBells.alertDialog.setOnCancelListener(dialog -> {
                 try {
                     fragmentBells.currentWindow = new String[]{"null"};
-                    fragmentBells.alertDialogs.remove(0);
+                    fragmentBells.alertDialog = null;
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);
                 }
@@ -877,7 +877,7 @@ public class AdapterNewPager extends PagerAdapter {
                 alertbackground.setStroke(settings.getInt("dpBorderSettings", 4) * MainActivity.dpSize, Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
             promptsView.findViewById(R.id.timePicker_liner).setBackground(alertbackground);
 
-            fragmentBells.alertDialogs.add(1, timepicker.create());
+            fragmentBells.timePicker = timepicker.create();
             final TimePicker timePicker = promptsView.findViewById(R.id.timePicker);
             String[] cheakAmPm = textView.getText().toString().split(" "), times = cheakAmPm[0].split(":");
             final boolean is24 = !(cheakAmPm.length == 2);
@@ -893,9 +893,9 @@ public class AdapterNewPager extends PagerAdapter {
             ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
             ButtonCancel.setOnClickListener(view -> {
                 try {
-                    fragmentBells.alertDialogs.get(1).hide();
+                    fragmentBells.timePicker.hide();
                     fragmentBells.currentWindow = new String[]{"null"};
-                    fragmentBells.alertDialogs.remove(1);
+                    fragmentBells.timePicker = null;
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);
                 }
@@ -920,20 +920,20 @@ public class AdapterNewPager extends PagerAdapter {
 
                         textView.setText(hour + ":" + minute + " " + am_pm);
                     } else textView.setText(hour + ":" + minute);
-                    fragmentBells.alertDialogs.get(1).hide();
+                    fragmentBells.timePicker.hide();
                     fragmentBells.currentWindow = new String[]{"null"};
-                    fragmentBells.alertDialogs.remove(1);
+                    fragmentBells.timePicker = null;
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);
                 }
             });
 
-            Objects.requireNonNull(fragmentBells.alertDialogs.get(1).getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            fragmentBells.alertDialogs.get(1).show();
-            fragmentBells.alertDialogs.get(1).setOnCancelListener(dialog -> {
+            Objects.requireNonNull(fragmentBells.timePicker.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            fragmentBells.timePicker.show();
+            fragmentBells.timePicker.setOnCancelListener(dialog -> {
                 try {
                     fragmentBells.currentWindow = new String[]{"null"};
-                    fragmentBells.alertDialogs.remove(1);
+                    fragmentBells.timePicker = null;
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);
                 }

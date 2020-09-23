@@ -55,7 +55,8 @@
     <string name="setting">Setting</string>
     <string name="Ok">OK</string>
     <string name="Warning">Warning</string>
-    <string name="chooseMonth">Select the month you want to start the training:</string>
+    <string name="chooseMonth">Select the start month of the school year:</string>
+    <string name="notChooseMonth">You didn\'t choose the start month of the school year</string>
     <string name="behavior">Behavior</string>
     <string name="Confirmed">Confirmed</string>
     <string name="Not_Confirmed">Not confirmed</string>

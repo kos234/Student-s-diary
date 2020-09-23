@@ -66,8 +66,8 @@ public class NotificationTime extends BroadcastReceiver {
                     MinSay,
                     urlNot = null;
             int TimeHoursStart, TimeMinsStart, TimeHoursEnd, TimeMinsEnd,
-                    LastHoursStart = 666,
-                    LastMinStart = 666,
+                    LastHoursEnd = 666,
+                    LastMinEnd = 666,
                     min = 666,
                     hour = 666;
 
@@ -119,10 +119,10 @@ public class NotificationTime extends BroadcastReceiver {
                         TimeMinsStart = Integer.parseInt(dateTimes[2]);
                         TimeHoursEnd = Integer.parseInt(dateTimes[3]);
                         TimeMinsEnd = Integer.parseInt(dateTimes[4]);
-                        if (i != 0 && Type == null) {
+                        if (i != 0) {
                             dateTimes = generateDate(stringBuilder.get(i - 1));
-                            LastHoursStart = Integer.parseInt(dateTimes[1]);
-                            LastMinStart = Integer.parseInt(dateTimes[2]);
+                            LastHoursEnd = Integer.parseInt(dateTimes[3]);
+                            LastMinEnd = Integer.parseInt(dateTimes[4]);
                         }
 
                         int hourDate = Integer.parseInt(date.toString().substring(11, 13));
@@ -154,7 +154,7 @@ public class NotificationTime extends BroadcastReceiver {
                             }
                             Type = context.getString(R.string.EndYrok);
                             Name = dateTimes[0];
-                        } else if (icPeremena(LastHoursStart, LastMinStart, hourDate * 60 + minDate, TimeHoursStart, TimeMinsStart)) {
+                        } else if (icPeremena(LastHoursEnd, LastMinEnd, hourDate * 60 + minDate, TimeHoursStart, TimeMinsStart)) {
                             hour = TimeHoursStart - hourDate;
                             if (hour != 0)
                                 min = hour * 60 + TimeMinsEnd - minDate;

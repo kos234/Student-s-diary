@@ -144,13 +144,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
-            if (savedInstanceState != null)
+            super.onCreate(savedInstanceState);
+            if (savedInstanceState != null) {
                 icReload = savedInstanceState.getBoolean("reload");
+            }
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
             setTheme(R.style.AppTheme);
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-            super.onCreate(savedInstanceState);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             setContentView(R.layout.activity_main);
             new onStart().execute();

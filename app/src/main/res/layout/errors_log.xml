@@ -40,16 +40,20 @@
         android:background="@null"
         android:src="@drawable/ic_keyboard_arrow_right_24px" />
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textViewDate"
+        android:overScrollMode="never"
+        android:background="@color/custom_card"
+        android:layout_margin="10dp"
+        android:scrollbars="none">
         <TextView
             android:padding="10dp"
             android:layout_below="@+id/textViewDate"
-            android:background="@color/custom_card"
-            android:overScrollMode="never"
-            android:scrollbars="none"
-            android:layout_margin="10dp"
             android:id="@+id/textError"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="20sp" />
-
+    </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
