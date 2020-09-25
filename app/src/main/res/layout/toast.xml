@@ -11,6 +11,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 <TextView
+    android:hyphenationFrequency="normal"
+    tools:targetApi="m"
     android:textSize="15sp"
     android:gravity="center"
     android:padding="20dp"

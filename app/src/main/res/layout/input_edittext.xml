@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/input_edittext_linear"
     android:padding="5dp">
 
     <EditText
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:layout_marginEnd="5dp"
         android:layout_weight="1"
         android:layout_width="0dp"
@@ -15,6 +19,8 @@
         android:importantForAutofill="no"/>
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:gravity="center"
         android:id="@+id/input_edittext_button"
         android:layout_width="wrap_content"

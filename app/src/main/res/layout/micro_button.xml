@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="30dp"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
     android:layout_marginBottom="10dp"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
-    android:paddingTop="10dp"
-    android:layout_gravity="start"
-    android:gravity="center"
-    android:id="@+id/button_one_alert"
-    android:background="@null"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textColor="@color/custom_button_add"
-    android:text="@string/StartMicro"
-    android:textSize="19sp"
-    android:layout_marginEnd="15dp"
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
+        android:paddingTop="10dp"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:id="@+id/button_one_alert"
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/custom_button_add"
+        android:text="@string/StartMicro"
+        android:textSize="19sp"
+        android:layout_marginEnd="15dp"
     />
 
 
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:paddingTop="10dp"
         android:layout_gravity="end"
         android:gravity="center"

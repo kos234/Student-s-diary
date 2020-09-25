@@ -372,7 +372,7 @@ public class FragmentGrades extends Fragment implements onBackPressed {
             ButtonSave.setOnClickListener(view -> {
                 try {
                     if (!editText.getText().toString().equals("0")) {
-                        if(!settings.contains("mesStartOcenki")) {
+                        if(settings.contains("mesStartOcenki")) {
                             new StartAsyncTask().execute();
                             alertDialog.hide();
                             alertDialog = null;
@@ -386,7 +386,8 @@ public class FragmentGrades extends Fragment implements onBackPressed {
                             editor.apply();
 
                             onWarning();
-                        }else MainActivity.ToastMakeText(context, getString(R.string.notChooseMonth));
+                        }else
+                            MainActivity.ToastMakeText(context, getString(R.string.notChooseMonth));
                     } else
                         MainActivity.ToastMakeText(context, context.getString(R.string.number_quarters_warning));
 

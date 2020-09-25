@@ -2,6 +2,8 @@ package kos.progs.diary;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -61,6 +63,9 @@ public class FIleChooser extends Constant {
             String[] folders = currentPath.getAbsolutePath().split("/");
             for (int i = 0; i < folders.length; i++) {
                 TextView textViewFolder = new TextView(context);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    textViewFolder.setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NORMAL);
+                }
                 textViewFolder.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
                 textViewFolder.setPadding(MainActivity.dpSize, 0, MainActivity.dpSize, 0);
                 textViewFolder.setText(folders[i]);
@@ -69,6 +74,9 @@ public class FIleChooser extends Constant {
                 linearFolders.addView(textViewFolder);
                 if (i + 1 != folders.length) {
                     TextView textViewSplit = new TextView(context);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        textViewSplit.setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NORMAL);
+                    }
                     textViewSplit.setText("/");
                     textViewSplit.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
                     textViewSplit.setPadding(MainActivity.dpSize, 0, MainActivity.dpSize, 0);

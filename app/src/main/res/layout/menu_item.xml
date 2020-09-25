@@ -19,6 +19,8 @@
         tools:ignore="ContentDescription" />
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:textSize="15sp"
         android:textStyle="bold"
         android:layout_marginTop="20dp"

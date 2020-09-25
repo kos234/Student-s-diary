@@ -19,6 +19,8 @@
         android:orientation="vertical">
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:id="@+id/obz_one"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -28,6 +30,8 @@
             android:textSize="20sp" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:id="@+id/obz_two"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -47,6 +51,8 @@
             tools:ignore="ContentDescription" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:id="@+id/obz_three"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -66,6 +72,8 @@
             app:cardCornerRadius="100dp"
             >
             <TextView
+                android:hyphenationFrequency="normal"
+                tools:targetApi="m"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="transifex"
@@ -78,6 +86,8 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:id="@+id/obz_four"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -111,6 +121,8 @@
         </LinearLayout>
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:textStyle="bold"
             android:id="@+id/obz_six"
             android:layout_width="match_parent"
@@ -120,6 +132,8 @@
             android:text="@string/obzSix"
             android:textSize="20sp" />
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:id="@+id/obz_seven"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,6 +143,8 @@
             android:textSize="20sp" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:textStyle="bold"
             android:id="@+id/obz_eight"
             android:layout_marginTop="20dp"
@@ -139,6 +155,8 @@
             android:textSize="20sp" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:onClick="ClickMedia"
             android:id="@+id/obz_twelve"
             android:layout_marginTop="10dp"
@@ -149,6 +167,8 @@
             android:textSize="20sp" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:id="@+id/obz_nine"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -158,6 +178,8 @@
             android:textSize="20sp" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:id="@+id/obz_ten"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
@@ -167,6 +189,8 @@
             android:textSize="20sp" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:id="@+id/obz_eleven"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
@@ -182,6 +206,8 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:hyphenationFrequency="normal"
+                tools:targetApi="m"
                 android:id="@+id/button_error_act"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -191,6 +217,8 @@
                 android:textSize="19sp" />
 
             <TextView
+                android:hyphenationFrequency="normal"
+                tools:targetApi="m"
                 android:onClick="ClickMedia"
                 android:layout_marginStart="20dp"
                 android:id="@+id/button_donate"

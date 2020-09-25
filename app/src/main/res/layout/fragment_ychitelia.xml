@@ -28,6 +28,8 @@
         app:maxImageSize="50dp"
         android:src="@drawable/ic_add_24px" />
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:layout_centerHorizontal="true"
         android:id="@+id/nullYchit"
         android:gravity="center"

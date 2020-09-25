@@ -27,6 +27,8 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/title_students"
                         android:layout_width="match_parent"
@@ -39,6 +41,8 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_below="@+id/title_students"
                         android:layout_margin="10dp"
                         android:id="@+id/bottom_title_students"
@@ -52,6 +56,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_marginEnd="10dp"
                         android:layout_alignTop="@+id/bottom_title_students"
                         android:layout_alignBottom="@+id/bottom_title_students"
@@ -81,6 +87,8 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/title_timetables"
                         android:layout_width="match_parent"
@@ -93,6 +101,8 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/switchNotify"
                         android:layout_below="@+id/title_timetables"
                         android:layout_margin="10dp"
@@ -127,6 +137,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/switchSaturday"
                         android:layout_below="@+id/border_one"
                         android:layout_margin="10dp"
@@ -169,6 +181,8 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/title_grades"
                         android:layout_width="match_parent"
@@ -181,6 +195,8 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/mount_choose"
                         android:layout_below="@+id/title_grades"
                         android:layout_margin="10dp"
@@ -215,6 +231,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/quarters_edit"
                         android:layout_below="@+id/border_twelve"
                         android:layout_margin="10dp"
@@ -228,6 +246,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_alignParentEnd="true"
                         android:layout_alignTop="@+id/bottom_title_quarter"
                         android:layout_alignBottom="@+id/bottom_title_quarter"
@@ -251,6 +271,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/switchPoved"
                         android:layout_below="@+id/border_six"
                         android:layout_margin="10dp"
@@ -286,6 +308,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/icgradesExamination"
                         android:layout_below="@+id/border_fifteen"
                         android:layout_margin="10dp"
@@ -321,6 +345,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/icgradesYear"
                         android:layout_below="@+id/border_fourteen"
                         android:layout_margin="10dp"
@@ -356,6 +382,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/icgradesEnd"
                         android:layout_below="@+id/border_thirteen"
                         android:layout_margin="10dp"
@@ -396,6 +424,8 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/title_settings"
                         android:layout_width="match_parent"
@@ -408,6 +438,8 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/spinner_default"
                         android:layout_below="@+id/title_settings"
                         android:layout_margin="10dp"
@@ -451,6 +483,8 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/title_general_setting"
                         android:layout_width="match_parent"
@@ -463,6 +497,8 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/switchWhat"
                         android:layout_below="@+id/title_general_setting"
                         android:layout_margin="10dp"
@@ -498,6 +534,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/switchAnim"
                         android:layout_below="@+id/border_two"
                         android:layout_margin="10dp"
@@ -533,6 +571,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/switchPadding"
                         android:layout_below="@+id/border_seventeen"
                         android:layout_margin="10dp"
@@ -568,6 +608,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/switchBorder_alert"
                         android:layout_below="@+id/border_four"
                         android:layout_margin="10dp"
@@ -603,6 +645,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/spinner_fragment_default"
                         android:layout_below="@+id/border_three"
                         android:layout_margin="10dp"
@@ -639,6 +683,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_toStartOf="@+id/dpBorder"
                         android:layout_below="@+id/border_five"
                         android:layout_margin="10dp"
@@ -651,6 +697,8 @@
                         android:textStyle="bold"
                         />
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_alignParentEnd="true"
                         android:layout_alignTop="@+id/bottom_title_general_setting_width_stroke"
                         android:layout_alignBottom="@+id/bottom_title_general_setting_width_stroke"
@@ -682,6 +730,8 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:id="@+id/title_clear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -694,6 +744,8 @@
 
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:onClick="ClickClear"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
@@ -719,6 +771,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:onClick="ClickClear"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
@@ -743,6 +797,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:onClick="ClickClear"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
@@ -767,6 +823,8 @@
                         />
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:onClick="ClickClear"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
@@ -796,7 +854,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:gravity="center"
                         android:id="@+id/bottom_title_nastroiki"
                         android:layout_gravity="start"
@@ -820,7 +879,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:gravity="center"
                         android:id="@+id/bottom_title_spravka"
                         android:layout_gravity="start"
@@ -849,6 +909,8 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:id="@+id/title_data"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -866,7 +928,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:gravity="center"
                         android:id="@+id/import_data"
                         android:layout_gravity="start"
@@ -891,7 +954,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:gravity="center"
                         android:id="@+id/export_data"
                         android:layout_gravity="start"
@@ -913,6 +977,8 @@
                 android:layout_marginEnd="5dp">
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:id="@+id/title_themes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -957,6 +1023,8 @@
                     </FrameLayout>
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_weight="1"
                         android:id="@+id/bottom_title_white_theme"
                         android:layout_width="0dp"
@@ -1011,6 +1079,8 @@
                     </FrameLayout>
 
                     <TextView
+                        android:hyphenationFrequency="normal"
+                        tools:targetApi="m"
                         android:layout_weight="1"
                         android:id="@+id/bottom_title_dark_theme"
                         android:layout_width="0dp"
@@ -1052,6 +1122,8 @@
                 android:layout_margin="5dp">
 
                 <TextView
+                    android:hyphenationFrequency="normal"
+                    tools:targetApi="m"
                     android:layout_margin="5dp"
                     android:gravity="center"
                     android:layout_gravity="center"

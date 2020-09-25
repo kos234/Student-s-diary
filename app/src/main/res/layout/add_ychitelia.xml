@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/alert_add_ychit"
-    android:background="@drawable/corners_alert"
-    >
+    android:background="@drawable/corners_alert">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_ych"
@@ -22,6 +23,8 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:hyphenationFrequency="normal"
+                tools:targetApi="m"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
@@ -37,6 +40,8 @@
                 android:textStyle="bold" />
 
                 <TextView
+                    android:hyphenationFrequency="normal"
+                    tools:targetApi="m"
                     android:layout_toStartOf="@+id/NamePrepod"
                     android:layout_below="@+id/textView2"
                     android:layout_marginTop="20dp"
@@ -67,6 +72,8 @@
                     android:autofillHints="" />
 
                 <TextView
+                    android:hyphenationFrequency="normal"
+                    tools:targetApi="m"
                     android:layout_toStartOf="@+id/yrokPrepod"
                     android:layout_below="@+id/NamePrepod"
                     android:layout_marginTop="20dp"
@@ -101,6 +108,8 @@
     </androidx.core.widget.NestedScrollView>
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:layout_below="@+id/nested_ych"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -130,6 +139,8 @@
         android:background="@color/custom_bottomBorder" />
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:layout_toEndOf="@+id/viewBorder"
         android:layout_alignTop="@+id/button_one_alert"
         android:layout_alignBottom="@+id/button_one_alert"

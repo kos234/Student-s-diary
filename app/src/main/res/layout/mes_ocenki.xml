@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="10dp"
     android:id="@+id/liner_mes_ocenki"
     android:layout_height="wrap_content">
@@ -17,6 +18,8 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:hyphenationFrequency="normal"
+                tools:targetApi="m"
                 android:layout_centerHorizontal="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,6 +35,8 @@
                 />
 
             <TextView
+                android:hyphenationFrequency="normal"
+                tools:targetApi="m"
                 android:layout_below="@+id/title_mes_ocenki"
                 android:layout_toStartOf="@+id/number_quarters_edit"
                 android:layout_marginTop="20dp"
@@ -61,6 +66,8 @@
                 android:autofillHints=""/>
 
             <TextView
+                android:hyphenationFrequency="normal"
+                tools:targetApi="m"
                 android:layout_below="@+id/number_quarters_edit"
                 android:layout_toStartOf="@+id/mount_choose"
                 android:layout_marginTop="20dp"
@@ -91,6 +98,8 @@
     </androidx.core.widget.NestedScrollView>
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:layout_below="@+id/nested_mes"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -120,6 +129,8 @@
         android:background="@color/custom_bottomBorder" />
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:layout_toEndOf="@+id/viewBorder"
         android:layout_alignTop="@+id/button_one_alert"
         android:layout_alignBottom="@+id/button_one_alert"

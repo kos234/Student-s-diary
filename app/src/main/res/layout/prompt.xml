@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/LinerZvon_item"
+<RelativeLayout android:id="@+id/LinerZvon_item"
     android:background="@drawable/corners_alert"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:id="@+id/nested_add"
@@ -15,6 +15,8 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_centerHorizontal="true"
             android:id="@+id/textView2"
             android:layout_width="match_parent"
@@ -31,6 +33,8 @@
             />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_below="@+id/textView2"
             android:layout_toStartOf="@+id/timeStart"
             android:layout_marginTop="20dp"
@@ -43,6 +47,8 @@
             android:textSize="19sp"/>
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/text_time_start"
             android:layout_alignBottom="@+id/text_time_start"
@@ -57,6 +63,8 @@
             android:textSize="19sp" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_below="@+id/timeStart"
             android:layout_toStartOf="@+id/timeEnd"
             android:layout_marginTop="20dp"
@@ -69,6 +77,8 @@
             android:textSize="19sp"/>
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/text_time_end"
             android:layout_alignBottom="@+id/text_time_end"
@@ -82,6 +92,8 @@
             android:text="8:40" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_below="@+id/timeEnd"
             android:layout_toStartOf="@+id/nameYrok"
             android:layout_marginTop="20dp"
@@ -95,6 +107,8 @@
             />
 
         <EditText
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/text_pred_name"
             android:layout_alignBottom="@+id/text_pred_name"
@@ -113,6 +127,8 @@
             android:autofillHints=""/>
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_below="@+id/nameYrok"
             android:layout_toStartOf="@+id/spinner"
             android:layout_marginTop="20dp"
@@ -141,6 +157,8 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_below="@+id/spinner"
             android:layout_toStartOf="@+id/numKab"
             android:layout_marginTop="20dp"
@@ -153,6 +171,8 @@
             android:text="@string/classroomNumber"/>
 
         <EditText
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/text_num_kab"
             android:layout_alignBottom="@+id/text_num_kab"
@@ -172,6 +192,8 @@
     </RelativeLayout>
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:layout_below="@+id/nested_add"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -201,6 +223,8 @@
         android:background="@color/custom_bottomBorder" />
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:layout_toEndOf="@+id/viewBorder"
         android:layout_alignTop="@+id/button_one_alert"
         android:layout_alignBottom="@+id/button_one_alert"

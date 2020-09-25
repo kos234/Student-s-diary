@@ -18,6 +18,8 @@
         tools:ignore="ContentDescription" />
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:id="@+id/text_header"
         android:layout_alignStart="@+id/line"
         android:layout_marginStart="5dp"
@@ -30,6 +32,8 @@
         android:padding="0dp"/>
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:id="@+id/bottom_text_header"
         android:layout_below="@+id/text_header"
         android:layout_alignStart="@+id/line"

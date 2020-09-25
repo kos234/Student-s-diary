@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/timePicker_liner"
     android:orientation="vertical">
 
@@ -11,6 +12,8 @@
         android:layout_height="wrap_content"/>
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:layout_below="@+id/timePicker"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -40,6 +43,8 @@
         android:background="@color/custom_bottomBorder" />
 
     <TextView
+        android:hyphenationFrequency="normal"
+        tools:targetApi="m"
         android:layout_toEndOf="@+id/viewBorder"
         android:layout_alignTop="@+id/button_one_alert"
         android:layout_alignBottom="@+id/button_one_alert"

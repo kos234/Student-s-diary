@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/frame_type_color"
     android:background="@drawable/corners_alert"
@@ -16,6 +18,8 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:layout_gravity="center"
@@ -38,6 +42,8 @@
             android:background="@color/custom_bottomBorder"/>
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:layout_gravity="center"
@@ -74,6 +80,8 @@
             android:orientation="horizontal">
 
             <TextView
+                android:hyphenationFrequency="normal"
+                tools:targetApi="m"
                 android:id="@+id/textView_type_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,6 +101,8 @@
         </LinearLayout>
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_below="@+id/linear_color"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -122,6 +132,8 @@
             android:background="@color/custom_bottomBorder" />
 
         <TextView
+            android:hyphenationFrequency="normal"
+            tools:targetApi="m"
             android:layout_toEndOf="@+id/viewBorder"
             android:layout_alignTop="@+id/cancel_type_color"
             android:layout_alignBottom="@+id/cancel_type_color"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 <!--    bug fix-->
 
 <androidx.cardview.widget.CardView
@@ -22,6 +22,8 @@
             android:orientation="vertical">
 
             <TextView
+                android:hyphenationFrequency="normal"
+                tools:targetApi="m"
                 android:background="@android:color/white"
                 android:id="@+id/textViewNameDay"
                 android:layout_width="match_parent"
@@ -41,6 +43,8 @@
                 android:gravity="center">
 
                 <TextView
+                    android:hyphenationFrequency="normal"
+                    tools:targetApi="m"
                     android:id="@+id/card_tab_one"
                     android:text="@string/lessonConst"
                     android:layout_width="0dp"
@@ -57,9 +61,11 @@
                     />
 
                 <TextView
+                    android:hyphenationFrequency="normal"
+                    tools:targetApi="m"
                     android:id="@+id/card_tab_two"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@android:color/white"
@@ -72,8 +78,10 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:hyphenationFrequency="normal"
+                    tools:targetApi="m"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:background="@android:color/white"
                     android:id="@+id/card_tab_three"

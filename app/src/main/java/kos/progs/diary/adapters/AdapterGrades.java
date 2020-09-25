@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.InputType;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -144,6 +145,9 @@ public class AdapterGrades extends PagerAdapter {
 
             LinearLayout tableLayout = view.findViewById(R.id.tableDnew);
             textViewConf = new TextView(context);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                textViewConf.setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NORMAL);
+            }
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(0, MainActivity.dpSize, 0, 0);
             textViewConf.setGravity(Gravity.CENTER);
