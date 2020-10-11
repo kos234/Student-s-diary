@@ -4,26 +4,26 @@
 ### Вот как это сделать:
 
 #### Переходите в пункт "Приложения", настроек Android
-![screenshot of diary](https://i.ibb.co/PYXL3mH/Screenshot-20200908-190349-com-android-settings.jpg)
+<img src="https://i.ibb.co/PYXL3mH/Screenshot-20200908-190349-com-android-settings.jpg" width="50%"/>
  
 #### После: "Приоложения"
-![screenshot of diary](https://i.ibb.co/jH2RmP1/Screenshot-20200908-191220-com-android-settings.jpg)
+<img src="https://i.ibb.co/jH2RmP1/Screenshot-20200908-191220-com-android-settings.jpg" width="50%"/>
 
 #### После нажимаете на триточки, далее "Спецаильные разрешения"
-![screenshot of diary](https://i.ibb.co/Fx5L57C/Screenshot-20200908-191227-com-android-settings.jpg)
+<img src="https://i.ibb.co/Fx5L57C/Screenshot-20200908-191227-com-android-settings.jpg" width="50%"/>
 
 #### После: "Оптимизация батареи"
-![screenshot of diary](https://i.ibb.co/ryZDx1v/Screenshot-20200908-191236-com-android-settings.jpg)
+<img src="https://i.ibb.co/ryZDx1v/Screenshot-20200908-191236-com-android-settings.jpg" width="50%"/>
 
 #### После нажимаете на пункт "запрещено" и выбираете: "все приложения"
-![screenshot of diary](https://i.ibb.co/mBrJgzS/Screenshot-20200908-191251-com-android-settings.jpg)
+<img src="https://i.ibb.co/mBrJgzS/Screenshot-20200908-191251-com-android-settings.jpg" width="50%"/>
 
 #### Теперь ищите тут "Дневник ученика" и запрещаете ему оптимизировать работу батареии
-![screenshot of diary](https://i.ibb.co/kyfj1rp/Screenshot-20200908-191306-com-android-settings.jpg)
+<img src="https://i.ibb.co/kyfj1rp/Screenshot-20200908-191306-com-android-settings.jpg" width="50%"/>
 
 ### Снова возвращаемся к первому пункту "Приложений"
 #### Перейдите в "Автозапуск приложений"
-![screenshot of diary](https://i.ibb.co/bQj0L8B/Screenshot-20200908-191220-com-android-settings-2.jpg)
+<img src="https://i.ibb.co/bQj0L8B/Screenshot-20200908-191220-com-android-settings-2.jpg" width="50%"/>
 
 #### Найдите тут "Дневник ученика" и выключите переключатель
-![screenshot of diary](https://i.ibb.co/2dBKTgn/Screenshot-20200908-192521-com-huawei-systemmanager.jpg)
+<img src="https://i.ibb.co/2dBKTgn/Screenshot-20200908-192521-com-huawei-systemmanager.jpg" width="50%"/>
