@@ -487,6 +487,7 @@ public class FragmentDnewnik extends Fragment implements onBackPressed {
             viewPager.setPadding(settings.getInt("dpSizeSettings", 10) * MainActivity.dpSize, 0, settings.getInt("dpSizeSettings", 10) * MainActivity.dpSize, 0);
             viewPager.setPageMargin(60);
             viewPager.setId(R.id.ContentFragment);
+            viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
             view.addView(viewPager, layoutParams);
         } catch (Exception error) {
             ((MainActivity) context).errorStack(error);
