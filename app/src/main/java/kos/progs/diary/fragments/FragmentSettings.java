@@ -816,7 +816,7 @@ public class FragmentSettings extends Fragment implements onBackPressed {
                 spinner.getBackground().setColorFilter(textLightcolor, PorterDuff.Mode.SRC_ATOP);
                 spinner.setOnTouchListener((v, event) -> {
                     try {
-                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN && currentWindow[0].equals("null")) {
                             currentWindow = new String[]{"spinner_default"};
                         }
                     } catch (Exception error) {
@@ -873,7 +873,7 @@ public class FragmentSettings extends Fragment implements onBackPressed {
                 spinnerFragment.setAdapter(adapterSpinnerFragment);
                 spinnerFragment.setOnTouchListener((v, event) -> {
                     try {
-                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN && currentWindow[0].equals("null")) {
                             currentWindow = new String[]{"spinner_fragment_default"};
                         }
                     } catch (Exception error) {
@@ -924,7 +924,7 @@ public class FragmentSettings extends Fragment implements onBackPressed {
                 spinnerMount.getBackground().setColorFilter(textLightcolor, PorterDuff.Mode.SRC_ATOP);
                 spinnerMount.setOnTouchListener((v, event) -> {
                     try {
-                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN && currentWindow[0].equals("null")) {
                             currentWindow = new String[]{"spinner_mount_choose"};
                         }
                     } catch (Exception error) {
