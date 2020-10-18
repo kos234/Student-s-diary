@@ -35,7 +35,7 @@ public class AdapterFile extends RecyclerView.Adapter<AdapterFile.RecyclerViewHo
     }
 
     public interface OnItemClickListener {
-        void onItemClick(TextView view);
+        void onItemClick(int position, TextView view);
     }
 
     public AdapterFile(ArrayList<ConstructorFile> constructorFiles, Context context) {
@@ -110,7 +110,7 @@ public class AdapterFile extends RecyclerView.Adapter<AdapterFile.RecyclerViewHo
                 if (itemClickListener != null) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        itemClickListener.onItemClick(textViewName);
+                        itemClickListener.onItemClick(position, textViewName);
                     }
                 }
             });

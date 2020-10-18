@@ -108,17 +108,20 @@ public class FIleChooser extends Constant {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
             AdapterFile adapterFile = new AdapterFile(constructorFiles, context);
-            adapterFile.setOnItemClickListener(view -> {
-                switch (view.getTag().toString()) {
-                    case "folder":
-                        onClickFolder(view);
-                        break;
-                    case "archive":
-                        onClickArchive();
-                        break;
-                    default:
-                        MainActivity.ToastMakeText(context, context.getString(R.string.warning_file));
-                        break;
+            adapterFile.setOnItemClickListener(new AdapterFile.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position, TextView view) {
+                    switch (view.getTag().toString()) {
+                        case "folder":
+                            onClickFolder(view);
+                            break;
+                        case "archive":
+                            onClickArchive(constructorFiles.get(position).name);
+                            break;
+                        default:
+                            MainActivity.ToastMakeText(context, context.getString(R.string.warning_file));
+                            break;
+                    }
                 }
             });
             recyclerView.setAdapter(adapterFile);
@@ -156,9 +159,13 @@ public class FIleChooser extends Constant {
         }
     }
 
-    public void onClickArchive() {
+    public void onClickArchive(String name) {
         try {
-            ((MainActivity) context).onPatch(currentPath.getAbsolutePath());
+            String path = currentPath.getAbsolutePath();
+            if(path.substring(path.length() - 1).equals("/"))
+                path += name;
+            else path += "/" + name;
+            ((MainActivity) context).onPatch(path);
         } catch (Exception error) {
             ((MainActivity) context).errorStack(error);
         }

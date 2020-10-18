@@ -197,9 +197,8 @@ public class AdapterCardItem extends RecyclerView.Adapter<AdapterCardItem.Recycl
             bundle.putStringArray("currentWindow", new String[]{"create", String.valueOf(dayIndex)});
             fragmentActiv.setArguments(bundle);
             ((MainActivity) context).fragmentManager.beginTransaction().addToBackStack("q").replace(R.id.Smena, fragmentActiv).commit();
-            ((MainActivity) context).menuAdapter.onCheck(1, 0);
             SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("Fragment", 1);
+            editor.putString("Day", context.getResources().getStringArray(R.array.DayTxt)[dayIndex]);
             editor.apply();
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();

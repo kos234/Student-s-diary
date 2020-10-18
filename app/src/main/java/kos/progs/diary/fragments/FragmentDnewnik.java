@@ -96,6 +96,7 @@ public class FragmentDnewnik extends Fragment implements onBackPressed {
             dateNedel = view.findViewById(R.id.textViewDnew);
             if (Objects.requireNonNull(b).size() != 0) {
                 ConstructorDnewniks = b.getParcelableArrayList("list");
+
                 if (Objects.requireNonNull(ConstructorDnewniks).size() == 6 && !settings.getBoolean("SaturdaySettings", true))
                     ConstructorDnewniks.remove(5);
                 else if (ConstructorDnewniks.size() == 5 && settings.getBoolean("SaturdaySettings", true))
@@ -416,6 +417,7 @@ public class FragmentDnewnik extends Fragment implements onBackPressed {
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             isFileNotFound = false;
                             help = temp_read.split("=");
+                            stringBuffer.append(help[1]).append("=").append(help[2]).append("= = ").append("=\n");
                             strings.add(help[1] + "=" + help[2] + "= = ");
                         }
                         if (isFileNotFound)
@@ -1086,7 +1088,7 @@ public class FragmentDnewnik extends Fragment implements onBackPressed {
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             isFileNotFound = false;
                             help = temp_read.split("=");
-
+                            stringBuffer.append(help[0]).append("=").append(help[1]).append("=").append(help[2]).append("= \n");
                             strings.add(help[0] + "=" + help[1] + "=" + help[2] + "= ");
                         }
 
@@ -1198,6 +1200,7 @@ public class FragmentDnewnik extends Fragment implements onBackPressed {
                         while ((temp_read = bufferedReader.readLine()) != null) {
                             isFileNotFound = false;
                             help = temp_read.split("=");
+                            stringBuffer.append(help[0]).append("=").append(help[1]).append("= =").append(help[3]).append("\n");
                             strings.add(help[0] + "=" + help[1] + "= =" + help[3]);
                         }
                         if (isFileNotFound)

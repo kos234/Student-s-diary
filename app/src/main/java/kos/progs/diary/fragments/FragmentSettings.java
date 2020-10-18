@@ -1418,7 +1418,6 @@ public class FragmentSettings extends Fragment implements onBackPressed {
                 reader.close();
                 read.close();
             } catch (IOException e) {
-                e.printStackTrace();
             } catch (NullPointerException ignore) {
 
             }

@@ -583,20 +583,24 @@ public class MainActivity extends AppCompatActivity {
                                 oldState = newState;
                                 if (fragmentManager.getFragments().get(0) instanceof FragmentSettings) {
                                     FragmentSettings fragmentSettings = (FragmentSettings) fragmentManager.getFragments().get(0);
-                                    if (newState == BottomSheetBehavior.STATE_HIDDEN)
-                                        fragmentSettings.currentWindow = new String[]{"null"};
-                                    else if (newState == BottomSheetBehavior.STATE_SETTLING)
-                                        fragmentSettings.currentWindow = new String[]{fragmentSettings.currentWindow[0], fragmentSettings.currentWindow[1], String.valueOf(BottomSheetBehavior.STATE_COLLAPSED)};
-                                    else
-                                        fragmentSettings.currentWindow = new String[]{fragmentSettings.currentWindow[0], fragmentSettings.currentWindow[1], String.valueOf(newState)};
+                                    if(!fragmentSettings.currentWindow[0].equals("null")){
+                                        if (newState == BottomSheetBehavior.STATE_HIDDEN)
+                                            fragmentSettings.currentWindow = new String[]{"null"};
+                                        else if (newState == BottomSheetBehavior.STATE_SETTLING)
+                                            fragmentSettings.currentWindow = new String[]{fragmentSettings.currentWindow[0], fragmentSettings.currentWindow[1], String.valueOf(BottomSheetBehavior.STATE_COLLAPSED)};
+                                        else
+                                            fragmentSettings.currentWindow = new String[]{fragmentSettings.currentWindow[0], fragmentSettings.currentWindow[1], String.valueOf(newState)};
+                                    }
                                 } else if (fragmentManager.getFragments().get(0) instanceof FragmentHelp) {
                                     FragmentHelp fragmentHelp = (FragmentHelp) fragmentManager.getFragments().get(0);
-                                    if (newState == BottomSheetBehavior.STATE_HIDDEN)
-                                        fragmentHelp.currentWindow = new String[]{"null"};
-                                    else if (newState == BottomSheetBehavior.STATE_SETTLING)
-                                        fragmentHelp.currentWindow = new String[]{fragmentHelp.currentWindow[0], String.valueOf(BottomSheetBehavior.STATE_COLLAPSED)};
-                                    else
-                                        fragmentHelp.currentWindow = new String[]{fragmentHelp.currentWindow[0], String.valueOf(newState)};
+                                    if(!fragmentHelp.currentWindow[0].equals("null")) {
+                                        if (newState == BottomSheetBehavior.STATE_HIDDEN)
+                                            fragmentHelp.currentWindow = new String[]{"null"};
+                                        else if (newState == BottomSheetBehavior.STATE_SETTLING)
+                                            fragmentHelp.currentWindow = new String[]{fragmentHelp.currentWindow[0], String.valueOf(BottomSheetBehavior.STATE_COLLAPSED)};
+                                        else
+                                            fragmentHelp.currentWindow = new String[]{fragmentHelp.currentWindow[0], String.valueOf(newState)};
+                                    }
                                 }
                             }
                         } catch (Exception error) {
@@ -849,6 +853,65 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+//        public static Boolean unzip(String sourceFile, String destinationFolder)  {
+//            ZipInputStream zis = null;
+//
+//            try {
+//                zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(sourceFile)));
+//                ZipEntry ze;
+//                int count;
+//                byte[] buffer = new byte[BUFFER_SIZE];
+//                while ((ze = zis.getNextEntry()) != null) {
+//                    String fileName = ze.getName();
+//                    fileName = fileName.substring(fileName.indexOf("/") + 1);
+//                    File file = new File(destinationFolder, fileName);
+//                    File dir = ze.isDirectory() ? file : file.getParentFile();
+//
+//                    if (!dir.isDirectory() && !dir.mkdirs())
+//                        throw new FileNotFoundException("Invalid path: " + dir.getAbsolutePath());
+//                    if (ze.isDirectory()) continue;
+//                    FileOutputStream fout = new FileOutputStream(file);
+//                    try {
+//                        while ((count = zis.read(buffer)) != -1)
+//                            fout.write(buffer, 0, count);
+//                    } finally {
+//                        fout.close();
+//                    }
+//
+//                }
+//            } catch (IOException  ioe){
+//                Log.d(TAG,ioe.getMessage());
+//                return false;
+//            }  finally {
+//                if(zis!=null)
+//                    try {
+//                        zis.close();
+//                    } catch(IOException e) {
+//
+//                    }
+//            }
+//            return true;
+//        }
+//
+//
+//
+//        public static  void saveToFile( String destinationPath, String data, String fileName){
+//            try {
+//                new File(destinationPath).mkdirs();
+//                File file = new File(destinationPath+ fileName);
+//                if (!file.exists()) {
+//                    file.createNewFile();
+//                }
+//                FileOutputStream fileOutputStream = new FileOutputStream(file,true);
+//                fileOutputStream.write((data + System.getProperty("line.separator")).getBytes());
+//
+//            }  catch(FileNotFoundException ex) {
+//                Log.d(TAG, ex.getMessage());
+//            }  catch(IOException ex) {
+//                Log.d(TAG, ex.getMessage());
+//            }
+//        }
+
         @Override
         protected Void doInBackground(Void... voids) {
             try {
@@ -878,6 +941,7 @@ public class MainActivity extends AppCompatActivity {
                 ZipInputStream zis = null;
 
                 try {
+
                     zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(sourceFile)));
                     ZipEntry ze;
                     int count;
@@ -888,7 +952,6 @@ public class MainActivity extends AppCompatActivity {
                     while ((ze = zis.getNextEntry()) != null) {
                         fileName = ze.getName();
 
-                        fileName = fileName.substring(fileName.indexOf("/") + 1);
                         if (fileName.startsWith("/"))
                             folder = fileName.substring(1).split("/");
                         else folder = fileName.split("/");
@@ -941,8 +1004,8 @@ public class MainActivity extends AppCompatActivity {
         private TextView textView;
 
         public ExporterAsyncTask(String sourcePathOne, String sourcePathTwo, String destinationPath, String destinationFileName) {
-            this.sourcePathOne = sourcePathOne;
-            this.sourcePathTwo = sourcePathTwo;
+            this.sourcePathOne = sourcePathOne + "/";
+            this.sourcePathTwo = sourcePathTwo + "/";
             this.destinationPath = destinationPath;
             this.destinationFileName = destinationFileName;
         }
