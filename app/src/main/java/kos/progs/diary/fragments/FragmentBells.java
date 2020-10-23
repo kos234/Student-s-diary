@@ -50,7 +50,6 @@ public class FragmentBells extends Fragment implements onBackPressed {
     public ViewPager viewPager;
     private AdapterNewPager pagerAdapter;
     private Context context;
-    private String url;
     private View view;
     public String[] currentWindow = new String[]{"null"}, action = new String[]{"null"};
     private int[] scrolls = new int[]{0, 0, 0, 0, 0, 0};
@@ -238,33 +237,27 @@ public class FragmentBells extends Fragment implements onBackPressed {
                             boolean OnOff = true;
                             switch (position) {
                                 case 0:
-                                    editor.putString("Day", "Monday.txt");
                                     OnOff = settings.getBoolean("Monday", true);
                                     break;
 
                                 case 1:
-                                    editor.putString("Day", "Tuesday.txt");
                                     OnOff = settings.getBoolean("Tuesday", true);
                                     break;
 
                                 case 2:
-                                    editor.putString("Day", "Wednesday.txt");
                                     OnOff = settings.getBoolean("Wednesday", true);
                                     break;
 
                                 case 3:
-                                    editor.putString("Day", "Thursday.txt");
                                     OnOff = settings.getBoolean("Thursday", true);
                                     break;
 
                                 case 4:
-                                    editor.putString("Day", "Friday.txt");
                                     OnOff = settings.getBoolean("Friday", true);
                                     break;
 
                                 case 5:
                                     if (settings.getBoolean("SaturdaySettings", true)) {
-                                        editor.putString("Day", "Saturday.txt");
                                         OnOff = settings.getBoolean("Saturday", true);
                                     }
                                     break;
@@ -310,29 +303,23 @@ public class FragmentBells extends Fragment implements onBackPressed {
                     switch (start.toString().substring(0, 3)) {
                         case "Tue":
                             viewPager.setCurrentItem(1);
-                            url = "Tuesday.txt";
                             break;
                         case "Wed":
                             viewPager.setCurrentItem(2);
-                            url = "Wednesday.txt";
                             break;
                         case "Thu":
                             viewPager.setCurrentItem(3);
-                            url = "Thursday.txt";
                             break;
                         case "Fri":
                             viewPager.setCurrentItem(4);
-                            url = "Friday.txt";
                             break;
                         case "Sat":
                             if (settings.getBoolean("SaturdaySettings", true)) {
                                 viewPager.setCurrentItem(5);
-                                url = "Saturday.txt";
                             }
                             break;
                         default:
                             viewPager.setCurrentItem(0);
-                            url = "Monday.txt";
                             break;
                     }
                 }
@@ -346,10 +333,6 @@ public class FragmentBells extends Fragment implements onBackPressed {
             try {
                 GenerateData();
                 pagerAdapter = new AdapterNewPager(list, context, floatingActionButton, scrolls);
-
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString("Day", url);
-                editor.apply();
             } catch (Exception error) {
                 ((MainActivity) context).errorStack(error);
             }
@@ -358,33 +341,18 @@ public class FragmentBells extends Fragment implements onBackPressed {
     }
 
     public class DeleteAll extends AsyncTask<Void, Void, Void> {
+        int lastPos = 0;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            lastPos = viewPager.getCurrentItem();
+        }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             try {
                 viewPager.setAdapter(pagerAdapter);
-
-                switch (Objects.requireNonNull(settings.getString("Day", "Monday.txt"))) {
-                    case "Tuesday.txt":
-                        viewPager.setCurrentItem(1);
-                        break;
-                    case "Wednesday.txt":
-                        viewPager.setCurrentItem(2);
-                        break;
-                    case "Thursday.txt":
-                        viewPager.setCurrentItem(3);
-                        break;
-                    case "Friday.txt":
-                        viewPager.setCurrentItem(4);
-                        break;
-                    case "Saturday.txt":
-                        if (settings.getBoolean("SaturdaySettings", true))
-                            viewPager.setCurrentItem(5);
-                        break;
-                    default:
-                        viewPager.setCurrentItem(0);
-                        break;
-                }
+                viewPager.setCurrentItem(lastPos);
             } catch (Exception error) {
                 ((MainActivity) context).errorStack(error);
             }
@@ -467,8 +435,7 @@ public class FragmentBells extends Fragment implements onBackPressed {
         try {
             imageButton = ((MainActivity) context).getButton();
             imageButton.setVisibility(View.VISIBLE);
-            url = settings.getString("Day", "Monday.txt");
-            String[] temp = Objects.requireNonNull(url).split(".txt");
+            String[] temp = Objects.requireNonNull(context.getResources().getStringArray(R.array.DayTxt)[viewPager.getCurrentItem()]).split(".txt");
             final Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
             if (settings.getBoolean(temp[0], true)) {
                 Objects.requireNonNull(drawable).setColorFilter(Current_Theme.getInt("custom_notification_on", ContextCompat.getColor(context, R.color.custom_notification_on)), PorterDuff.Mode.SRC_ATOP);
@@ -479,8 +446,7 @@ public class FragmentBells extends Fragment implements onBackPressed {
             }
             imageButton.setOnClickListener(view -> {
                 try {
-                    url = settings.getString("Day", "Monday.txt");
-                    String[] temp1 = Objects.requireNonNull(url).split(".txt");
+                    String[] temp1 = Objects.requireNonNull(context.getResources().getStringArray(R.array.DayTxt)[viewPager.getCurrentItem()]).split(".txt");
                     Drawable drawable1 = ContextCompat.getDrawable(context, R.drawable.ic_power_settings_new_24px);
                     SharedPreferences.Editor editor = settings.edit();
                     if (settings.getBoolean(temp1[0], true)) {

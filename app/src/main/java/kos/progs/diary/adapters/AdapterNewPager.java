@@ -351,7 +351,7 @@ public class AdapterNewPager extends PagerAdapter {
 
 
                             try {
-                                FileInputStream read = context.openFileInput(settings.getString("Day", "Monday.txt"));
+                                FileInputStream read = context.openFileInput(context.getResources().getStringArray(R.array.DayTxt)[positionTek]);
                                 InputStreamReader reader = new InputStreamReader(read);
                                 BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -400,7 +400,7 @@ public class AdapterNewPager extends PagerAdapter {
                                 NumString = constructorFragmentViewPager.products.size();
                             }
                             try {
-                                FileOutputStream write = context.openFileOutput(settings.getString("Day", "Monday.txt"), MODE_PRIVATE);
+                                FileOutputStream write = context.openFileOutput(context.getResources().getStringArray(R.array.DayTxt)[positionTek], MODE_PRIVATE);
                                 String temp_write = stringBuffer.toString();
 
                                 write.write(temp_write.getBytes());
@@ -570,7 +570,7 @@ public class AdapterNewPager extends PagerAdapter {
                 try {
                     int positionTek = fragmentBells.viewPager.getCurrentItem();
 
-                    File outFile = new File(context.getFilesDir() + "/" + settings.getString("Day", "Monday.txt"));
+                    File outFile = new File(context.getFilesDir() + "/" + context.getResources().getStringArray(R.array.DayTxt)[positionTek]);
                     if (outFile.exists()) {
                         outFile.delete();
                     }
@@ -743,7 +743,7 @@ public class AdapterNewPager extends PagerAdapter {
 
 
                             try {
-                                FileInputStream read = context.openFileInput(settings.getString("Day", "Monday.txt"));
+                                FileInputStream read = context.openFileInput(context.getResources().getStringArray(R.array.DayTxt)[positionTek]);
                                 InputStreamReader reader = new InputStreamReader(read);
                                 BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -790,7 +790,7 @@ public class AdapterNewPager extends PagerAdapter {
                                 NumString = constructorFragmentViewPagerArrayList.get(positionTek).products.size();
                             }
                             try {
-                                FileOutputStream write = context.openFileOutput(settings.getString("Day", "Monday.txt"), MODE_PRIVATE);
+                                FileOutputStream write = context.openFileOutput(context.getResources().getStringArray(R.array.DayTxt)[positionTek], MODE_PRIVATE);
                                 String temp_write = stringBuffer.toString();
 
                                 write.write(temp_write.getBytes());
