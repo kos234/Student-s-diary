@@ -101,6 +101,12 @@ public class FragmentDnewnik extends Fragment implements onBackPressed {
                     ConstructorDnewniks.remove(5);
                 else if (ConstructorDnewniks.size() == 5 && settings.getBoolean("SaturdaySettings", true))
                     onGenerate(5);
+
+                for(int i = 0; i < ConstructorDnewniks.size(); i++){
+                    if (ConstructorDnewniks.get(i).isUmply)
+                        onGenerate(i);
+                }
+
                 scrolls = b.getIntArray("scrolls");
                 currentWindow = b.getStringArray("currentWindow");
                 if (Objects.requireNonNull(currentWindow)[0].equals("alertClear")) {
@@ -1855,7 +1861,11 @@ public class FragmentDnewnik extends Fragment implements onBackPressed {
                 if (isFileNotFound)
                     throw new FileNotFoundException();
 
-                ConstructorDnewniks.add(new ConstructorDnewnik(nameDay, strings, false));
+                try {
+                    ConstructorDnewniks.set(i, new ConstructorDnewnik(nameDay, strings, false));
+                }catch (IndexOutOfBoundsException is){
+                    ConstructorDnewniks.add(new ConstructorDnewnik(nameDay, strings, false));
+                }
             } catch (FileNotFoundException e) {
                 StringBuilder stringBuffer = new StringBuilder();
 
@@ -1879,11 +1889,19 @@ public class FragmentDnewnik extends Fragment implements onBackPressed {
                     if (isFileNotFound)
                         throw new FileNotFoundException();
 
-                    ConstructorDnewniks.add(new ConstructorDnewnik(nameDay, strings, false));
+                    try {
+                        ConstructorDnewniks.set(i, new ConstructorDnewnik(nameDay, strings, false));
+                    }catch (IndexOutOfBoundsException is){
+                        ConstructorDnewniks.add(new ConstructorDnewnik(nameDay, strings, false));
+                    }
                 } catch (FileNotFoundException q) {
                     List<String> arrayList = new ArrayList<>();
                     arrayList.add(getString(R.string.nullTimetablesName) + "=" + getString(R.string.nullTimetablesKab) + "=" + getString(R.string.nullTimetablesDz) + "= ");
-                    ConstructorDnewniks.add(new ConstructorDnewnik(nameDay, arrayList, true));
+                    try {
+                        ConstructorDnewniks.set(i, new ConstructorDnewnik(nameDay, arrayList, true));
+                    }catch (IndexOutOfBoundsException is){
+                        ConstructorDnewniks.add(new ConstructorDnewnik(nameDay, arrayList, true));
+                    }
                 } catch (IOException j) {
                     j.printStackTrace();
                 }
