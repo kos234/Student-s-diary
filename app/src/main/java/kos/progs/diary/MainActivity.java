@@ -853,65 +853,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-//        public static Boolean unzip(String sourceFile, String destinationFolder)  {
-//            ZipInputStream zis = null;
-//
-//            try {
-//                zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(sourceFile)));
-//                ZipEntry ze;
-//                int count;
-//                byte[] buffer = new byte[BUFFER_SIZE];
-//                while ((ze = zis.getNextEntry()) != null) {
-//                    String fileName = ze.getName();
-//                    fileName = fileName.substring(fileName.indexOf("/") + 1);
-//                    File file = new File(destinationFolder, fileName);
-//                    File dir = ze.isDirectory() ? file : file.getParentFile();
-//
-//                    if (!dir.isDirectory() && !dir.mkdirs())
-//                        throw new FileNotFoundException("Invalid path: " + dir.getAbsolutePath());
-//                    if (ze.isDirectory()) continue;
-//                    FileOutputStream fout = new FileOutputStream(file);
-//                    try {
-//                        while ((count = zis.read(buffer)) != -1)
-//                            fout.write(buffer, 0, count);
-//                    } finally {
-//                        fout.close();
-//                    }
-//
-//                }
-//            } catch (IOException  ioe){
-//                Log.d(TAG,ioe.getMessage());
-//                return false;
-//            }  finally {
-//                if(zis!=null)
-//                    try {
-//                        zis.close();
-//                    } catch(IOException e) {
-//
-//                    }
-//            }
-//            return true;
-//        }
-//
-//
-//
-//        public static  void saveToFile( String destinationPath, String data, String fileName){
-//            try {
-//                new File(destinationPath).mkdirs();
-//                File file = new File(destinationPath+ fileName);
-//                if (!file.exists()) {
-//                    file.createNewFile();
-//                }
-//                FileOutputStream fileOutputStream = new FileOutputStream(file,true);
-//                fileOutputStream.write((data + System.getProperty("line.separator")).getBytes());
-//
-//            }  catch(FileNotFoundException ex) {
-//                Log.d(TAG, ex.getMessage());
-//            }  catch(IOException ex) {
-//                Log.d(TAG, ex.getMessage());
-//            }
-//        }
-
         @Override
         protected Void doInBackground(Void... voids) {
             try {
