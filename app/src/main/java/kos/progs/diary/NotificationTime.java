@@ -111,7 +111,7 @@ public class NotificationTime extends BroadcastReceiver {
                     while ((temp_read = bufferedReader.readLine()) != null) {
                         stringBuilder.add(temp_read);
                     }
-                    String[] dateTimes;
+                    String[] dateTimes, dateTimesLast;
                     for (int i = 0; i < stringBuilder.size(); i++) {
                         dateTimes = generateDate(stringBuilder.get(i));
 
@@ -120,9 +120,9 @@ public class NotificationTime extends BroadcastReceiver {
                         TimeHoursEnd = Integer.parseInt(dateTimes[3]);
                         TimeMinsEnd = Integer.parseInt(dateTimes[4]);
                         if (i != 0) {
-                            dateTimes = generateDate(stringBuilder.get(i - 1));
-                            LastHoursEnd = Integer.parseInt(dateTimes[3]);
-                            LastMinEnd = Integer.parseInt(dateTimes[4]);
+                            dateTimesLast = generateDate(stringBuilder.get(i - 1));
+                            LastHoursEnd = Integer.parseInt(dateTimesLast[3]);
+                            LastMinEnd = Integer.parseInt(dateTimesLast[4]);
                         }
 
                         int hourDate = Integer.parseInt(date.toString().substring(11, 13));
@@ -132,7 +132,7 @@ public class NotificationTime extends BroadcastReceiver {
                             Type = context.getString(R.string.StartYrok);
                             hour = TimeHoursStart - hourDate;
                             if (hour != 0)
-                                min = hour * 60 + TimeMinsEnd - minDate;
+                                min = hour * 60 + TimeMinsStart - minDate;
                             else
                                 min = TimeMinsStart - minDate;
                             hour = 0;
