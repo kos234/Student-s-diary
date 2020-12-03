@@ -41,6 +41,35 @@ $app->post('/write', function() use ($app) {
     return "ok";
 });
 
+$app->post('/getupdate', function() use ($app) {
+    if (!isset($_REQUEST))
+        return "";
+
+    $text = file_get_contents('php://input');
+
+    if($text != "" || $text != " "){
+        $urlDB = parse_url(getenv("CLEARDB_DATABASE_URL")); //Подключаемся к бд
+
+        $server = $urlDB["host"];
+        $username = $urlDB["user"];
+        $password = $urlDB["pass"];
+        $db = substr($urlDB["path"], 1);
+
+        $mysqli = new mysqli($server, $username, $password, $db);
+
+        if ($mysqli->connect_error) {//проверка подключились ли мы
+            die('Ошибка подключения (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error); //если нет выводим ошибку и выходим из кода
+        } else {
+            $mysqli->query("SET NAMES 'utf8'");
+            $res = $mysqli->query("SELECT * FROM `version`");
+            $res = $res->$res->fetch_assoc();
+            
+        }
+    }
+
+    return "ok";
+});
+
 $app->get('/', function() use($app) {
     return "What are you doing here?<br>This is debugger!";
 });
