@@ -1,5 +1,6 @@
 <?php
 require('../vendor/autoload.php');
+//https://git.heroku.com/students-diary.git
 
 $app = new Silex\Application();
 $app['debug'] = true;
@@ -36,7 +37,7 @@ $app->post('/write', function() use ($app) {
             $mysqli->query("CREATE TABLE IF NOT EXISTS  `logs`(`id` Int( 255 ) AUTO_INCREMENT NOT NULL, `log` Text NOT NULL, CONSTRAINT `unique_id` UNIQUE(`id`)) ENGINE = InnoDB;");
             $mysqli->query("INSERT INTO `logs` (`log`) VALUES ('" . $text . "')");
         }
-    }
+    }else
 
     return "ok";
 });
@@ -62,12 +63,13 @@ $app->post('/getupdate', function() use ($app) {
         } else {
             $mysqli->query("SET NAMES 'utf8'");
             $res = $mysqli->query("SELECT * FROM `version`");
-            $res = $res->$res->fetch_assoc();
-            
+            $res = $res->fetch_assoc();
+            if($res["value"] != $text)
+                return $res["src"] . "&size=" . $res["size"];
+            else
+                return "ok";
         }
-    }
-
-    return "ok";
+    }else return 'noConnect';
 });
 
 $app->get('/', function() use($app) {

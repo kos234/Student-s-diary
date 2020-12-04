@@ -138,6 +138,11 @@
     <string name="cancel_change_theme">Больше не показывать</string>
     <string name="remove_bottom_padding">Убрать отступы от панели навигации</string>
     <string name="faqNotify">Через время уведомления перестают обновляться?\n\nНажмите сюда, чтобы узнать как это исправить\n</string>
+    <string name="update">Обновление</string>
+    <string name="update_setup">Хотите обновить приложение до новой версии?</string>
+    <string name="downloaded">Скачано</string>
+    <string name="installation">Установка</string>
+    <string name="install_updates">Нажмите сюда, чтобы установить обновления</string>
 
     <string name="custom_color_name">Название темы</string>
     <string name="custom_color_icon">Цвет иконки темы</string>

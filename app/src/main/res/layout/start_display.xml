@@ -25,7 +25,7 @@
         android:layout_marginTop="50dp"
         android:adjustViewBounds="true"
         android:layout_width="wrap_content"
-        android:src="@drawable/bell"
+        android:src="@mipmap/bell"
         android:layout_height="0dp"
         tools:ignore="ContentDescription" />
 
