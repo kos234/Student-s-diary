@@ -9,7 +9,7 @@ Student's diary
 
 #### On development stage: In development: Help section for lessons - everyone can add their own hint, rule to a specific lesson. Hints will be available to all users; Holiday themes
 
-#### The current version can be found at this link: https://github.com/kos234/Student-s-diary/releases/download/1.4.4/Student.s.diary.1.4.4.Alpha.apk
+#### The current version can be found at this link: https://github.com/kos234/Student-s-diary/releases/download/1.4.5/Student.s.diary.1.4.5.Alpha.apk
 
 
 Дневник
@@ -21,7 +21,7 @@ Student's diary
 
 #### В разработке: Раздел помощи по предметам - каждый сможет добавить свою подсказку, правило к тому или иному предмету. Подсказки будут доступны всем пользователям приложения; Праздничные темы
 
-#### Приложение можно скачать по этой ссылке: https://github.com/kos234/Student-s-diary/releases/download/1.4.4/Student.s.diary.1.4.4.Alpha.apk
+#### Приложение можно скачать по этой ссылке: https://github.com/kos234/Student-s-diary/releases/download/1.4.5/Student.s.diary.1.4.5.Alpha.apk
 
 Документация
 =====================
