@@ -157,7 +157,7 @@ public class NotificationTime extends BroadcastReceiver {
                         } else if (icPeremena(LastHoursEnd, LastMinEnd, hourDate * 60 + minDate, TimeHoursStart, TimeMinsStart)) {
                             hour = TimeHoursStart - hourDate;
                             if (hour != 0)
-                                min = hour * 60 + TimeMinsEnd - minDate;
+                                min = hour * 60 + TimeMinsStart - minDate;
                             else
                                 min = TimeMinsStart - minDate;
                             hour = 0;
