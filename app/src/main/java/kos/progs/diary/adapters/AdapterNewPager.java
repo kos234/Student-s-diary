@@ -482,7 +482,14 @@ public class AdapterNewPager extends PagerAdapter {
                     ((MainActivity) context).errorStack(error);
                 }
             });
-
+            String[] timePickerValue = fragmentBells.action;
+            if(timePickerValue[0].equals("timePicker")){
+                if(timePickerValue[0].equals(String.valueOf(zvonokone.getId()))){
+                    timePickerAlert(zvonokone);
+                }else{
+                    timePickerAlert(zvonoktwo);
+                }
+            }
         } catch (Exception error) {
             ((MainActivity) context).errorStack(error);
         }
@@ -868,6 +875,7 @@ public class AdapterNewPager extends PagerAdapter {
 
     private void timePickerAlert(final TextView textView) {
         try {
+            fragmentBells.action = new String[]{"timePicker", String.valueOf(textView.getId())};
             final View promptsView = LayoutInflater.from(context).inflate(R.layout.timepicker_layout, null);
             AlertDialog.Builder timepicker = new AlertDialog.Builder(context);
             timepicker.setView(promptsView);
@@ -894,7 +902,7 @@ public class AdapterNewPager extends PagerAdapter {
             ButtonCancel.setOnClickListener(view -> {
                 try {
                     fragmentBells.timePicker.hide();
-                    fragmentBells.currentWindow = new String[]{"null"};
+                    fragmentBells.action = new String[]{"null"};
                     fragmentBells.timePicker = null;
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);
@@ -921,7 +929,7 @@ public class AdapterNewPager extends PagerAdapter {
                         textView.setText(hour + ":" + minute + " " + am_pm);
                     } else textView.setText(hour + ":" + minute);
                     fragmentBells.timePicker.hide();
-                    fragmentBells.currentWindow = new String[]{"null"};
+                    fragmentBells.action = new String[]{"null"};
                     fragmentBells.timePicker = null;
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);
@@ -932,7 +940,7 @@ public class AdapterNewPager extends PagerAdapter {
             fragmentBells.timePicker.show();
             fragmentBells.timePicker.setOnCancelListener(dialog -> {
                 try {
-                    fragmentBells.currentWindow = new String[]{"null"};
+                    fragmentBells.action = new String[]{"null"};
                     fragmentBells.timePicker = null;
                 } catch (Exception error) {
                     ((MainActivity) context).errorStack(error);

@@ -6,14 +6,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -32,10 +29,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +57,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.customview.widget.ViewDragHelper;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -70,9 +64,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import kos.progs.diary.R;
-
-import kos.progs.diary.adapters.AdapterNewPager;
 import kos.progs.diary.constructors.ConstructorItemMenu;
 import kos.progs.diary.fragments.FragmentBells;
 import kos.progs.diary.fragments.FragmentDnewnik;
@@ -129,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
     public FragmentManager fragmentManager;
     public final List<Bundle> getBundles = new ArrayList<>();
     private MediaRecorder mediaRecorder;
-    public static final int REQUEST_CODE_CAMERA = 1, REQUEST_CODE_MICROPHONE_CONF = 3, REQUEST_CODE_CAMERA_CONF = 4, REQUEST_CODE_FOLDER_CONF = 5, REQUEST_CODE_CHOOSE_FILE = 6, REQUEST_CODE_INSTALL_APK = 7;
+    public static final int REQUEST_CODE_CAMERA = 1, REQUEST_CODE_MICROPHONE_CONF = 3, REQUEST_CODE_CAMERA_CONF = 4, REQUEST_CODE_FOLDER_CONF = 5, REQUEST_CODE_CHOOSE_FILE = 6;
     public String urlTemp, TempNameTheme;
     public int[] tempSizes = null;
     private NavigationView navigationView;
@@ -175,115 +166,6 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialogUpdate.dismiss();
         } catch (Exception error) {
             errorStack(error);
-        }
-    }
-
-    class getUpdate extends AsyncTask<Void, String, Void> {
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-            try {
-                final View promptsView = LayoutInflater.from(context).inflate(R.layout.alert_delete_dnewnik, null);
-                final AlertDialog.Builder Update = new AlertDialog.Builder(context);
-                Update.setView(promptsView);
-                GradientDrawable alertbackground = (GradientDrawable) ContextCompat.getDrawable(context, R.drawable.corners_alert);
-                Objects.requireNonNull(alertbackground).setColor(Current_Theme.getInt("custom_background", ContextCompat.getColor(context, R.color.custom_background)));
-                if (settings.getBoolean("BorderAlertSettings", false))
-                    alertbackground.setStroke(settings.getInt("dpBorderSettings", 4) * MainActivity.dpSize, Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
-                promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
-
-                AlertDialogUpdate = Update.create();
-
-                TextView textTitle = promptsView.findViewById(R.id.title_alert);
-                textTitle.setTextColor(Current_Theme.getInt("custom_text_dark", ContextCompat.getColor(context, R.color.custom_text_dark)));
-                textTitle.setText(context.getString(R.string.update));
-
-                TextView textBottomTitle = promptsView.findViewById(R.id.title_bottom_alert);
-                textBottomTitle.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
-                textBottomTitle.setText(context.getString(R.string.update_setup));
-
-                final TextView ButtonCancel = promptsView.findViewById(R.id.button_one_alert);
-                ButtonCancel.setText(context.getString(R.string.cancel));
-                ButtonCancel.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
-                ButtonCancel.setOnClickListener(view -> {
-                    try {
-                        AlertDialogUpdate.hide();
-                        AlertDialogUpdate = null;
-                    } catch (Exception error) {
-                        errorStack(error);
-                    }
-                });
-
-                promptsView.findViewById(R.id.viewBorderOne).setBackgroundColor(Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)));
-                promptsView.findViewById(R.id.viewBorderTwo).setBackgroundColor(Current_Theme.getInt("custom_bottomBorder", ContextCompat.getColor(context, R.color.custom_bottomBorder)));
-
-                promptsView.findViewById(R.id.button_three_alert).setVisibility(View.GONE);
-                promptsView.findViewById(R.id.viewBorderTwo).setVisibility(View.GONE);
-
-                final TextView ButtonOne = promptsView.findViewById(R.id.button_two_alert);
-                ButtonOne.setOnClickListener(viewClick -> {
-                    Intent intent = new Intent(context, DownloadService.class);
-                    intent.putExtra("src", values[0]);
-                    intent.putExtra("size", values[1]);
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                        startForegroundService(intent);
-                    }else{
-                        startService(intent);
-                    }
-                    AlertDialogUpdate.hide();
-                    AlertDialogUpdate = null;
-                });
-                ButtonOne.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
-                ButtonOne.setText(context.getString(R.string.yes));
-
-                Objects.requireNonNull(AlertDialogUpdate.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                AlertDialogUpdate.show();
-                AlertDialogUpdate.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        AlertDialogUpdate = null;
-                    }
-                });
-            } catch (Exception error) {
-                errorStack(error);
-            }
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                HttpURLConnection con = (HttpURLConnection) new URL("https://students-diary.herokuapp.com/getupdate").openConnection();
-
-                con.setRequestMethod("POST");
-                con.setDoOutput(true);
-                BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(con.getOutputStream(), StandardCharsets.UTF_8));
-                wr.write(BuildConfig.VERSION_NAME);
-                wr.flush();
-                wr.close();
-
-                BufferedReader iny = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
-                String output;
-                StringBuilder response = new StringBuilder();
-
-                while ((output = iny.readLine()) != null) {
-                    response.append(output);
-                }
-                iny.close();
-
-                if (!response.toString().equals("ok")){
-                    publishProgress(response.toString().split("&size="));
-                }else{
-                    File file = new File(Objects.requireNonNull(getExternalFilesDir(null)).getAbsolutePath() + "/update.apk");
-                    if(file.exists()){
-                        file.delete();
-                    }
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
         }
     }
 
@@ -487,33 +369,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-   public void installAPK(){
-        String PATH = Objects.requireNonNull(getExternalFilesDir(null)).getAbsolutePath() + "/update.apk";
-        File file = new File(PATH);
-        if(file.exists()) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uriFromFile(getApplicationContext(), new File(PATH)), "application/vnd.android.package-archive");
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            try {
-                getApplicationContext().startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                e.printStackTrace();
-                Log.e("TAG", "Error in opening the file!");
-            }
-        }else{
-            Toast.makeText(getApplicationContext(),"installing",Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public Uri uriFromFile(Context context, File file) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
-        } else {
-            return Uri.fromFile(file);
-        }
-    }
-
     class onStart extends AsyncTask<Void, Void, Void> {
         LinearLayout start_image;
         FrameLayout frameLayout;
@@ -628,7 +483,6 @@ public class MainActivity extends AppCompatActivity {
                     alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 60 * 1000, notifyIntent);
                 }
 
-                new getUpdate().execute();
             } catch (Exception error) {
                 errorStack(error);
             }
@@ -658,16 +512,6 @@ public class MainActivity extends AppCompatActivity {
                 fragmentManager = getSupportFragmentManager();
                 Class<?> fragmentClass = null;
                 Intent intent = getIntent();
-                if(intent.getBooleanExtra("setupPermission", false)) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        if (!getPackageManager().canRequestPackageInstalls()) {
-                            startActivityForResult(new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).setData(Uri.parse(String.format("package:%s", getPackageName()))), REQUEST_CODE_INSTALL_APK);
-                        } else {
-                            installAPK();
-                        }
-                    }
-
-                }
                 for (int s = 0; s < 6; s++) {
                     boolean Invisibly = true;
                     switch (s) {
@@ -1539,12 +1383,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     break;
-
-                case REQUEST_CODE_INSTALL_APK:
-                    if (resultCode == RESULT_OK) {
-                        installAPK();
-                    }
-                    break;
             }
         } catch (Exception error) {
             errorStack(error);
@@ -1665,9 +1503,6 @@ public class MainActivity extends AppCompatActivity {
         try {
             Uri adress = null;
             switch (view.getId()) {
-                case R.id.button_donate:
-                    adress = Uri.parse("https://donate.qiwi.com/payin/kos");
-                    break;
                 case R.id.gitHub:
                     what = R.id.gitHub;
                     adress = Uri.parse("https://github.com/kos234/Student-s-diary");

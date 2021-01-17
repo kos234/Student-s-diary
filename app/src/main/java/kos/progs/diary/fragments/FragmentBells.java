@@ -154,7 +154,7 @@ public class FragmentBells extends Fragment implements onBackPressed {
             }
             bundle.putParcelableArrayList("list", list);
             bundle.putStringArray("currentWindow", currentWindow);
-            bundle.putString("action", "null");
+            bundle.putStringArray("action", action);
             imageButton.setVisibility(View.GONE);
         } catch (Exception error) {
             ((MainActivity) context).errorStack(error);
@@ -176,7 +176,7 @@ public class FragmentBells extends Fragment implements onBackPressed {
             }
             outState.putParcelableArrayList("list", list);
             outState.putStringArray("currentWindow", currentWindow);
-            outState.putString("action", "null");
+            outState.putStringArray("action", action);
             super.onSaveInstanceState(outState);
         } catch (Exception error) {
             ((MainActivity) context).errorStack(error);

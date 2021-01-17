@@ -165,8 +165,6 @@ public class FragmentHelp extends Fragment implements onBackPressed {
             textViewObz.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
             textViewObz = view.findViewById(R.id.obz_twelve);
             textViewObz.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
-            textViewObz = view.findViewById(R.id.button_donate);
-            textViewObz.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
             textViewObz = view.findViewById(R.id.button_error_act);
             textViewObz.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
             linearLayout.removeAllViews();

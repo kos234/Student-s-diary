@@ -163,7 +163,6 @@ public class FragmentDnewnik extends Fragment implements onBackPressed {
                 alertbackground.setStroke(settings.getInt("dpBorderSettings", 4) * MainActivity.dpSize, Current_Theme.getInt("custom_color_block_choose_border", ContextCompat.getColor(context, R.color.custom_color_block_choose_border)));
 
             promptsView.findViewById(R.id.alert_delete).setBackground(alertbackground);
-
             final TextView ButtonClearAll = promptsView.findViewById(R.id.button_three_alert);
             ButtonClearAll.setTextColor(Current_Theme.getInt("custom_button_act", ContextCompat.getColor(context, R.color.custom_button_act)));
             ButtonClearAll.setOnClickListener(view -> {

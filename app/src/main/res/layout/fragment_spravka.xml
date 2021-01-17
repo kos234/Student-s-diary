@@ -215,19 +215,6 @@
                 android:text="@string/errors"
                 android:textColor="@color/custom_button_add"
                 android:textSize="19sp" />
-
-            <TextView
-                android:hyphenationFrequency="normal"
-                tools:targetApi="m"
-                android:onClick="ClickMedia"
-                android:layout_marginStart="20dp"
-                android:id="@+id/button_donate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:text="@string/donate"
-                android:textColor="@color/custom_button_add"
-                android:textSize="19sp" />
         </LinearLayout>
 </LinearLayout>
 </ScrollView>
