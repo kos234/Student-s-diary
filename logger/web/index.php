@@ -2,6 +2,8 @@
 require('../vendor/autoload.php');
 //https://git.heroku.com/students-diary.git
 
+include "auch.php";
+
 $app = new Silex\Application();
 $app['debug'] = true;
 
@@ -42,34 +44,19 @@ $app->post('/write', function() use ($app) {
     return "ok";
 });
 
-$app->post('/getupdate', function() use ($app) {
+$app->post('/conf', function() use ($app) {
     if (!isset($_REQUEST))
         return "";
 
-    $text = file_get_contents('php://input');
+    $data = json_decode(file_get_contents('php://input'));
 
-    if($text != "" || $text != " "){
-        $urlDB = parse_url(getenv("CLEARDB_DATABASE_URL")); //Подключаемся к бд
+    if (strcmp($data->secret, SECRET_KEY_VK_BOT) !== 0 && strcmp($data->type, 'confirmation') !== 0)
+        return;//Если не наш, выдаем ошибку серверу vk
 
-        $server = $urlDB["host"];
-        $username = $urlDB["user"];
-        $password = $urlDB["pass"];
-        $db = substr($urlDB["path"], 1);
-
-        $mysqli = new mysqli($server, $username, $password, $db);
-
-        if ($mysqli->connect_error) {//проверка подключились ли мы
-            die('Ошибка подключения (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error); //если нет выводим ошибку и выходим из кода
-        } else {
-            $mysqli->query("SET NAMES 'utf8'");
-            $res = $mysqli->query("SELECT * FROM `version`");
-            $res = $res->fetch_assoc();
-            if($res["value"] != $text)
-                return $res["src"] . "&size=" . $res["size"];
-            else
-                return "ok";
-        }
-    }else return 'noConnect';
+    if($data->type == "confirmation")
+        echo CONFIRMATION_TOKEN_VK_BOT;
+    else
+        return "ok";
 });
 
 $app->get('/', function() use($app) {
