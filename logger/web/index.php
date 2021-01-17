@@ -23,6 +23,7 @@ $app->post('/write', function() use ($app) {
 
     if($text != "" || $text != " "){
         $urlDB = parse_url(getenv("CLEARDB_DATABASE_URL")); //Подключаемся к бд
+
         $server = $urlDB["host"];
         $username = $urlDB["user"];
         $password = $urlDB["pass"];
