@@ -137,6 +137,7 @@
     <string name="cancel_change_theme">Do not show</string>
     <string name="remove_bottom_padding">Remove margins from navigation bar</string>
     <string name="faqNotify">After a while, notifications stop being updated?\n\nClick here to find out how to fix it\n</string>
+    <string name="errorColor">Invalid hex code!</string>
 
     <string name="custom_color_name">Theme name</string>
     <string name="custom_color_icon">Сolor of theme icon</string>

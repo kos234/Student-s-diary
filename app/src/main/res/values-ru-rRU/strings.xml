@@ -112,7 +112,7 @@
     <string name="edit_mount_grades">Дата начала четверти</string>
     <string name="title_clear">Очистка данных</string>
     <string name="title_clear_alert">Удалить данные блока: </string>
-    <string name="number_quarters">Колличество четрветей: </string>
+    <string name="number_quarters">Количество четрветей: </string>
     <string name="number_quarters_warning">Не может быть 0 четвертей!</string>
     <string name="nullGrades">Нажмите на этот текст, чтобы указать количество четвертей и месяц начала обучения</string>
     <string name="errorGrades">Ошибка: не найдено подтверждение</string>
@@ -137,6 +137,7 @@
     <string name="cancel_change_theme">Больше не показывать</string>
     <string name="remove_bottom_padding">Убрать отступы от панели навигации</string>
     <string name="faqNotify">Через время уведомления перестают обновляться?\n\nНажмите сюда, чтобы узнать как это исправить\n</string>
+    <string name="errorColor">Неверный hex код!</string>
 
     <string name="custom_color_name">Название темы</string>
     <string name="custom_color_icon">Цвет иконки темы</string>
@@ -205,6 +206,6 @@
         <item>Октябрь</item>
         <item>Ноябрь</item>
         <item>Декабрь</item>
-        <item>Не указана</item>
+        <item>Не указан</item>
     </string-array>
 </resources>

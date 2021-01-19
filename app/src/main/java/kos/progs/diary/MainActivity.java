@@ -1710,10 +1710,14 @@ public class MainActivity extends AppCompatActivity {
 
             final EditText editText = promptsView.findViewById(R.id.edit_text_type_color);
             ColorDrawable colorDrawable = (ColorDrawable) viewColor.getBackground();
-            editText.setText(Integer.toHexString(colorDrawable.getColor()).substring(1));
+            editText.setText(Integer.toHexString(colorDrawable.getColor()));
             editText.setHintTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
             editText.setTextColor(Current_Theme.getInt("custom_text_light", ContextCompat.getColor(context, R.color.custom_text_light)));
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MainActivity.setCursorColorsQ(editText, Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+            } else {
+                MainActivity.setCursorColor(editText, Current_Theme.getInt("custom_cursor", ContextCompat.getColor(context, R.color.custom_cursor)));
+            }
             editText.setOnEditorActionListener((textView1, i, keyEvent) -> {
                 try {
                     if (i == EditorInfo.IME_ACTION_DONE) {
@@ -1750,15 +1754,19 @@ public class MainActivity extends AppCompatActivity {
                     else
                         hexColor = editText.getText().toString();
 
-                    viewColor.setBackgroundColor(Color.parseColor("#" + hexColor));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        colors.replace(viewColor.getId(), Color.parseColor("#" + hexColor));
-                    else {
-                        colors.remove(viewColor.getId());
-                        colors.put(viewColor.getId(), Color.parseColor("#" + hexColor));
+                    try {
+                        viewColor.setBackgroundColor(Color.parseColor("#" + hexColor));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            colors.replace(viewColor.getId(), Color.parseColor("#" + hexColor));
+                        else {
+                            colors.remove(viewColor.getId());
+                            colors.put(viewColor.getId(), Color.parseColor("#" + hexColor));
+                        }
+                        alertDialog.hide();
+                    }catch (Exception exception){
+                        ToastMakeText(context, getString(R.string.errorColor));
                     }
 
-                    alertDialog.hide();
                 } catch (Exception error) {
                     errorStack(error);
                 }
@@ -1900,11 +1908,16 @@ public class MainActivity extends AppCompatActivity {
             field.setAccessible(true);
             Object editor = field.get(view);
 
+
             Drawable drawable = ContextCompat.getDrawable(view.getContext(), drawableResId);
-            Objects.requireNonNull(drawable).setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            field = Objects.requireNonNull(editor).getClass().getDeclaredField("mCursorDrawable");
-            field.setAccessible(true);
-            field.set(editor, new Drawable[]{drawable, drawable});
+            try {
+                Objects.requireNonNull(drawable).setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                field = Objects.requireNonNull(editor).getClass().getDeclaredField("mCursorDrawable");
+                field.setAccessible(true);
+                field.set(editor, new Drawable[]{drawable, drawable});
+            }catch (Exception ignored){
+
+            }
 
             field = TextView.class.getDeclaredField("mTextSelectHandleRes");
             field.setAccessible(true);

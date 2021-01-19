@@ -210,14 +210,13 @@
                         />
 
                     <Spinner
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignTop="@+id/text_day_ocenki"
-                        android:layout_alignBottom="@+id/text_day_ocenki"
-                        android:layout_marginEnd="10dp"
-                        android:layout_gravity="center"
+                        android:id="@+id/mount_choose"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/mount_choose"/>
+                        android:layout_alignTop="@+id/text_day_ocenki"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="10dp" />
 
                     <View
                         android:layout_centerHorizontal="true"
@@ -453,17 +452,16 @@
                         />
 
                     <Spinner
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignTop="@+id/bottom_title_settings"
-                        android:layout_alignBottom="@+id/bottom_title_settings"
-                        android:layout_marginEnd="10dp"
-                        android:layout_gravity="center"
-                        android:gravity="end"
-                        android:layout_width="wrap_content"
                         android:id="@+id/spinner_default"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/bottom_title_settings"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="10dp"
                         android:backgroundTint="@android:color/darker_gray"
-                        android:spinnerMode="dropdown"
-                        android:layout_height="wrap_content" />
+                        android:gravity="end"
+                        android:spinnerMode="dropdown" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -662,7 +660,6 @@
                     <Spinner
                         android:layout_alignParentEnd="true"
                         android:layout_alignTop="@+id/bottom_title_general_setting_fragment_default"
-                        android:layout_alignBottom="@+id/bottom_title_general_setting_fragment_default"
                         android:layout_marginEnd="10dp"
                         android:gravity="end"
                         android:layout_width="wrap_content"

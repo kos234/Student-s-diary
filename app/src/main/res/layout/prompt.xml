@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/LinerZvon_item"
-    android:background="@drawable/corners_alert"
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout android:id="@+id/LinerZvon_item"
+    android:background="@drawable/corners_alert"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/nested_add"
@@ -33,123 +36,128 @@
             />
 
         <TextView
-            android:hyphenationFrequency="normal"
-            tools:targetApi="m"
-            android:layout_below="@+id/textView2"
-            android:layout_toStartOf="@+id/timeStart"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_gravity="center"
+            android:maxWidth="200dp"
             android:id="@+id/text_time_start"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:hyphenationFrequency="normal"
             android:text="@string/lessonStartTime"
-            android:textSize="19sp"/>
-
-        <TextView
-            android:hyphenationFrequency="normal"
-            tools:targetApi="m"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/text_time_start"
-            android:layout_alignBottom="@+id/text_time_start"
-            android:layout_marginEnd="20dp"
-            android:layout_gravity="center"
-            android:id="@+id/timeStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="8:00"
-            android:textAlignment="center"
-            android:textSize="19sp" />
-
-        <TextView
-            android:hyphenationFrequency="normal"
-            tools:targetApi="m"
-            android:layout_below="@+id/timeStart"
-            android:layout_toStartOf="@+id/timeEnd"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_gravity="center"
-            android:id="@+id/text_time_end"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/lessonEndTime"
-            android:textSize="19sp"/>
-
-        <TextView
-            android:hyphenationFrequency="normal"
-            tools:targetApi="m"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/text_time_end"
-            android:layout_alignBottom="@+id/text_time_end"
-            android:layout_marginEnd="20dp"
-            android:layout_gravity="center"
-            android:id="@+id/timeEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:textSize="19sp"
-            android:text="8:40" />
+            tools:targetApi="m" />
 
         <TextView
-            android:hyphenationFrequency="normal"
-            tools:targetApi="m"
-            android:layout_below="@+id/timeEnd"
-            android:layout_toStartOf="@+id/nameYrok"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:id="@+id/text_pred_name"
+            android:id="@+id/timeStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/text_time_start"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toEndOf="@+id/text_time_start"
+            android:gravity="right"
+            android:hyphenationFrequency="normal"
+            android:text="8:00"
+            android:textSize="19sp"
+            tools:targetApi="m" />
+
+        <TextView
+            android:maxWidth="200dp"
+            android:id="@+id/text_time_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timeStart"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="20dp"
+            android:hyphenationFrequency="normal"
+            android:text="@string/lessonEndTime"
+            android:textSize="19sp"
+            tools:targetApi="m" />
+
+        <TextView
+            android:id="@+id/timeEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/text_time_end"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toEndOf="@+id/text_time_end"
+            android:gravity="right"
+            android:hyphenationFrequency="normal"
+            android:text="8:40"
+            android:textSize="19sp"
+            tools:targetApi="m" />
+
+        <TextView
+            android:maxWidth="200dp"
+            android:id="@+id/text_pred_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timeEnd"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:background="#00AF7F7F"
+            android:hyphenationFrequency="normal"
+            android:minWidth="5dp"
             android:text="@string/lessonTitle"
             android:textSize="19sp"
-            />
+            tools:targetApi="m" />
 
         <EditText
-            android:hyphenationFrequency="normal"
-            tools:targetApi="m"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/text_pred_name"
-            android:layout_alignBottom="@+id/text_pred_name"
-            android:layout_marginEnd="20dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:background="@null"
             android:id="@+id/nameYrok"
-            android:layout_width="wrap_content"
+            android:gravity="right"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/text_pred_name"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toEndOf="@+id/text_pred_name"
+            android:autofillHints=""
+            android:background="@null"
             android:hint="@string/lessonExample"
-            android:inputType="textCapSentences"
+            android:hyphenationFrequency="normal"
+            android:inputType="textCapSentences|textMultiLine"
             android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints=""/>
+            tools:targetApi="m" />
 
         <TextView
-            android:hyphenationFrequency="normal"
-            tools:targetApi="m"
-            android:layout_below="@+id/nameYrok"
-            android:layout_toStartOf="@+id/spinner"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_gravity="center"
+            android:maxWidth="200dp"
             android:id="@+id/text_mesto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/location"
-            android:textSize="19sp"/>
-
-        <Spinner
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/text_mesto"
-            android:layout_alignBottom="@+id/text_mesto"
-            android:layout_marginEnd="20dp"
-            android:layout_gravity="center"
-            android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_below="@+id/nameYrok"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:hyphenationFrequency="normal"
+            android:text="@string/location"
+            android:textSize="19sp"
+            tools:targetApi="m" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/text_mesto"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toEndOf="@+id/text_mesto"
             android:backgroundTint="@android:color/darker_gray"
             android:gravity="end"
             android:spinnerMode="dropdown"
@@ -157,37 +165,39 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:hyphenationFrequency="normal"
-            tools:targetApi="m"
-            android:layout_below="@+id/spinner"
-            android:layout_toStartOf="@+id/numKab"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
+            android:maxWidth="200dp"
+            android:gravity="right"
             android:id="@+id/text_num_kab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00AF7F7F"
-            android:textSize="19sp"
-            android:text="@string/classroomNumber"/>
-
-        <EditText
-            android:hyphenationFrequency="normal"
-            tools:targetApi="m"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/text_num_kab"
-            android:layout_alignBottom="@+id/text_num_kab"
-            android:layout_marginEnd="20dp"
-            android:id="@+id/numKab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:hint="5"
+            android:layout_below="@+id/spinner"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#00AF7F7F"
+            android:hyphenationFrequency="normal"
+            android:text="@string/classroomNumber"
+            android:textSize="19sp"
+            tools:targetApi="m" />
+
+        <EditText
+            android:gravity="right"
+            android:id="@+id/numKab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/text_num_kab"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="102dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toEndOf="@+id/text_num_kab"
+            android:autofillHints=""
             android:background="@null"
+            android:hint="5"
+            android:hyphenationFrequency="normal"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:autofillHints=""
-            android:layout_gravity="center"/>
+            tools:targetApi="m" />
 
     </RelativeLayout>
 
@@ -241,3 +251,4 @@
         android:textColor="@color/custom_button_add"
         android:textSize="19sp" />
 </RelativeLayout>
+</androidx.core.widget.NestedScrollView>
