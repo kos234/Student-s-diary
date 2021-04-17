@@ -43,7 +43,7 @@ public class NotificationTime extends BroadcastReceiver {
 
     class notifer extends Thread {
         final Context context;
-        final String CHANNEL_ID;
+        final String    CHANNEL_ID;
         private final static int NOTIFY_ID = 1;
         private final Intent intent;
 

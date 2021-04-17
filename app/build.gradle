@@ -7,8 +7,8 @@ android {
         applicationId "kos.progs.diary"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 147
-        versionName "1.4.7 Alpha"
+        versionCode 148
+        versionName "1.4.8 Alpha"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

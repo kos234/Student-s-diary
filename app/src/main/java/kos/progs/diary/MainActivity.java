@@ -676,11 +676,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+            return capitalize(model);
+        } else {
+            return capitalize(manufacturer) + " " + model;
+        }
+    }
+
+    private String capitalize(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        char first = s.charAt(0);
+        if (Character.isUpperCase(first)) {
+            return s;
+        } else {
+            return Character.toUpperCase(first) + s.substring(1);
+        }
+    }
+
     public void errorStack(Exception error) {
         try {
             final Writer writer = new StringWriter();
             error.printStackTrace(new PrintWriter(writer));
-            final StringBuilder log = new StringBuilder("Android API level - " + Build.VERSION.SDK_INT + "\n" + getString(R.string.app_name) + " - " + BuildConfig.VERSION_NAME + "\nDevice - " + Build.DEVICE + " | " + Build.MODEL + "\nCurrent window - ");
+            final StringBuilder log = new StringBuilder("Android API level - " + Build.VERSION.SDK_INT + "\n" + getString(R.string.app_name) + " - " + BuildConfig.VERSION_NAME + "\nDevice - " + getDeviceName() + "\nCurrent window - ");
+
 
             if(fragmentManager != null)
                 if (fragmentManager.getFragments().get(0) instanceof FragmentDnewnik) {
