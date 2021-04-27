@@ -1921,12 +1921,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static void setCursorColor(EditText view, @ColorInt int color) {
         try {
+            Field field;
             view.setHighlightColor(color);
             view.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{android.R.attr.state_enabled}}, new int[]{color}));
-            Field field = TextView.class.getDeclaredField("mCursorDrawableRes");
+            field = TextView.class.getDeclaredField("mCursorDrawableRes");
             field.setAccessible(true);
             int drawableResId = field.getInt(view);
-
             field = TextView.class.getDeclaredField("mEditor");
             field.setAccessible(true);
             Object editor = field.get(view);
@@ -1941,33 +1941,38 @@ public class MainActivity extends AppCompatActivity {
             }catch (Exception ignored){
 
             }
+            try {
+                field = TextView.class.getDeclaredField("mTextSelectHandleRes");
+                field.setAccessible(true);
+                drawableResId = field.getInt(view);
+                drawable = ContextCompat.getDrawable(view.getContext(), drawableResId);
+                Objects.requireNonNull(drawable).setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                field = Objects.requireNonNull(editor).getClass().getDeclaredField("mSelectHandleCenter");
+                field.setAccessible(true);
+                field.set(editor, drawable);
+            }catch (Exception ignored){}
+            try {
+                field = TextView.class.getDeclaredField("mTextSelectHandleLeftRes");
+                field.setAccessible(true);
+                drawableResId = field.getInt(view);
+                drawable = ContextCompat.getDrawable(view.getContext(), drawableResId);
+                Objects.requireNonNull(drawable).setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                field = Objects.requireNonNull(editor).getClass().getDeclaredField("mSelectHandleLeft");
+                field.setAccessible(true);
+                field.set(editor, drawable);
+            }catch (Exception ignored){}
 
-            field = TextView.class.getDeclaredField("mTextSelectHandleRes");
-            field.setAccessible(true);
-            drawableResId = field.getInt(view);
-            drawable = ContextCompat.getDrawable(view.getContext(), drawableResId);
-            Objects.requireNonNull(drawable).setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            field = Objects.requireNonNull(editor).getClass().getDeclaredField("mSelectHandleCenter");
-            field.setAccessible(true);
-            field.set(editor, drawable);
+            try {
+                field = TextView.class.getDeclaredField("mTextSelectHandleRightRes");
+                field.setAccessible(true);
+                drawableResId = field.getInt(view);
+                drawable = ContextCompat.getDrawable(view.getContext(), drawableResId);
+                Objects.requireNonNull(drawable).setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                field = Objects.requireNonNull(editor).getClass().getDeclaredField("mSelectHandleRight");
+                field.setAccessible(true);
+                field.set(editor, drawable);
+            }catch (Exception ignored){}
 
-            field = TextView.class.getDeclaredField("mTextSelectHandleLeftRes");
-            field.setAccessible(true);
-            drawableResId = field.getInt(view);
-            drawable = ContextCompat.getDrawable(view.getContext(), drawableResId);
-            Objects.requireNonNull(drawable).setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            field = Objects.requireNonNull(editor).getClass().getDeclaredField("mSelectHandleLeft");
-            field.setAccessible(true);
-            field.set(editor, drawable);
-
-            field = TextView.class.getDeclaredField("mTextSelectHandleRightRes");
-            field.setAccessible(true);
-            drawableResId = field.getInt(view);
-            drawable = ContextCompat.getDrawable(view.getContext(), drawableResId);
-            Objects.requireNonNull(drawable).setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            field = Objects.requireNonNull(editor).getClass().getDeclaredField("mSelectHandleRight");
-            field.setAccessible(true);
-            field.set(editor, drawable);
         } catch (Exception error) {
             ((MainActivity) view.getContext()).errorStack(error);
         }

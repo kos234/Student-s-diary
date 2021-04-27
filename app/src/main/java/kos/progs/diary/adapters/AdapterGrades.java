@@ -43,6 +43,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import kos.progs.diary.constructors.ConstructorGrades;
 import kos.progs.diary.FixSetTag;
@@ -191,6 +192,26 @@ public class AdapterGrades extends PagerAdapter {
                         onConfirmation(Integer.parseInt(fragmentGrades.currentWindow[1]));
             }
             container.addView(view, 0);
+            textViewConf.post(() -> {
+                try {
+                    if(textViewConf.getHeight() == 0){
+                        int lastHeight = recyclerView.getHeight();
+                        LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) recyclerView.getLayoutParams();
+                        layoutParams1.height = 0;
+                        recyclerView.setLayoutParams(layoutParams1);
+                        textViewConf.post(() -> {
+                            try {
+                                    layoutParams1.height = lastHeight - textViewConf.getHeight();
+                                    recyclerView.setLayoutParams(layoutParams1);
+                            } catch (Exception error) {
+                                ((MainActivity) context).errorStack(error);
+                            }
+                        });
+                    }
+                } catch (Exception error) {
+                    ((MainActivity) context).errorStack(error);
+                }
+            });
         } catch (Exception error) {
             ((MainActivity) context).errorStack(error);
         }

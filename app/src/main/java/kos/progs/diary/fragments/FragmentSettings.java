@@ -1185,7 +1185,7 @@ public class FragmentSettings extends Fragment implements onBackPressed {
                     alertDialog.hide();
                     alertDialog = null;
                     if (textView.getId() == R.id.dpText)
-                        editor.putInt("dpSizeSettings", Integer.parseInt(editText.getText().toString().split("dp")[0]) * MainActivity.dpSize);
+                        editor.putInt("dpSizeSettings", Integer.parseInt(editText.getText().toString().split("dp")[0]));
                     else
                         editor.putInt("dpBorderSettings", Integer.parseInt(editText.getText().toString().split("dp")[0]));
                     editor.apply();
